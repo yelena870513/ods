@@ -1,10 +1,11 @@
 'use strict';
 var fs = require('fs');
-var db = new PouchDB('sao');
-var ws = fs.createWriteStream('sao.json');
-db.load('data/sao.json').then(function () {
-    //return db.put({ _id: '_local/preloaded' });
-});
+// var db = new PouchDB('sao');
+var ws = fs.createWriteStream('data/sao.json');
+// db.load('data/sao.json').then(function () {
+//     //return db.put({ _id: '_local/preloaded' });
+// });
+
 angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
     $stateProvider.state('home',{
@@ -30,7 +31,7 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
                 }
             }
     });
-}).controller('scotchController',function ($scope) {
+}).controller('scotchController',function ($scope,Manager) {
     $scope.ws = [
         {
             name:"Macallan 12",
@@ -46,39 +47,28 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
         }
     ];
 
-    db.post({name:"Macalla5n 12",
-        cost:"$50"}).then(function (response) {
-        alert(JSON.stringify(response));
-    }).catch(function (reason) {
-        alert(JSON.stringify(reason));
-    });
-
-    db.allDocs({
-        include_docs: true,
-        attachments: true
-    }).then(function (result) {
-        // handle result
-       //save to file
-        var rdata = JSON.stringify(result,null,'');
-        // ws.pipe(rdata);
-        console.log(result);
-
-        fs.writeFile("sao.json",rdata,function (err) {
-            if (err) {
-                console.log(err);
-            }
-        });
-
-        db.dump(ws).then(function (res) {
-            console.log(res);
-        });
-            // console.log(rdata);
-        // ws.end();
-
-
-    }).catch(function (err) {
-        console.log(err);
-    });
+    // db.post({name:"Macalla5n 12",
+    //     cost:"$50"}).then(function (response) {
+    //     alert(JSON.stringify(response));
+    // }).catch(function (reason) {
+    //     alert(JSON.stringify(reason));
+    // });
+    //
+    // db.allDocs({
+    //     include_docs: true,
+    //     attachments: true
+    // }).then(function (result) {
+    //     // handle result
+    //    //save to file
+    //            db.dump(ws).then(function (res) {
+    //         console.log(res);
+    //     });
+    //
+    //
+    //
+    // }).catch(function (err) {
+    //     console.log(err);
+    // });
 
 
 
@@ -92,5 +82,30 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
 
 
 
+}).
+    factory('Manager',function (pouchDB, $q) {
+    var manager = {};
+    var db = pouchDB('sao');
+    manager.create = function (element) {
+      return db.post(element);
+    };
+
+    manager.update = function (element) {
+      return db.put(element.id,element);
+    };
+
+    manager.delete = function (element) {
+        //todo delete element
+    };
+
+    manager.from = function (database) {
+       return db.replicate.from(database).$promise;
+
+    };
+
+    manager.to = function (database) {
+      return db.replicate.to(database).$promise;
+    };
+    return manager;
 })
 ;
