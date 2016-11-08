@@ -83,28 +83,54 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
 
 
 }).
-    factory('Manager',function (pouchDB, $q) {
+    factory('Manager',function (pouchDB) {
     var manager = {};
     var db = pouchDB('sao');
     manager.create = function (element) {
       return db.post(element);
     };
 
-    manager.update = function (element) {
-      return db.put(element.id,element);
+    manager.update = function (element)
+    {
+        if( Object.prototype.toString.call( element ) === '[object Array]' )
+        {
+            return db.bulkDocs(element);
+        }
+      return db.put(element._id,element);
     };
 
-    manager.delete = function (element) {
-        //todo delete element
+    manager.delete = function (element)
+    {
+        if( Object.prototype.toString.call( element ) === '[object Array]' )
+        {
+            return db.bulkDocs(element);
+        }
+        return db.remove(element._id, element._rev);
     };
 
-    manager.from = function (database) {
-       return db.replicate.from(database).$promise;
+    manager.from = function (database,options) {
+       return db.replicate.from(database,options).$promise;
 
     };
 
-    manager.to = function (database) {
-      return db.replicate.to(database).$promise;
+    manager.to = function (database,options) {
+      return db.replicate.to(database,options).$promise;
+    };
+
+    manager.get = function (query,options) {
+        if (query==undefined)
+        {
+            return db.allDocs(options!=undefined?options:{});
+        }
+        // else if( Object.prototype.toString.call( query ) === '[object Array]' )
+        // {
+        //
+        // }
+        else
+        {
+            return db.get(query,options!=undefined?options:{});
+        }
+
     };
     return manager;
 })
