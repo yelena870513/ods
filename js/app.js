@@ -47,39 +47,9 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
         }
     ];
 
-    // db.post({name:"Macalla5n 12",
-    //     cost:"$50"}).then(function (response) {
-    //     alert(JSON.stringify(response));
-    // }).catch(function (reason) {
-    //     alert(JSON.stringify(reason));
-    // });
-    //
-    // db.allDocs({
-    //     include_docs: true,
-    //     attachments: true
-    // }).then(function (result) {
-    //     // handle result
-    //    //save to file
-    //            db.dump(ws).then(function (res) {
-    //         console.log(res);
-    //     });
-    //
-    //
-    //
-    // }).catch(function (err) {
-    //     console.log(err);
-    // });
-
-
-
-
-
-
-    // db.dump(ws).then(function (res) {
-    //     console.log(res);
-    // });
-
-
+    function init() {
+        Manager.local();
+    }
 
 
 }).
@@ -122,16 +92,60 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
         {
             return db.allDocs(options!=undefined?options:{});
         }
-        // else if( Object.prototype.toString.call( query ) === '[object Array]' )
-        // {
-        //
-        // }
         else
         {
             return db.get(query,options!=undefined?options:{});
         }
 
     };
+
+    /**
+     * Save to file
+     */
+    manager.flush  = function () {
+        db.allDocs({
+            include_docs: true
+        }).then(function (result) {
+           //save to file
+            db.dump(ws).then(function (res) {
+
+            });
+
+
+
+        }).catch(function (err) {
+            console.log(err);
+        });
+
+    };
+
+    /**
+     * Load file
+     */
+    manager.local = function () {
+      return   db.get('_local/preloaded').then(function (doc) {
+        }).catch(function (err) {
+            if (err.name !== 'not_found') {
+                throw err;
+            }
+            // we got a 404, so the local document doesn't exist. so let's preload!
+            return db.load('data/sao.json').then(function () {
+                // create the local document to note that we've preloaded
+                return db.put({_id: '_local/preloaded'});
+            });
+        }).then(function () {
+            return db.allDocs({include_docs: true});
+        }).catch(console.log.bind(console));
+    };
+
+    /**
+     * Close de database
+     * @returns
+     */
+    manager.close = function () {
+        return db.close();
+    };
+
     return manager;
 })
 ;
