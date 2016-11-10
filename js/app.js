@@ -47,13 +47,93 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
         }
     ];
 
+    $scope.documents = [];
+    $scope.toChain = '';
+
+    ////LOCAL MEMBERS
     function init() {
-        Manager.local();
+        Manager.local().then(function (res) {
+            $scope.documents = res.ROWS;
+            $scope.toChain =JSON.stringify(res);
+            console.debug($scope.toChain);
+            ForeTest();
+        });
     }
+
+    ///Mocking Line
+    function ForeTest() {
+        for (var i = 0;i<10;i++) {
+            AddElement({
+                "name":"MacCallan"+randomIntFromInterval(0,200),
+                "surname":"John"+randomIntFromInterval(12,25)
+            });
+        }
+        Manager.flush();
+    }
+    function randomIntFromInterval(min,max)
+    {
+        return Math.floor(Math.random()*(max-min+1)+min);
+    }
+
+    function AddElement(element) {
+        Manager.create(element).then(function (result) {
+            //todo on success
+            console.info(JSON.stringify(result));
+        }).catch(function (reason) {
+            //todo on fail
+            console.warn(JSON.stringify(reason));
+        })
+    }
+
+    function UpdateElement(element) {
+        Manager.update(element).then(function (result) {
+            //todo on success
+            console.info(JSON.stringify(result));
+        }).catch(function (reason) {
+            //todo on fail
+            console.warn(JSON.stringify(reason));
+        })
+    }
+
+    function DeleteElement(element) {
+        Manager.delete(element).then(function (result) {
+            //todo on success
+            console.info(JSON.stringify(result));
+        }).catch(function (reason) {
+            //todo on fail
+            console.warn(JSON.stringify(reason));
+        })
+    }
+
+    ///SCOPE MEMBERS
+    $scope.Add = function (element) {
+      AddElement(element);
+    };
+
+    $scope.Edit = function (element) {
+        UpdateElement(element);
+    };
+
+    $scope.Delete = function (element) {
+        DeleteElement(element);
+    };
+
+
+
+    ////Initialisations
+    init();
+
+
+
+
+
+
+
 
 
 }).
     factory('Manager',function (pouchDB) {
+
     var manager = {};
     var db = pouchDB('sao');
     manager.create = function (element) {
@@ -108,7 +188,7 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
         }).then(function (result) {
            //save to file
             db.dump(ws).then(function (res) {
-
+                console.log(res);
             });
 
 
