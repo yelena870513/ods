@@ -53,10 +53,10 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
     ////LOCAL MEMBERS
     function init() {
         Manager.local().then(function (res) {
-            $scope.documents = res.ROWS;
+            $scope.documents = res.rows;
             $scope.toChain =JSON.stringify(res);
             console.debug($scope.toChain);
-            ForeTest();
+            // ForeTest();
         });
     }
 
@@ -227,5 +227,7 @@ angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProv
     };
 
     return manager;
+}).filter('prettyJSON', function () {
+    return function(json) { return angular.toJson(json, true); }
 })
 ;
