@@ -16,4 +16,11 @@
     <pre>
         {{toChain}}
     </pre>
+
+    <br/>
+    <div data-ng-repeat="row in documents">
+        <pre>
+            {{row| prettyJSON}}
+        </pre>
+    </div>
 </div>
