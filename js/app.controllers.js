@@ -96,6 +96,18 @@ angular.module('app.router').controller('scotchController',function ($scope,Mana
 
 //DB en memoria
 $scope.documents = [];
+$scope.table = {
+    "columns":[],
+    "records":[],
+    "name":""
+}   ; 
+
+
+ //Definiciones de columnas por tipo de registro
+    $scope.columns = {
+        "general":["provincia","ministerio","osde","empresa"],
+        "general1":["sustancia","sectores"]
+    };
 //Informacion general
 $scope.Provincias = Provincias;
 $scope.OSDE = OSDE;
