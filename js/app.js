@@ -7,11 +7,11 @@ var ws = fs.createWriteStream('data/sao.json');
 // });
 
 angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/home');
-    $stateProvider.state('home',{
-        url:'/home',
-        templateUrl:'template/partial-home.html',
-        controller: "homeController"
+    $urlRouterProvider.otherwise('/general');
+    $stateProvider.state('general',{
+        url:'/general',
+        templateUrl:'template/partial-general.html',
+        controller: "generalController"
     }).
         state('home.list',{url:'/list',templateUrl:'template/partial-home-list.html',controller:function ($scope) {
         $scope.dogs = ['Sultan','Kenichi','Appa'];
