@@ -4,6 +4,47 @@ factory('Manager',function (pouchDB) {
 
     var manager = {};
     var db = pouchDB('sao');
+
+
+    ////***private
+    function createDesignDoc(name, mapFunction) {
+        var ddoc = {
+            _id: '_design/' + name,
+            views: {
+            }
+        };
+        ddoc.views[name] = { map: mapFunction.toString() };
+        return ddoc;
+    };
+
+    //vistas[consultas]// es realizada a traves de definicion de documentos de vistas o filtros, los filtros se definen en la base de datos previamente
+    var views = [
+        createDesignDoc("tipo",function(doc)
+        {
+            if(doc.tipo)
+            {
+                emit(doc.tipo,doc);
+            }
+        }),
+        createDesignDoc("type",function(doc)
+        {
+            if(doc.tipo)
+            {
+                emit(doc.tipo,doc);
+            }
+        })
+    ];
+
+    //se introducen las vistas en la base de datos, para luego ejecutarlas
+    views.forEach(function(el){
+        db.put(el).catch(function(reason){
+            console.warn(JSON.stringify(reason));
+        });
+    });
+
+
+
+    ///***public
     manager.create = function (element) {
         return db.post(element);
     };
@@ -46,6 +87,28 @@ factory('Manager',function (pouchDB) {
         }
 
     };
+
+    manager.registros = function(name){
+        //return db.query('tipo',{include_docs: true,stale: 'ok'});
+        return db.query('type',{key:name,include_docs: true,stale: 'ok'});
+        //return db.allDocs({include_docs: true,stale: 'ok'});
+        //return db.query(
+        //    {
+        //        map:function(doc,emit){
+        //                if(doc.tipo )
+        //                {
+        //                    if (doc.tipo==name)
+        //                    {
+        //                        emit(doc.tipo,doc);
+        //                    }
+        //                }
+        //                }
+        //
+        //    }
+        //);
+
+    }
+    ;
 
     /**
      * Save to file

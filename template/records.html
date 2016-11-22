@@ -13,6 +13,7 @@
                                 <!--Implementar la funcion donde al cambiar la selecci'on cambia segun el tipo de registro-->
                                 <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                         data-ng-model="table.name"
+                                        data-ng-change = "ShowRecord()"
                                         data-ng-options="item as item for item in records">
                                 </select>
                             </div>
@@ -23,7 +24,7 @@
         </div>
     </section>
     <section class="content" data-ng-show="table.columns.length>0">
-        <h1>Record {{table.current}}</h1>
+        <h1>Record {{table.name}}</h1>
         <table class="table table-bordered">
             <thead>
             <tr >

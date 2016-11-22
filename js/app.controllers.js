@@ -1,5 +1,4 @@
-angular.module('app.router')
-.controller("generalController",function ($scope, Manager,Provincias,OSDE,Ministerio,Sectores,Sustancias,AlternativaHFC,AlternativaHFCMezclas,AlternativaHFO,AlternativaOtras,SectoresAnexo,RA,Util) {
+angular.module('app.router').controller("generalController",function ($scope, Manager,Provincias,OSDE,Ministerio,Sectores,Sustancias,AlternativaHFC,AlternativaHFCMezclas,AlternativaHFO,AlternativaOtras,SectoresAnexo,RA,Util) {
 
 //DB en memoria
 $scope.documents = [];
@@ -13,7 +12,8 @@ $scope.table = {
  //Definiciones de columnas por tipo de registro
     $scope.columns = {
         "general":["provincia","ministerio","osde","empresa"],
-        "general1":["sustancia","sectores"]
+        "general1":["sustancia","sectores"],
+        "general2":["AlternativaHFC","AlternativaHFCMezclas","AlternativaHFO","AlternativaOtras"]
     };
 
     $scope.records = Object.keys($scope.columns);
@@ -80,6 +80,14 @@ $scope.general2 = {
             $scope.documents = res.rows;
 
             // ForeTest();
+        });
+    }
+
+    function FetchRecords(name){
+        Manager.registros(name).then(function (data) {
+            console.log(data);
+        }).catch(function(reason){
+            console.log(reason);
         });
     }
 
@@ -151,6 +159,11 @@ $scope.general2 = {
 
     $scope.Save = function () {
         Manager.flush();
+    };
+
+    $scope.ShowRecord= function () {
+        console.log($scope.table.name);
+        FetchRecords($scope.table.name);
     };
 
     init();
