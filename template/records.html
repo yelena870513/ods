@@ -10,9 +10,10 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Registro:</label>
+                                <!--Implementar la funcion donde al cambiar la selecci'on cambia segun el tipo de registro-->
                                 <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                         data-ng-model="table.name"
-                                        data-ng-options="item as item for item in table.columns">
+                                        data-ng-options="item as item for item in records">
                                 </select>
                             </div>
                         </div>
@@ -27,11 +28,17 @@
             <thead>
             <tr >
                 <th data-ng-repeat="col in table.columns">{{col}}</th>
+                <th>Opciones</th>
             </tr>
             </thead>
             <tbody>
             <tr data-ng-repeat="record in table.records">
                 <td data-ng-repeat="col in table.columns">{{record[col]}}</td>
+                <td>
+                    <!--Llamada de los eliminar y los editar-->
+                    <button class="btn btn-primary"><i class="glyphicon-pencil"></i></button>
+                    <button class="btn btn-primary"><i class="glyphicon-trash"></i></button>
+                </td>
             </tr>
             </tbody>
         </table>
