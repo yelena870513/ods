@@ -8,29 +8,17 @@ var ws = fs.createWriteStream('data/sao.json');
 
 angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/general');
-    $stateProvider.state('general',{
+
+    $stateProvider.
+    state('general',{
         url:'/general',
         templateUrl:'template/partial-general.html',
         controller: "generalController"
     }).
-        state('home.list',{url:'/list',templateUrl:'template/partial-home-list.html',controller:function ($scope) {
-        $scope.dogs = ['Sultan','Kenichi','Appa'];
-    }}).
-        state('home.paragraph',{url:'/paragraph',template:'I could worship my Lord forever.'}).
-        state('about',{
-            url:'/about',
-            views:{
-                '':{
-                    templateUrl:'template/partial-about.html'
-                },
-                'columnOne@about':{
-                    template:' Look I am a column!'
-                },
-                'columnTwo@about':{
-                    templateUrl:'template/table-data.html',
-                    controller:'scotchController'
-                }
-            }
+    state('list',{
+    url:'/list',
+    templateUrl:'template/records.html',
+    controller:'generalController'
     });
 })
 ;
