@@ -174,6 +174,7 @@ $scope.general2 = {
 
                $scope.table.columns  = $scope.columns[$scope.table.name];
            }
+           FetchRecords($scope.table.name);
 
        }
        catch (err){
