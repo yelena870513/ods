@@ -3,7 +3,7 @@ angular.module('app.router').
 factory('Manager',function (pouchDB) {
 
     var manager = {};
-    var db = pouchDB('sao');
+    var db = pouchDB('sao',{"adapter":"websql"});
 
 
     ////***private
@@ -21,18 +21,9 @@ factory('Manager',function (pouchDB) {
     var views = [
         createDesignDoc("tipo",function(doc)
         {
-            if(doc.tipo)
-            {
-                emit(doc.tipo,doc);
-            }
-        }),
-        createDesignDoc("type",function(doc)
-        {
-            if(doc.tipo)
-            {
-                emit(doc.tipo,doc);
-            }
+            emit(doc.tipo);
         })
+
     ];
 
     //se introducen las vistas en la base de datos, para luego ejecutarlas
@@ -88,10 +79,11 @@ factory('Manager',function (pouchDB) {
 
     };
 
-    manager.registros = function(name){
-        //return db.query('tipo',{include_docs: true,stale: 'ok'});
-        return db.query('type',{key:name,include_docs: true,stale: 'ok'});
-        //return db.allDocs({include_docs: true,stale: 'ok'});
+    manager.record = function(name){
+        // return db.query("tipo");
+        return db.query("tipo",{key:name});
+        // return db.query("tipo",{key:name,include_docs: true,stale: 'ok'});
+        // return db.allDocs({include_docs: true,stale: 'ok'});
         //return db.query(
         //    {
         //        map:function(doc,emit){

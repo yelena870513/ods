@@ -13,7 +13,7 @@ $scope.table = {
     $scope.columns = {
         "general":["provincia","ministerio","osde","empresa"],
         "general1":["sustancia","sectores"],
-        "general2":["AlternativaHFC","AlternativaHFCMezclas","AlternativaHFO","AlternativaOtras"]
+        "general2":["alternativaHFC","alternativaHFCMezclas","alternativaHFO","alternativaOtras"]
     };
 
     $scope.records = Object.keys($scope.columns);
@@ -77,14 +77,16 @@ $scope.general2 = {
     ////LOCAL MEMBERS
     function init() {
         Manager.local().then(function (res) {
-            $scope.documents = res.rows;
+            $scope.documents = res.rows.map(function (el) {
+                return el.doc;
+            });
 
             // ForeTest();
         });
     }
 
     function FetchRecords(name){
-        Manager.registros(name).then(function (data) {
+        Manager.record(name).then(function (data) {
             console.log(data);
         }).catch(function(reason){
             console.log(reason);
@@ -162,7 +164,26 @@ $scope.general2 = {
     };
 
     $scope.ShowRecord= function () {
-        console.log($scope.table.name);
+       try{
+           $scope.table.records = $scope.documents.filter(function (el) {
+               return el.tipo==$scope.table.name;
+           });
+
+           if($scope.table.records.length>0)
+           {
+
+               $scope.table.columns  = $scope.columns[$scope.table.name];
+           }
+
+       }
+       catch (err){
+           //todo poner un modal aqui
+           console.warn(err);
+       }
+
+    };
+
+    $scope.Refresh = function () {
         FetchRecords($scope.table.name);
     };
 

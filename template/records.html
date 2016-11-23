@@ -24,21 +24,21 @@
         </div>
     </section>
     <section class="content" data-ng-show="table.columns.length>0">
-        <h1>Record {{table.name}}</h1>
+        <h1>Record {{table.name | uppercase }}</h1>
         <table class="table table-bordered">
             <thead>
             <tr >
-                <th data-ng-repeat="col in table.columns">{{col}}</th>
+                <th data-ng-repeat="col in table.columns">{{col | lowercase}}</th>
                 <th>Opciones</th>
             </tr>
             </thead>
             <tbody>
             <tr data-ng-repeat="record in table.records">
-                <td data-ng-repeat="col in table.columns">{{record[col]}}</td>
+                <td data-ng-repeat="col in table.columns">{{record[col] | mainString }}</td>
                 <td>
                     <!--Llamada de los eliminar y los editar-->
-                    <button class="btn btn-primary"><i class="glyphicon-pencil"></i></button>
-                    <button class="btn btn-primary"><i class="glyphicon-trash"></i></button>
+                    <a class="btn btn-primary"><i class="glyphicon-pencil"></i></a>
+                    <a class="btn btn-primary"><i class="glyphicon-trash"></i></a>
                 </td>
             </tr>
             </tbody>
