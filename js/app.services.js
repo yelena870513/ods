@@ -81,7 +81,7 @@ factory('Manager',function (pouchDB) {
 
     manager.record = function(name){
         // return db.query("tipo");
-        return db.query("tipo",{key:name});
+        return db.query("tipo",{key:name, include_docs: true});
         // return db.query("tipo",{key:name,include_docs: true,stale: 'ok'});
         // return db.allDocs({include_docs: true,stale: 'ok'});
         //return db.query(

@@ -88,6 +88,7 @@ $scope.general2 = {
     function FetchRecords(name){
         Manager.record(name).then(function (data) {
             console.log(data);
+            $scope.table.records = data.rows.map(function(el){return el.doc;});
         }).catch(function(reason){
             console.log(reason);
         });
