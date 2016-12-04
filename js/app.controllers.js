@@ -1,4 +1,5 @@
-angular.module('app.router').controller("generalController",function ($scope, Manager,SAO,Util,$uibModal) {
+angular.module('app.router')
+    .controller("generalController",function ($scope, Manager,SAO,Util,$uibModal) {
 
 //DB en memoria
 $scope.documents = [];
@@ -26,7 +27,7 @@ $scope.general = {
 "provincia":SAO.Provincias[0],
 "ministerio":SAO.Ministerio[0],
 "osde":SAO.OSDE[0],
-"empresa":"",
+"empresa":"Empresa 1",
 "tipo":"general"
     };
 // Uso general alternativas a las SAO en la actualidad
@@ -209,9 +210,12 @@ $scope.general2 = {
 
 
 })
+    .controller("reportController",function ($scope,SAO,Manager,$uibModal) {
+        //Este controlador es para los reportes.
+    })
     .controller("modalController",function ($scope,SAO,Manager,$uibModalInstance,record,general) {
 
-        //Este controlador es el encargado de adicionar y editar los elementos.
+        //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.record = record;
         $scope.SAO = SAO;
         $scope.general = general;
