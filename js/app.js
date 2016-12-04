@@ -6,7 +6,7 @@ var ws = fs.createWriteStream('data/sao.json');
 //     //return db.put({ _id: '_local/preloaded' });
 // });
 
-angular.module('app.router',['ui.router','pouchdb']).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('app.router',['ui.router','pouchdb','ui.bootstrap']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/general');
 
     $stateProvider.

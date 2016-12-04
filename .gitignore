@@ -2,3 +2,5 @@ node_modules
 mydb-*
 _pouch_mydb-sqlite
 .idea
+/sao.sublime-project
+/sao.sublime-workspace

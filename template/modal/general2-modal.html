@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">Resumen de su uso en todos los sectores para cada año entre 2011-2015 </h4>
+</div>
+<div class="modal-body">
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="actionForm" novalidate>
+        <div class="form-group">
+            <label for="sq">Sustancia Química:</label>
+            <select class="form-control select2 select2-hidden-accessible"
+                    style="width: 100%;" tabindex="-1"
+                    aria-hidden="true"
+                    id="sq"
+                    data-ng-model="record.sustancia"
+                    data-ng-options="item as item.nombre for item in SAO.Sustancias">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Sectores:</label>
+             <select class="form-control select2 select2-hidden-accessible"
+                    style="width: 100%;" tabindex="-1"
+                    aria-hidden="true"
+                    multiple="true"                    
+                    id="sectores"
+                    data-ng-model="record.sectores"
+                    data-ng-options="item as item.nombre for item in SAO.Sectores"                   
+                    >
+            </select>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="Close()">
+            Cerrar
+        </button>
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
+           Salvar
+        </button>
+    </div>
+</div>

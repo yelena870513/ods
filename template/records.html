@@ -2,7 +2,7 @@
     <section class="content">
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Seleccion de registro</h3>
+                <h3 class="box-title">Selección de registro</h3>
                 <div class="box-tools pull-right">
                 </div>
                 <div class="box-body">
@@ -17,6 +17,9 @@
                                         data-ng-options="item as item for item in records">
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                               <button class="btn btn-primary" data-ng-click="Set()">Configurar</button>
                         </div>
                     </div>
                 </div>
@@ -37,11 +40,12 @@
                 <td data-ng-repeat="col in table.columns">{{record[col] | mainString }}</td>
                 <td>
                     <!--Llamada de los eliminar y los editar-->
-                    <a class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                    <a class="btn btn-primary"><i class="fa fa-trash-o"></i></a>
+                    <a class="btn btn-primary" data-ng-click="OpenModal(record)"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-primary"data-ng-click="Delete(record)"><i class="fa fa-trash-o"></i></a>
                 </td>
             </tr>
             </tbody>
         </table>
+        <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
     </section>
 </div>
