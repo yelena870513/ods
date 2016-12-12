@@ -1,0 +1,31 @@
+ul[dnd-list], ul[dnd-list] > li {
+    position: relative;
+}
+
+ul.list-group
+{
+    width: 250px;
+}
+
+.tree ul
+{
+    margin-left: 2em;
+}
+
+ul{
+    list-style: none;
+}
+
+.list-group{
+    margin-left: 1em;
+}
+
+.tree{
+    /*float: left;*/
+    /*border: 1px solid #ddd;*/
+
+}
+
+i.fa{
+    cursor: pointer;
+}

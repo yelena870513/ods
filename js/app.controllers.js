@@ -1,5 +1,5 @@
-angular.module('app.router')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal) {
+angular.module('app.sao')
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu) {
 
         //DB en memoria
         $scope.documents = [];
@@ -8,14 +8,19 @@ angular.module('app.router')
             "records": [],
             "name": ""
         };
+        //Menu
+        $scope.menu = Menu;
 
 
         //Definiciones de columnas por tipo de registro
-        $scope.columns = {
-            // "general":["provincia","ministerio","osde","empresa"],
-            "general1": ["sustancia", "sectores"],
-            "general2": ["alternativaHFC", "alternativaHFCMezclas", "alternativaHFO", "alternativaOtras", "ra"]
-        };
+        $scope.columns =
+            [
+                // "general":["provincia","ministerio","osde","empresa"],
+
+                {"fields":["sustancia", "sectores"],"nombre":"lorem ipsum sir marim ururu ururu","tipo":"general1"}
+                ,
+                {"fields":["alternativaHFC", "alternativaHFCMezclas", "alternativaHFO", "alternativaOtras", "ra"],"nombre":"i love my princes, i love her forever, God bless my princess", "tipo":"general2"}
+            ];
 
         $scope.records = Object.keys($scope.columns);
         //Informacion general
@@ -222,16 +227,24 @@ angular.module('app.router')
         $scope.ShowRecord = function() {
             try {
                 FetchRecords($scope.table.name);
+
                 $scope.table.records = $scope.documents.filter(function(el) {
                     return el.tipo == $scope.table.name;
                 });
 
                 if ($scope.table.records.length > 0) {
+                    var data=$scope.columns.filter(function (el) {
+                        return el.tipo==$scope.table.name;
+                    })[0];
 
-                    $scope.table.columns = $scope.columns[$scope.table.name];
+                    $scope.table.columns = data.fields;
+                    $scope.table.title = data.nombre;
+
                 } else {
                     $scope.table.columns = [];
                 }
+
+
 
 
             } catch (err) {
@@ -256,6 +269,11 @@ angular.module('app.router')
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.record = record;
+        var SAO = SAO;
+        for(var i in SAO){
+            SAO[i].unshift({"id":"0","nombre":'Seleccione'});
+        }
+
         $scope.SAO = SAO;
         $scope.general = general;
         $scope.documents = documents;

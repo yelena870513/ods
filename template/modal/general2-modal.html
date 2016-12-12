@@ -7,27 +7,89 @@
     <!-- /.box-header -->
     <!-- form start -->
     <form role="form" name="actionForm" novalidate>
-        <div class="form-group">
-            <label for="sq">Sustancia Química:</label>
-            <select class="form-control select2 select2-hidden-accessible"
-                    style="width: 100%;" tabindex="-1"
-                    aria-hidden="true"
-                    id="sq"
-                    data-ng-model="record.sustancia"
-                    data-ng-options="item as item.nombre for item in SAO.Sustancias">
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Sectores:</label>
-             <select class="form-control select2 select2-hidden-accessible"
-                    style="width: 100%;" tabindex="-1"
-                    aria-hidden="true"
-                    multiple="true"                    
-                    id="sectores"
-                    data-ng-model="record.sectores"
-                    data-ng-options="item as item.nombre for item in SAO.Sectores"                   
-                    >
-            </select>
+        <div class="box-body">
+            <div class="row">
+                <h4>Alternativas:</h4>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+
+
+                    <div class="form-group">
+                        <label>HFC:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="general2.alternativaHFC"
+                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFC">
+                        </select>
+                        <br>
+                        <div class="form-group">
+                            <label >Otros (especificar):</label>
+                            <input  class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroHFC">
+                        </div>
+                        <br>
+                        <label>HFC Mezclas:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="general2.alternativaHFCMezclas"
+                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFCMezclas">
+                        </select>
+                        <br>
+                        <div class="form-group">
+                            <label >Otros (especificar):</label>
+                            <input class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroHFCMezclas">
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>HFO:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="general2.alternativaHFO"
+                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFO">
+                        </select>
+                        <br>
+                        <div class="form-group">
+                            <label >Otros (especificar):</label>
+                            <input class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroHFO">
+                        </div>
+                        <br>
+                        <label>Otras alternativas:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="general2.alternativaOtras"
+                                data-ng-options="item as item.nombre for item in SAO.AlternativaOtras">
+                            <option selected>Seleccione</option>
+                        </select>
+                        <br>
+                        <div class="form-group">
+                            <label >Otros (especificar):</label>
+                            <input  class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroAlternativasOtras">
+                        </div>
+                        <br>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Refrigeracion y Aire Acondicionado:</label>
+                        <select class="form-control select2 select2-hidden-accessible"
+                                style="width: 100%;" tabindex="-1"
+                                aria-hidden="true"
+                                data-ng-model="record.ra"
+                                data-ng-options="item as item.nombre for item in SAO.RA">
+
+                        </select>
+                        <br>
+                        <label>Sectores:</label>
+                        <select class="form-control select2 select2-hidden-accessible"
+                                style="width: 100%;" tabindex="-1"
+                                aria-hidden="true"
+                                data-ng-model="record.sectoresAnexo"
+                                data-ng-options="item as item.nombre for item in SAO.SectoresAnexo">
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
     <div class="modal-footer">
@@ -35,7 +97,7 @@
             Cerrar
         </button>
         <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-           Salvar
+            Salvar
         </button>
     </div>
 </div>
