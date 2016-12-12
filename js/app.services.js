@@ -1,34 +1,37 @@
 angular.module('app.sao').
 
-factory('Manager',function (pouchDB) {
+factory('Manager', function(pouchDB) {
 
     var manager = {};
-    var db = pouchDB('sao',{"adapter":"websql"});
+    var db = pouchDB('sao', {
+        "adapter": "websql"
+    });
 
 
     ////***private
     function createDesignDoc(name, mapFunction) {
         var ddoc = {
             _id: '_design/' + name,
-            views: {
-            }
+            views: {}
         };
-        ddoc.views[name] = { map: mapFunction.toString() };
+        ddoc.views[name] = {
+            map: mapFunction.toString()
+        };
         return ddoc;
     };
 
     //vistas[consultas]// es realizada a traves de definicion de documentos de vistas o filtros, los filtros se definen en la base de datos previamente
     var views = [
-        createDesignDoc("tipo",function(doc)
-        {
+        createDesignDoc("tipo", function(doc) {
             emit(doc.tipo);
         })
 
     ];
 
     //se introducen las vistas en la base de datos, para luego ejecutarlas
-    views.forEach(function(el){
-        db.put(el).catch(function(reason){
+    views.forEach(function(el) {
+        db.put(el).
+        catch (function(reason) {
             console.warn(JSON.stringify(reason));
         });
     });
@@ -36,69 +39,65 @@ factory('Manager',function (pouchDB) {
 
 
     ///***public
-    manager.create = function (element) {
+    manager.create = function(element) {
         return db.post(element);
     };
 
-    manager.update = function (element)
-    {
-        if( Object.prototype.toString.call( element ) === '[object Array]' )
-        {
+    manager.update = function(element) {
+        if (Object.prototype.toString.call(element) === '[object Array]') {
             return db.bulkDocs(element);
         }
         return db.put(element);
     };
 
-    manager.delete = function (element)
-    {
-        if( Object.prototype.toString.call( element ) === '[object Array]' )
-        {
+    manager.delete = function(element) {
+        if (Object.prototype.toString.call(element) === '[object Array]') {
             return db.bulkDocs(element);
         }
         return db.remove(element._id, element._rev);
     };
 
-    manager.from = function (database,options) {
-        return db.replicate.from(database,options).$promise;
+    manager.from = function(database, options) {
+        return db.replicate.from(database, options).$promise;
 
     };
 
-    manager.to = function (database,options) {
-        return db.replicate.to(database,options).$promise;
+    manager.to = function(database, options) {
+        return db.replicate.to(database, options).$promise;
     };
 
-    manager.get = function (query,options) {
-        if (query==undefined)
-        {
-            return db.allDocs(options!=undefined?options:{});
-        }
-        else
-        {
-            return db.get(query,options!=undefined?options:{});
+    manager.get = function(query, options) {
+        if (query == undefined) {
+            return db.allDocs(options != undefined ? options : {});
+        } else {
+            return db.get(query, options != undefined ? options : {});
         }
 
     };
 
-    manager.record = function(name){
-        return db.query("tipo",{key:name, include_docs: true});
-    }
-    ;
+    manager.record = function(name) {
+        return db.query("tipo", {
+            key: name,
+            include_docs: true
+        });
+    };
 
     /**
      * Save to file
      */
-    manager.flush  = function () {
+    manager.flush = function() {
         db.allDocs({
             include_docs: true
-        }).then(function (result) {
+        }).then(function(result) {
             //save to file
-            db.dump(ws).then(function (res) {
+            db.dump(ws).then(function(res) {
                 console.log(res);
             });
 
 
 
-        }).catch(function (err) {
+        }).
+        catch (function(err) {
             console.log(err);
         });
 
@@ -107,135 +106,465 @@ factory('Manager',function (pouchDB) {
     /**
      * Load file
      */
-    manager.local = function () {
-        return   db.get('_local/preloaded').then(function (doc) {
-        }).catch(function (err) {
+    manager.local = function() {
+        return db.get('_local/preloaded').then(function(doc) {}).
+        catch (function(err) {
             if (err.name !== 'not_found') {
                 throw err;
             }
             // we got a 404, so the local document doesn't exist. so let's preload!
-            return db.load('data/sao.json').then(function () {
+            return db.load('data/sao.json').then(function() {
                 // create the local document to note that we've preloaded
-                return db.put({_id: '_local/preloaded'});
+                return db.put({
+                    _id: '_local/preloaded'
+                });
             });
-        }).then(function () {
-            return db.allDocs({include_docs: true});
-        }).catch(console.log.bind(console));
+        }).then(function() {
+            return db.allDocs({
+                include_docs: true
+            });
+        }).
+        catch (console.log.bind(console));
     };
 
     /**
      * Close de database
      * @returns
      */
-    manager.close = function () {
+    manager.close = function() {
         return db.close();
     };
 
     return manager;
-}).filter('prettyJSON', function () {
-    return function(json) { return angular.toJson(json, true); }
+}).filter('prettyJSON', function() {
+    return function(json) {
+        return angular.toJson(json, true);
+    }
 })
-    
-    .factory("SAO",function () {
-        return{
-            "Provincias":[{"id":"1","nombre":'Pinar del Río'}, {"id":"2","nombre":'Artemisa'}, {"id":"3","nombre":'Mayabeque'}, {"id":"4","nombre":'La Habana'}, {"id":"5","nombre":'Matanzas'}, {"id":"6","nombre":'Cienfuegos'}, {"id":"7","nombre":'Villa Clara'}, {"id":"8","nombre":'Sancti Spíritus'}, {"id":"9","nombre":'Ciego de Ávila'}, {"id":"10","nombre":'Camagüey'}, {"id":"11","nombre":'Las Tunas'}, {"id":"12","nombre":'Holguín'}, {"id":"13","nombre":'Santiago de Cuba'}, {"id":"14","nombre":'Guantánamo'}, {"id":"15","nombre":'Isla de la Juventud'}],
-            "Ministerio":[{"id":"1","nombre":'Consejo de Administración Provincuial (CAP)'}, {"id":"2","nombre":'Ministerio del Turismo (MINTUR)'}, {"id":"3","nombre":'Ministerio de la Industria Básica (MINBAS)'}, {"id":"4","nombre":'Ministerio de Salud Pública (MINSAP)'}, {"id":"5","nombre":'Consejo de Estado (CE)'}, {"id":"6","nombre":'Ministerio de la Azúcar (MINAZ)'}, {"id":"7","nombre":'Ministerio de la Informática y las Comunicaciones (MIC)'}, {"id":"8","nombre":'Ministerio de la Construcción (MICONS)'}, {"id":"9","nombre":'Ministerio de Educación Superior (MES)'}, {"id":"10","nombre":'Ministerio del Transporte (MITRANS)'}, {"id":"11","nombre":'Ministerio de la Industria Alimenticia (MINAL)'}, {"id":"12","nombre":'Ministerio de la Ind. Sidero Mécanica y Electrónica (SIME)'}, {"id":"13","nombre":'Ministerio del Comercio Interior (MINCIN)'}, {"id":"14","nombre":'Ministerio de Cultura (MINCULT)'}, {"id":"15","nombre":'Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA)'}, {"id":"16","nombre":'Ministerio de la Industria Ligera (MINIL)'}, {"id":"17","nombre":'Instituto de la Aeronautica Civil de Cuba (IACC)'}, {"id":"18","nombre":'CIMEX'}, {"id":"19","nombre":'Unión de Jóvenes Comunistas (UJC)'}, {"id":"20","nombre":'Central de Trabajadores de Cuba (CTC)'}, {"id":"21","nombre":'Otros'} ],
-            "OSDE":[{"id":"1","nombre":'OSDE1'}, {"id":"2","nombre":'OSDE2'}],
-            "Sustancias":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
-            "Sectores":[{"id":"1","nombre":'RAC '}, {"id":"2","nombre":'Espumas'}, {"id":"3","nombre":'Aerosoles '}, {"id":"4","nombre":'Solventes'},{"id":"5","nombre":'Extintores '}],
-            "AlternativaHFC":[{"id":"1","nombre":'HFC-134a'}, {"id":"2","nombre":'HFC-32'}, {"id":"3","nombre":'HFC-152a'}, {"id":"4","nombre":'HFC-245fa'},{"id":"5","nombre":'HFC-227ea/HFC-365mfc'}],
-            "AlternativaHFCMezclas":[{"id":"1","nombre":'R-404A'}, {"id":"2","nombre":'R-407C'}, {"id":"3","nombre":'R-410A'}, {"id":"4","nombre":'R-507A'}],
-            "AlternativaHFO":[{"id":"1","nombre":'HFO-1234yf'}, {"id":"2","nombre":'HFO-1234ze'}, {"id":"3","nombre":'HFO-1233zd'}, {"id":"4","nombre":'HFO-1336mzzm'}],
-            "AlternativaOtras":[{"id":"1","nombre":'Metil formato'}, {"id":"2","nombre":'Metilal'}, {"id":"3","nombre":'Etanol'},{"id":"4","nombre":'DME'},{"id":"5","nombre":'HC-290'},{"id":"6","nombre":'HC-600a'},{"id":"7","nombre":'Pentano(C,N,I)'},{"id":"8","nombre":'Pentano(C,N,I)'},{"id":"9","nombre":'R-744 '},{"id":"10","nombre":'R-717'}],
-            "RA":[{"id":"1","nombre":'Fabricación '}, {"id":"2","nombre":'Servicio'}],
-            "SectoresAnexo":[{"id":"1","nombre":'Espuma: poliuretano '}, {"id":"2","nombre":'Espuma: polietileno extruido'}, {"id":"3","nombre":'Aerosol '}, {"id":"4","nombre":'Solventes'},{"id":"5","nombre":'Extintores '}]
-        }
-    })
-    
+
+.factory("SAO", function() {
+    return {
+        "Provincias": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Pinar del Río'
+        }, {
+            "id": "2",
+            "nombre": 'Artemisa'
+        }, {
+            "id": "3",
+            "nombre": 'Mayabeque'
+        }, {
+            "id": "4",
+            "nombre": 'La Habana'
+        }, {
+            "id": "5",
+            "nombre": 'Matanzas'
+        }, {
+            "id": "6",
+            "nombre": 'Cienfuegos'
+        }, {
+            "id": "7",
+            "nombre": 'Villa Clara'
+        }, {
+            "id": "8",
+            "nombre": 'Sancti Spíritus'
+        }, {
+            "id": "9",
+            "nombre": 'Ciego de Ávila'
+        }, {
+            "id": "10",
+            "nombre": 'Camagüey'
+        }, {
+            "id": "11",
+            "nombre": 'Las Tunas'
+        }, {
+            "id": "12",
+            "nombre": 'Holguín'
+        }, {
+            "id": "13",
+            "nombre": 'Santiago de Cuba'
+        }, {
+            "id": "14",
+            "nombre": 'Guantánamo'
+        }, {
+            "id": "15",
+            "nombre": 'Isla de la Juventud'
+        }],
+        "Ministerio": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Consejo de Administración Provincuial (CAP)'
+        }, {
+            "id": "2",
+            "nombre": 'Ministerio del Turismo (MINTUR)'
+        }, {
+            "id": "3",
+            "nombre": 'Ministerio de la Industria Básica (MINBAS)'
+        }, {
+            "id": "4",
+            "nombre": 'Ministerio de Salud Pública (MINSAP)'
+        }, {
+            "id": "5",
+            "nombre": 'Consejo de Estado (CE)'
+        }, {
+            "id": "6",
+            "nombre": 'Ministerio de la Azúcar (MINAZ)'
+        }, {
+            "id": "7",
+            "nombre": 'Ministerio de la Informática y las Comunicaciones (MIC)'
+        }, {
+            "id": "8",
+            "nombre": 'Ministerio de la Construcción (MICONS)'
+        }, {
+            "id": "9",
+            "nombre": 'Ministerio de Educación Superior (MES)'
+        }, {
+            "id": "10",
+            "nombre": 'Ministerio del Transporte (MITRANS)'
+        }, {
+            "id": "11",
+            "nombre": 'Ministerio de la Industria Alimenticia (MINAL)'
+        }, {
+            "id": "12",
+            "nombre": 'Ministerio de la Ind. Sidero Mécanica y Electrónica (SIME)'
+        }, {
+            "id": "13",
+            "nombre": 'Ministerio del Comercio Interior (MINCIN)'
+        }, {
+            "id": "14",
+            "nombre": 'Ministerio de Cultura (MINCULT)'
+        }, {
+            "id": "15",
+            "nombre": 'Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA)'
+        }, {
+            "id": "16",
+            "nombre": 'Ministerio de la Industria Ligera (MINIL)'
+        }, {
+            "id": "17",
+            "nombre": 'Instituto de la Aeronautica Civil de Cuba (IACC)'
+        }, {
+            "id": "18",
+            "nombre": 'CIMEX'
+        }, {
+            "id": "19",
+            "nombre": 'Unión de Jóvenes Comunistas (UJC)'
+        }, {
+            "id": "20",
+            "nombre": 'Central de Trabajadores de Cuba (CTC)'
+        }, {
+            "id": "21",
+            "nombre": 'Otros'
+        }],
+        "OSDE": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'OSDE1'
+        }, {
+            "id": "2",
+            "nombre": 'OSDE2'
+        }],
+        "Sustancias": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Refrigerantes-Hidrocarburos'
+        }, {
+            "id": "2",
+            "nombre": 'Agente de expansión-Hidrocarburos '
+        }, {
+            "id": "3",
+            "nombre": 'Metilformato'
+        }, {
+            "id": "4",
+            "nombre": 'Metilal'
+        }, {
+            "id": "5",
+            "nombre": 'CO2'
+        }, {
+            "id": "6",
+            "nombre": 'HFC-23 '
+        }, {
+            "id": "7",
+            "nombre": 'HFC-32 '
+        }, {
+            "id": "8",
+            "nombre": 'HFC-125 '
+        }, {
+            "id": "9",
+            "nombre": 'HFC-134a '
+        }, {
+            "id": "10",
+            "nombre": 'HFC-143a '
+        }, {
+            "id": "11",
+            "nombre": 'HFC-152a '
+        }, {
+            "id": "12",
+            "nombre": 'HFC-227ea '
+        }, {
+            "id": "13",
+            "nombre": 'HFC-245fa '
+        }, {
+            "id": "14",
+            "nombre": 'HFC-365mfc '
+        }, {
+            "id": "15",
+            "nombre": 'R-407C '
+        }, {
+            "id": "16",
+            "nombre": 'R-407F '
+        }, {
+            "id": "17",
+            "nombre": 'R-410A '
+        }, {
+            "id": "18",
+            "nombre": 'R-404A '
+        }],
+        "Sectores": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'RAC '
+        }, {
+            "id": "2",
+            "nombre": 'Espumas'
+        }, {
+            "id": "3",
+            "nombre": 'Aerosoles '
+        }, {
+            "id": "4",
+            "nombre": 'Solventes'
+        }, {
+            "id": "5",
+            "nombre": 'Extintores '
+        }],
+        "AlternativaHFC": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'HFC-134a'
+        }, {
+            "id": "2",
+            "nombre": 'HFC-32'
+        }, {
+            "id": "3",
+            "nombre": 'HFC-152a'
+        }, {
+            "id": "4",
+            "nombre": 'HFC-245fa'
+        }, {
+            "id": "5",
+            "nombre": 'HFC-227ea/HFC-365mfc'
+        }],
+        "AlternativaHFCMezclas": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'R-404A'
+        }, {
+            "id": "2",
+            "nombre": 'R-407C'
+        }, {
+            "id": "3",
+            "nombre": 'R-410A'
+        }, {
+            "id": "4",
+            "nombre": 'R-507A'
+        }],
+        "AlternativaHFO": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'HFO-1234yf'
+        }, {
+            "id": "2",
+            "nombre": 'HFO-1234ze'
+        }, {
+            "id": "3",
+            "nombre": 'HFO-1233zd'
+        }, {
+            "id": "4",
+            "nombre": 'HFO-1336mzzm'
+        }],
+        "AlternativaOtras": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Metil formato'
+        }, {
+            "id": "2",
+            "nombre": 'Metilal'
+        }, {
+            "id": "3",
+            "nombre": 'Etanol'
+        }, {
+            "id": "4",
+            "nombre": 'DME'
+        }, {
+            "id": "5",
+            "nombre": 'HC-290'
+        }, {
+            "id": "6",
+            "nombre": 'HC-600a'
+        }, {
+            "id": "7",
+            "nombre": 'Pentano(C,N,I)'
+        }, {
+            "id": "8",
+            "nombre": 'Pentano(C,N,I)'
+        }, {
+            "id": "9",
+            "nombre": 'R-744 '
+        }, {
+            "id": "10",
+            "nombre": 'R-717'
+        }],
+        "RA": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Fabricación '
+        }, {
+            "id": "2",
+            "nombre": 'Servicio'
+        }],
+        "SectoresAnexo": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Espuma: poliuretano '
+        }, {
+            "id": "2",
+            "nombre": 'Espuma: polietileno extruido'
+        }, {
+            "id": "3",
+            "nombre": 'Aerosol '
+        }, {
+            "id": "4",
+            "nombre": 'Solventes'
+        }, {
+            "id": "5",
+            "nombre": 'Extintores '
+        }]
+    }
+})
 
 
 
-.factory('Util',function () {
-    return{
+
+.factory('Util', function() {
+    return {
 
         /**
          * Fusiona 2 objetos
          * @returns {{}}
          */
-      "collect":function () 
-                  {
-                      var ret = {};
-                      var len = arguments.length;
-                      for (var i=0; i<len; i++) {
-                          for (p in arguments[i]) {
-                              if (arguments[i].hasOwnProperty(p)) {
-                                  ret[p] = arguments[i][p];
-                              }
-                          }
-                      }
-                      return ret;
-                  }  
+        "collect": function() {
+            var ret = {};
+            var len = arguments.length;
+            for (var i = 0; i < len; i++) {
+                for (p in arguments[i]) {
+                    if (arguments[i].hasOwnProperty(p)) {
+                        ret[p] = arguments[i][p];
+                    }
+                }
+            }
+            return ret;
+        }
     };
 })
 
-.factory("modalsTemplate",function(){
+.factory("modalsTemplate", function() {
     return {
-        "general1":"general1",
-        "general2":"general2"
+        "general1": "general1",
+        "general2": "general2"
     }
 })
 
-    .factory("Menu",function () {
-        return {
-            "nombre":"SAO",
-            "items":[
-                {"nombre":"general","items":[{"nombre":"general1","items":[]},{"nombre":"general2","items":[]}]},
-                {"nombre":"espuma","items":[{"nombre":"espuma1","items":[]},{"nombre":"espuma2","items":[]}]}
-            ]
-        }
-
-            ;
-    }).
-
-factory('RecursionHelper', ['$compile', function($compile){
+.factory("Menu", function() {
     return {
-        /**
-         * Manually compiles the element, fixing the recursion loop.
-         * @param element
-         * @param [link] A post-link function, or an object with function(s) registered via pre and post properties.
-         * @returns An object containing the linking functions.
-         */
-        compile: function(element, link){
-            // Normalize the link parameter
-            if(angular.isFunction(link)){
-                link = { post: link };
-            }
+        "nombre": "SAO",
+        "items": [{
+            "nombre": "general",
+            "items": [{
+                "nombre": "general1",
+                "items": []
+            }, {
+                "nombre": "general2",
+                "items": []
+            }]
+        }, {
+            "nombre": "espuma",
+            "items": [{
+                "nombre": "espuma1",
+                "items": []
+            }, {
+                "nombre": "espuma2",
+                "items": []
+            }]
+        }]
+    }
 
-            // Break the recursion loop by removing the contents
-            var contents = element.contents().remove();
-            var compiledContents;
-            return {
-                pre: (link && link.pre) ? link.pre : null,
-                /**
-                 * Compiles and re-adds the contents
-                 */
-                post: function(scope, element){
-                    // Compile the contents
-                    if(!compiledContents){
-                        compiledContents = $compile(contents);
-                    }
-                    // Re-add the compiled contents to the element
-                    compiledContents(scope, function(clone){
-                        element.append(clone);
-                    });
+    ;
+}).
 
-                    // Call the post-linking function, if any
-                    if(link && link.post){
-                        link.post.apply(null, arguments);
-                    }
+factory('RecursionHelper', ['$compile',
+    function($compile) {
+        return {
+            /**
+             * Manually compiles the element, fixing the recursion loop.
+             * @param element
+             * @param [link] A post-link function, or an object with function(s) registered via pre and post properties.
+             * @returns An object containing the linking functions.
+             */
+            compile: function(element, link) {
+                // Normalize the link parameter
+                if (angular.isFunction(link)) {
+                    link = {
+                        post: link
+                    };
                 }
-            };
-        }
-    };
-}])
-;
+
+                // Break the recursion loop by removing the contents
+                var contents = element.contents().remove();
+                var compiledContents;
+                return {
+                    pre: (link && link.pre) ? link.pre : null,
+                    /**
+                     * Compiles and re-adds the contents
+                     */
+                    post: function(scope, element) {
+                        // Compile the contents
+                        if (!compiledContents) {
+                            compiledContents = $compile(contents);
+                        }
+                        // Re-add the compiled contents to the element
+                        compiledContents(scope, function(clone) {
+                            element.append(clone);
+                        });
+
+                        // Call the post-linking function, if any
+                        if (link && link.post) {
+                            link.post.apply(null, arguments);
+                        }
+                    }
+                };
+            }
+        };
+    }
+]);

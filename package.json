@@ -1,7 +1,7 @@
 {
-  "name": "hello-electron-with-pouchdb",
+  "name": "Censo Nacional",
   "version": "1.0.0",
-  "description": "A minimal Electron application, with PouchDB",
+  "description": "Censo Nacional",
   "main": "main.js",
   "scripts": {
     "start": "electron ."    
