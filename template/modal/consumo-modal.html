@@ -1,7 +1,7 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
         <span aria-hidden="true">×</span></button>
-    <h4 class="modal-title">Resumen de su uso en todos los sectores para cada año entre 2011-2015 </h4>
+    <h4 class="modal-title">Consumo  de SAO (Refrigerantes) Y Sus Alternativas en el subsector de manufactura. </h4>
 </div>
 <div class="modal-body">
     <!-- /.box-header -->
@@ -24,7 +24,7 @@
                             </option>
                         </select>
 
-                       </div>
+                    </div>
                 </div>
             </div>
             <div class="row" data-ng-show="ToCompare('AlternativaHFC')">
@@ -70,7 +70,7 @@
 
                         >
                         </select>
-                </div>
+                    </div>
                     <div class="form-group">
                         <label >Otros (especificar):</label>
                         <input class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroHFO">
@@ -97,24 +97,24 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Refrigeracion y Aire Acondicionado:</label>
-                            <select class="form-control select2 select2-hidden-accessible"
-                                    style="width: 100%;" tabindex="-1"
-                                    aria-hidden="true"
-                                    data-ng-model="record.ra"
-                                    data-ng-options="item as item.nombre for item in SAO.RA">
+                    <div class="form-group">
+                        <label>Refrigeracion y Aire Acondicionado:</label>
+                        <select class="form-control select2 select2-hidden-accessible"
+                                style="width: 100%;" tabindex="-1"
+                                aria-hidden="true"
+                                data-ng-model="record.ra"
+                                data-ng-options="item as item.nombre for item in SAO.RA">
 
-                            </select>
-                            <br>
-                            <label>Sectores:</label>
-                            <select class="form-control select2 select2-hidden-accessible"
-                                    style="width: 100%;" tabindex="-1"
-                                    aria-hidden="true"
-                                    data-ng-model="record.sectoresAnexo"
-                                    data-ng-options="item as item.nombre for item in SAO.SectoresAnexo">
-                            </select>
-                        </div>
+                        </select>
+                        <br>
+                        <label>Sectores:</label>
+                        <select class="form-control select2 select2-hidden-accessible"
+                                style="width: 100%;" tabindex="-1"
+                                aria-hidden="true"
+                                data-ng-model="record.sectoresAnexo"
+                                data-ng-options="item as item.nombre for item in SAO.SectoresAnexo">
+                        </select>
+                    </div>
 
                 </div>
             </div>

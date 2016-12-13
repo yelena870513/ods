@@ -2,29 +2,38 @@
     <section class="content">
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Selección de registro</h3>
-                <div class="box-tools pull-right">
-                </div>
+
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Registro:</label>
-                                <!--Implementar la funcion donde al cambiar la selecci'on cambia segun el tipo de registro-->
-                                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                        data-ng-model="table.name"
-                                        data-ng-change = "ShowRecord()"
-                                        data-ng-options="item.tipo as item.nombre for item in columns">
-
-                                </select>
-
-                            </div>
-                            <button class="btn btn-primary" data-ng-click="Set()">Configurar</button>
+                        <div class="col-lg-12">
+                            <h4 class="header">Selección de registro</h4>
                         </div>
                     </div>
                     <div class="row">
-                        <div tree data-ng-model="menu"></div>
+                        <div class="col-lg-9 sidebar">
+                                <span uib-dropdown="" on-toggle="toggled(open)" class="dropdown">
+                                  <a href="https://angular-ui.github.io/bootstrap/" id="simple-dropdown" uib-dropdown-toggle="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                                    Click me for a dropdown, yo!
+                                  </a>
+                                  <ul class="dropdown-menu" uib-dropdown-menu="" aria-labelledby="simple-dropdown">
+                                    <!-- ngRepeat: choice in items --><li ng-repeat="choice in items" class="ng-scope">
+                                      <a href="https://angular-ui.github.io/bootstrap/" class="ng-binding">The first choice!</a>
+                                    </li><!-- end ngRepeat: choice in items --><li ng-repeat="choice in items" class="ng-scope">
+                                      <a href="https://angular-ui.github.io/bootstrap/" class="ng-binding">And another choice for you.</a>
+                                    </li><!-- end ngRepeat: choice in items --><li ng-repeat="choice in items" class="ng-scope">
+                                      <a href="https://angular-ui.github.io/bootstrap/" class="ng-binding">but wait! A third!</a>
+                                    </li><!-- end ngRepeat: choice in items -->
+                                  </ul>
+                                </span>
+                            <ul class="sidebar-menu" ng-include="treeTemplate">
+
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary" data-ng-click="Set()">Configurar</button>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

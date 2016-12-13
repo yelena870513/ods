@@ -1,6 +1,7 @@
 angular.module('app.sao')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu) {
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce) {
 
+        $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
         //DB en memoria
         $scope.documents = [];
         $scope.table = {
@@ -10,6 +11,13 @@ angular.module('app.sao')
         };
         //Menu
         $scope.menu = Menu;
+
+        //selectable|| probar el tree con esta forma
+        $scope.items = [
+            'The first choice!',
+            'And another choice for you.',
+            'but wait! A third!'
+        ];
 
 
         //Definiciones de columnas por tipo de registro
@@ -224,6 +232,11 @@ angular.module('app.sao')
             Manager.flush();
         };
 
+        $scope.SelectModal = function (tipo) {
+            $scope.table.name = tipo;
+            $scope.ShowRecord();
+        };
+
         $scope.ShowRecord = function() {
             try {
                 FetchRecords($scope.table.name);
@@ -269,15 +282,15 @@ angular.module('app.sao')
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.record = record;
-        var SAO = SAO;
-        for(var i in SAO){
-            SAO[i].unshift({"id":"0","nombre":'Seleccione'});
-        }
-
         $scope.SAO = SAO;
         $scope.general = general;
         $scope.documents = documents;
+        // $scope.alternativa = 'AlternativaHFC';
 
+        //Configuracion para el modal de general2
+        $scope.alternativa = "AlternativaHFC";
+        var selected = $scope.alternativa;
+        //Configuracion para el modal tabla 8
 
         function UpdateElement(element) {
             return Manager.update(element).then(function(result) {
@@ -371,7 +384,17 @@ angular.module('app.sao')
 
         }
 
+
         ;
+
+        $scope.ShowAlt=function () {
+            selected = $scope.alternativa.trim();
+        };
+
+        $scope.ToCompare = function (alternativa) {
+
+            return alternativa == selected;
+        };
 
     })
 
