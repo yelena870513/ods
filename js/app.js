@@ -4,7 +4,7 @@ var fs = require('fs');
 var ws = fs.createWriteStream('data/sao.json');
 
 
-angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','dndLists']).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/general');
 //Las principales rutas de la aplicacion
     $stateProvider.

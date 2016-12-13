@@ -8,18 +8,21 @@ return {
     require: '^ngModel',
     scope: {
         ngModel: '=',
-        templateUrl:'='
+        handler:'@'
+
 
     },
-    templateUrl :this.templateUrl,
-    template:'<li class="treeview">'+
-    '<a><i class="fa fa-dashboard"></i><span>{{ngModel.nombre}}</span>'+
-    '<ul class="treeview-menu">' +
-        '<li data-ng-show="item in ngModel.items">' +
-        '<a></a>'+
-    '</li>'+
-    '</ul>'+
-    '</li>'
+
+    template:
+    '<span data-ng-if="ngModel.items.length>0">{{ngModel.nombre}}</span>'+
+    '<span data-ng-if="ngModel.items.length==0" data-ng-click="SelectModalT(ngModel.nombre)" style="cursor: hand">{{ngModel.nombre}}</span>'+
+        '<ul class="list-group">' +
+            '<li class="tree" data-ng-repeat="item in ngModel.items">' +
+                '<div tree data-ng-model="item" data-handler="SelectModalT(ngModel.nombre)"></div>'+
+            '</li>'+
+        '</ul>'
+
+
 
     ,
 
@@ -33,10 +36,11 @@ return {
 
 
                 },
-                post:   function(scope, element, attrs, controller, transcludeFn){
+                post:   function(scope, element, attrs, controller, transcludeFn,$rootScope){
+                        scope.SelectModalT = function(type){
 
-
-
+                            scope.handler(type);
+                        }
                 }
             });
     }

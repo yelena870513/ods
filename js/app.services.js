@@ -460,7 +460,14 @@ factory('Manager', function(pouchDB) {
         }, {
             "id": "5",
             "nombre": 'Extintores '
-        }]
+        }],
+        "Aplicaciones8":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Refrigeradores domesticos y freezers"}, "carga":{"nombre":"0.1-0.3"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HC-600a"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Sistemas de refrigeración comercial (Independiente, unidades condensadoras, y sistemas de pequeño y medio tamaño)"}, "carga":{"nombre":"0.1-200"},"alternativas":[{"id":1,"nombre":"R-404A"},{"id":2,"nombre":"HFC-134a"},{"id":3,"nombre":"HC-290"},{"id":4,"nombre":"R-407A"},{"id":5,"nombre":"R-744"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Sistemas de distribución grande"}, "carga":{"nombre":"250-5,000"},"alternativas":[{"id":1,"nombre":"R-717"},{"id":2,"nombre":"R-507A"},{"id":3,"nombre":"R-404A"},{"id":4,"nombre":"R-744"},{"id":5,"nombre":"HCs"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Sistemas Industriales (Chillers)"}, "carga":{"nombre":"100-2,000"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"R-410A"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Transportes refrigerados (contenedores y barcos)"}, "carga":{"nombre":"1-1,000"},"alternativas":[{"id":1,"nombre":"R-404A"},{"id":2,"nombre":"HFC-134a"},{"id":3,"nombre":"R-744"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]}
+        ]
     }
 })
 
@@ -522,6 +529,32 @@ factory('Manager', function(pouchDB) {
 
     ;
 }).
+    factory("SubMenu", function() {
+        return {
+            "display": "SAO",
+            "children": [{
+                "display": "general",
+                "children": [{
+                    "display": "general1",
+                    "children": []
+                }, {
+                    "display": "general2",
+                    "children": []
+                }]
+            }, {
+                "display": "espuma",
+                "children": [{
+                    "display": "espuma1",
+                    "children": []
+                }, {
+                    "display": "espuma2",
+                    "children": []
+                }]
+            }]
+        }
+
+            ;
+    }).
 
 factory('RecursionHelper', ['$compile',
     function($compile) {

@@ -16,108 +16,63 @@
                     <div class="form-group">
                         <label>Alternativa</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="alternativa"
-                                data-ng-change="ShowAlt()"
-                        >
-                            <option data-ng-repeat="item in ['AlternativaHFC','AlternativaHFCMezclas','AlternativaHFO','AlternativasOtras']">
-                                {{item}}
-                            </option>
-                        </select>
-
-                    </div>
-                </div>
-            </div>
-            <div class="row" data-ng-show="ToCompare('AlternativaHFC')">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="alternativaHFC" >HFC:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="general2.alternativaHFC"
-                                id="alternativaHFC"
-                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFC">
-                        </select>
-                    </div>
-                    <div class="form-group" >
-                        <label >Otros (especificar):</label>
-                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroHFC">
-                    </div>
-                </div>
-            </div>
-            <div class="row" data-ng-show="ToCompare('AlternativaHFCMezclas')">
-                <div class="col-md-12">
-                    <div class="form-group" >
-                        <label >HFC Mezclas:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="general2.alternativaHFCMezclas"
-                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFCMezclas"
-
-                        >
-                        </select>
-                    </div>
-                    <div class="form-group" >
-                        <label >Otros (especificar):</label>
-                        <input class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroHFCMezclas">
-                    </div>
-                </div>
-            </div>
-            <div class="row" data-ng-show="ToCompare('AlternativaHFO')">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label  >HFO:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="general2.alternativaHFO"
-                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFO"
-
-                        >
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label >Otros (especificar):</label>
-                        <input class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroHFO">
-                    </div>
-                </div>
-            </div>
-            <div class="row" data-ng-show="ToCompare('AlternativasOtras')">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label  >Otras alternativas:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="general2.alternativaOtras"
-                                data-ng-options="item as item.nombre for item in SAO.AlternativaOtras"
-
+                                data-ng-model="consumoR"
+                                data-ng-change="ShowConsumo()"
+                                data-ng-options="item as item.aplicacion.nombre for item in SAO.Aplicaciones8"
                         >
 
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label >Otros (especificar):</label>
-                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="general2.otroAlternativasOtras">
+
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <h4>{{record.cargas}}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="form-group">
-                        <label>Refrigeracion y Aire Acondicionado:</label>
-                        <select class="form-control select2 select2-hidden-accessible"
-                                style="width: 100%;" tabindex="-1"
-                                aria-hidden="true"
-                                data-ng-model="record.ra"
-                                data-ng-options="item as item.nombre for item in SAO.RA">
+                        <label>Alternativa</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.alternativa"
+                                data-ng-options="item as item.nombre for item in consumoR.alternativas"
+                        >
 
                         </select>
-                        <br>
-                        <label>Sectores:</label>
-                        <select class="form-control select2 select2-hidden-accessible"
-                                style="width: 100%;" tabindex="-1"
-                                aria-hidden="true"
-                                data-ng-model="record.sectoresAnexo"
-                                data-ng-options="item as item.nombre for item in SAO.SectoresAnexo">
-                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label >Otros (especificar):</label>
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="year">Uso por Año:</label>
+                        <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="year"
+                                data-ng-options="item as item for item in [2011,2012,2013,2014]"></select>
+
+                        <label for="amount">Toneladas:</label>
+                        <input id="amount" class="form-control" type="text" placeholder="Tons" data-ng-model="amount"/>
+                        <ul class="list-group">
+                            <li class="list-group-item-success" data-ng-repeat="el in record.uso">
+                                {{el.anno}} -- {{el.tons}}
+                            </li>
+                        </ul>
+
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="ConsumoYear(year,amount)">
+                            Adicionar
+                        </button>
                     </div>
 
                 </div>
             </div>
+
         </div>
     </form>
     <div class="modal-footer">

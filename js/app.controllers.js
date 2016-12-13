@@ -1,5 +1,5 @@
 angular.module('app.sao')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce) {
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
         //DB en memoria
@@ -11,6 +11,7 @@ angular.module('app.sao')
         };
         //Menu
         $scope.menu = Menu;
+        $scope.submenu = SubMenu;
 
         //selectable|| probar el tree con esta forma
         $scope.items = [
@@ -27,7 +28,8 @@ angular.module('app.sao')
 
                 {"fields":["sustancia", "sectores"],"nombre":"lorem ipsum sir marim ururu ururu","tipo":"general1"}
                 ,
-                {"fields":["alternativaHFC", "alternativaHFCMezclas", "alternativaHFO", "alternativaOtras", "ra"],"nombre":"i love my princes, i love her forever, God bless my princess", "tipo":"general2"}
+                {"fields":["alternativaHFC", "alternativaHFCMezclas", "alternativaHFO", "alternativaOtras", "ra"],"nombre":"i love my princes, i love her forever, God bless my princess", "tipo":"general2"},
+                {"fields":["aplicacion", "carga", "alternativa", "uso" ],"nombre":"Consumo  de SAO (Refrigerantes) Y Sus Alternativas en el subsector de manufactura.", "tipo":"consumo"}
             ];
 
         $scope.records = Object.keys($scope.columns);
@@ -36,6 +38,7 @@ angular.module('app.sao')
         $scope.OSDE = SAO.OSDE;
         $scope.Ministerio = SAO.Ministerio;
 
+        //Tipo de objetos
         $scope.general = {
             "provincia": SAO.Provincias[0],
             "ministerio": SAO.Ministerio[0],
@@ -79,6 +82,16 @@ angular.module('app.sao')
             "ra": SAO.RA[0],
             "sectoresAnexo": [],
             "tipo": "general2"
+        };
+
+
+        $scope.consumo = {
+            "aplicacion":SAO.Aplicaciones8[0].aplicacion,
+            "carga":SAO.Aplicaciones8[0].carga,
+            "alternativa":SAO.Aplicaciones8[0].alternativas[0],
+            "otrosAlternativa":"",
+            "uso":[],//{ano:"---",tons:""},
+            "tipo":"consumo"
         };
 
 
@@ -290,7 +303,15 @@ angular.module('app.sao')
         //Configuracion para el modal de general2
         $scope.alternativa = "AlternativaHFC";
         var selected = $scope.alternativa;
-        //Configuracion para el modal tabla 8
+        //Configuracion para el modal tabla 8 consumo
+        $scope.consumoR = SAO.Aplicaciones8[0];
+        var selectedConsumo = $scope.consumoR;
+        $scope.year  = 2011;
+        $scope.amount  = 0;
+
+
+
+        ///CRUD operations
 
         function UpdateElement(element) {
             return Manager.update(element).then(function(result) {
@@ -387,6 +408,8 @@ angular.module('app.sao')
 
         ;
 
+        //Esto es del modal de general2
+
         $scope.ShowAlt=function () {
             selected = $scope.alternativa.trim();
         };
@@ -395,6 +418,23 @@ angular.module('app.sao')
 
             return alternativa == selected;
         };
+
+
+        //Modal de consumo
+        $scope.ConsumoYear = function(year,amount){
+            if (record.uso.length<4) {
+                record.uso.push({"anno":year,"tons":amount,"nombre":"año: "+year+"- tons: "+amount});
+            }
+            else{
+                console.warn('top years completed');
+            }
+        };
+
+        $scope.ShowConsumo = function(){
+           selectedConsumo = $scope.consumoR;
+           $scope.record.carga = selectedConsumo.carga;
+           $scope.record.aplicacion = selectedConsumo.aplicacion;
+        }
 
     })
 
