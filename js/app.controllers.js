@@ -291,6 +291,60 @@ angular.module('app.sao')
     .controller("reportController", function($scope, SAO, Manager, $uibModal) {
         //Este controlador es para los reportes.
     })
+    .controller("chartController", function ($scope, SAO, Manager, $uibModal) {
+        //Controlador para los charts
+        //Bar chart
+        $scope.bar = {
+            "labels":['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
+            "series":['OSDE 1', 'OSDE 2'],
+            "data": [
+                [65, 59, 80, 81, 56, 55, 40],
+                [28, 48, 40, 19, 86, 27, 90]
+            ]
+        };
+
+        $scope.pie = {
+            "labels":["SAO 1", "SAO 2", "SAO 3"],
+            "data": [  300, 500, 100 ],
+            "options":{}
+
+        }
+
+        ;
+
+        $scope.line = {
+            "labels": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"],
+            "data": [
+                [65, 59, 80, 81, 56, 55, 40],
+                [28, 48, 40, 19, 86, 27, 90]
+            ],
+            "series":["CITMA","MICOM"],
+            "options":{
+                scales: {
+                    yAxes: [
+                        {
+                            id: 'y-axis-1',
+                            type: 'linear',
+                            display: true,
+                            position: 'left'
+                        },
+                        {
+                            id: 'y-axis-2',
+                            type: 'linear',
+                            display: true,
+                            position: 'right'
+                        }
+                    ]
+                }
+            },
+            "datasetOverride": [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }]
+        }
+
+
+        ;
+
+
+    })
     .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents) {
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
