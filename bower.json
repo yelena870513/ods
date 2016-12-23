@@ -1,0 +1,27 @@
+{
+  "name": "SAO",
+  "version": "1.0.0",
+  "homepage": "http://wwww.npm.org",
+  "authors": [
+    "NPM Team <npm@org.com>"
+  ],
+  "description": "SAO Electron App",
+  "main": "index.html",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "sao"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "vendor",
+    "examples"
+  ],
+  "dependencies": {
+    "chart.js": "^2.4.0"
+  }
+}
