@@ -4,7 +4,11 @@ var fs = require('fs');
 var ws = fs.createWriteStream('data/sao.json');
 
 
+<<<<<<< HEAD
 angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js']).config(function ($stateProvider, $urlRouterProvider) {
+=======
+angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap']).config(function ($stateProvider, $urlRouterProvider) {
+>>>>>>> remotes/ytre/dev
     $urlRouterProvider.otherwise('/general');
 //Las principales rutas de la aplicacion
     $stateProvider.
@@ -18,11 +22,14 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js']).conf
         templateUrl:'template/reports.html',
         controller:'reportController'
     })
+<<<<<<< HEAD
         . state('charts',{
             url:'/charts',
             templateUrl:'template/charts.html',
             controller:'chartController'
         })
+=======
+>>>>>>> remotes/ytre/dev
 
     ;
 })

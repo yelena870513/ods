@@ -17,5 +17,9 @@ label.negro{
     color: #000000;
 }
 .navbar-inverse {
+<<<<<<< HEAD
     background-color: #336699;
+=======
+    background-color: #008ac0;
+>>>>>>> remotes/ytre/dev
 }

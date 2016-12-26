@@ -26,10 +26,29 @@ angular.module('app.sao')
             [
                 // "general":["provincia","ministerio","osde","empresa"],
 
+<<<<<<< HEAD
                 {"fields":["sustancia", "sectores"],"nombre":"lorem ipsum sir marim ururu ururu","tipo":"general1"}
                 ,
                 {"fields":["alternativaHFC", "alternativaHFCMezclas", "alternativaHFO", "alternativaOtras", "ra"],"nombre":"i love my princes, i love her forever, God bless my princess", "tipo":"general2"},
                 {"fields":["aplicacion", "carga", "alternativa", "uso" ],"nombre":"Consumo  de SAO (Refrigerantes) Y Sus Alternativas en el subsector de manufactura.", "tipo":"consumo"}
+=======
+                {"fields":["Sustancia", "sectores"],"nombre":"Uso general alternativas a las SAO en la actualidad","tipo":"general1"},
+                {"fields":["alternativaHFC", "alternativaHFCMezclas", "alternativaHFO", "alternativaOtras", "ra"],"nombre":"i love my princes, i love her forever, God bless my princess", "tipo":"general2"},
+                {"fields":["Sustancia", "Uso"],"nombre":"Demanda de Sao y Agentes soplantes en el sector de espuma","tipo":"espuma1"},
+                {"fields":["Subsector", "Uso"],"nombre":"Distribuci贸n de ODS y Alternativas en Sub sector de Espumas","tipo":"espuma2"},
+                {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y Refrigerantes Alternativos de SAO","tipo":"importaciones1"},
+                {"fields":["Subsector/aplicaci贸n","Alternativa", "Uso" ],"nombre":"Recolecci贸n de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido", "tipo":"espuma3"},
+                {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
+                {"fields":["Aplicaci贸n","Alternativas", "Uso" ],"nombre":"Recolecci贸n de datos sobre el uso de alternativas de SAO en el sector de aerosoles ", "tipo":"aerosoles"},
+                {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolecci贸n de datos en el uso de alternativas de SAO en Refrigeracion Movil ", "tipo":"empresa2"},
+                {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"La recolecci贸n de datos sobre el uso de alternativas de SAO en el sector de solventes", "tipo":"empresa3"},
+                {"fields":["Subsector", "Uso"],"nombre":"Distribuci贸n de SAO y alternativas de SAO en el sector de la Refrigeraci贸n y el Aire Acondicionado","tipo":"aire1"},
+                {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolecci贸n de datos sobre el uso de alternativas de SAO en la fabricaci贸n de aires acondicionados", "tipo":"aire2"},
+                {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) Y Sus Alternativas en el subsector de manufactura", "tipo":"consumo"},
+                {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolecci贸n de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz", "tipo":"empresa1"},
+                {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"La recolecci贸n de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeraci贸n", "tipo":"refri"},
+                {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"La recolecci贸n de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado", "tipo":"aire3"}
+>>>>>>> remotes/ytre/dev
             ];
 
         $scope.records = Object.keys($scope.columns);
@@ -55,11 +74,19 @@ angular.module('app.sao')
         $scope.Sustancias = SAO.Sustancias;
 
         $scope.general1 = {
+<<<<<<< HEAD
             "sustancia": SAO.Sustancias[0],
             "sectores": [],
             "tipo": "general1"
         };
         //    Resumen de su uso en todos los sectores para cada a駉 entre 2011-2015
+=======
+            "Sustancia": SAO.Sustancias[0].nombre[0],
+            "sectores": [],
+            "tipo": "general1"
+        };
+        //    Resumen de su uso en todos los sectores para cada a锟給 entre 2011-2015
+>>>>>>> remotes/ytre/dev
 
         $scope.AlternativaHFC = SAO.AlternativaHFC;
         $scope.AlternativaHFCMezclas = SAO.AlternativaHFCMezclas;
@@ -84,6 +111,7 @@ angular.module('app.sao')
             "tipo": "general2"
         };
 
+<<<<<<< HEAD
 
         $scope.consumo = {
             "aplicacion":SAO.Aplicaciones8[0].aplicacion,
@@ -93,6 +121,125 @@ angular.module('app.sao')
             "uso":[],//{ano:"---",tons:""},
             "tipo":"consumo"
         };
+=======
+        //ESPUMA Tabla 3,4,5
+
+        $scope.espuma1 = {
+            "Sustancia": SAO.SustanciasTabla3[0].nombre,
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo": "espuma1"
+        };
+        $scope.espuma2 = {
+            "Subsector": SAO.SubsectorTabla4[0],
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo": "espuma2"
+        };
+        $scope.espuma3 = {
+            "Subsector/aplicaci贸n":SAO.Tabla5[0].aplicacion,
+            "Alternativa":SAO.Tabla5[0].alternativas[0],
+            "otrosAlternativa":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"espuma3"
+        };
+
+        // AIRE ACONDICIONADO tabla7,9
+
+        $scope.aire1 = {
+            "Subsector": SAO.SubsectorTabla7[0],
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo": "aire1"
+        };
+        $scope.aire2 = {
+            "Aplicaciones":SAO.Tabla9[0].aplicacion,
+            "Carga":SAO.Tabla9[0].carga,
+            "Alternativas":SAO.Tabla9[0].alternativas[0],
+            "otrosAlternativa":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"aire2"
+        };
+        $scope.aire3 = {
+            "Aplicaciones":SAO.Tabla11A[0].aplicacion,
+            "Capacidad":SAO.Tabla11A[0].carga,
+            "Alternativas":SAO.Tabla11A[0].alternativas[0],
+            "otrosAlternativa":"",
+            "unidades":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"aire3"
+        };
+
+        //AEROSOLES
+
+        $scope.aerosoles = {
+            "Aplicaci贸n":SAO.Tabla12[0].aplicacion,
+            "Alternativas":SAO.Tabla12[0].alternativas[0],
+            "otrosAlternativa":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"aerosoles"
+        };
+
+        //IMPORTACIONES
+        $scope.importaciones1 = {
+            "Sustancia": SAO.SustanciasTabla6[0].nombre,
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo": "importaciones1"
+        };
+        $scope.importaciones2 = {
+            "Alternativa":SAO.Tabla3Anexo2[0].aplicacion,
+            "Alternativas":SAO.Tabla3Anexo2[0].alternativas[0],
+            "otrosAlternativa":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"importaciones2"
+        };
+
+        //REFRIGERACION
+
+        $scope.consumo = {
+            "Aplicaciones":SAO.Aplicaciones8[0].aplicacion,
+            "Carga":SAO.Aplicaciones8[0].carga,
+            "Alternativas":SAO.Aplicaciones8[0].alternativas[0],
+            "otrosAlternativa":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"consumo"
+        };
+        $scope.refri = {
+            "Aplicaciones":SAO.Tabla11B[0].aplicacion,
+            "Capacidad":SAO.Tabla11B[0].carga,
+            "Alternativas":SAO.Tabla11B[0].alternativas[0],
+            "otrosAlternativa":"",
+            "unidades":"",
+            "explotacion":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"refri"
+        };
+
+        //EMPRESA
+
+        $scope.empresa1 = {
+            "Aplicaciones":SAO.Tabla10A[0].aplicacion,
+            "Carga":SAO.Tabla10A[0].carga,
+            "Alternativas":SAO.Tabla10A[0].alternativas[0],
+            "otrosAlternativa":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"empresa1"
+        };
+        $scope.empresa2 = {
+            "Aplicaciones":SAO.Tabla10B[0].aplicacion,
+            "Alternativas":SAO.Tabla10B[0].alternativas[0],
+            "otrosAlternativa":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"empresa2"
+        };
+        $scope.empresa3 = {
+            "Aplicaciones":SAO.Tabla13[0].aplicacion,
+            "Alternativas":SAO.Tabla13[0].alternativas[0],
+            "otrosAlternativa":"",
+            "Uso":[],//{ano:"---",tons:""},
+            "tipo":"empresa3"
+        };
+
+
+
+>>>>>>> remotes/ytre/dev
 
 
         ////LOCAL MEMBERS
@@ -291,6 +438,7 @@ angular.module('app.sao')
     .controller("reportController", function($scope, SAO, Manager, $uibModal) {
         //Este controlador es para los reportes.
     })
+<<<<<<< HEAD
     .controller("chartController", function ($scope, SAO, Manager, $uibModal) {
         //Controlador para los charts
         //Bar chart
@@ -345,6 +493,8 @@ angular.module('app.sao')
 
 
     })
+=======
+>>>>>>> remotes/ytre/dev
     .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents) {
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
@@ -360,11 +510,18 @@ angular.module('app.sao')
         //Configuracion para el modal tabla 8 consumo
         $scope.consumoR = SAO.Aplicaciones8[0];
         var selectedConsumo = $scope.consumoR;
+<<<<<<< HEAD
         $scope.year  = 2011;
         $scope.amount  = 0;
 
 
 
+=======
+        $scope.year  = 2010;
+        $scope.amount  = 0;
+
+
+>>>>>>> remotes/ytre/dev
         ///CRUD operations
 
         function UpdateElement(element) {
@@ -476,8 +633,13 @@ angular.module('app.sao')
 
         //Modal de consumo
         $scope.ConsumoYear = function(year,amount){
+<<<<<<< HEAD
             if (record.uso.length<4) {
                 record.uso.push({"anno":year,"tons":amount,"nombre":"a駉: "+year+"- tons: "+amount});
+=======
+            if (record.Uso.length<4) {
+                record.Uso.push({"anno":year,"tons":amount,"nombre":"a帽o: "+year+"- tons: "+amount});
+>>>>>>> remotes/ytre/dev
             }
             else{
                 console.warn('top years completed');
@@ -486,10 +648,72 @@ angular.module('app.sao')
 
         $scope.ShowConsumo = function(){
            selectedConsumo = $scope.consumoR;
+<<<<<<< HEAD
            $scope.record.carga = selectedConsumo.carga;
            $scope.record.aplicacion = selectedConsumo.aplicacion;
         }
 
+=======
+           $scope.record.Carga = selectedConsumo.carga;
+           $scope.record.aplicacion = selectedConsumo.aplicacion;
+        }
+
+        // Modal Tabla5
+
+        $scope.ShowTabla5 = function(){
+            selectedTabla5 = $scope.Tabla5R;
+            $scope.record.aplicacion = selectedTabla5.aplicacion;
+        }
+
+        //Modal Tabla 9
+
+        $scope.ShowTabla9 = function(){
+            selectedTabla9 = $scope.Tabla9R;
+            $scope.record.Carga = selectedTabla9.carga;
+            $scope.record.aplicacion = selectedTabla9.aplicacion;
+        }
+
+        //Modal Tabla12
+
+        $scope.ShowTabla12 = function(){
+            selectedTabla12 = $scope.Tabla12R;
+            $scope.record.aplicacion = selectedTabla12.aplicacion;
+        }
+
+        // tabla3 anexo2
+
+        $scope.ShowTabla3Anexo2 = function(){
+            selectedTabla3Anexo2 = $scope.Tabla3Anexo2R;
+            $scope.record.aplicacion = selectedTabla3Anexo2.aplicacion;
+        }
+
+        // Tabla11A
+
+        $scope.ShowTabla11A = function(){
+            selectedTabla11A = $scope.Tabla11AR;
+            $scope.record.Capacidad = selectedTabla11A.carga;
+            $scope.record.aplicacion = selectedTabla11A.aplicacion;
+        }
+        $scope.ShowTabla11B = function(){
+            selectedTabla11B = $scope.Tabla11BR;
+            $scope.record.Capacidad = selectedTabla11B.carga;
+            $scope.record.aplicacion = selectedTabla11B.aplicacion;
+        }
+
+        $scope.ShowTabla10A = function(){
+            selectedTabla10A = $scope.Tabla10AR;
+            $scope.record.Carga = selectedTabla10A.carga;
+            $scope.record.aplicacion = selectedTabla10A.aplicacion;
+        }
+        $scope.ShowTabla10B = function(){
+            selectedTabla10B = $scope.Tabla10BR;
+            $scope.record.aplicacion = selectedTabla10B.aplicacion;
+        }
+        $scope.ShowTabla13 = function(){
+            selectedTabla13 = $scope.Tabla13R;
+            $scope.record.aplicacion = selectedTabla13.aplicacion;
+        }
+>>>>>>> remotes/ytre/dev
     })
 
 ;

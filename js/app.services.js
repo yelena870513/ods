@@ -467,7 +467,90 @@ factory('Manager', function(pouchDB) {
             {"id":3,"aplicacion":{"id":1,"nombre":"Sistemas de distribución grande"}, "carga":{"nombre":"250-5,000"},"alternativas":[{"id":1,"nombre":"R-717"},{"id":2,"nombre":"R-507A"},{"id":3,"nombre":"R-404A"},{"id":4,"nombre":"R-744"},{"id":5,"nombre":"HCs"}]},
             {"id":4,"aplicacion":{"id":1,"nombre":"Sistemas Industriales (Chillers)"}, "carga":{"nombre":"100-2,000"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"R-410A"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]},
             {"id":5,"aplicacion":{"id":1,"nombre":"Transportes refrigerados (contenedores y barcos)"}, "carga":{"nombre":"1-1,000"},"alternativas":[{"id":1,"nombre":"R-404A"},{"id":2,"nombre":"HFC-134a"},{"id":3,"nombre":"R-744"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]}
+<<<<<<< HEAD
         ]
+=======
+        ],
+        "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
+        "SubsectorTabla4":[{"id":"1","nombre":'Aislamiento de Refrigeración Doméstica'}, {"id":"2","nombre":'Aislamiento en otra aplicación'}, {"id":"3","nombre":'HCContenedores Refrigerados'},{"id":"4","nombre":'Tableros'},{"id":"5","nombre":'Panel Continuo'},{"id":"6","nombre":'Panel Discontinuo'},{"id":"7","nombre":'Espuma en espray'},{"id":"8","nombre":'Tubería en tubería'},{"id":"9","nombre":'Bloques '},{"id":"10","nombre":'Bloques de Poliuretano'},{"id":"11","nombre":'Espuma: polietileno extruido '}],
+        "Tabla5":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 (agua) "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 (agua) "},{"id":6,"nombre":"Supercrítico CO2"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 (agua) "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
+           ],
+        "SubsectorTabla7":[{"id":"1","nombre":'Aire Acondicionado Automotriz'}, {"id":"2","nombre":'Domestica'}, {"id":"3","nombre":'Commercial '},{"id":"4","nombre":'Industrial'},{"id":"5","nombre":'Transporte'},{"id":"6","nombre":'Aire Acondicionado estacionario'}],
+        "Tabla9":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Aire acondicionado de Habitaciones (incluidos pequeños aire acondicionado split)"}, "carga":{"nombre":"0.2-3"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"HFC-32 "},{"id":4,"nombre":"HC-290"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Otros Aires Acondicionados (incluyendo splits, multi-splits y sistemas de flujo de refrigerante variable, conductos y paquetes de azotea) "}, "carga":{"nombre":"3-100 "},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"HC-290 "},{"id":5,"nombre":"CO2"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Chillers (pequeños, medianos y grandes enfriados por agua)"}, "carga":{"nombre":"500-13,000"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HC-290 "},{"id":4,"nombre":"HC-1270 "},{"id":5,"nombre":"HFC-134a  "},{"id":6,"nombre":"HFC-32 "},{"id":7,"nombre":"R-717 "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Bombas de Calor (calefacción de locales por bombas de calor (aire-agua) y bomba de calor domestica de agua caliente enfriada por aire"}, "carga":{"nombre":"3-6"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-744 "},{"id":3,"nombre":"HFC-134a "}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Gran sistema de calefacción urbana"}, "carga":{"nombre":"250-7,000 "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"R-717 "}]}
+        ],
+        "Tabla12":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 (agua) "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 (agua) "},{"id":6,"nombre":"Supercrítico CO2"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 (agua) "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
+        ],
+        "SustanciasTabla6":[{"id":"1","nombre":'HFC-134a'}, {"id":"2","nombre":'R-404A/R-507 '}, {"id":"3","nombre":'R-407C  '},{"id":"4","nombre":'R-410A '},{"id":"5","nombre":'Otros de Bajo-GWP '}],
+        "Tabla3Anexo2":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"HFC"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"HFC-32"},{"id":3,"nombre":"HFC-152a "},{"id":4,"nombre":"HFC-245fa"},{"id":5,"nombre":"HFC-227ea/HFC-365mfc"}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"HFC Mezclas"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"R-404A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-410A "},{"id":4,"nombre":"R-507A "}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"HFO"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"HFO-1234yf "},{"id":2,"nombre":"HFO-1234ze "},{"id":3,"nombre":"HFO-1233zd  "},{"id":4,"nombre":"HFO-1336mzzm "}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Otras alternativas"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"Metil formato"},{"id":2,"nombre":"Metilal"},{"id":3,"nombre":"Etanol"},{"id":4,"nombre":"DME"},{"id":5,"nombre":"HC-290 "},{"id":6,"nombre":"HC-600a "},{"id":7,"nombre":"R-744 "},{"id":8,"nombre":"R-717"},{"id":6,"nombre":"HC-600a "},{"id":6,"nombre":"HC-600a "}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
+        ],
+        "Tabla11A":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (AAV)"}, "carga":{"nombre":"2-7/1.32-4.63"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (Portatil)"}, "carga":{"nombre":"2-7/1.32-4.63"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (Deshumidificadores)"}, "carga":{"nombre":"2-7/1.32-4.63"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Mini Split (Cassete)"}, "carga":{"nombre":"2-12/1.32-7.94"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Mini Split (Ocultos)"}, "carga":{"nombre":"2-12/1.32-7.94"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
+            {"id":6,"aplicacion":{"id":1,"nombre":"Mini Split (Otros)"}, "carga":{"nombre":"2-12/1.32-7.94"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
+            {"id":7,"aplicacion":{"id":1,"nombre":"Split"}, "carga":{"nombre":"10-150/6.62-99.33"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A"},{"id":3,"nombre":"R-32 "}]},
+            {"id":8,"aplicacion":{"id":1,"nombre":"Multi-split "}, "carga":{"nombre":"10-150/6.62-99.33"},"alternativas":[{"id":1,"nombre":"R-407C"},{"id":2,"nombre":"R-410A"},{"id":3,"nombre":"R-32 "}]},
+            {"id":9,"aplicacion":{"id":1,"nombre":"Sistemas de flujo de refrigerante variable"}, "carga":{"nombre":"10-150/6.62-99.33"},"alternativas":[{"id":1,"nombre":"R-407C"},{"id":2,"nombre":"R-410A"},{"id":3,"nombre":"R-32 "}]},
+            {"id":10,"aplicacion":{"id":1,"nombre":"Consolas"}, "carga":{"nombre":"12-200/7.94-132.45"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"CO2 "}]},
+            {"id":11,"aplicacion":{"id":1,"nombre":"Rooftop"}, "carga":{"nombre":"12-200/7.94-132.45"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"CO2 "}]},
+            {"id":12,"aplicacion":{"id":1,"nombre":"Chillers pequeños "}, "carga":{"nombre":"50-750/33.11-496.68"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HC-290 "},{"id":4,"nombre":"HC-1270 "}]},
+            {"id":13,"aplicacion":{"id":1,"nombre":"Chillers medianos enfriados por agua "}, "carga":{"nombre":"50-750/33.11-496.68"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HC-290 "},{"id":4,"nombre":"HC-1270 "}]},
+            {"id":14,"aplicacion":{"id":1,"nombre":"Chillers grandes enfriados por agua "}, "carga":{"nombre":"750-10,000/496.68-6622.51 "},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a  "},{"id":4,"nombre":"HFC-32  "},{"id":5,"nombre":"R-717 "}]},
+            {"id":15,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en autos y pequeños vans"}, "carga":{"nombre":"3-5/1.98-3.31"},"alternativas":[{"id":1,"nombre":"HFO-1234yf"},{"id":2,"nombre":"HFC-134a "}]},
+            {"id":16,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en CAMIONES REFERENCIA A CABINAS"}, "carga":{"nombre":"3-5/1.98-3.31"},"alternativas":[{"id":1,"nombre":"HFO-1234yf"},{"id":2,"nombre":"HFC-134a "}]},
+            {"id":17,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en TRACTORES REFERENCIA A CABINAS"}, "carga":{"nombre":"3-5/1.98-3.31"},"alternativas":[{"id":1,"nombre":"HFO-1234yf"},{"id":2,"nombre":"HFC-134a "}]},
+            {"id":18,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (OMNIBUS)"}, "carga":{"nombre":"10-30/6.62-19.86"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
+            {"id":19,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (MINIOMNIBUS)"}, "carga":{"nombre":"10-30/6.62-19.86"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
+            {"id":20,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (TRENES)"}, "carga":{"nombre":"10-30/6.62-19.86"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
+            {"id":21,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            {"id":22,"aplicacion":{"id":1,"nombre":"Refrigeradores freezer"}, "carga":{"nombre":"0.1-0.5/0.06-0.33"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            {"id":23,"aplicacion":{"id":1,"nombre":"Los equipos autónomos de refrigeración comercial"}, "carga":{"nombre":"0.1-1,000/0.06-662.25"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"HC-290 "}]},
+            ],
+        "Tabla11B":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Refrigeradores freezer"}, "carga":{"nombre":"0.1-0.5/0.06-0.33"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Los equipos autónomos de refrigeración comercial"}, "carga":{"nombre":"0.1-1,000/0.06-662.25"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"HC-290 "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Los grandes sistemas de refrigeración industrial"}, "carga":{"nombre":"100-5,000/66.22-3311.25 (poner 50)"},"alternativas":[{"id":1,"nombre":"R-717 "},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"R-507A "},{"id":4,"nombre":"HCs "}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Sistemas de Chiller Industrial "}, "carga":{"nombre":"200-5,000/132.45-3311.25 "},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]},
+            {"id":6,"aplicacion":{"id":1,"nombre":"Vehículos de carretera refrigerados en el sector del transporte refrigerado"}, "carga":{"nombre":"3-10/1.98-6.62"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "}]},
+            {"id":7,"aplicacion":{"id":1,"nombre":"Los contenedores refrigerados en  el transporte (estaticos)"}, "carga":{"nombre":"5-15/3.31-9.93"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"R-744"}]},
+            {"id":8,"aplicacion":{"id":1,"nombre":"Sistemas de refrigeración por barcos"}, "carga":{"nombre":"40-2000/26.49-1324.50 "},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"R-717 "}]},
+            ],
+        "Tabla10A":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Carros y pequeños vans"}, "carga":{"nombre":"0.4-0.8 "},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"HFO-1234yf "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":" Vehículos grandes"}, "carga":{"nombre":"2.0-10.0 "},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-410A"},{"id":3,"nombre":"R-407C "}]},
+        ],
+        "Tabla10B":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Camiones y Rastras Refrigeradas"},"alternativas":[{"id":1,"nombre":"HFC-404A"},{"id":2,"nombre":"HFO-1234ze"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Contenedores Refrigerados"},"alternativas":[{"id":1,"nombre":"HFC-404A"},{"id":2,"nombre":"HFO-1234ze"}]},
+            ],
+        "Tabla13":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Limpieza de Metales"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Limpieza para la electrónica"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Limpieza de precisión"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+           ]
+
+
+>>>>>>> remotes/ytre/dev
     }
 })
 
