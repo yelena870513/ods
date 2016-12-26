@@ -1,0 +1,131 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">Resumen de su uso en todos los sectores para cada año entre 2011-2015 </h4>
+</div>
+<div class="modal-body">
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="actionForm" novalidate>
+        <div class="box-body">
+            <div class="row">
+                <h4>Alternativas:</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Alternativa</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="alternativa"
+                                data-ng-change="ShowAlt()"
+                        >
+                            <option data-ng-repeat="item in ['AlternativaHFC','AlternativaHFCMezclas','AlternativaHFO','AlternativasOtras']">
+                                {{item}}
+                            </option>
+                        </select>
+
+                       </div>
+                </div>
+            </div>
+            <div class="row" data-ng-show="ToCompare('AlternativaHFC')">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="alternativaHFC" >HFC:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.alternativaHFC"
+                                id="alternativaHFC"
+                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFC">
+                        </select>
+                    </div>
+                    <div class="form-group" >
+                        <label >Otros (especificar):</label>
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otroHFC">
+                    </div>
+                </div>
+            </div>
+            <div class="row" data-ng-show="ToCompare('AlternativaHFCMezclas')">
+                <div class="col-md-12">
+                    <div class="form-group" >
+                        <label >HFC Mezclas:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.alternativaHFCMezclas"
+                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFCMezclas"
+
+                        >
+                        </select>
+                    </div>
+                    <div class="form-group" >
+                        <label >Otros (especificar):</label>
+                        <input class="form-control" type="text" placeholder="Otros" data-ng-model="record.otroHFCMezclas">
+                    </div>
+                </div>
+            </div>
+            <div class="row" data-ng-show="ToCompare('AlternativaHFO')">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label  >HFO:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.alternativaHFO"
+                                data-ng-options="item as item.nombre for item in SAO.AlternativaHFO"
+
+                        >
+                        </select>
+                </div>
+                    <div class="form-group">
+                        <label >Otros (especificar):</label>
+                        <input class="form-control" type="text" placeholder="Otros" data-ng-model="record.otroHFO">
+                    </div>
+                </div>
+            </div>
+            <div class="row" data-ng-show="ToCompare('AlternativasOtras')">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label  >Otras alternativas:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.alternativaOtras"
+                                data-ng-options="item as item.nombre for item in SAO.AlternativaOtras"
+
+                        >
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label >Otros (especificar):</label>
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otroAlternativasOtras">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Refrigeracion y Aire Acondicionado:</label>
+                            <select class="form-control select2 select2-hidden-accessible"
+                                    style="width: 100%;" tabindex="-1"
+                                    aria-hidden="true"
+                                    data-ng-model="record.ra"
+                                    data-ng-options="item as item.nombre for item in SAO.RA">
+
+                            </select>
+                            <br>
+                            <label>Sectores:</label>
+                            <select class="form-control select2 select2-hidden-accessible"
+                                    style="width: 100%;" tabindex="-1"
+                                    aria-hidden="true"
+                                    data-ng-model="record.sectoresAnexo"
+                                    data-ng-options="item as item.nombre for item in SAO.SectoresAnexo">
+                            </select>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="Close()">
+            Cerrar
+        </button>
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
+            Salvar
+        </button>
+    </div>
+</div>

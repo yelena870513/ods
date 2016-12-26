@@ -1,0 +1,80 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes</h4>
+</div>
+<div class="modal-body">
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="actionForm" novalidate>
+        <div class="box-body">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Aplicaciones:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="Tabla13R"
+                                data-ng-change="ShowTabla13()"
+                                data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla13"
+                        >
+
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Alternativas:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.Alternativas"
+                                data-ng-options="item as item.nombre for item in Tabla13R.alternativas"
+                        >
+
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label >Otros (especificar):</label>
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="year">Uso por Año:</label>
+                        <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="year"
+                                data-ng-options="item as item for item in [2011,2012,2013,2014,2015]"></select>
+
+                        <label for="amount">Toneladas métricas:</label>
+                        <input id="amount" class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
+                        <ul class="list-group">
+                            <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
+                                {{el.anno}} -- {{el.tons}}
+                            </li>
+                        </ul>
+
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="ConsumoYear(year,amount)">
+                            Adicionar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="Close()">
+            Cerrar
+        </button>
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
+            Salvar
+        </button>
+    </div>
+</div>

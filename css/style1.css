@@ -1,0 +1,21 @@
+span.espacio{
+    margin-bottom: 20px;
+}
+.box-header {
+    color: #666;
+}
+.box.box-default {
+    border-top-color: #336699;
+}
+.box {
+    border-top: 3px solid #000;
+}
+input[type=checkbox], input[type=radio] {
+    margin: -15px 0 0;
+}
+label.negro{
+    color: #000000;
+}
+.navbar-inverse {
+    background-color: #008ac0;
+}

@@ -1,0 +1,682 @@
+angular.module('app.sao').
+
+factory('Manager', function(pouchDB) {
+
+    var manager = {};
+    var db = pouchDB('sao', {
+        "adapter": "websql"
+    });
+
+
+    ////***private
+    function createDesignDoc(name, mapFunction) {
+        var ddoc = {
+            _id: '_design/' + name,
+            views: {}
+        };
+        ddoc.views[name] = {
+            map: mapFunction.toString()
+        };
+        return ddoc;
+    };
+
+    //vistas[consultas]// es realizada a traves de definicion de documentos de vistas o filtros, los filtros se definen en la base de datos previamente
+    var views = [
+        createDesignDoc("tipo", function(doc) {
+            emit(doc.tipo);
+        })
+
+    ];
+
+    //se introducen las vistas en la base de datos, para luego ejecutarlas
+    views.forEach(function(el) {
+        db.put(el).
+        catch (function(reason) {
+            console.warn(JSON.stringify(reason));
+        });
+    });
+
+
+
+    ///***public
+    manager.create = function(element) {
+        return db.post(element);
+    };
+
+    manager.update = function(element) {
+        if (Object.prototype.toString.call(element) === '[object Array]') {
+            return db.bulkDocs(element);
+        }
+        return db.put(element);
+    };
+
+    manager.delete = function(element) {
+        if (Object.prototype.toString.call(element) === '[object Array]') {
+            return db.bulkDocs(element);
+        }
+        return db.remove(element._id, element._rev);
+    };
+
+    manager.from = function(database, options) {
+        return db.replicate.from(database, options).$promise;
+
+    };
+
+    manager.to = function(database, options) {
+        return db.replicate.to(database, options).$promise;
+    };
+
+    manager.get = function(query, options) {
+        if (query == undefined) {
+            return db.allDocs(options != undefined ? options : {});
+        } else {
+            return db.get(query, options != undefined ? options : {});
+        }
+
+    };
+
+    manager.record = function(name) {
+        return db.query("tipo", {
+            key: name,
+            include_docs: true
+        });
+    };
+
+    /**
+     * Save to file
+     */
+    manager.flush = function() {
+        db.allDocs({
+            include_docs: true
+        }).then(function(result) {
+            //save to file
+            db.dump(ws).then(function(res) {
+                console.log(res);
+            });
+
+
+
+        }).
+        catch (function(err) {
+            console.log(err);
+        });
+
+    };
+
+    /**
+     * Load file
+     */
+    manager.local = function() {
+        return db.get('_local/preloaded').then(function(doc) {}).
+        catch (function(err) {
+            if (err.name !== 'not_found') {
+                throw err;
+            }
+            // we got a 404, so the local document doesn't exist. so let's preload!
+            return db.load('data/sao.json').then(function() {
+                // create the local document to note that we've preloaded
+                return db.put({
+                    _id: '_local/preloaded'
+                });
+            });
+        }).then(function() {
+            return db.allDocs({
+                include_docs: true
+            });
+        }).
+        catch (console.log.bind(console));
+    };
+
+    /**
+     * Close de database
+     * @returns
+     */
+    manager.close = function() {
+        return db.close();
+    };
+
+    return manager;
+}).filter('prettyJSON', function() {
+    return function(json) {
+        return angular.toJson(json, true);
+    }
+})
+
+.factory("SAO", function() {
+    return {
+        "Provincias": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Pinar del Río'
+        }, {
+            "id": "2",
+            "nombre": 'Artemisa'
+        }, {
+            "id": "3",
+            "nombre": 'Mayabeque'
+        }, {
+            "id": "4",
+            "nombre": 'La Habana'
+        }, {
+            "id": "5",
+            "nombre": 'Matanzas'
+        }, {
+            "id": "6",
+            "nombre": 'Cienfuegos'
+        }, {
+            "id": "7",
+            "nombre": 'Villa Clara'
+        }, {
+            "id": "8",
+            "nombre": 'Sancti Spíritus'
+        }, {
+            "id": "9",
+            "nombre": 'Ciego de Ávila'
+        }, {
+            "id": "10",
+            "nombre": 'Camagüey'
+        }, {
+            "id": "11",
+            "nombre": 'Las Tunas'
+        }, {
+            "id": "12",
+            "nombre": 'Holguín'
+        }, {
+            "id": "13",
+            "nombre": 'Santiago de Cuba'
+        }, {
+            "id": "14",
+            "nombre": 'Guantánamo'
+        }, {
+            "id": "15",
+            "nombre": 'Isla de la Juventud'
+        }],
+        "Ministerio": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Consejo de Administración Provincuial (CAP)'
+        }, {
+            "id": "2",
+            "nombre": 'Ministerio del Turismo (MINTUR)'
+        }, {
+            "id": "3",
+            "nombre": 'Ministerio de la Industria Básica (MINBAS)'
+        }, {
+            "id": "4",
+            "nombre": 'Ministerio de Salud Pública (MINSAP)'
+        }, {
+            "id": "5",
+            "nombre": 'Consejo de Estado (CE)'
+        }, {
+            "id": "6",
+            "nombre": 'Ministerio de la Azúcar (MINAZ)'
+        }, {
+            "id": "7",
+            "nombre": 'Ministerio de la Informática y las Comunicaciones (MIC)'
+        }, {
+            "id": "8",
+            "nombre": 'Ministerio de la Construcción (MICONS)'
+        }, {
+            "id": "9",
+            "nombre": 'Ministerio de Educación Superior (MES)'
+        }, {
+            "id": "10",
+            "nombre": 'Ministerio del Transporte (MITRANS)'
+        }, {
+            "id": "11",
+            "nombre": 'Ministerio de la Industria Alimenticia (MINAL)'
+        }, {
+            "id": "12",
+            "nombre": 'Ministerio de la Ind. Sidero Mécanica y Electrónica (SIME)'
+        }, {
+            "id": "13",
+            "nombre": 'Ministerio del Comercio Interior (MINCIN)'
+        }, {
+            "id": "14",
+            "nombre": 'Ministerio de Cultura (MINCULT)'
+        }, {
+            "id": "15",
+            "nombre": 'Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA)'
+        }, {
+            "id": "16",
+            "nombre": 'Ministerio de la Industria Ligera (MINIL)'
+        }, {
+            "id": "17",
+            "nombre": 'Instituto de la Aeronautica Civil de Cuba (IACC)'
+        }, {
+            "id": "18",
+            "nombre": 'CIMEX'
+        }, {
+            "id": "19",
+            "nombre": 'Unión de Jóvenes Comunistas (UJC)'
+        }, {
+            "id": "20",
+            "nombre": 'Central de Trabajadores de Cuba (CTC)'
+        }, {
+            "id": "21",
+            "nombre": 'Otros'
+        }],
+        "OSDE": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'OSDE1'
+        }, {
+            "id": "2",
+            "nombre": 'OSDE2'
+        }],
+        "Sustancias": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Refrigerantes-Hidrocarburos'
+        }, {
+            "id": "2",
+            "nombre": 'Agente de expansión-Hidrocarburos '
+        }, {
+            "id": "3",
+            "nombre": 'Metilformato'
+        }, {
+            "id": "4",
+            "nombre": 'Metilal'
+        }, {
+            "id": "5",
+            "nombre": 'CO2'
+        }, {
+            "id": "6",
+            "nombre": 'HFC-23 '
+        }, {
+            "id": "7",
+            "nombre": 'HFC-32 '
+        }, {
+            "id": "8",
+            "nombre": 'HFC-125 '
+        }, {
+            "id": "9",
+            "nombre": 'HFC-134a '
+        }, {
+            "id": "10",
+            "nombre": 'HFC-143a '
+        }, {
+            "id": "11",
+            "nombre": 'HFC-152a '
+        }, {
+            "id": "12",
+            "nombre": 'HFC-227ea '
+        }, {
+            "id": "13",
+            "nombre": 'HFC-245fa '
+        }, {
+            "id": "14",
+            "nombre": 'HFC-365mfc '
+        }, {
+            "id": "15",
+            "nombre": 'R-407C '
+        }, {
+            "id": "16",
+            "nombre": 'R-407F '
+        }, {
+            "id": "17",
+            "nombre": 'R-410A '
+        }, {
+            "id": "18",
+            "nombre": 'R-404A '
+        }],
+        "Sectores": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'RAC '
+        }, {
+            "id": "2",
+            "nombre": 'Espumas'
+        }, {
+            "id": "3",
+            "nombre": 'Aerosoles '
+        }, {
+            "id": "4",
+            "nombre": 'Solventes'
+        }, {
+            "id": "5",
+            "nombre": 'Extintores '
+        }],
+        "AlternativaHFC": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'HFC-134a'
+        }, {
+            "id": "2",
+            "nombre": 'HFC-32'
+        }, {
+            "id": "3",
+            "nombre": 'HFC-152a'
+        }, {
+            "id": "4",
+            "nombre": 'HFC-245fa'
+        }, {
+            "id": "5",
+            "nombre": 'HFC-227ea/HFC-365mfc'
+        }],
+        "AlternativaHFCMezclas": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'R-404A'
+        }, {
+            "id": "2",
+            "nombre": 'R-407C'
+        }, {
+            "id": "3",
+            "nombre": 'R-410A'
+        }, {
+            "id": "4",
+            "nombre": 'R-507A'
+        }],
+        "AlternativaHFO": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'HFO-1234yf'
+        }, {
+            "id": "2",
+            "nombre": 'HFO-1234ze'
+        }, {
+            "id": "3",
+            "nombre": 'HFO-1233zd'
+        }, {
+            "id": "4",
+            "nombre": 'HFO-1336mzzm'
+        }],
+        "AlternativaOtras": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Metil formato'
+        }, {
+            "id": "2",
+            "nombre": 'Metilal'
+        }, {
+            "id": "3",
+            "nombre": 'Etanol'
+        }, {
+            "id": "4",
+            "nombre": 'DME'
+        }, {
+            "id": "5",
+            "nombre": 'HC-290'
+        }, {
+            "id": "6",
+            "nombre": 'HC-600a'
+        }, {
+            "id": "7",
+            "nombre": 'Pentano(C,N,I)'
+        }, {
+            "id": "8",
+            "nombre": 'Pentano(C,N,I)'
+        }, {
+            "id": "9",
+            "nombre": 'R-744 '
+        }, {
+            "id": "10",
+            "nombre": 'R-717'
+        }],
+        "RA": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Fabricación '
+        }, {
+            "id": "2",
+            "nombre": 'Servicio'
+        }],
+        "SectoresAnexo": [{
+            "id": "0",
+            "nombre": 'Seleccione'
+        }, {
+            "id": "1",
+            "nombre": 'Espuma: poliuretano '
+        }, {
+            "id": "2",
+            "nombre": 'Espuma: polietileno extruido'
+        }, {
+            "id": "3",
+            "nombre": 'Aerosol '
+        }, {
+            "id": "4",
+            "nombre": 'Solventes'
+        }, {
+            "id": "5",
+            "nombre": 'Extintores '
+        }],
+        "Aplicaciones8":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Refrigeradores domesticos y freezers"}, "carga":{"nombre":"0.1-0.3"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HC-600a"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Sistemas de refrigeración comercial (Independiente, unidades condensadoras, y sistemas de pequeño y medio tamaño)"}, "carga":{"nombre":"0.1-200"},"alternativas":[{"id":1,"nombre":"R-404A"},{"id":2,"nombre":"HFC-134a"},{"id":3,"nombre":"HC-290"},{"id":4,"nombre":"R-407A"},{"id":5,"nombre":"R-744"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Sistemas de distribución grande"}, "carga":{"nombre":"250-5,000"},"alternativas":[{"id":1,"nombre":"R-717"},{"id":2,"nombre":"R-507A"},{"id":3,"nombre":"R-404A"},{"id":4,"nombre":"R-744"},{"id":5,"nombre":"HCs"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Sistemas Industriales (Chillers)"}, "carga":{"nombre":"100-2,000"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"R-410A"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Transportes refrigerados (contenedores y barcos)"}, "carga":{"nombre":"1-1,000"},"alternativas":[{"id":1,"nombre":"R-404A"},{"id":2,"nombre":"HFC-134a"},{"id":3,"nombre":"R-744"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]}
+        ],
+        "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
+        "SubsectorTabla4":[{"id":"1","nombre":'Aislamiento de Refrigeración Doméstica'}, {"id":"2","nombre":'Aislamiento en otra aplicación'}, {"id":"3","nombre":'HCContenedores Refrigerados'},{"id":"4","nombre":'Tableros'},{"id":"5","nombre":'Panel Continuo'},{"id":"6","nombre":'Panel Discontinuo'},{"id":"7","nombre":'Espuma en espray'},{"id":"8","nombre":'Tubería en tubería'},{"id":"9","nombre":'Bloques '},{"id":"10","nombre":'Bloques de Poliuretano'},{"id":"11","nombre":'Espuma: polietileno extruido '}],
+        "Tabla5":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 (agua) "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 (agua) "},{"id":6,"nombre":"Supercrítico CO2"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 (agua) "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
+           ],
+        "SubsectorTabla7":[{"id":"1","nombre":'Aire Acondicionado Automotriz'}, {"id":"2","nombre":'Domestica'}, {"id":"3","nombre":'Commercial '},{"id":"4","nombre":'Industrial'},{"id":"5","nombre":'Transporte'},{"id":"6","nombre":'Aire Acondicionado estacionario'}],
+        "Tabla9":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Aire acondicionado de Habitaciones (incluidos pequeños aire acondicionado split)"}, "carga":{"nombre":"0.2-3"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"HFC-32 "},{"id":4,"nombre":"HC-290"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Otros Aires Acondicionados (incluyendo splits, multi-splits y sistemas de flujo de refrigerante variable, conductos y paquetes de azotea) "}, "carga":{"nombre":"3-100 "},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"HC-290 "},{"id":5,"nombre":"CO2"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Chillers (pequeños, medianos y grandes enfriados por agua)"}, "carga":{"nombre":"500-13,000"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HC-290 "},{"id":4,"nombre":"HC-1270 "},{"id":5,"nombre":"HFC-134a  "},{"id":6,"nombre":"HFC-32 "},{"id":7,"nombre":"R-717 "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Bombas de Calor (calefacción de locales por bombas de calor (aire-agua) y bomba de calor domestica de agua caliente enfriada por aire"}, "carga":{"nombre":"3-6"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-744 "},{"id":3,"nombre":"HFC-134a "}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Gran sistema de calefacción urbana"}, "carga":{"nombre":"250-7,000 "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"R-717 "}]}
+        ],
+        "Tabla12":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 (agua) "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 (agua) "},{"id":6,"nombre":"Supercrítico CO2"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 (agua) "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
+        ],
+        "SustanciasTabla6":[{"id":"1","nombre":'HFC-134a'}, {"id":"2","nombre":'R-404A/R-507 '}, {"id":"3","nombre":'R-407C  '},{"id":"4","nombre":'R-410A '},{"id":"5","nombre":'Otros de Bajo-GWP '}],
+        "Tabla3Anexo2":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"HFC"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"HFC-32"},{"id":3,"nombre":"HFC-152a "},{"id":4,"nombre":"HFC-245fa"},{"id":5,"nombre":"HFC-227ea/HFC-365mfc"}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"HFC Mezclas"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"R-404A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-410A "},{"id":4,"nombre":"R-507A "}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"HFO"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"HFO-1234yf "},{"id":2,"nombre":"HFO-1234ze "},{"id":3,"nombre":"HFO-1233zd  "},{"id":4,"nombre":"HFO-1336mzzm "}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Otras alternativas"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"Metil formato"},{"id":2,"nombre":"Metilal"},{"id":3,"nombre":"Etanol"},{"id":4,"nombre":"DME"},{"id":5,"nombre":"HC-290 "},{"id":6,"nombre":"HC-600a "},{"id":7,"nombre":"R-744 "},{"id":8,"nombre":"R-717"},{"id":6,"nombre":"HC-600a "},{"id":6,"nombre":"HC-600a "}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
+        ],
+        "Tabla11A":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (AAV)"}, "carga":{"nombre":"2-7/1.32-4.63"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (Portatil)"}, "carga":{"nombre":"2-7/1.32-4.63"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (Deshumidificadores)"}, "carga":{"nombre":"2-7/1.32-4.63"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Mini Split (Cassete)"}, "carga":{"nombre":"2-12/1.32-7.94"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Mini Split (Ocultos)"}, "carga":{"nombre":"2-12/1.32-7.94"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
+            {"id":6,"aplicacion":{"id":1,"nombre":"Mini Split (Otros)"}, "carga":{"nombre":"2-12/1.32-7.94"},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
+            {"id":7,"aplicacion":{"id":1,"nombre":"Split"}, "carga":{"nombre":"10-150/6.62-99.33"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A"},{"id":3,"nombre":"R-32 "}]},
+            {"id":8,"aplicacion":{"id":1,"nombre":"Multi-split "}, "carga":{"nombre":"10-150/6.62-99.33"},"alternativas":[{"id":1,"nombre":"R-407C"},{"id":2,"nombre":"R-410A"},{"id":3,"nombre":"R-32 "}]},
+            {"id":9,"aplicacion":{"id":1,"nombre":"Sistemas de flujo de refrigerante variable"}, "carga":{"nombre":"10-150/6.62-99.33"},"alternativas":[{"id":1,"nombre":"R-407C"},{"id":2,"nombre":"R-410A"},{"id":3,"nombre":"R-32 "}]},
+            {"id":10,"aplicacion":{"id":1,"nombre":"Consolas"}, "carga":{"nombre":"12-200/7.94-132.45"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"CO2 "}]},
+            {"id":11,"aplicacion":{"id":1,"nombre":"Rooftop"}, "carga":{"nombre":"12-200/7.94-132.45"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"CO2 "}]},
+            {"id":12,"aplicacion":{"id":1,"nombre":"Chillers pequeños "}, "carga":{"nombre":"50-750/33.11-496.68"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HC-290 "},{"id":4,"nombre":"HC-1270 "}]},
+            {"id":13,"aplicacion":{"id":1,"nombre":"Chillers medianos enfriados por agua "}, "carga":{"nombre":"50-750/33.11-496.68"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HC-290 "},{"id":4,"nombre":"HC-1270 "}]},
+            {"id":14,"aplicacion":{"id":1,"nombre":"Chillers grandes enfriados por agua "}, "carga":{"nombre":"750-10,000/496.68-6622.51 "},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a  "},{"id":4,"nombre":"HFC-32  "},{"id":5,"nombre":"R-717 "}]},
+            {"id":15,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en autos y pequeños vans"}, "carga":{"nombre":"3-5/1.98-3.31"},"alternativas":[{"id":1,"nombre":"HFO-1234yf"},{"id":2,"nombre":"HFC-134a "}]},
+            {"id":16,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en CAMIONES REFERENCIA A CABINAS"}, "carga":{"nombre":"3-5/1.98-3.31"},"alternativas":[{"id":1,"nombre":"HFO-1234yf"},{"id":2,"nombre":"HFC-134a "}]},
+            {"id":17,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en TRACTORES REFERENCIA A CABINAS"}, "carga":{"nombre":"3-5/1.98-3.31"},"alternativas":[{"id":1,"nombre":"HFO-1234yf"},{"id":2,"nombre":"HFC-134a "}]},
+            {"id":18,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (OMNIBUS)"}, "carga":{"nombre":"10-30/6.62-19.86"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
+            {"id":19,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (MINIOMNIBUS)"}, "carga":{"nombre":"10-30/6.62-19.86"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
+            {"id":20,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (TRENES)"}, "carga":{"nombre":"10-30/6.62-19.86"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
+            {"id":21,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            {"id":22,"aplicacion":{"id":1,"nombre":"Refrigeradores freezer"}, "carga":{"nombre":"0.1-0.5/0.06-0.33"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            {"id":23,"aplicacion":{"id":1,"nombre":"Los equipos autónomos de refrigeración comercial"}, "carga":{"nombre":"0.1-1,000/0.06-662.25"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"HC-290 "}]},
+            ],
+        "Tabla11B":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Refrigeradores freezer"}, "carga":{"nombre":"0.1-0.5/0.06-0.33"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Los equipos autónomos de refrigeración comercial"}, "carga":{"nombre":"0.1-1,000/0.06-662.25"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"HC-290 "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Los grandes sistemas de refrigeración industrial"}, "carga":{"nombre":"100-5,000/66.22-3311.25 (poner 50)"},"alternativas":[{"id":1,"nombre":"R-717 "},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"R-507A "},{"id":4,"nombre":"HCs "}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Sistemas de Chiller Industrial "}, "carga":{"nombre":"200-5,000/132.45-3311.25 "},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]},
+            {"id":6,"aplicacion":{"id":1,"nombre":"Vehículos de carretera refrigerados en el sector del transporte refrigerado"}, "carga":{"nombre":"3-10/1.98-6.62"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "}]},
+            {"id":7,"aplicacion":{"id":1,"nombre":"Los contenedores refrigerados en  el transporte (estaticos)"}, "carga":{"nombre":"5-15/3.31-9.93"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"R-744"}]},
+            {"id":8,"aplicacion":{"id":1,"nombre":"Sistemas de refrigeración por barcos"}, "carga":{"nombre":"40-2000/26.49-1324.50 "},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"R-717 "}]},
+            ],
+        "Tabla10A":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Carros y pequeños vans"}, "carga":{"nombre":"0.4-0.8 "},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"HFO-1234yf "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":" Vehículos grandes"}, "carga":{"nombre":"2.0-10.0 "},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-410A"},{"id":3,"nombre":"R-407C "}]},
+        ],
+        "Tabla10B":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Camiones y Rastras Refrigeradas"},"alternativas":[{"id":1,"nombre":"HFC-404A"},{"id":2,"nombre":"HFO-1234ze"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Contenedores Refrigerados"},"alternativas":[{"id":1,"nombre":"HFC-404A"},{"id":2,"nombre":"HFO-1234ze"}]},
+            ],
+        "Tabla13":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Limpieza de Metales"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Limpieza para la electrónica"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Limpieza de precisión"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+           ]
+
+
+    }
+})
+
+
+
+
+.factory('Util', function() {
+    return {
+
+        /**
+         * Fusiona 2 objetos
+         * @returns {{}}
+         */
+        "collect": function() {
+            var ret = {};
+            var len = arguments.length;
+            for (var i = 0; i < len; i++) {
+                for (p in arguments[i]) {
+                    if (arguments[i].hasOwnProperty(p)) {
+                        ret[p] = arguments[i][p];
+                    }
+                }
+            }
+            return ret;
+        }
+    };
+})
+
+.factory("modalsTemplate", function() {
+    return {
+        "general1": "general1",
+        "general2": "general2"
+    }
+})
+
+.factory("Menu", function() {
+    return {
+        "nombre": "SAO",
+        "items": [{
+            "nombre": "general",
+            "items": [{
+                "nombre": "general1",
+                "items": []
+            }, {
+                "nombre": "general2",
+                "items": []
+            }]
+        }, {
+            "nombre": "espuma",
+            "items": [{
+                "nombre": "espuma1",
+                "items": []
+            }, {
+                "nombre": "espuma2",
+                "items": []
+            }]
+        }]
+    }
+
+    ;
+}).
+    factory("SubMenu", function() {
+        return {
+            "display": "SAO",
+            "children": [{
+                "display": "general",
+                "children": [{
+                    "display": "general1",
+                    "children": []
+                }, {
+                    "display": "general2",
+                    "children": []
+                }]
+            }, {
+                "display": "espuma",
+                "children": [{
+                    "display": "espuma1",
+                    "children": []
+                }, {
+                    "display": "espuma2",
+                    "children": []
+                }]
+            }]
+        }
+
+            ;
+    }).
+
+factory('RecursionHelper', ['$compile',
+    function($compile) {
+        return {
+            /**
+             * Manually compiles the element, fixing the recursion loop.
+             * @param element
+             * @param [link] A post-link function, or an object with function(s) registered via pre and post properties.
+             * @returns An object containing the linking functions.
+             */
+            compile: function(element, link) {
+                // Normalize the link parameter
+                if (angular.isFunction(link)) {
+                    link = {
+                        post: link
+                    };
+                }
+
+                // Break the recursion loop by removing the contents
+                var contents = element.contents().remove();
+                var compiledContents;
+                return {
+                    pre: (link && link.pre) ? link.pre : null,
+                    /**
+                     * Compiles and re-adds the contents
+                     */
+                    post: function(scope, element) {
+                        // Compile the contents
+                        if (!compiledContents) {
+                            compiledContents = $compile(contents);
+                        }
+                        // Re-add the compiled contents to the element
+                        compiledContents(scope, function(clone) {
+                            element.append(clone);
+                        });
+
+                        // Call the post-linking function, if any
+                        if (link && link.post) {
+                            link.post.apply(null, arguments);
+                        }
+                    }
+                };
+            }
+        };
+    }
+]);
