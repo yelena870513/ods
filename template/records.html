@@ -6,6 +6,8 @@
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li role="menuitem"><a  data-ng-click="Set()">Datos generales</a></li>
+                <li role="menuitem"><a  data-ng-click="Save()">Salvar Todo</a></li>
+                <li role="menuitem"><a  data-ng-click="Export()">Salvar PDF</a></li>
 
             </ul>
         </div>
@@ -81,7 +83,7 @@
             </ul>
         </div>
     </div>
-    <section class="content" >
+    <section class="content" id="table-data">
         <div data-ng-show="table.columns.length>0">
             <h4>Formulario: {{table.title  }}</h4>
             <table class="table table-bordered">

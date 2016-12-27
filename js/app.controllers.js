@@ -415,6 +415,23 @@ angular.module('app.sao')
              $cookies.remove('user');
         };
 
+        $scope.Export = function () {
+          html2canvas(document.getElementById('table-data'),{
+              onrendered:function (canvas) {
+                  var data = canvas.toDataURL();
+                  var docDefinition = {
+                      content:[
+                          {
+                              image:data,
+                              width:500
+                          }
+                      ]
+                  };
+                  pdfMake.createPdf(docDefinition).download("exportable.pdf");
+              }
+          });
+        };
+
         init();
 
 
@@ -422,10 +439,11 @@ angular.module('app.sao')
     .controller("reportController", function($scope, SAO, Manager, $uibModal) {
         //Este controlador es para los reportes.
     })
-    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$cookies,$location) {
+    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$cookies,$location,$timeout) {
         //Controlador para los charts
 
         var charting = '';
+        $scope.user = undefined;
         $scope.records= [];
         $scope.bar = {
             "labels":[],
@@ -647,7 +665,13 @@ angular.module('app.sao')
             var user = $cookies.get('user');
             if(user==undefined)
             {
-                $location.path('/login');
+
+                $timeout(function () {
+                    $location.path('/login');
+                },300);
+            }
+            else{
+                $scope.user  = user;
             }
         }
 
@@ -811,7 +835,7 @@ angular.module('app.sao')
                     // $scope.record.sectores = SAO.Sectores[1];
                     // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
                     $scope.record.Alternativa = SAO.Tabla5[0].alternativas[0];
-                    $scope.year = 2010;
+                    $scope.year = 2011;
 
                     break;
                 case 'importaciones1':
@@ -875,7 +899,7 @@ angular.module('app.sao')
 
         $scope.ShowTabla5 = function(){
             selectedTabla5 = $scope.Tabla5R;
-            $scope.record.aplicacion = selectedTabla5.aplicacion;
+            $scope.record.Alternativa = selectedTabla5.alternativas[0];
         };
 
         //Modal Tabla 9
@@ -976,7 +1000,7 @@ angular.module('app.sao')
         }
 
     })
-    .controller('userController',function ($scope, Manager, $uibModal,$location,$cookies) {
+    .controller('userController',function ($scope, Manager, $uibModal,$location,$cookies,$timeout) {
         $scope.users = [];
         $scope.user = undefined;
         $scope.User = function (user,size) {
@@ -1052,10 +1076,14 @@ angular.module('app.sao')
         function init()
         {
            $scope.user = $cookies.get('user');
-            if($scope.user==undefined)
-            {
-                $location.path('/login');
-            }
+
+            $timeout(function () {
+                if($scope.user==undefined)
+                {
+                    $location.path('/login');
+                }
+            },500);
+
         }
 
         init();

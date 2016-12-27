@@ -1,7 +1,18 @@
 'use strict';
 //fs y ws son los manager para guardar en fichero la base de datos una vez terminado de gestionar todo.
 var fs = require('fs');
+// var sender = require('electron').ipcRenderer;
+// var os = require('os');
+// var path = require('path');
+// var electron = require('electron');
+// var ipc = electron.ipcMain;
+// var BrowserWindow = electron.BrowserWindow;
+// var pdfPath = path.join('data/', 'print.pdf');
+// var win = BrowserWindow.fromWebContents({});
+// // var ipc = electron.ipcMain;
+// var shell = electron.shell;
 var ws = fs.createWriteStream('data/sao.json');
+
 
 
 angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngCookies']).config(function ($stateProvider, $urlRouterProvider) {

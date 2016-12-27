@@ -1,6 +1,6 @@
 angular.module('app.sao').
 
-factory('Manager', function(pouchDB) {
+factory('Manager', function(pouchDB,$q) {
 
     var manager = {};
     var db = pouchDB('sao', {
@@ -100,6 +100,22 @@ factory('Manager', function(pouchDB) {
         catch (function(err) {
             console.log(err);
         });
+
+    };
+
+    manager.pdf = function (html) {
+        // sender.send('print-to-pdf');
+        // var d  = $q.defer();
+        // win.webContents.printToPDF({}, function (error, data){
+        //     if(error){d.reject('error launching');throw error;}
+        //     fs.writeFile(pdfPath,html,function (error) {
+        //         if(error){d.reject('error wrtiting');throw error;}
+        //         shell.openExternal('file://' + pdfPath);
+        //         d.resolve('ok');
+        //     })
+        // });
+        //
+        // return d.promise;
 
     };
 

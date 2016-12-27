@@ -1,4 +1,4 @@
-<div class="container ">
+<div class="container " data-ng-show="user">
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <div class="btn-group" uib-dropdown is-open="status.isopen">
             <button id="single-button-datos" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
@@ -82,6 +82,9 @@
         </div>
     </div>
     <section class="content">
+        Usuario {{user.username}}
+    </section>
+    <section class="content">
         <!--<div class="row">-->
             <!--<div class="col-md-12" data-ng-show="bar.show">-->
                 <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series" data-chart-options="bar.options">
@@ -98,12 +101,4 @@
             </div>
         </div>
     </section>
-    <!--<section class="content">-->
-        <!--<div class="row">-->
-            <!--<div class="col-md-12">-->
-                <!--<canvas id="line" class="chart chart-line" data-chart-data="line.data"    data-chart-labels="line.labels" data-chart-series="line.series" data-chart-options="line.options" data-chart-dataset-override="line.datasetOverride">-->
-                <!--</canvas>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</section>-->
 </div>
