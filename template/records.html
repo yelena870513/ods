@@ -2,7 +2,7 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <div class="btn-group" uib-dropdown is-open="status.isopen">
             <button id="single-button-datos" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-                General <span class="caret"></span>
+                Ajustes <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li role="menuitem"><a  data-ng-click="Set()">Datos generales</a></li>
@@ -15,6 +15,7 @@
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li role="menuitem"><a data-ng-click="SelectModal('general1')" >Uso general alternativas a las SAO en la actualidad</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('general3')" >Sectores y subsectores donde se usan alternativas de ODS actualmente</a></li>
                 <!--<li role="menuitem"><a data-ng-click="SelectModal('general2')">General 2</a></li>-->
             </ul>
         </div>
@@ -80,29 +81,6 @@
             </ul>
         </div>
     </div>
-    <!--<section class="content">-->
-        <!--<div class="box box-default">-->
-            <!--<div class="box-header with-border">-->
-
-                <!--<div class="box-body">-->
-                    <!--<div class="row">-->
-                        <!--&lt;!&ndash;<div class="col-lg-9 sidebar">&ndash;&gt;-->
-
-                                <!--&lt;!&ndash;&lt;!&ndash;<div tree data-ng-model="menu" data-handler="SelectModal"></div>&ndash;&gt;&ndash;&gt;-->
-                            <!--&lt;!&ndash;&lt;!&ndash;<ul class="sidebar-menu" ng-include="treeTemplate">&ndash;&gt;&ndash;&gt;-->
-
-                            <!--&lt;!&ndash;&lt;!&ndash;</ul>&ndash;&gt;&ndash;&gt;-->
-
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--<div class="col-md-12">-->
-                            <!--<button class="btn btn-primary" data-ng-click="Set()">Configurar</button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</section>-->
     <section class="content" >
         <div data-ng-show="table.columns.length>0">
             <h4>Formulario: {{table.title  }}</h4>
@@ -124,7 +102,10 @@
                 </tr>
                 </tbody>
             </table>
+            <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
+            <!--<button class="btn btn-primary" data-ng-click="Save()">Salvar</button>-->
         </div>
-        <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
+
     </section>
+
 </div>

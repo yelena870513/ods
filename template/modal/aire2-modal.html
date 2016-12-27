@@ -58,13 +58,11 @@
                         <input id="amount" class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
                         <ul class="list-group">
                             <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
-                                {{el.anno}} -- {{el.tons}}
+                                <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice(el,1)"></i>
                             </li>
                         </ul>
 
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="ConsumoYear(year,amount)">
-                            Adicionar
-                        </button>
+                        <i  class="fa fa-plus"  data-ng-click="ConsumoYear(year,amount)" title="Adicionar"> </i>
                     </div>
 
                 </div>

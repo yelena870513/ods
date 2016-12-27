@@ -467,9 +467,17 @@ factory('Manager', function(pouchDB) {
             {"id":3,"aplicacion":{"id":1,"nombre":"Sistemas de distribución grande"}, "carga":{"nombre":"250-5,000"},"alternativas":[{"id":1,"nombre":"R-717"},{"id":2,"nombre":"R-507A"},{"id":3,"nombre":"R-404A"},{"id":4,"nombre":"R-744"},{"id":5,"nombre":"HCs"}]},
             {"id":4,"aplicacion":{"id":1,"nombre":"Sistemas Industriales (Chillers)"}, "carga":{"nombre":"100-2,000"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"R-410A"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]},
             {"id":5,"aplicacion":{"id":1,"nombre":"Transportes refrigerados (contenedores y barcos)"}, "carga":{"nombre":"1-1,000"},"alternativas":[{"id":1,"nombre":"R-404A"},{"id":2,"nombre":"HFC-134a"},{"id":3,"nombre":"R-744"},{"id":4,"nombre":"R-717"},{"id":5,"nombre":"HCs"}]}
-<<<<<<< HEAD
-        ]
-=======
+        ],
+        "Tabla2":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Aerosol"},"alternativas":[{"id":1,"nombre":"Propelente"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Espuma: poliuretano "}, "alternativas":[{"id":1,"nombre":"Aislamiento de Refrigeración Doméstica"},{"id":2,"nombre":"Propelente"},{"id":3,"nombre":"Contenedores Refrigerados"},{"id":4,"nombre":"Tableros"},{"id":5,"nombre":"Panel Continuo "},{"id":6,"nombre":"Panel Discontinuo"},{"id":7,"nombre":"Espuma en Espray "},{"id":8,"nombre":"Tubería en Tubería "},{"id":9,"nombre":"Bloques"},{"id":10,"nombre":"Bloques de poliuretano "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Espuma: polietileno extruido"}, "alternativas":[{"id":1,"nombre":" "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Extintores"}, "alternativas":[{"id":1,"nombre":" "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":5,"aplicacion":{"id":1,"nombre":"Refrigeración"}, "alternativas":[{"id":1,"nombre":"Refrigeradores domésticos y Freezers/ Otras aplicaciones"},{"id":2,"nombre":"Refrigeración Comercial"},{"id":3,"nombre":"Equipos Autónomos"},{"id":4,"nombre":"Unidades Condensadoras"},{"id":5,"nombre":"Sistemas Centralizados"},{"id":6,"nombre":"Transporte"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":6,"aplicacion":{"id":1,"nombre":"Refrigeración: Aire Acondicionado automotriz"}, "alternativas":[{"id":1,"nombre":"Automóviles, Transporte Público"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":7,"aplicacion":{"id":1,"nombre":"Refrigeración: chillers "}, "alternativas":[{"id":1,"nombre":"Desplazamiento Positivo"},{"id":2,"nombre":"Centrífugo"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":8,"aplicacion":{"id":1,"nombre":"Acondicionadores de Aire"}, "alternativas":[{"id":1,"nombre":"Pequeño Autónomo"},{"id":2,"nombre":"Mini-split "},{"id":3,"nombre":"Multi-split "},{"id":4,"nombre":"Split comercial con conductos"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":9,"aplicacion":{"id":1,"nombre":"Solventes"}, "alternativas":[{"id":1,"nombre":" "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
         ],
         "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
         "SubsectorTabla4":[{"id":"1","nombre":'Aislamiento de Refrigeración Doméstica'}, {"id":"2","nombre":'Aislamiento en otra aplicación'}, {"id":"3","nombre":'HCContenedores Refrigerados'},{"id":"4","nombre":'Tableros'},{"id":"5","nombre":'Panel Continuo'},{"id":"6","nombre":'Panel Discontinuo'},{"id":"7","nombre":'Espuma en espray'},{"id":"8","nombre":'Tubería en tubería'},{"id":"9","nombre":'Bloques '},{"id":"10","nombre":'Bloques de Poliuretano'},{"id":"11","nombre":'Espuma: polietileno extruido '}],
@@ -550,7 +558,6 @@ factory('Manager', function(pouchDB) {
            ]
 
 
->>>>>>> remotes/ytre/dev
     }
 })
 
