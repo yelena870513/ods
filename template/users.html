@@ -1,0 +1,25 @@
+<div class="container">
+    <section class="content" >
+            <h4>Usuarios</h4>
+            <table class="table table-bordered">
+                <thead>
+                <tr >
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="user in users track by $index">
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td>
+                        <i title="Editar" class="fa fa-edit" data-ng-click="User(user)"></i>
+                        <i title="Eliminar" class="fa fa-trash-o" data-ng-click="Delete(user)"></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" data-ng-click="User()">Adicionar</button>
+    </section>
+</div>

@@ -1,5 +1,5 @@
 angular.module('app.sao')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu) {
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$cookies) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
         //DB en memoria
@@ -338,7 +338,6 @@ angular.module('app.sao')
             });
         };
 
-
         $scope.Set = function(size) {
             var instance = $uibModal.open({
                 animation: true,
@@ -412,6 +411,10 @@ angular.module('app.sao')
             FetchRecords($scope.table.name);
         };
 
+        $scope.LogOut = function () {
+             $cookies.remove('user');
+        };
+
         init();
 
 
@@ -419,8 +422,9 @@ angular.module('app.sao')
     .controller("reportController", function($scope, SAO, Manager, $uibModal) {
         //Este controlador es para los reportes.
     })
-    .controller("chartController", function ($scope, SAO, Manager, $uibModal) {
+    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$cookies,$location) {
         //Controlador para los charts
+
         var charting = '';
         $scope.records= [];
         $scope.bar = {
@@ -436,60 +440,7 @@ angular.module('app.sao')
             "options":{},
             "show":false
 
-        }
-
-        // FetchRecords(charting);
-        // CargarDatos();
-        //Bar chart
-
-        // $scope.bar = {
-        //     "labels":['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-        //     "series":['OSDE 1', 'OSDE 2'],
-        //     "data": [
-        //         [65, 59, 80, 81, 56, 55, 40],
-        //         [28, 48, 40, 19, 86, 27, 90]
-        //     ]
-        // };
-
-        $scope.pie = {
-            "labels":["SAO 1", "SAO 2", "SAO 3"],
-            "data": [  300, 500, 100 ],
-            "options":{}
-
-        }
-
-        ;
-
-        // $scope.line = {
-        //     "labels": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"],
-        //     "data": [
-        //         [65, 59, 80, 81, 56, 55, 40],
-        //         [28, 48, 40, 19, 86, 27, 90]
-        //     ],
-        //     "series":["CITMA","MICOM"],
-        //     "options":{
-        //         scales: {
-        //             yAxes: [
-        //                 {
-        //                     id: 'y-axis-1',
-        //                     type: 'linear',
-        //                     display: true,
-        //                     position: 'left'
-        //                 },
-        //                 {
-        //                     id: 'y-axis-2',
-        //                     type: 'linear',
-        //                     display: true,
-        //                     position: 'right'
-        //                 }
-        //             ]
-        //         }
-        //     },
-        //     "datasetOverride": [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }]
-        // }
-        //
-        //
-        // ;
+        };
 
         $scope.SelectChart= function (chart) {
             charting = chart;
@@ -504,8 +455,7 @@ angular.module('app.sao')
                     return el.tipo == $scope.table.name;
                 });
 
-                // if ($scope.table.records.length > 0)
-                // {
+
                 var data=$scope.columns.filter(function (el) {
                     return el.tipo==$scope.table.name;
                 })[0];
@@ -513,10 +463,6 @@ angular.module('app.sao')
                 $scope.table.columns = data.fields;
                 $scope.table.title = data.nombre;
 
-                // } else
-                //     {
-                //     $scope.table.columns = [];
-                // }
 
 
 
@@ -533,7 +479,7 @@ angular.module('app.sao')
         };
 
         function FetchRecords(name) {
-            Manager.record(name).then(function(data) {
+          return  Manager.record(name).then(function(data) {
                 console.log(data);
                 $scope.records = data.rows.map(function(el) {
                     return el.doc;
@@ -578,28 +524,20 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.bar = {
+                    $scope.bar =
+                    {
                         "labels":['2010', '2015', '2020', '2025','2030'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
                         options: {
-                            title:{
-                                display:true,
-                                text:"Espuma 1"
+                            legend: {
+                                display: true,
+                                position: 'top'
                             },
-                            tooltips: {
-                                mode: 'index',
-                                intersect: false
-                            },
-                            responsive: true,
-                            scales: {
-                                xAxes: [{
-                                    stacked: true
-                                }],
-                                yAxes: [{
-                                    stacked: true
-                                }]
+                            title: {
+                                display: true,
+                                text: 'Espuma 1'
                             }
 
                         }
@@ -619,7 +557,16 @@ angular.module('app.sao')
                     $scope.pie = {
                         "labels":['2010', '2015', '2020', '2025','2030'],
                         "data": tableData,
-                        "options":{},
+                        "options":{
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Espuma 1'
+                            }
+                        },
                         "show":true
 
                     }
@@ -695,6 +642,16 @@ angular.module('app.sao')
                     break;
             }
         }
+
+        function init() {
+            var user = $cookies.get('user');
+            if(user==undefined)
+            {
+                $location.path('/login');
+            }
+        }
+
+        init();
 
 
 
@@ -970,6 +927,138 @@ angular.module('app.sao')
             $scope.record.aplicacion = selectedTabla13.aplicacion;
         }
 
+    })
+    .controller('loginController',function ($scope, Manager,$cookies,$location){
+        $scope.user = {
+            "username":"",
+            "password":"",
+            "email":"",
+            "tipo":"usuario"
+        };
+        $scope.users = [];
+        $scope.signinError = {};
+
+        $scope.SignIn = function (user)
+        {
+            if(user.username=='sao'){
+                $cookies.put('user',user);
+                $location.path('/home');
+            }
+            else{
+                Manager.record('usuario').
+                then(function (data)
+                {
+                    $scope.users = data.rows.map(function(el) {
+                        return el.doc;
+                    });
+                    var result =  _.findWhere($scope.users,user);
+                    if(result!=undefined)
+                    {
+                        $cookies.put('user',result);
+                        $location.path('/home');
+                    }
+                    else
+                    {
+                        $scope.signinError.content = reason;
+                        $scope.signinError.show = true;
+                        $scope.signinError.message = "Credenciales incorrectas";
+                    }
+                }).
+                catch(function (reason)
+                {
+                    $scope.signinError.content = reason;
+                    $scope.signinError.show = true;
+                    $scope.signinError.message = "Ha ocurrido un error";
+                })
+            }
+
+            ;
+        }
+
+    })
+    .controller('userController',function ($scope, Manager, $uibModal,$location,$cookies) {
+        $scope.users = [];
+        $scope.user = undefined;
+        $scope.User = function (user,size) {
+            var instance = $uibModal.open({
+                animation: true,
+                templateUrl: "template/modal/user-modal.html",
+                controller: function ($scope,Manager,user,$uibModalInstance) {
+                    $scope.user = user;
+                    $scope.Save= function (user) {
+                        user.tipo = "usuario";
+                        Manager.create(user).then(function(result) {
+                            //todo on success
+                            console.info(JSON.stringify(result));
+                            Finish();
+                        }).
+                        catch (function(reason) {
+                            //todo on fail
+                            console.warn(JSON.stringify(reason));
+                            Close();
+                        })
+                    };
+
+                    $scope.Close = function () {
+                        Close();
+                    };
+
+                    function Close() {
+                        $uibModalInstance.dismiss('cancel');
+                    }
+
+                    function Finish() {
+                        $uibModalInstance.close('close');
+                    }
+                },
+                size: size,
+                resolve: {
+                   user:function () {
+                       return user;
+                   }
+                }
+            });
+
+            instance.result.then(function(data) {
+                Refresh();
+            }, function(reason) {
+                console.warn(JSON.stringify(reason));
+            });
+        };
+
+        $scope.Delete = function (el) {
+            DeleteElement(el);
+        };
+
+        function Refresh()
+        {
+            Manager.record('usuario').then(function (data) {
+                $scope.users = data.rows.map(function(el) {
+                    return el.doc;
+                });
+            });
+        }
+
+        function DeleteElement(element) {
+            return Manager.delete(element).then(function(result) {
+                //todo on success
+                console.info(JSON.stringify(result));
+            }).
+            catch (function(reason) {
+                //todo on fail
+                console.warn(JSON.stringify(reason));
+            })
+        }
+        function init()
+        {
+           $scope.user = $cookies.get('user');
+            if($scope.user==undefined)
+            {
+                $location.path('/login');
+            }
+        }
+
+        init();
     })
 
 ;

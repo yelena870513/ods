@@ -1,4 +1,4 @@
-<div class="jumbotron ">
+<div class="container ">
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <div class="btn-group" uib-dropdown is-open="status.isopen">
             <button id="single-button-datos" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
@@ -82,13 +82,13 @@
         </div>
     </div>
     <section class="content">
-        <div class="row">
-            <div class="col-md-12" data-ng-show="bar.show">
-                <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series">
+        <!--<div class="row">-->
+            <!--<div class="col-md-12" data-ng-show="bar.show">-->
+                <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series" data-chart-options="bar.options">
                 </canvas>
-            </div>
+            <!--</div>-->
 
-        </div>
+        <!--</div>-->
     </section>
     <section class="content">
         <div class="row">
