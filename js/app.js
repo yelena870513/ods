@@ -24,21 +24,43 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngCoo
         templateUrl:'template/records.html',
         controller: "generalController"
     }).
+    ////Reportes
     state('list',{
         url:'/list',
         templateUrl:'template/reports.html',
         controller:'reportController'
-    }) . state('charts',{
+    }) .
+    state('list.general',{
+        url:'/general',
+        templateUrl:'template/data-table/general-table.html',
+        controller:'reportController'
+    }).
+    state('list.espuma',{
+        url:'/espuma',
+        templateUrl:'template/data-table/espuma-table.html',
+        controller:'reportController'
+    })
+
+
+        .
+
+
+
+    ///Graficas
+    state('charts',{
             url:'/charts',
             templateUrl:'template/charts.html',
             controller:'chartController'
         }).
+
+    ////Login
         state('login',
         {
         url:'/login',
         templateUrl:'template/login.html',
         controller:'loginController'
     }).
+        //Seguridad
         state('users',
         {
         url:'/users',

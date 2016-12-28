@@ -576,6 +576,41 @@ factory('Manager', function(pouchDB,$q) {
 
     }
 })
+    .factory('SType',function () {
+        return {
+            "general":["general1","general2","general3"],
+            "espuma":["espuma1","espuma2","espuma3"],
+            "aire":["aire1","aire2","aire3"],
+            "refri":["refri1","consumo"],
+            "aerosoles":["aerosoles"],
+            "importaciones":["importaciones1","importaciones1","importaciones1"],
+            "empresa":["empresa1","empresa2","empresa3"]
+        };
+    }).
+    factory('Columns',function () {
+    return        [
+        // "general":["provincia","ministerio","osde","empresa"],
+
+        {"fields":["sustancia", "sectores"],"nombre":"Uso general alternativas a las SAO en la actualidad","tipo":"general1"},
+        // {"fields":["alternativaHFC", "alternativaHFCMezclas", "alternativaHFO", "alternativaOtras", "ra"],"nombre":"i love my princes, i love her forever, God bless my princess", "tipo":"general2"},
+        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de Sao y Agentes soplantes en el sector de espuma","tipo":"espuma1"},
+        {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y Alternativas en Sub sector de Espumas","tipo":"espuma2"},
+        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y Refrigerantes Alternativos de SAO","tipo":"importaciones1"},
+        {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido", "tipo":"espuma3"},
+        {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
+        {"fields":["Aplicación","Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles ", "tipo":"aerosoles"},
+        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Refrigeracion Movil ", "tipo":"empresa2"},
+        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes", "tipo":"empresa3"},
+        {"fields":["Subsector", "Uso"],"nombre":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado","tipo":"aire1"},
+        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados", "tipo":"aire2"},
+        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) Y Sus Alternativas en el subsector de manufactura", "tipo":"consumo"},
+        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz", "tipo":"empresa1"},
+        {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración", "tipo":"refri"},
+        {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado", "tipo":"aire3"},
+        {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente", "tipo":"general3"}
+
+    ];
+})
 
 
 

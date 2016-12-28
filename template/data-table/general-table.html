@@ -1,0 +1,24 @@
+<div class="row" id="table-data">
+    <div class="col-lg-2"><button class="btn btn-success" data-ng-click="Export()">Exportar<i class="fa fa-file-pdf-o"></i></button></div>
+    <div class="col-lg-10">
+        <div data-ng-repeat="table in tables" class="row">
+            <div class="col-xs-12">
+                <div data-ng-show="table.columns.length>0&&table.records.length>0">
+                    <h4>Formulario: {{table.title  }}</h4>
+                    <table class="table table-bordered table table-striped table-hover">
+                        <thead>
+                        <tr >
+                            <th data-ng-repeat="col in table.columns">{{col  }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="record in table.records track by $index">
+                            <td data-ng-repeat="col in table.columns">{{record[col] | mainString }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

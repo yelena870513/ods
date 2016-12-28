@@ -1,5 +1,5 @@
 angular.module('app.sao')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$cookies) {
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$cookies, Columns) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
         //DB en memoria
@@ -23,29 +23,8 @@ angular.module('app.sao')
 
         //Definiciones de columnas por tipo de registro
         //Definiciones de columnas por tipo de registro
-        $scope.columns =
-            [
-                // "general":["provincia","ministerio","osde","empresa"],
+        $scope.columns =Columns;
 
-                {"fields":["sustancia", "sectores"],"nombre":"Uso general alternativas a las SAO en la actualidad","tipo":"general1"},
-                // {"fields":["alternativaHFC", "alternativaHFCMezclas", "alternativaHFO", "alternativaOtras", "ra"],"nombre":"i love my princes, i love her forever, God bless my princess", "tipo":"general2"},
-                {"fields":["Sustancia", "Uso"],"nombre":"Demanda de Sao y Agentes soplantes en el sector de espuma","tipo":"espuma1"},
-                {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y Alternativas en Sub sector de Espumas","tipo":"espuma2"},
-                {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y Refrigerantes Alternativos de SAO","tipo":"importaciones1"},
-                {"fields":["Subsector/aplicación","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido", "tipo":"espuma3"},
-                {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
-                {"fields":["Aplicación","Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles ", "tipo":"aerosoles"},
-                {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Refrigeracion Movil ", "tipo":"empresa2"},
-                {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes", "tipo":"empresa3"},
-                {"fields":["Subsector", "Uso"],"nombre":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado","tipo":"aire1"},
-                {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados", "tipo":"aire2"},
-                {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) Y Sus Alternativas en el subsector de manufactura", "tipo":"consumo"},
-                {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz", "tipo":"empresa1"},
-                {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración", "tipo":"refri"},
-                {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado", "tipo":"aire3"},
-                {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente", "tipo":"general3"}
-
-            ];
 
         $scope.records = Object.keys($scope.columns);
         //Informacion general
@@ -436,8 +415,130 @@ angular.module('app.sao')
 
 
     })
-    .controller("reportController", function($scope, SAO, Manager, $uibModal) {
+    .controller("reportController", function($scope, SAO, Manager, $uibModal,SType,Columns,$location,$timeout) {
         //Este controlador es para los reportes.
+
+        $scope.tables = [];
+        $scope.columns = Columns;
+        $scope.labels = Object.keys(SType);
+
+
+
+        $scope.ShowTable = function (table)
+        {
+           FetchTable(table);
+        };
+
+        $scope.Export = function ()
+        {
+            var hash = $location.path();
+
+            var current = $scope.labels.filter(function (la)
+            {
+                return hash.indexOf(la)!=-1;
+            })[0];
+
+            html2canvas(document.getElementById('table-data'),{
+                onrendered:function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content:[
+                            {
+                                image:data,
+                                width:500
+                            }
+                        ]
+                    };
+                    pdfMake.createPdf(docDefinition).download(current+".pdf");
+                }
+            });
+        };
+
+        function FetchTable(table)
+        {
+            var tableNames= SType[table];
+            tableNames.forEach(function (name)
+            {
+                Manager.record(name).then(function (data) {
+                    var dataColums=$scope.columns.filter(function (el) {
+                        return el.tipo==name;
+                    })[0];
+
+             if(dataColums!=undefined)
+             {
+                 $timeout(
+                     function () {
+
+                         var table = Format({
+                             "columns":dataColums.fields,
+                             "records":data.rows.map(function(el) {
+                                 return el.doc;
+                             }),
+                             "title":dataColums.nombre,
+                             "name":name
+                         });
+                        $scope.tables.push(table);
+                 },200)
+                ;
+
+             }
+
+
+                });
+            });
+
+        }
+
+        function Format(table) {
+
+            var tableData = table;
+            //format Uso
+            if(tableData.columns.indexOf("Uso")!=-1)
+            {
+                var keys = tableData.records[0].Uso.filter(function (u) {
+                    return u.anno;
+                }).map(function (j) {
+                    return j.anno;
+                });
+
+                var rows = tableData.records.map(function (m) {
+                    keys.forEach(function (k)
+                    {
+                        m[k] = m.Uso.filter(function (a) {
+                            return a.anno==k;
+                        })[0].tons;
+                    });
+                    delete m.Uso;
+                    return m;
+                });
+
+                tableData.columns = tableData.columns.filter(function (u) {
+                    return u!="Uso";
+                }).concat(keys);
+
+                tableData.rows = rows;
+            }
+            return tableData;
+
+
+        }
+
+        function init()
+        {
+            var hash = $location.path();
+
+            var current = $scope.labels.filter(function (la)
+            {
+                return hash.indexOf(la)!=-1;
+            })[0];
+
+            if(current!=undefined)
+            {
+                FetchTable(current);
+            }
+        }
+
+        init();
     })
     .controller("chartController", function ($scope, SAO, Manager, $uibModal,$cookies,$location,$timeout) {
         //Controlador para los charts
@@ -843,6 +944,11 @@ angular.module('app.sao')
                     $scope.year = 2010;
 
                     break;
+                case 'aire2':
+                    $scope.record.Alternativas = selectedTabla9.alternativas[0];
+                    $scope.year = 2011;
+
+                    break;
 
 
                 default:
@@ -899,6 +1005,7 @@ angular.module('app.sao')
 
         $scope.ShowTabla5 = function(){
             selectedTabla5 = $scope.Tabla5R;
+            $scope.record.Subsector = selectedTabla5.aplicacion;
             $scope.record.Alternativa = selectedTabla5.alternativas[0];
         };
 
@@ -907,7 +1014,8 @@ angular.module('app.sao')
         $scope.ShowTabla9 = function(){
             selectedTabla9 = $scope.Tabla9R;
             $scope.record.Carga = selectedTabla9.carga;
-            $scope.record.aplicacion = selectedTabla9.aplicacion;
+            $scope.record.Aplicaciones = selectedTabla9.aplicacion;
+            $scope.record.Alternativas = selectedTabla9.alternativas[0];
         };
 
         //Modal Tabla12

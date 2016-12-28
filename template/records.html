@@ -7,7 +7,7 @@
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li role="menuitem"><a  data-ng-click="Set()">Datos generales</a></li>
                 <li role="menuitem"><a  data-ng-click="Save()">Salvar Todo</a></li>
-                <li role="menuitem"><a  data-ng-click="Export()">Salvar PDF</a></li>
+                <li role="menuitem"><a  data-ui-sref="list">Salvar PDF</a></li>
 
             </ul>
         </div>
@@ -83,10 +83,10 @@
             </ul>
         </div>
     </div>
-    <section class="content" id="table-data">
+    <section class="content" >
         <div data-ng-show="table.columns.length>0">
             <h4>Formulario: {{table.title  }}</h4>
-            <table class="table table-bordered">
+            <table class="table table-bordered table table-striped table-hover">
                 <thead>
                 <tr >
                     <th data-ng-repeat="col in table.columns">{{col  }}</th>
@@ -104,10 +104,13 @@
                 </tr>
                 </tbody>
             </table>
-            <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
             <!--<button class="btn btn-primary" data-ng-click="Save()">Salvar</button>-->
+            <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
         </div>
 
+
     </section>
+
+
 
 </div>
