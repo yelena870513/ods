@@ -362,22 +362,12 @@ angular.module('app.sao')
                     return el.tipo == $scope.table.name;
                 });
 
-                // if ($scope.table.records.length > 0)
-                // {
                     var data=$scope.columns.filter(function (el) {
                         return el.tipo==$scope.table.name;
                     })[0];
 
                     $scope.table.columns = data.fields;
                     $scope.table.title = data.nombre;
-
-                // } else
-                //     {
-                //     $scope.table.columns = [];
-                // }
-
-
-
 
             } catch (err) {
                 //todo poner un modal aqui
@@ -493,31 +483,39 @@ angular.module('app.sao')
 
             var tableData = table;
             //format Uso
-            if(tableData.columns.indexOf("Uso")!=-1)
-            {
-                var keys = tableData.records[0].Uso.filter(function (u) {
-                    return u.anno;
-                }).map(function (j) {
-                    return j.anno;
-                });
-
-                var rows = tableData.records.map(function (m) {
-                    keys.forEach(function (k)
+           try{
+                    if(tableData.records.length>0)
                     {
-                        m[k] = m.Uso.filter(function (a) {
-                            return a.anno==k;
-                        })[0].tons;
-                    });
-                    delete m.Uso;
-                    return m;
-                });
+                        if(tableData.columns.indexOf("Uso")!=-1)
+                        {
+                            var keys = tableData.records[0].Uso.filter(function (u) {
+                                return u.anno;
+                            }).map(function (j) {
+                                return j.anno;
+                            });
 
-                tableData.columns = tableData.columns.filter(function (u) {
-                    return u!="Uso";
-                }).concat(keys);
+                            var rows = tableData.records.map(function (m) {
+                                keys.forEach(function (k)
+                                {
+                                    m[k] = m.Uso.filter(function (a) {
+                                        return a.anno==k;
+                                    })[0].tons;
+                                });
+                                delete m.Uso;
+                                return m;
+                            });
 
-                tableData.rows = rows;
-            }
+                            tableData.columns = tableData.columns.filter(function (u) {
+                                return u!="Uso";
+                            }).concat(keys);
+
+                            tableData.rows = rows;
+                        }
+                    }
+           }
+           catch (err){
+               console.warn(err);
+           }
             return tableData;
 
 

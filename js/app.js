@@ -1,16 +1,6 @@
 'use strict';
 //fs y ws son los manager para guardar en fichero la base de datos una vez terminado de gestionar todo.
 var fs = require('fs');
-// var sender = require('electron').ipcRenderer;
-// var os = require('os');
-// var path = require('path');
-// var electron = require('electron');
-// var ipc = electron.ipcMain;
-// var BrowserWindow = electron.BrowserWindow;
-// var pdfPath = path.join('data/', 'print.pdf');
-// var win = BrowserWindow.fromWebContents({});
-// // var ipc = electron.ipcMain;
-// var shell = electron.shell;
 var ws = fs.createWriteStream('data/sao.json');
 
 
@@ -38,6 +28,32 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngCoo
     state('list.espuma',{
         url:'/espuma',
         templateUrl:'template/data-table/espuma-table.html',
+        controller:'reportController'
+    }).
+    state('list.aire',{
+        url:'/aire',
+        templateUrl:'template/data-table/aire-table.html',
+        controller:'reportController'
+    }).
+    state('list.refri',{
+        url:'/refri',
+        templateUrl:'template/data-table/refri-table.html',
+        controller:'reportController'
+    }).
+        state('list.aerosoles',{
+            url:'/aerosoles',
+            templateUrl:'template/data-table/aerosoles-table.html',
+            controller:'reportController'
+        })
+        .
+        state('list.importaciones',{
+            url:'/importaciones',
+            templateUrl:'template/data-table/importaciones-table.html',
+            controller:'reportController'
+        }).
+    state('list.empresa',{
+        url:'/empresa',
+        templateUrl:'template/data-table/empresa-table.html',
         controller:'reportController'
     })
 
