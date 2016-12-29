@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Alternativas</label>
+                        <label>Alternativas:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="record.Alternativas"
                                 data-ng-options="item as item.nombre for item in Tabla9R.alternativas"
@@ -53,6 +53,8 @@
                         <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="year"
                                 data-ng-options="item as item for item in [2011,2012,2013,2014,2015]"></select>
+                        </div>
+                    <div class="form-group">
 
                         <label for="amount">Toneladas métricas:</label>
                         <input id="amount" class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
@@ -71,11 +73,10 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="Close()">
-            Cerrar
-        </button>
         <button type="button" class="btn btn-primary"  data-ng-click="Save()">
             Salvar
-        </button>
+        </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
+        Cerrar
+    </button>
     </div>
 </div>

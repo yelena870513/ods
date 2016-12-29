@@ -145,9 +145,6 @@ factory('Manager', function(pouchDB) {
 .factory("SAO", function() {
     return {
         "Provincias": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
             "id": "1",
             "nombre": 'Pinar del Río'
         }, {
@@ -194,9 +191,6 @@ factory('Manager', function(pouchDB) {
             "nombre": 'Isla de la Juventud'
         }],
         "Ministerio": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
             "id": "1",
             "nombre": 'Consejo de Administración Provincuial (CAP)'
         }, {
@@ -261,9 +255,6 @@ factory('Manager', function(pouchDB) {
             "nombre": 'Otros'
         }],
         "OSDE": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
             "id": "1",
             "nombre": 'OSDE1'
         }, {
@@ -271,9 +262,6 @@ factory('Manager', function(pouchDB) {
             "nombre": 'OSDE2'
         }],
         "Sustancias": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
             "id": "1",
             "nombre": 'Refrigerantes-Hidrocarburos'
         }, {
@@ -329,9 +317,6 @@ factory('Manager', function(pouchDB) {
             "nombre": 'R-404A '
         }],
         "Sectores": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
             "id": "1",
             "nombre": 'RAC '
         }, {
@@ -347,11 +332,8 @@ factory('Manager', function(pouchDB) {
             "id": "5",
             "nombre": 'Extintores '
         }],
-        "AlternativaHFC": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
-            "id": "1",
+        "AlternativaHFC": [
+            { "id": "1",
             "nombre": 'HFC-134a'
         }, {
             "id": "2",
@@ -366,10 +348,8 @@ factory('Manager', function(pouchDB) {
             "id": "5",
             "nombre": 'HFC-227ea/HFC-365mfc'
         }],
-        "AlternativaHFCMezclas": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
+        "AlternativaHFCMezclas": [
+           {
             "id": "1",
             "nombre": 'R-404A'
         }, {
@@ -383,9 +363,6 @@ factory('Manager', function(pouchDB) {
             "nombre": 'R-507A'
         }],
         "AlternativaHFO": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
             "id": "1",
             "nombre": 'HFO-1234yf'
         }, {
@@ -399,9 +376,6 @@ factory('Manager', function(pouchDB) {
             "nombre": 'HFO-1336mzzm'
         }],
         "AlternativaOtras": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
             "id": "1",
             "nombre": 'Metil formato'
         }, {
@@ -432,10 +406,8 @@ factory('Manager', function(pouchDB) {
             "id": "10",
             "nombre": 'R-717'
         }],
-        "RA": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
+        "RA": [
+            {
             "id": "1",
             "nombre": 'Fabricación '
         }, {
@@ -443,9 +415,6 @@ factory('Manager', function(pouchDB) {
             "nombre": 'Servicio'
         }],
         "SectoresAnexo": [{
-            "id": "0",
-            "nombre": 'Seleccione'
-        }, {
             "id": "1",
             "nombre": 'Espuma: poliuretano '
         }, {
@@ -461,6 +430,120 @@ factory('Manager', function(pouchDB) {
             "id": "5",
             "nombre": 'Extintores '
         }],
+        "SustanciasRefrigerante": [{ "id": "1",
+            "nombre": 'Refrigerantes-Hidrocarburos'
+        }, {
+            "id": "2",
+            "nombre": 'Agente de expansión-Hidrocarburos '
+        }, {
+            "id": "3",
+            "nombre": 'Metilformato'
+        }, {
+            "id": "4",
+            "nombre": 'Metilal'
+        }, {
+            "id": "5",
+            "nombre": 'CO2'
+        }, {
+            "id": "6",
+            "nombre": 'HFC-23 '
+        }, {
+            "id": "7",
+            "nombre": 'HFC-32 '
+        }, {
+            "id": "8",
+            "nombre": 'HFC-125 '
+        }, {
+            "id": "9",
+            "nombre": 'HFC-134a '
+        }, {
+            "id": "10",
+            "nombre": 'HFC-143a '
+        }, {
+            "id": "11",
+            "nombre": 'HFC-152a '
+        }, {
+            "id": "12",
+            "nombre": 'HFC-227ea '
+        }, {
+            "id": "13",
+            "nombre": 'HFC-245fa '
+        }, {
+            "id": "14",
+            "nombre": 'HFC-365mfc '
+        }, {
+            "id": "15",
+            "nombre": 'R-407C '
+        }, {
+            "id": "16",
+            "nombre": 'R-407F '
+        }, {
+            "id": "17",
+            "nombre": 'R-410A '
+        }, {
+            "id": "18",
+            "nombre": 'R-404A '
+        }],
+        "SustanciasAire": [{
+            "id": "1",
+            "nombre": 'Refrigerantes-Hidrocarburos'
+        }, {
+            "id": "2",
+            "nombre": 'Agente de expansión-Hidrocarburos '
+        }, {
+            "id": "3",
+            "nombre": 'Metilformato'
+        }, {
+            "id": "4",
+            "nombre": 'Metilal'
+        }, {
+            "id": "5",
+            "nombre": 'CO2'
+        }, {
+            "id": "6",
+            "nombre": 'HFC-23 '
+        }, {
+            "id": "7",
+            "nombre": 'HFC-32 '
+        }, {
+            "id": "8",
+            "nombre": 'HFC-125 '
+        }, {
+            "id": "9",
+            "nombre": 'HFC-134a '
+        }, {
+            "id": "10",
+            "nombre": 'HFC-143a '
+        }, {
+            "id": "11",
+            "nombre": 'HFC-152a '
+        }, {
+            "id": "12",
+            "nombre": 'HFC-227ea '
+        }, {
+            "id": "13",
+            "nombre": 'HFC-245fa '
+        }, {
+            "id": "14",
+            "nombre": 'HFC-365mfc '
+        }, {
+            "id": "15",
+            "nombre": 'R-407C '
+        }, {
+            "id": "16",
+            "nombre": 'R-407F '
+        }, {
+            "id": "17",
+            "nombre": 'R-410A '
+        }, {
+            "id": "18",
+            "nombre": 'R-404A '
+        }],
+        "OrgProduccion":[{"id":"1","nombre":'Brigada de trabajo fija'},{"id":"2","nombre":'Brigada de trabajo móvil'}, {"id":"3","nombre":'Individuo fijo '},{"id":"4","nombre":'Individuo móvil'}],
+        "TipoRefri":[{"id":"1","nombre":'Doméstica'},{"id":"2","nombre":'Comercial'},{"id":"3","nombre":'Industrial'},{"id":"4","nombre":'Móvil (Contenedores refrigerados)'}],
+        "TipoAire":[{"id":"1","nombre":'Doméstica (Ventana)'},{"id":"2","nombre":'Comercial (Split, consolas, etc)'},{"id":"3","nombre":'Acondicionado industrial (Enfriadoras de agua u otras sustancias)'},{"id":"4","nombre":'Móvil (Autos, guaguas, camiones, etc)'}],
+        // "CantRefriAire":[{"id":"1","nombre":'HCFC'},{"id":"2","nombre":'HFC'},{"id":"3","nombre":'Natural'}],
+        // "CantRefriRefri":[{"id":"1","nombre":'HCFC'},{"id":"2","nombre":'HFC'},{"id":"3","nombre":'Natural'}],
         "Aplicaciones8":[
             {"id":1,"aplicacion":{"id":1,"nombre":"Refrigeradores domesticos y freezers"}, "carga":{"nombre":"0.1-0.3"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HC-600a"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Sistemas de refrigeración comercial (Independiente, unidades condensadoras, y sistemas de pequeño y medio tamaño)"}, "carga":{"nombre":"0.1-200"},"alternativas":[{"id":1,"nombre":"R-404A"},{"id":2,"nombre":"HFC-134a"},{"id":3,"nombre":"HC-290"},{"id":4,"nombre":"R-407A"},{"id":5,"nombre":"R-744"}]},
@@ -479,12 +562,13 @@ factory('Manager', function(pouchDB) {
             {"id":8,"aplicacion":{"id":1,"nombre":"Acondicionadores de Aire"}, "alternativas":[{"id":1,"nombre":"Pequeño Autónomo"},{"id":2,"nombre":"Mini-split "},{"id":3,"nombre":"Multi-split "},{"id":4,"nombre":"Split comercial con conductos"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":9,"aplicacion":{"id":1,"nombre":"Solventes"}, "alternativas":[{"id":1,"nombre":" "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
         ],
-        "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
+        // "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
+        "SustanciasTabla3":[{"id":"1","nombre":'HCFC-141b '},{"id":"2","nombre":'HCFC-142b '}, {"id":"3","nombre":'HCFC-22 '},{"id":"4","nombre":'HCFC-245a '},{"id":"5","nombre":'HFC-365mfc/HFC-227ea '},{"id":"6","nombre":'HFC-134a/HFC-152a '},{"id":"7","nombre":'HFO/HCFO '},{"id":"8","nombre":'Hidrocarburos'},{"id":"9","nombre":'Otros'}],
         "SubsectorTabla4":[{"id":"1","nombre":'Aislamiento de Refrigeración Doméstica'}, {"id":"2","nombre":'Aislamiento en otra aplicación'}, {"id":"3","nombre":'HCContenedores Refrigerados'},{"id":"4","nombre":'Tableros'},{"id":"5","nombre":'Panel Continuo'},{"id":"6","nombre":'Panel Discontinuo'},{"id":"7","nombre":'Espuma en espray'},{"id":"8","nombre":'Tubería en tubería'},{"id":"9","nombre":'Bloques '},{"id":"10","nombre":'Bloques de Poliuretano'},{"id":"11","nombre":'Espuma: polietileno extruido '}],
         "Tabla5":[
-            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 (agua) "}]},
-            {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 (agua) "},{"id":6,"nombre":"Supercrítico CO2"}]},
-            {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 (agua) "}]},
+            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 "},{"id":6,"nombre":"Supercrítico CO2"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 "}]},
             {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
            ],
         "SubsectorTabla7":[{"id":"1","nombre":'Aire Acondicionado Automotriz'}, {"id":"2","nombre":'Domestica'}, {"id":"3","nombre":'Commercial '},{"id":"4","nombre":'Industrial'},{"id":"5","nombre":'Transporte'},{"id":"6","nombre":'Aire Acondicionado estacionario'}],
@@ -495,11 +579,15 @@ factory('Manager', function(pouchDB) {
             {"id":4,"aplicacion":{"id":1,"nombre":"Bombas de Calor (calefacción de locales por bombas de calor (aire-agua) y bomba de calor domestica de agua caliente enfriada por aire"}, "carga":{"nombre":"3-6"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-744 "},{"id":3,"nombre":"HFC-134a "}]},
             {"id":5,"aplicacion":{"id":1,"nombre":"Gran sistema de calefacción urbana"}, "carga":{"nombre":"250-7,000 "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"R-717 "}]}
         ],
+        // "Tabla12":[
+        //     {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 "}]},
+        //     {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 "},{"id":6,"nombre":"Supercrítico CO2"}]},
+        //     {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 "}]},
+        //     {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
+        // ],
         "Tabla12":[
-            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 (agua) "}]},
-            {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 (agua) "},{"id":6,"nombre":"Supercrítico CO2"}]},
-            {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 (agua) "}]},
-            {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
+            {"id":1,"aplicacion":{"id":1,"nombre":"Técnico/aerosol para consumidor"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"HFC-152a"},{"id":3,"nombre":"HFC-227ea "},{"id":4,"nombre":"Hidrocarburos"},{"id":5,"nombre":"DME "},{"id":6,"nombre":"HFO-1234ze"},{"id":7,"nombre":"CO2/N2/Air "},{"id":8,"nombre":"N2O "},{"id":9,"nombre":"No en un tipo de tecnolgia"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"MDI"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-227ea "}]},
         ],
         "SustanciasTabla6":[{"id":"1","nombre":'HFC-134a'}, {"id":"2","nombre":'R-404A/R-507 '}, {"id":"3","nombre":'R-407C  '},{"id":"4","nombre":'R-410A '},{"id":"5","nombre":'Otros de Bajo-GWP '}],
         "Tabla3Anexo2":[
@@ -555,7 +643,12 @@ factory('Manager', function(pouchDB) {
             {"id":1,"aplicacion":{"id":1,"nombre":"Limpieza de Metales"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Limpieza para la electrónica"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
             {"id":3,"aplicacion":{"id":1,"nombre":"Limpieza de precisión"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
-           ]
+           ],
+        "Taller":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"Limpieza de Metales"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Limpieza para la electrónica"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Limpieza de precisión"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
+        ],
 
 
     }

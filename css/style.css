@@ -5,6 +5,9 @@ a:focus {
 img.logo{
     width: 50%;
 }
+.badge {
+    margin-right: 20px;
+}
 .navbar {
     position: relative;
     min-height: 8px;

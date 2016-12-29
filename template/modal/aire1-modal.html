@@ -18,12 +18,14 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="">Consumo (toneladas métricas):</label>
+            <label >Consumo por año:</label>
             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                     data-ng-model="year"
                     data-ng-options="item as item for item in [2010,2015,2020,2030]"></select>
+            </div>
+        <div class="form-group">
 
-            <label for="">Toneladas:</label>
+            <label >Toneladas métricas:</label>
             <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
             <ul class="list-group">
                 <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
