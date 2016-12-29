@@ -1740,6 +1740,13 @@ angular.module('app.sao')
             Close();
         };
 
+        $scope.Finish = function() {
+            //TODO: reverse update in actions list
+            // console.log($scope.record);
+            Finish();
+        };
+
+
         $scope.LoadData = function (data) {
             if(data!=undefined){
                 Receive(data);
@@ -1766,7 +1773,7 @@ angular.module('app.sao')
                 $scope.error.show = true;
             }).finally(function () {
                 $scope.isLoading = false;
-            })
+            });
         }
 
 

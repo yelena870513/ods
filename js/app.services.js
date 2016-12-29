@@ -58,34 +58,57 @@ factory('Manager', function(pouchDB,$q) {
     };
 
     manager.from = function(path, options) {
-        // return db.replicate.from(database, options).$promise;
-        var remote = pouchDB(path);
+        var remote = pouchDB('sao-data',{ "adapter": "websql"});
         var d = $q.defer();
-        db.replicate.from(remote).on('complete',function (data) {
-            d.resolve('ok');
-        }).on('error',function (error) {
+        remote.load(path).then(function () {
+            db.replicate.from(remote).on('complete',function (data) {
+
+                d.resolve(data);
+            }).on('error',function (error) {
+                d.reject('error'+JSON.stringify(error));
+            });
+        }).catch(function (error) {
             d.reject('error'+JSON.stringify(error));
         });
+
         return d.promise;
 
     };
 
    manager.syncronize = function (path) {
-       var remote = pouchDB(path);
+       var remote = pouchDB('sao-data',{ "adapter": "websql"});
        var d = $q.defer();
-       db.sync(remote).on('complete',function () {
-           d.resolve('ok');
-       }).on('error',function () {
-           d.reject('error');
+       remote.load(path).then(function () {
+           db.sync(remote).on('complete',function (data) {
+               d.resolve(data);
+           }).on('error',function (error) {
+               d.reject('error'+JSON.stringify(error));
+           });
+       }).catch(function (error) {
+           d.reject('error'+JSON.stringify(error));
        });
+
        return d.promise;
 
    };
 
 
 
-    manager.to = function(database, options) {
-        return db.replicate.to(database, options).$promise;
+    manager.to = function(path, options) {
+        var remote = pouchDB('sao-data',{ "adapter": "websql"});
+        var d = $q.defer();
+        remote.load(path).then(function () {
+
+            db.replicate.to(remote).on('complete',function (data) {
+                d.resolve(data);
+            }).on('error',function (error) {
+                d.reject('error'+JSON.stringify(error));
+            });
+        }).catch(function (error) {
+            d.reject('error'+JSON.stringify(error));
+        });
+
+        return d.promise;
     };
 
     manager.get = function(query, options) {
