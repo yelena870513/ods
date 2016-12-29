@@ -1,5 +1,5 @@
 angular.module('app.sao')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$cookies, Columns) {
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
         //DB en memoria
@@ -259,7 +259,8 @@ angular.module('app.sao')
         };
 
 
-        $scope.OpenModal = function(record, size) {
+        $scope.OpenModal = function(record, size)
+        {
             var instance = $uibModal.open({
                 animation: true,
                 templateUrl: "template/modal/" + $scope.table.name + "-modal.html",
@@ -280,6 +281,24 @@ angular.module('app.sao')
                     documents: function() {
                         return $scope.documents;
                     }
+                }
+            });
+
+            instance.result.then(function(data) {
+                $scope.Refresh();
+            }, function(reason) {
+                console.warn(JSON.stringify(reason));
+            });
+        };
+
+        $scope.LoadModal = function (size) {
+            var instance = $uibModal.open({
+                animation: true,
+                templateUrl: "template/modal/upload-modal.html",
+                controller: 'uploadController',
+                size: size,
+                resolve: {
+
                 }
             });
 
@@ -381,7 +400,7 @@ angular.module('app.sao')
         };
 
         $scope.LogOut = function () {
-             $cookies.remove('user');
+             delete $localStorage.user;
         };
 
         $scope.Export = function () {
@@ -538,12 +557,14 @@ angular.module('app.sao')
 
         init();
     })
-    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$cookies,$location,$timeout) {
+    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$location,$timeout,$localStorage) {
         //Controlador para los charts
 
         var charting = '';
         $scope.user = undefined;
         $scope.records= [];
+        $scope.years = [];
+        $scope.selectedYear = 0;
         $scope.bar = {
             "labels":[],
             "series":[],
@@ -595,12 +616,19 @@ angular.module('app.sao')
             FetchRecords($scope.table.name);
         };
 
+        $scope.ShowSelectedPie = function () {
+            ShowPieCharts($scope.selectedYear);
+        };
+
         function FetchRecords(name) {
           return  Manager.record(name).then(function(data) {
                 console.log(data);
                 $scope.records = data.rows.map(function(el) {
                     return el.doc;
                 });
+              $scope.years = $scope.records[0].Uso.map(function (mp) {
+                  return mp.anno;
+              });
                 CargarDatos();
             }).
             catch (function(reason) {
@@ -684,7 +712,7 @@ angular.module('app.sao')
                                 text: 'Espuma 1'
                             }
                         },
-                        "show":true
+                        "show":false
 
                     }
 
@@ -749,7 +777,7 @@ angular.module('app.sao')
                         "labels":['2011', '2012', '2013', '2014','2015'],
                         "data": tableData,
                         "options":{},
-                        "show":true
+                        "show":false
 
                     }
 
@@ -759,9 +787,61 @@ angular.module('app.sao')
                     break;
             }
         }
+        function ShowPieCharts(year) {
+
+           var labels = $scope.records.map(function (l) {
+               if (l.Sustancia!=undefined) {
+                   return l.Sustancia.nombre;
+               }
+
+               if (l.Subsector!=undefined) {
+                   return l.Subsector.nombre;
+               }
+
+               if (l.Alternativa!=undefined) {
+                   return l.Alternativa.nombre;
+               }
+               if (l.alternativa!=undefined) {
+                   return l.alternativa.nombre;
+               }
+
+               if (l.sustancia!=undefined) {
+                   return l.sustancia.nombre;
+               }
+
+
+               return undefined;
+
+           });
+
+            var tableData = $scope.records.map(function (lb) {
+                  return lb.Uso;
+            }).filter(function (yf) {
+                return yf.anno==year;
+            });
+
+            $scope.pie =
+            {
+                "labels":labels,
+                "data": tableData,
+                "options":{
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text:'Sample Text'
+                    }
+                },
+                "show":true
+
+            }
+        }
 
         function init() {
-            var user = $cookies.get('user');
+            // var user = $cookies.get('user');
+            var user = $localStorage.user;
             if(user==undefined)
             {
 
@@ -1058,7 +1138,56 @@ angular.module('app.sao')
         }
 
     })
-    .controller('loginController',function ($scope, Manager,$cookies,$location){
+    .controller("uploadController",function ($scope, SAO, Manager, $uibModalInstance,$timeout,pouchDB) {
+
+       $scope.isLoading = false;
+       $scope.error = {
+           show : false,
+           message:'Database Sync Failed'
+       };
+       $scope.operation = {
+           show:false,
+           message:'Database Sync Done!'
+       };
+
+        $scope.Close = function() {
+            //TODO: reverse update in actions list
+            // console.log($scope.record);
+            Close();
+        };
+
+        $scope.LoadData = function (data) {
+            if(data!=undefined){
+                Receive(data);
+            }
+
+        };
+
+
+        function Close() {
+            $uibModalInstance.dismiss('cancel');
+        }
+
+        function Finish() {
+            $uibModalInstance.close('close');
+        }
+        
+        function Receive(data)
+        {
+            $scope.isLoading = true;
+            var file = data.pop();
+            Manager.from(file.path).then(function () {
+                $scope.operation.show = true;
+            }).catch(function () {
+                $scope.error.show = true;
+            }).finally(function () {
+                $scope.isLoading = false;
+            })
+        }
+
+
+    })
+    .controller('loginController',function ($scope, Manager,$location, $localStorage){
         $scope.user = {
             "username":"",
             "password":"",
@@ -1071,7 +1200,7 @@ angular.module('app.sao')
         $scope.SignIn = function (user)
         {
             if(user.username=='sao'){
-                $cookies.put('user',user);
+                $localStorage.user = user;
                 $location.path('/home');
             }
             else{
@@ -1084,7 +1213,8 @@ angular.module('app.sao')
                     var result =  _.findWhere($scope.users,user);
                     if(result!=undefined)
                     {
-                        $cookies.put('user',result);
+
+                        $localStorage.user = result;
                         $location.path('/home');
                     }
                     else
@@ -1106,7 +1236,7 @@ angular.module('app.sao')
         }
 
     })
-    .controller('userController',function ($scope, Manager, $uibModal,$location,$cookies,$timeout) {
+    .controller('userController',function ($scope, Manager, $uibModal,$location,$timeout,$localStorage) {
         $scope.users = [];
         $scope.user = undefined;
         $scope.User = function (user,size) {
@@ -1181,7 +1311,7 @@ angular.module('app.sao')
         }
         function init()
         {
-           $scope.user = $cookies.get('user');
+           $scope.user = $localStorage.user;
 
             $timeout(function () {
                 if($scope.user==undefined)

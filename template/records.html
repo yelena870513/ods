@@ -5,9 +5,10 @@
                 Ajustes <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a  data-ng-click="Set()">Datos generales</a></li>
-                <li role="menuitem"><a  data-ng-click="Save()">Salvar Todo</a></li>
-                <li role="menuitem"><a  data-ui-sref="list">Salvar PDF</a></li>
+                <li role="menuitem"><a  data-ng-click="Set()"><span class="margin-r-5">Datos generales</span><i class="fa fa-list"></i></a></li>
+                <li role="menuitem"><a  data-ng-click="Save()"><span class="margin-r-5">Salvar Todo</span><i class="fa fa-save"></i></a></li>
+                <li role="menuitem"><a  data-ui-sref="list"><span class="margin-r-5">Salvar PDF</span><i class="fa fa-file-pdf-o"></i></a></li>
+                <li role="menuitem"><a  data-ng-click="LoadModal()"><span class="margin-r-5">Importar</span> <i class="fa fa-upload"></i></a></li>
 
             </ul>
         </div>
@@ -107,10 +108,5 @@
             <!--<button class="btn btn-primary" data-ng-click="Save()">Salvar</button>-->
             <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
         </div>
-
-
     </section>
-
-
-
 </div>

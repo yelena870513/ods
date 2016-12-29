@@ -57,10 +57,32 @@ factory('Manager', function(pouchDB,$q) {
         return db.remove(element._id, element._rev);
     };
 
-    manager.from = function(database, options) {
-        return db.replicate.from(database, options).$promise;
+    manager.from = function(path, options) {
+        // return db.replicate.from(database, options).$promise;
+        var remote = pouchDB(path);
+        var d = $q.defer();
+        db.replicate.from(remote).on('complete',function (data) {
+            d.resolve('ok');
+        }).on('error',function (error) {
+            d.reject('error'+JSON.stringify(error));
+        });
+        return d.promise;
 
     };
+
+   manager.syncronize = function (path) {
+       var remote = pouchDB(path);
+       var d = $q.defer();
+       db.sync(remote).on('complete',function () {
+           d.resolve('ok');
+       }).on('error',function () {
+           d.reject('error');
+       });
+       return d.promise;
+
+   };
+
+
 
     manager.to = function(database, options) {
         return db.replicate.to(database, options).$promise;
@@ -97,25 +119,33 @@ factory('Manager', function(pouchDB,$q) {
 
 
         }).
-        catch (function(err) {
+        catch (
+            function(err)
+        {
             console.log(err);
-        });
+        }
+        );
 
     };
 
-    manager.pdf = function (html) {
-        // sender.send('print-to-pdf');
-        // var d  = $q.defer();
-        // win.webContents.printToPDF({}, function (error, data){
-        //     if(error){d.reject('error launching');throw error;}
-        //     fs.writeFile(pdfPath,html,function (error) {
-        //         if(error){d.reject('error wrtiting');throw error;}
-        //         shell.openExternal('file://' + pdfPath);
-        //         d.resolve('ok');
-        //     })
-        // });
-        //
-        // return d.promise;
+    manager.loadDatafile = function (path) {
+
+        var d= $q.defer();
+        fs. readFile(path, function (err, data)
+        {
+                if (err){
+                    d.reject(err);
+                    throw err;
+                }
+                var stst = data.toString('utf8');
+                var fecha = new Date();
+                var filename= 'data/sao_'+fecha.getDay()+'_'+fecha.getTime()+'.json';
+                fs.writeFile(filename,stst,'utf8',function (data) {
+                    d.resolve(filename);
+                });
+        }) ;
+
+        return d.promise;
 
     };
 
