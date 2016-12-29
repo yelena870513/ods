@@ -73,7 +73,6 @@ angular.module('app.sao')
             "alternativaHFCMezclas": SAO.AlternativaHFCMezclas[0],
             "alternativaHFO": SAO.AlternativaHFO[0],
             "alternativaOtras": SAO.AlternativaOtras[0],
-            "alternativaOtras": SAO.AlternativaOtras[0],
             "ra": SAO.RA[0],
             "Sectores": SAO.Sectores[0],
             "sectoresAnexo": [],
@@ -327,6 +326,11 @@ angular.module('app.sao')
             }, function(reason) {
                 console.warn(JSON.stringify(reason));
             });
+        };
+
+        $scope.ExportarBase= function () {
+            // Manager.flush();
+            //todo abrir ventana para exportar
         };
 
         $scope.Delete = function(record, size) {

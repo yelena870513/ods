@@ -131,23 +131,27 @@ factory('Manager', function(pouchDB,$q) {
      * Save to file
      */
     manager.flush = function() {
+        var d = $q.defer();
         db.allDocs({
             include_docs: true
         }).then(function(result) {
             //save to file
             db.dump(ws).then(function(res) {
                 console.log(res);
+                d.resolve(res);
+            },function (err) {
+                d.reject(err);
             });
-
-
-
         }).
         catch (
             function(err)
         {
             console.log(err);
+            d.reject(err);
         }
         );
+
+        return d.promise;
 
     };
 
