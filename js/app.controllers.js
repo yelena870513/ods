@@ -598,7 +598,7 @@ angular.module('app.sao')
             "options":{},
             "show":false
 
-        }
+        };
 
         // FetchRecords(charting);
         // CargarDatos();
@@ -622,36 +622,6 @@ angular.module('app.sao')
 
         ;
 
-        // $scope.line = {
-        //     "labels": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"],
-        //     "data": [
-        //         [65, 59, 80, 81, 56, 55, 40],
-        //         [28, 48, 40, 19, 86, 27, 90]
-        //     ],
-        //     "series":["CITMA","MICOM"],
-        //     "options":{
-        //         scales: {
-        //             yAxes: [
-        //                 {
-        //                     id: 'y-axis-1',
-        //                     type: 'linear',
-        //                     display: true,
-        //                     position: 'left'
-        //                 },
-        //                 {
-        //                     id: 'y-axis-2',
-        //                     type: 'linear',
-        //                     display: true,
-        //                     position: 'right'
-        //                 }
-        //             ]
-        //         }
-        //     },
-        //     "datasetOverride": [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }]
-        // }
-        //
-        //
-        // ;
 
         $scope.SelectChart= function (chart) {
             charting = chart;
@@ -699,9 +669,7 @@ angular.module('app.sao')
                 $scope.records = data.rows.map(function(el) {
                     return el.doc;
                 });
-              $scope.years = $scope.records[0].Uso.map(function (mp) {
-                  return mp.anno;
-              });
+
                 CargarDatos();
             }).
             catch (function(reason) {
@@ -709,22 +677,25 @@ angular.module('app.sao')
             });
         }
         function CargarDatos() {
+          var names = [];
+          var table = {};
+          var tableData = [];
             switch (charting)
             {
                 case 'espuma1':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
                         table.names = SAO.SustanciasTabla3.map(function (el) {
-                        return el.nombre;
+                        return el.nombre.trim();
                     });
 
                     table.names.forEach(function (el) {
                         var rec = $scope.records.filter(function (r) {
-                            return r.Sustancia.nombre==el;
+                            return r.Sustancia.nombre.trim()==el;
                         })[0];
 
                        if (rec!=undefined)
@@ -741,6 +712,8 @@ angular.module('app.sao')
                        table.names = names;
 
                     });
+
+                    $scope.years = [2010,2015,2020,2025,2030];
 
                     $scope.bar =
                     {
@@ -762,7 +735,7 @@ angular.module('app.sao')
 
                     };
 
-                    var tableData = [0,0];
+                     tableData = [0,0];
                     table.data.forEach(function (el) {
                         tableData[0]+=el[0];
                         tableData[1]+=el[1];
@@ -770,22 +743,11 @@ angular.module('app.sao')
                         // tableData[3]+=el[3];
                         // tableData[4]+=el[4];
                     });
-
-
-                    $scope.pie = {
-                        "labels":['2010', '2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":true
-
-                    }
-
-                    ;
                     break;
                 case 'espuma2':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
@@ -812,6 +774,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2010', '2015'],
@@ -841,28 +804,13 @@ angular.module('app.sao')
 
                     };
 
-                    var tableData = [0,0];
-                    table.data.forEach(function (el) {
-                        tableData[0]+=el[0];
-                        tableData[1]+=el[1];
-
-                    });
-
-
-                    $scope.pie = {
-                        "labels":['2010', '2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":true
-
-                    }
 
                     ;
                     break;
                 case 'espuma3':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
@@ -889,6 +837,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
+                    $scope.years = [2011,2012,2013,2014,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012','2013','2014','2015'],
@@ -918,30 +867,12 @@ angular.module('app.sao')
 
                     };
 
-                    var tableData = [0,0,0,0,0];
-                    table.data.forEach(function (el) {
-                        tableData[0]+=el[0];
-                        tableData[1]+=el[1];
-                        tableData[2]+=el[2];
-                        tableData[3]+=el[3];
-                        tableData[4]+=el[4];
-                    });
 
-
-                    $scope.pie = {
-                        "labels":['2011', '2012','2013','2014','2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":true
-
-                    }
-
-                    ;
                     break;
                 case 'importaciones1':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
@@ -968,6 +899,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
+                    $scope.years = [2011,2015];
 
                     $scope.bar = {
                         "labels":['2010', '2015'],
@@ -997,28 +929,12 @@ angular.module('app.sao')
 
                     };
 
-                    var tableData = [0,0];
-                    table.data.forEach(function (el) {
-                        tableData[0]+=el[0];
-                        tableData[1]+=el[1];
 
-                    });
-
-
-                    $scope.pie = {
-                        "labels":['2010', '2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":true
-
-                    }
-
-                    ;
                     break;
                 case 'consumo':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
@@ -1047,6 +963,7 @@ angular.module('app.sao')
 
 
                     });
+                    $scope.years = [2011,2012,2013,2014,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
@@ -1058,31 +975,13 @@ angular.module('app.sao')
                         }
                     };
 
-                    var tableData = [0,0,0,0,0];
-                    table.data.forEach(function (el) {
-                        tableData[0]+=el[0];
-                        tableData[1]+=el[1];
-                        tableData[2]+=el[2];
-                        tableData[3]+=el[3];
-                        tableData[4]+=el[4];
-                    });
 
-
-                    $scope.pie = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":true
-
-                    }
-
-                    ;
                     break;
 
                 case 'aire2':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
@@ -1112,6 +1011,8 @@ angular.module('app.sao')
 
                     });
 
+                    $scope.years = [2011,2012,2013,2014,2015];
+
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
                         "series":table.names,
@@ -1122,30 +1023,12 @@ angular.module('app.sao')
                         }
                     };
 
-                    var tableData = [0,0,0,0,0];
-                    table.data.forEach(function (el) {
-                        tableData[0]+=el[0];
-                        tableData[1]+=el[1];
-                        tableData[2]+=el[2];
-                        tableData[3]+=el[3];
-                        tableData[4]+=el[4];
-                    });
 
-
-                    $scope.pie = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":true
-
-                    }
-
-                    ;
                     break;
                 case 'empresa1':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
@@ -1175,6 +1058,8 @@ angular.module('app.sao')
 
                     });
 
+                    $scope.years = [2011,2012,2013,2014,2015];
+
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
                         "series":table.names,
@@ -1185,30 +1070,12 @@ angular.module('app.sao')
                         }
                     };
 
-                    var tableData = [0,0,0,0,0];
-                    table.data.forEach(function (el) {
-                        tableData[0]+=el[0];
-                        tableData[1]+=el[1];
-                        tableData[2]+=el[2];
-                        tableData[3]+=el[3];
-                        tableData[4]+=el[4];
-                    });
 
-
-                    $scope.pie = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":true
-
-                    }
-
-                    ;
                     break;
                 case 'empresa2':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
@@ -1238,6 +1105,8 @@ angular.module('app.sao')
 
                     });
 
+                    $scope.years = [2011,2012,2013,2014,2015];
+
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
                         "series":table.names,
@@ -1248,30 +1117,11 @@ angular.module('app.sao')
                         }
                     };
 
-                    var tableData = [0,0,0,0,0];
-                    table.data.forEach(function (el) {
-                        tableData[0]+=el[0];
-                        tableData[1]+=el[1];
-                        tableData[2]+=el[2];
-                        tableData[3]+=el[3];
-                        tableData[4]+=el[4];
-                    });
-
-
-                    $scope.pie = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":true
-
-                    }
-
-                    ;
                     break;
                 case 'importaciones2':
 
-                    var names = [];
-                    var table  = {
+                     names = [];
+                     table  = {
                         names:[],
                         data:[]
                     };
@@ -1301,6 +1151,8 @@ angular.module('app.sao')
 
                     });
 
+                    $scope.years = [2011,2012,2013,2014,2015];
+
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
                         "series":table.names,
@@ -1311,25 +1163,7 @@ angular.module('app.sao')
                         }
                     };
 
-                    var tableData = [0,0,0,0,0];
-                    table.data.forEach(function (el) {
-                        tableData[0]+=el[0];
-                        tableData[1]+=el[1];
-                        tableData[2]+=el[2];
-                        tableData[3]+=el[3];
-                        tableData[4]+=el[4];
-                    });
 
-
-                    $scope.pie = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
-                        "data": tableData,
-                        "options":{},
-                        "show":false
-
-                    }
-
-                    ;
                     break;
                 default:
                     break;
@@ -1362,10 +1196,16 @@ angular.module('app.sao')
 
            });
 
-            var tableData = $scope.records.map(function (lb) {
-                  return lb.Uso;
-            }).filter(function (yf) {
-                return yf.anno==year;
+            var tableData = $scope.records.map(function (lb)
+            {
+                  return lb.Uso.filter(function (fu) {
+                      return fu.anno ==year;
+                  })[0].tons;
+            }).map(function (val) {
+                if (val==undefined) {
+                    return 0;
+                }
+                return val;
             });
 
             $scope.pie =
