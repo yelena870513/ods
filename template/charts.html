@@ -16,7 +16,7 @@
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li role="menuitem"><a data-ng-click="SelectChart('general1')" >Uso general alternativas a las SAO en la actualidad</a></li>
                 <li role="menuitem"><a data-ng-click="SelectChart('general3')" >Sectores y subsectores donde se usan alternativas de ODS actualmente</a></li>
-                <!--<li role="menuitem"><a data-ng-click="SelectChart('general2')">General 2</a></li>-->
+                <li role="menuitem"><a data-ng-click="SelectChart('general2')">Resumen de su uso en todos los sectores para cada año entre 2011-2015 </a></li>
             </ul>
         </div>
 
@@ -46,8 +46,8 @@
                 Refrigeración <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a data-ng-click="SelectChart('consumo')">Consumo  de SAO (Refrigerantes) Y Sus Alternativas en el subsector de manufactura</a></li>
-                <li role="menuitem"><a data-ng-click="SelectChart('refri')">La recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('consumo')">Fabricante de refrigeración</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('refri')">Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración</a></li>
 
             </ul>
         </div>
@@ -87,7 +87,13 @@
     <section class="content">
 
                 <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series" data-chart-options="bar.options">
+        <div class="row">
+            <div class="col-md-12" data-ng-show="bar.show" style="width: 526px; height: 323px;">
+                <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series">
                 </canvas>
+            </div>
+
+        </div>
     </section>
     <section class="content">
         <div class="row">

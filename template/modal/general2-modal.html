@@ -8,13 +8,11 @@
     <!-- form start -->
     <form role="form" name="actionForm" novalidate>
         <div class="box-body">
-            <div class="row">
-                <h4>Alternativas:</h4>
-            </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Alternativa</label>
+                        <label>Alternativa:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="alternativa"
                                 data-ng-change="ShowAlt()"
@@ -121,11 +119,10 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="Close()">
-            Cerrar
-        </button>
         <button type="button" class="btn btn-primary"  data-ng-click="Save()">
             Salvar
-        </button>
+        </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
+        Cerrar
+    </button>
     </div>
 </div>
