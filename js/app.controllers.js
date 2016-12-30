@@ -1783,9 +1783,9 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            record.Recuperado.push({"re3":re3,"cant3":amount,"nombre": +re3+":"+amount});
+            record.Recuperado.push({"re3":re3,"cant3":amount,"nombre": re3+":"+amount});
             record.Recuperado =  _.uniq(record.Recuperado,false,function (el) {
-                return el.r3;
+                return el.re3;
             });
 
             record.Recuperado = _.sortBy( record.Recuperado,function (us) {
