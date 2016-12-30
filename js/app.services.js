@@ -175,6 +175,24 @@ angular.module('app.sao')
 
     };
 
+    manager.dataString = function(){
+        var d = $q.defer();
+        var dumpedString = '';
+        var stream = new MemoryStream();
+        stream.on('data', function(chunk) {
+            dumpedString += chunk.toString();
+        });
+
+        db.dump(stream).then(function () {
+            d.resolve(dumpedString);
+        }).catch(function (err) {
+            d.reject(err);
+        });
+
+        return d.promise;
+
+    };
+
     /**
      * Load file
      */

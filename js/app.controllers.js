@@ -332,9 +332,13 @@ angular.module('app.sao')
             });
         };
 
-        $scope.ExportarBase= function () {
-            // Manager.flush();
-            //todo abrir ventana para exportar
+        $scope.ExportarBase= function ()
+        {
+             Manager.dataString().then(function (data) {
+                 var blob = new Blob([data], {type: "application/json;charset=utf-8"});
+                 saveAs(blob, "sao-exported.json");
+             });
+
         };
 
         $scope.Delete = function(record, size) {

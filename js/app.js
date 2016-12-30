@@ -2,6 +2,10 @@
 //fs y ws son los manager para guardar en fichero la base de datos una vez terminado de gestionar todo.
 var fs = require('fs');
 var ws = fs.createWriteStream('data/sao.json');
+var replicationStream = require('pouchdb-replication-stream');
+var MemoryStream = require('memorystream');
+PouchDB.plugin(replicationStream.plugin);
+PouchDB.adapter('writableStream', replicationStream.adapters.writableStream);
 
 angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFileUpload','ngStorage']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/general');
