@@ -1,12 +1,26 @@
 <div class="container">
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <div class="btn-group" uib-dropdown is-open="status.isopen">
+            <button id="single-button-datos" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                Datos <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem"><a  data-ng-click="Set()"><span class="margin-r-5">Datos generales</span><i class="fa fa-list"></i></a></li>
+                <li role="menuitem"><a  data-ng-click="Save()"><span class="margin-r-5">Salvar Todo</span><i class="fa fa-save"></i></a></li>
+                <li role="menuitem"><a  data-ui-sref="list"><span class="margin-r-5">Salvar PDF</span><i class="fa fa-file-pdf-o"></i></a></li>
+                <li role="menuitem"><a  data-ng-click="LoadModal()"><span class="margin-r-5">Importar</span> <i class="fa fa-upload"></i></a></li>
+                <!--<li role="menuitem"><a  data-ng-click="ExportarBase()"><span class="margin-r-5">Exportar</span> <i class="fa fa-download"></i></a></li>-->
+
+            </ul>
+        </div>
+        <div class="btn-group" uib-dropdown is-open="status8.isopen">
             <button id="single-button-general" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
                 General <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a data-ng-click="SelectModal('general1')" >General 1</a></li>
-                <li role="menuitem"><a data-ng-click="SelectModal('general2')">General 2</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('general1')" >Uso general alternativas a las SAO en la actualidad</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('general3')" >Sectores y subsectores donde se usan alternativas de ODS actualmente</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('general2')">Resumen de su uso en todos los sectores para cada año entre 2011-2015</a></li>
             </ul>
         </div>
 
@@ -15,48 +29,67 @@
                 Espuma <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><span>Espuma 1</span></li>
-                <li role="menuitem"><span>Espuma 2</span></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('espuma1')" >Demanda de Sao y Agentes soplantes en el sector de espuma</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('espuma2')" >Distribución de ODS y Alternativas en Sub sector de Espumas</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('espuma3')" >Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido</a></li>
+
+            </ul>
+        </div>
+        <div class="btn-group" uib-dropdown is-open="status3.isopen">
+            <button id="single-button-aire" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                Aire Acondicionado <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <!--<li role="menuitem"><a data-ng-click="SelectModal('aire1')" >Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado</a></li>-->
+                <li role="menuitem"><a data-ng-click="SelectModal('aire2')">Fabricantes de aires acondicionados</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('aire3')">Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" uib-dropdown is-open="status4.isopen">
+            <button id="single-button-refrigeracion" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                Refrigeración <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem"><a data-ng-click="SelectModal('consumo')">Fabricante de refrigeración</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('refri')">Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración</a></li>
+
             </ul>
         </div>
 
-        <div class="btn-group" uib-dropdown is-open="status3.isopen">
+        <div class="btn-group" uib-dropdown is-open="status5.isopen">
             <button id="single-button-consumo" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-                Consumo <span class="caret"></span>
+                Aerosoles <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a  data-ng-click="SelectModal('consumo')">Consumo SAO</a></li>
+                <li role="menuitem"><a  data-ng-click="SelectModal('aerosoles')">Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles </a></li>
 
+            </ul>
+        </div>
+        <div class="btn-group" uib-dropdown is-open="status6.isopen">
+            <button id="single-button-importaciones" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                Importaciones <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem"><a data-ng-click="SelectModal('importaciones1')" >Demanda de Sao y Agentes soplantes en el sector de espuma</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('importaciones2')">Cantidad de importaciones de alternativas de ODS</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" uib-dropdown is-open="status7.isopen">
+            <button id="single-button-empresa" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                Empresa <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem"><a data-ng-click="SelectModal('empresa1')" >Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('empresa2')">Recolección de datos en el uso de alternativas de SAO en Refrigeracion Movil</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('empresa3')">Recolección de datos sobre el uso de alternativas de SAO en el sector de solventes</a></li>
+                <li role="menuitem"><a data-ng-click="SelectModal('empresa4')">Taller de servicios</a></li>
             </ul>
         </div>
     </div>
-    <section class="content">
-        <div class="box box-default">
-            <div class="box-header with-border">
-
-                <div class="box-body">
-                    <div class="row">
-                        <!--<div class="col-lg-9 sidebar">-->
-
-                                <!--&lt;!&ndash;<div tree data-ng-model="menu" data-handler="SelectModal"></div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<ul class="sidebar-menu" ng-include="treeTemplate">&ndash;&gt;-->
-
-                            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-
-                        <!--</div>-->
-                        <div class="col-md-12">
-                            <button class="btn btn-primary" data-ng-click="Set()">Configurar</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
     <section class="content" >
         <div data-ng-show="table.columns.length>0">
-            <h1>Record {{table.title  }}</h1>
-            <table class="table table-bordered">
+            <h4>Formulario: {{table.title  }}</h4>
+            <table class="table table-bordered table table-striped table-hover">
                 <thead>
                 <tr >
                     <th data-ng-repeat="col in table.columns">{{col  }}</th>
@@ -74,7 +107,9 @@
                 </tr>
                 </tbody>
             </table>
+            <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
         </div>
-        <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
+
     </section>
+
 </div>

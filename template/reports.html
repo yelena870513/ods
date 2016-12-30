@@ -1,16 +1,23 @@
-<div class="jumbotron">
-    <section class="content">
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Reportes</h3>
-                <div class="box-tools pull-right"></div>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-6">Lorem Ipsum</div>
-                    <div class="col-md-6">Lorem Ipsum</div>
-                </div>
-            </div>
+<div class="container">
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <div class="btn-group" uib-dropdown is-open="status.isopen">
+            <button id="single-button-datos" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                Tablas <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem"><a  data-ui-sref=".general">General</a></li>
+                <li role="menuitem"><a  data-ui-sref=".espuma">Espuma</a></li>
+                <li role="menuitem"><a  data-ui-sref=".aire">Aire Acondicionado</a></li>
+                <li role="menuitem"><a  data-ui-sref=".refri">Refrigeración</a></li>
+                <li role="menuitem"><a  data-ui-sref=".aerosoles">Aerosoles</a></li>
+                <li role="menuitem"><a  data-ui-sref=".importaciones">Importaciones</a></li>
+                <li role="menuitem"><a  data-ui-sref=".empresa" >Empresa</a></li>
+                <li role="menuitem"><a  data-ui-sref=".saora" >Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado.</a></li>
+            </ul>
         </div>
+
+    </div>
+    <section class="content">
+        <div data-ui-view></div>
     </section>
 </div>

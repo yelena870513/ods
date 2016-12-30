@@ -1,0 +1,224 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
+        <span aria-hidden="true">×</span></button>
+    <h4 class="modal-title">Taller de sevicios</h4>
+</div>
+<div class="modal-body">
+    <div class="row-fluid">
+        <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+            <button type="button" class="close" ng-click="error.show = false;Close();" aria-hidden="true">×</button>
+            {{error.message}}
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="actionForm" novalidate>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Nombre del taller:</label>
+                        <input  class="form-control" type="text" placeholder="Nombre" data-ng-model="record.nombreTaller"/>
+
+                    </div>
+                    <div class="form-group">
+                        <label >Municipio:</label>
+                        <input  class="form-control" type="text" placeholder="Municipio" data-ng-model="record.municipio"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Organización de la producción:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.Organizacion"
+                                data-ng-options="item as item.nombre for item in SAO.OrgProduccion"
+                        >
+
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                <div class="form-group">
+                    <label >Consumo de sustancias limpiadoras:</label>
+                </div>
+                <div class="form-group">
+                    <label >R-141b (g)</label>
+                    <input  class="form-control" type="number" min="0" placeholder="Con un decimal" data-ng-model="record.sustanciasR"/>
+                </div>
+                <div class="form-group">
+                    <label >RL-95 (litros)</label>
+                    <input  class="form-control" type="number" min="0" placeholder="Con un decimal" data-ng-model="record.sustanciasRL"/>
+                </div>
+                    </div>
+
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Tipo de refrigeración que trabajan:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.TipoRefrigeracion"
+                                data-ng-options="item as item.nombre for item in SAO.TipoRefri"
+                        >
+
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Sustancias para refrigeración:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.CantRefigeranteRefrigeracion"
+                                data-ng-options="item as item.nombre for item in SAO.SustanciasRefrigerante"
+                        >
+
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad Refrigerante consumido para refrigeración:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="re"
+                                data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>
+                    </div>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-model="cant"/>
+                    <ul class="list-group">
+                        <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriRefri">
+                            <span class="badge">{{el.re}} -- {{el.cant}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriRefri.splice(el,1)"></i>
+                        </li>
+                    </ul>
+                    <i  class="fa fa-plus"  data-ng-click="ConsumoCantRefriRefri(re,cant)" title="Adicionar"> </i>
+
+                </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Tipo de aire acondicionado que trabajan:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.TipoAire"
+                                data-ng-options="item as item.nombre for item in SAO.TipoAire"
+                        >
+
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Sustancias para aire acondicionado:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="record.CantRefigeranteAire"
+                                data-ng-options="item as item.nombre for item in SAO.SustanciasAire"
+                        >
+
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad de refrigerante consumido para aire acondicionado:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="re1"
+                                data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>
+                    </div>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-model="cant1"/>
+                    <ul class="list-group">
+                        <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriAire">
+                            <span class="badge">{{el.re1}} -- {{el.cant1}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriAire.splice(el,1)"></i>
+                        </li>
+                    </ul>
+                    <i  class="fa fa-plus"  data-ng-click="ConsumoCantRefriAire(re1,cant1)" title="Adicionar"> </i>
+
+                    </select>
+
+
+                    </div>
+                    <!--<div class="form-group">-->
+
+                        <!--<input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-model="record.cantAire"/>-->
+
+                    <!--</div>-->
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+
+                        <label>Equipos de Recuperacion (Cantidad):</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="re2"
+                                data-ng-options="item as item for item in ['AR500','CR500','Criolla','Otras','Ninguna']"></select>
+                        </div>
+                        <div class="form-group">
+                        <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-model="cant2"/>
+                        <ul class="list-group">
+                            <li class="list-group-item-success" data-ng-repeat="el in record.Recuperacion">
+                                <span class="badge">{{el.re2}} -- {{el.cant2}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperacion.splice(el,1)"></i>
+                            </li>
+                        </ul>
+                        <i  class="fa fa-plus"  data-ng-click="ConsumoRecuperacion(re2,cant2)" title="Adicionar"> </i>
+
+
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad recuperada:</label>
+                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                data-ng-model="re3"
+                                data-ng-options="item as item for item in ['R134a','R22,R404A','R410A','Otros']"></select>
+                    </div>
+                        <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-model="cant3"/>
+                        <ul class="list-group">
+                            <li class="list-group-item-success" data-ng-repeat="el in record.Recuperado">
+                                <span class="badge">{{el.re3}} -- {{el.cant3}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperado.splice(el,1)"></i>
+                            </li>
+                        </ul>
+                        <i  class="fa fa-plus"  data-ng-click="ConsumoRecuperado(re3,cant3)" title="Adicionar"> </i>
+
+                    </div>
+
+
+
+        </div>
+        </form>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label >Personal productivo:</label>
+                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                        data-ng-model="re4"
+                        data-ng-options="item as item for item in ['Ingenieros','Tecnicos','Mecanicos','CCBP (Curso buenas practicas de refrigeracion)']"></select>
+            </div>
+            <div class="form-group">
+                <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-model="cant4"/>
+                <ul class="list-group">
+                    <li class="list-group-item-success" data-ng-repeat="el in record.Total">
+                        <span class="badge">{{el.re4}} -- {{el.cant4}}</span><i class="fa fa-trash-o" data-ng-click="record.Total.splice(el,1)"></i>
+                    </li>
+                </ul>
+                <i  class="fa fa-plus"  data-ng-click="ConsumoTotal(re4,cant4)" title="Adicionar"> </i>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
+            Salvar
+        </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
+        Cerrar
+    </button>
+    </div>
+</div>
