@@ -11,7 +11,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1300, height: 768, fullscreen: false})  ;
+  mainWindow = new BrowserWindow({width: 1300, height: 768, fullscreen: false,icon:'app.ico'})  ;
 
   //mainWindow.maximize()
 
@@ -22,7 +22,7 @@ function createWindow () {
   //mainWindow.webContents.openDevTools();
 
   //Icono
-  BrowserWindow({icon:'app.ico'});
+  //BrowserWindow({icon:`file://${__dirname}/app.ico`});
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
