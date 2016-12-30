@@ -96,7 +96,14 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
                 $location.path('/home');
 
             }
-        })
+        }).
+    state('cerrar',{
+        url:"/close",
+        controller:function(){
+            //mainWindow.close();
+            window.close();
+        }
+    })
 
     ;
 })

@@ -227,9 +227,11 @@ angular.module('app.sao')
         ////LOCAL MEMBERS
         function init() {
             Manager.local().then(function(res) {
-                $scope.documents = res.rows.map(function(el) {
-                    return el.doc;
-                });
+                if (res!=undefined) {
+                    $scope.documents = res.rows.map(function(el) {
+                        return el.doc;
+                    });
+                }
 
                 // ForeTest();
             });
@@ -454,6 +456,10 @@ angular.module('app.sao')
                   pdfMake.createPdf(docDefinition).download("exportable.pdf");
               }
           });
+        };
+
+        $scope.Cerrar = function () {
+            mainWindow.close();
         };
 
         init();

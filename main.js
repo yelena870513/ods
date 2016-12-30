@@ -11,7 +11,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1300, height: 768, fullscreen: false,icon:'app.ico'})  ;
+  mainWindow = new BrowserWindow({width: 1300, height: 768, fullscreen: false,icon:"app.ico"})  ;
 
   //mainWindow.maximize()
 
@@ -54,6 +54,11 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()    
   }
+});
+
+app.on('before-quit',function ()  {
+  mainWindow.removeAllListeners('close');
+mainWindow.close();
 });
 
 // In this file you can include the rest of your app's specific main process
