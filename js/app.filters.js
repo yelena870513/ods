@@ -31,4 +31,9 @@ angular.module('app.sao').filter('mainString',function () {
             }
         }
     })
+    .filter('prettyJSON', function() {
+        return function(json) {
+            return angular.toJson(json, true);
+        }
+    })
 ;

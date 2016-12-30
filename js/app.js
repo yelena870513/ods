@@ -53,10 +53,12 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
         url:'/empresa',
         templateUrl:'template/data-table/empresa-table.html',
         controller:'reportController'
-    })
-
-
-        .
+    }).
+    state('list.saora',{
+        url:'/saora',
+        templateUrl:'template/data-table/saora-table.html',
+        controller:'reportController'
+    }).
 
 
 
@@ -84,9 +86,9 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
     state('salir',
         {
             url:'/logout',
-            controller:function ($cookies,$location)
+            controller:function ($location,$localStorage)
             {
-                $cookies.remove('user');
+                delete $localStorage.user;
                 $location.path('/home');
 
             }

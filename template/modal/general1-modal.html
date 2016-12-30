@@ -6,6 +6,12 @@
 <div class="modal-body">
     <!-- /.box-header -->
     <!-- form start -->
+    <div class="row-fluid">
+        <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+            <button type="button" class="close" ng-click="error.show = false;Close();" aria-hidden="true">×</button>
+            {{error.message}}
+        </div>
+    </div>
     <form role="form" name="actionForm" novalidate>
         <div class="form-group">
             <label for="sq">Sustancia Química:</label>

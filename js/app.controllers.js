@@ -75,7 +75,8 @@ angular.module('app.sao')
             "alternativaOtras": SAO.AlternativaOtras[0],
             "ra": SAO.RA[0],
             "Sectores": SAO.Sectores[0],
-            "sectoresAnexo": [],
+            "Sustancias": SAO.Sustancias[0],
+            "sectoresAnexo": SAO.SectoresAnexo[0],
             "tipo": "general2"
         };
         $scope.general3 = {
@@ -128,7 +129,8 @@ angular.module('app.sao')
             "otrosAlternativa":"",
             "unidades":"",
             "Uso":[],//{ano:"---",tons:""},
-            "tipo":"aire3"
+            "tipo":"aire3",
+            "clasificacion":""
         };
 
         //AEROSOLES
@@ -173,7 +175,8 @@ angular.module('app.sao')
             "unidades":"",
             "explotacion":"",
             "Uso":[],//{ano:"---",tons:""},
-            "tipo":"refri"
+            "tipo":"refri",
+            "clasificacion":""
         };
 
         //EMPRESA
@@ -206,8 +209,9 @@ angular.module('app.sao')
             "CantRefigeranteRefrigeracion":SAO.SustanciasRefrigerante[0],
             "TipoRefrigeracion":SAO.TipoRefri[0],
             "TipoAire":SAO.TipoAire[0],
-            "cantAire":"",
-            "cantRefri":"",
+            "CantRefriAire":[],
+            "CantRefriRefri":[],
+            "Total":[],
             "nombreTaller":"",
             "municipio":"",
             "sustanciasR":"",
@@ -410,8 +414,11 @@ angular.module('app.sao')
                         return el.tipo==$scope.table.name;
                     })[0];
 
-                    $scope.table.columns = data.fields;
-                    $scope.table.title = data.nombre;
+                   if(data!=undefined)
+                   {
+                       $scope.table.columns = data.fields;
+                       $scope.table.title = data.nombre;
+                   }
 
             } catch (err) {
                 //todo poner un modal aqui
@@ -449,12 +456,20 @@ angular.module('app.sao')
 
 
     })
-    .controller("reportController", function($scope, SAO, Manager, $uibModal,SType,Columns,$location,$timeout) {
+    .controller("reportController", function($scope, SAO, Manager, $uibModal,SType,Columns,$location,$timeout,$q) {
         //Este controlador es para los reportes.
 
         $scope.tables = [];
+        $scope.records = [];
         $scope.columns = Columns;
         $scope.labels = Object.keys(SType);
+        var Clasif = SAO.Clasificacion.map(function (cl) {
+            return cl.nombre;
+        });
+
+        var ClasifR = SAO.ClasificacionRefri.map(function (cl) {
+            return cl.nombre;
+        });
 
 
 
@@ -523,6 +538,16 @@ angular.module('app.sao')
 
         }
 
+        function SimpleTable(table)
+        {
+            return Manager.record(table).then(function (data) {
+                $scope.records = data.rows.map(function(el) {
+                    return el.doc;
+                }).concat($scope.records);
+                return $scope.records;
+            });
+        }
+
         function Format(table) {
 
             var tableData = table;
@@ -565,19 +590,133 @@ angular.module('app.sao')
 
         }
 
+        function FormatSaora()
+        {
+            var dataColumns = ["Subsector","Uso"];
+
+            SimpleTable('refri').then(function () {
+                var dataTable = [];
+                ClasifR.forEach(function (c)
+                {
+                    var row = {
+                      "Subsector":c,
+                       "Uso":[]
+                    };
+                    var matches = $scope.records.filter(function (fc) {
+                        return fc.clasificacion==c&&fc.tipo=='refri';
+                    });
+
+                    for (var i =0;i<matches.length;i++)
+                    {
+                        for (var k = 0; matches[i].Uso.length;i++)
+                        {
+                            if(row.Uso[k]==undefined)
+                            {
+                                row.Uso[k] = matches[i].Uso[k]
+                            }
+                            else
+                            {
+                                if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                {
+                                    row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                }
+                            }
+                        }
+
+                    }
+
+                    dataTable.push(row);
+                });
+
+                $timeout(
+                    function () {
+
+                        var table = Format({
+                            "columns":dataColumns,
+                            "records":dataTable,
+                            "title":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración.",
+                            "name":'refri'
+                        });
+                        $scope.tables.push(table);
+                    },200);
+
+            });
+            SimpleTable('aire3').then(function () {
+
+                var dataTable = [];
+                Clasif.forEach(function (c) {
+                    var row = {
+                        "Subsector":c,
+                        "Uso":[]
+                    };
+                    var matches = $scope.records.filter(function (fc) {
+                        return fc.clasificacion==c&&fc.tipo=='refri';
+                    });
+
+                    for (var i =0;i<matches.length;i++)
+                    {
+                        for (var k = 0; matches[i].Uso.length;i++)
+                        {
+                            if(row.Uso[k]==undefined)
+                            {
+                                row.Uso[k] = matches[i].Uso[k]
+                            }
+                            else
+                            {
+                                if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                {
+                                    row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                }
+                            }
+                        }
+
+                    }
+
+                    dataTable.push(row);
+
+                });
+
+                $timeout(
+                    function () {
+
+                        var table = Format({
+                            "columns":dataColumns,
+                            "records":dataTable,
+                            "title":"Distribución de SAO y alternativas de SAO en el sector  Aire Acondicionado.",
+                            "name":'aire3'
+                        });
+                        $scope.tables.push(table);
+                    },200);
+
+            });
+
+
+
+
+
+        }
+
         function init()
         {
             var hash = $location.path();
-
-            var current = $scope.labels.filter(function (la)
+            if(hash.indexOf('saora')!=-1)
             {
-                return hash.indexOf(la)!=-1;
-            })[0];
-
-            if(current!=undefined)
-            {
-                FetchTable(current);
+                FormatSaora();
             }
+
+            else{
+                var current = $scope.labels.filter(function (la)
+                {
+                    return hash.indexOf(la)!=-1;
+                })[0];
+
+                if(current!=undefined)
+                {
+                    FetchTable(current);
+                }
+            }
+
+
         }
 
         init();
@@ -587,7 +726,7 @@ angular.module('app.sao')
         var charting = '';
         $scope.user = undefined;
         $scope.records= [];
-        $scope.years = [];
+        $scope.years = [2010,2015];
         $scope.selectedYear = 0;
         $scope.bar = {
             "labels":[],
@@ -604,23 +743,13 @@ angular.module('app.sao')
 
         };
 
-        // FetchRecords(charting);
-        // CargarDatos();
-        //Bar chart
 
-        // $scope.bar = {
-        //     "labels":['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-        //     "series":['OSDE 1', 'OSDE 2'],
-        //     "data": [
-        //         [65, 59, 80, 81, 56, 55, 40],
-        //         [28, 48, 40, 19, 86, 27, 90]
-        //     ]
-        // };
 
         $scope.pie = {
             "labels":["SAO 1", "SAO 2", "SAO 3"],
             "data": [  300, 500, 100 ],
-            "options":{}
+            "options":{},
+            "show":false
 
         }
 
@@ -717,7 +846,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2010,2015,2020,2025,2030];
+                    $scope.years = [2010,2015];
 
                     $scope.bar =
                     {
@@ -841,7 +970,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2011,2012,2013,2014,2015];
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012','2013','2014','2015'],
@@ -903,7 +1032,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2011,2015];
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2010', '2015'],
@@ -967,7 +1096,7 @@ angular.module('app.sao')
 
 
                     });
-                    $scope.years = [2011,2012,2013,2014,2015];
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
@@ -1015,7 +1144,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015];
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
@@ -1062,7 +1191,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015];
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
@@ -1109,7 +1238,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015];
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
@@ -1131,12 +1260,12 @@ angular.module('app.sao')
                     };
                     table.names = $scope.records.map(function (el)
                     {
-                        return el.Aplicaciones.nombre+"/" +el.Alternativas.nombre;
+                        return el.Alternativas.nombre;
                     });
 
                     table.names.forEach(function (el) {
                         var rec = $scope.records.filter(function (r) {
-                            return r.Aplicaciones.nombre+"/" +r.Alternativas.nombre==el;
+                            return r.Alternativas.nombre==el;
                         })[0];
 
                         if (rec!=undefined)
@@ -1155,7 +1284,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015];
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015'],
@@ -1170,6 +1299,14 @@ angular.module('app.sao')
 
                     break;
                 default:
+                    $scope.bar = {
+                        "labels":['2011', '2012', '2013', '2014','2015'],
+                        "series":table.names,
+                        "data": table.data,
+                        "show":false,
+                        options: {
+
+                        }};
                     break;
             }
         }
@@ -1187,6 +1324,10 @@ angular.module('app.sao')
                if (l.Alternativa!=undefined) {
                    return l.Alternativa.nombre;
                }
+               if (l.Alternativas!=undefined) {
+                   return l.Alternativas.nombre;
+               }
+
                if (l.alternativa!=undefined) {
                    return l.alternativa.nombre;
                }
@@ -1200,11 +1341,19 @@ angular.module('app.sao')
 
            });
 
+            labels.filter(function (lbl) {
+                return lbl!=undefined;
+            });
+
             var tableData = $scope.records.map(function (lb)
             {
-                  return lb.Uso.filter(function (fu) {
+                  var a = lb.Uso.filter(function (fu) {
                       return fu.anno ==year;
-                  })[0].tons;
+                  })[0];
+                if (a!=undefined) {
+                    return a.tons;
+                }
+                return 0;
             }).map(function (val) {
                 if (val==undefined) {
                     return 0;
@@ -1223,7 +1372,7 @@ angular.module('app.sao')
                     },
                     title: {
                         display: true,
-                        text:'Sample Text'
+                        text:'Año '+year
                     }
                 },
                 "show":true
@@ -1256,6 +1405,10 @@ angular.module('app.sao')
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.record = record;
+        $scope.error = {
+            show:false,
+            message:'Ha ocurrido un error'
+        };
         $scope.SAO = SAO;
         $scope.general = general;
         $scope.documents = documents;
@@ -1289,8 +1442,7 @@ angular.module('app.sao')
         var selectedTabla10B = $scope.Tabla10BR;
         var selectedTabla6 = $scope.SustanciasTabla6;
         var SubsectorTabla7 = $scope.SubsectorTabla7;
-        $scope.year  = 2011;
-        $scope.amount  = 0;
+
 
         init();
 
@@ -1323,72 +1475,84 @@ angular.module('app.sao')
         }
 
         function Add(element) {
-            //todo validar datos
-            element = Util.collect($scope.general, element);
-
             switch (element.tipo) {
                 case 'general1':
                     element.sectores = element.sectores.concat($scope.SAO.Sectores.filter(function(el) {
                         return el.value == true;
                     }));
+                    if (element.sectores.length==0){throw 'Seleccione al menos un sector';}
                     break;
                 case 'general2':
-                element.sectoresAnexo = element.sectoresAnexo.concat($scope.SAO.SectoresAnexo.filter(function(el) {
-                    return el.value == true;
-                }));
-                break;
+                    element.sectoresAnexo = element.sectoresAnexo.concat($scope.SAO.SectoresAnexo.filter(function(el) {
+                        return el.value == true;
+                    }));
+                    break;
                 case 'espuma3':
-                     if(element.otrosAlternativa!=''){
-                         element.Alternativa={nombre:element.otrosAlternativa}
-                     }
-                    break;
-                case 'aire2':
                     if(element.otrosAlternativa!=''){
-                        element.Alternativas={nombre:element.otrosAlternativa}
+                        element.Alternativa={nombre:element.otrosAlternativa}
                     }
                     break;
+
+
                 case 'aire3':
-                    if(element.otrosAlternativa!=''){
-                        element.Alternativas={nombre:element.otrosAlternativa}
-                    }
-                    break;
-                case 'consumo':
-                    if(element.otrosAlternativa!=''){
-                        element.Alternativas={nombre:element.otrosAlternativa}
-                    }
-                    break;
+
                 case 'refri':
-                    if(element.otrosAlternativa!=''){
-                        element.Alternativas={nombre:element.otrosAlternativa}
-                    }
-                    break;
+                    element.Uso = [{anno:2011, tons: 0},{anno:2012, tons: 0},{anno:2013, tons: 0},{anno:2014, tons: 0},{anno:2015, tons: (element.carga.max*element.unidades)/1000}];
+
+                case 'aire2':
+                case 'consumo':
                 case 'aerosoles':
-                    if(element.otrosAlternativa!=''){
-                        element.Alternativas={nombre:element.otrosAlternativa}
-                    }
-                    break;
                 case 'empresa1':
-                    if(element.otrosAlternativa!=''){
-                        element.Alternativas={nombre:element.otrosAlternativa}
-                    }
-                    break;
                 case 'empresa2':
-                    if(element.otrosAlternativa!=''){
-                        element.Alternativas={nombre:element.otrosAlternativa}
-                    }
-                    break;
                 case 'empresa3':
                     if(element.otrosAlternativa!=''){
                         element.Alternativas={nombre:element.otrosAlternativa}
                     }
                     break;
-
-
-
                 default:
 
                     break;
             }
+
+            //todo validar datos
+            element = Util.collect($scope.general, element);
+            if(element.Uso!=undefined)
+            {
+                if(element.Uso.length<5)
+                {
+                  throw 'Introduzca cantidad de toneladas';
+                }
+            }
+            if(element.CantRefriRefri!=undefined)
+            {
+                if(element.CantRefriRefri.length<3)
+                {
+                    throw 'Introduzca cantidad de refrigerante consumido para refrigeración ';
+                }
+            }
+            if(element.CantRefriAire!=undefined)
+            {
+                if(element.CantRefriAire.length<3)
+                {
+                    throw 'Introduzca cantidad de refrigerante consumido para aire acondicionado ';
+                }
+            }
+            if(element.Recuperacion!=undefined)
+            {
+                if(element.Recuperacion.length<5)
+                {
+                    throw 'Introduzca cantidad de equipos de recuperación ';
+                }
+            }
+            if(element.Recuperado!=undefined)
+            {
+                if(element.Recuperado.length<4)
+                {
+                    throw 'Introduzca cantidad recuperada ';
+                }
+            }
+
+
 
             AddElement(element);
         }
@@ -1421,13 +1585,22 @@ angular.module('app.sao')
 
         $scope.Save = function() {
             //TODO: reverse update in actions list
-            if ($scope.record._id == undefined) {
-                Add($scope.record);
-            } else {
-                UpdateElement($scope.record);
-            }
+           try{
+               if ($scope.record._id == undefined) {
+                   Add($scope.record);
+               } else {
+                   UpdateElement($scope.record);
+               }
 
-            Finish();
+               Finish();
+
+           }
+           catch (err)
+           {
+               $scope.error.show = true;
+               $scope.error.message = err;
+           }
+
         };
 
         $scope.Delete = function(element) {
@@ -1459,6 +1632,7 @@ angular.module('app.sao')
                     $scope.record.alternativaHFO = SAO.AlternativaHFO[0];
                     $scope.record.alternativaOtras = SAO.AlternativaOtras[0];
                     $scope.record.ra = SAO.RA[0];
+                    $scope.record.Sustancias = SAO.Sustancias[0];
                     $scope.record.Sectores = SAO.Sectores[0];
 
                     break;
@@ -1574,6 +1748,10 @@ angular.module('app.sao')
         //Modal de consumo
         $scope.ConsumoYear = function(year,amount){
 
+                if(amount==undefined){
+                   amount=0;
+                }
+
                 record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
                 record.Uso =  _.uniq(record.Uso,false,function (el) {
                     return el.anno;
@@ -1585,10 +1763,13 @@ angular.module('app.sao')
 
         };
         $scope.ConsumoRecuperacion = function(re2,amount){
+            if(amount==undefined){
+                amount=0;
+            }
 
             record.Recuperacion.push({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount});
             record.Recuperacion =  _.uniq(record.Recuperacion,false,function (el) {
-                return el.nombre;
+                return el.re2;
             });
 
             record.Recuperacion = _.sortBy( record.Recuperacion,function (us) {
@@ -1598,9 +1779,13 @@ angular.module('app.sao')
         };
         $scope.ConsumoRecuperado = function(re3,amount){
 
+            if(amount==undefined){
+                amount=0;
+            }
+
             record.Recuperado.push({"re3":re3,"cant3":amount,"nombre": +re3+":"+amount});
             record.Recuperado =  _.uniq(record.Recuperado,false,function (el) {
-                return el.nombre;
+                return el.r3;
             });
 
             record.Recuperado = _.sortBy( record.Recuperado,function (us) {
@@ -1610,9 +1795,13 @@ angular.module('app.sao')
         };
         $scope.ConsumoTotal = function(re4,amount){
 
+            if(amount==undefined){
+                amount=0;
+            }
+
             record.Total.push({"re4":re4,"cant4":amount,"nombre": +re4+":"+amount});
             record.Total =  _.uniq(record.Total,false,function (el) {
-                return el.nombre;
+                return el.re4;
             });
 
             record.Total = _.sortBy( record.Total,function (us) {
@@ -1622,9 +1811,13 @@ angular.module('app.sao')
         };
         $scope.ConsumoCantRefriRefri = function(re,amount){
 
+            if(amount==undefined){
+                amount=0;
+            }
+
             record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
             record.CantRefriRefri =  _.uniq(record.CantRefriRefri,false,function (el) {
-                return el.nombre;
+                return el.re;
             });
 
             record.CantRefriRefri = _.sortBy( record.CantRefriRefri,function (us) {
@@ -1634,13 +1827,17 @@ angular.module('app.sao')
         };
         $scope.ConsumoCantRefriAire = function(re1,amount){
 
+            if(amount==undefined){
+                amount=0;
+            }
+
             record.CantRefriAire.push({"re1":re1,"cant1":amount,"nombre": +re1+":"+amount});
             record.CantRefriAire =  _.uniq(record.CantRefriAire,false,function (el) {
-                return el.nombre;
+                return el.re1;
             });
 
             record.CantRefriAire = _.sortBy( record.CantRefriAire,function (us) {
-                return us.re;
+                return us.re1;
             });
 
         };

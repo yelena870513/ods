@@ -4,6 +4,12 @@
     <h4 class="modal-title">Taller de sevicios</h4>
 </div>
 <div class="modal-body">
+    <div class="row-fluid">
+        <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+            <button type="button" class="close" ng-click="error.show = false;Close();" aria-hidden="true">×</button>
+            {{error.message}}
+        </div>
+    </div>
     <!-- /.box-header -->
     <!-- form start -->
     <form role="form" name="actionForm" novalidate>
@@ -117,7 +123,7 @@
 
                     </div>
                     <div class="form-group">
-                        <label>Refrigerante consumido para aire acondicionado:</label>
+                        <label>Cantidad de refrigerante consumido para aire acondicionado:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="re1"
                                 data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>
