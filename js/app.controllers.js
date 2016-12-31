@@ -65,19 +65,25 @@ angular.module('app.sao')
             return el;
         });
         $scope.general2 = {
-            "otroHFC": "",
-            "otroHFCMezclas": "",
-            "otroHFO": "",
-            "otroAlternativasOtras": "",
-            "alternativaHFC": SAO.AlternativaHFC[0],
-            "alternativaHFCMezclas": SAO.AlternativaHFCMezclas[0],
-            "alternativaHFO": SAO.AlternativaHFO[0],
-            "alternativaOtras": SAO.AlternativaOtras[0],
+            // "otroHFC": "",
+            // "otroHFCMezclas": "",
+            // "otroHFO": "",
+            // "otroAlternativasOtras": "",
+            // "alternativaHFC": SAO.AlternativaHFC[0],
+            // "alternativaHFCMezclas": SAO.AlternativaHFCMezclas[0],
+            // "alternativaHFO": SAO.AlternativaHFO[0],
+            // "alternativaOtras": SAO.AlternativaOtras[0],
+            // "ra": SAO.RA[0],
+            // "Sectores": SAO.Sectores[0],
+            // "Sustancias": SAO.Sustancias[0],
+            // "sectoresAnexo": SAO.SectoresAnexo[0],
+            // "tipo": "general2"
+            "Alternativa":SAO.Tabla22[0].aplicacion,
+            "Tipo":SAO.Tabla22[0].alternativas[0],
+            "Sector":SAO.Tabla22[0].uso2[0],
             "ra": SAO.RA[0],
-            "Sectores": SAO.Sectores[0],
-            "Sustancias": SAO.Sustancias[0],
-            "sectoresAnexo": SAO.SectoresAnexo[0],
-            "tipo": "general2"
+            "otrosAlternativa":"",
+            "tipo":"general2"
         };
         $scope.general3 = {
             "Sector":SAO.Tabla2[0].aplicacion,
@@ -129,14 +135,15 @@ angular.module('app.sao')
             "otrosAlternativa":"",
             "unidades":"",
             "Uso":[],//{ano:"---",tons:""},
+            "clasificacion":SAO.Clasificacion[1],
             "tipo":"aire3",
-            "clasificacion":""
+
         };
 
         //AEROSOLES
 
         $scope.aerosoles = {
-            "Aplicacion":SAO.Tabla12[0].aplicacion,
+            "Aplicaciones":SAO.Tabla12[0].aplicacion,
             "Alternativas":SAO.Tabla12[0].alternativas[0],
             "otrosAlternativa":"",
             "Uso":[],//{ano:"---",tons:""},
@@ -271,11 +278,11 @@ angular.module('app.sao')
                         return el.value == true;
                     }));
                     break;
-                case 'general2':
-                    element.sectoresAnexo = element.sectoresAnexo.concat($scope.SectoresAnexo.filter(function(el) {
-                        return el.value == true;
-                    }));
-                    break;
+                // case 'general2':
+                //     element.sectoresAnexo = element.sectoresAnexo.concat($scope.SectoresAnexo.filter(function(el) {
+                //         return el.value == true;
+                //     }));
+                //     break;
                 default:
 
                     break;
@@ -1430,6 +1437,7 @@ angular.module('app.sao')
         //Configuracion para el modal tabla 8 consumo
         $scope.consumoR = SAO.Aplicaciones8[0];
         $scope.Tabla2R = SAO.Tabla2[0];
+        $scope.Tabla22R = SAO.Tabla22[0];
         $scope.Tabla5R = SAO.Tabla5[0];
         $scope.Tabla9R = SAO.Tabla9[0];
         $scope.Tabla12R = SAO.Tabla12[0];
@@ -1442,6 +1450,7 @@ angular.module('app.sao')
         $scope.SustanciasTabla6 = SAO.SustanciasTabla6[0];
         var selectedConsumo = $scope.consumoR;
         var selectedTabla2 = $scope.Tabla2R;
+        var selectedTabla22 = $scope.Tabla22R;
         var selectedTabla5 = $scope.Tabla5R;
         var selectedTabla9 = $scope.Tabla9R;
         var selectedTabla12 = $scope.Tabla12R;
@@ -1492,17 +1501,40 @@ angular.module('app.sao')
                     }));
                     if (element.sectores.length==0){throw 'Seleccione al menos un sector';}
                     break;
-                case 'general2':
-                    element.sectoresAnexo = element.sectoresAnexo.concat($scope.SAO.SectoresAnexo.filter(function(el) {
-                        return el.value == true;
-                    }));
-                    break;
+                // case 'general2':
+                //     element.sectoresAnexo = element.sectoresAnexo.concat($scope.SAO.SectoresAnexo.filter(function(el) {
+                //         return el.value == true;
+                //     }));
+                //     break;
                 case 'espuma3':
                     if(element.otrosAlternativa!=''){
                         element.Alternativa={nombre:element.otrosAlternativa}
                     }
                     break;
-
+                case 'general2':
+                    if(element.otrosAlternativa!=''){
+                        element.Tipo={nombre:element.otrosAlternativa}
+                    }
+                    break;
+                case 'empresa4':
+                    if(element.nombreTaller==''){
+                        throw 'Introduzca el nombre del taller';
+                    }
+                    if(element.municipio==''){
+                        throw 'Introduzca el nombre del municipio';
+                    }
+                    if(element.sustanciasR==undefined){
+                        element.sustanciasR=0;
+                    }
+                    if(element.sustanciasRL==undefined){
+                        element.sustanciasRL=0;
+                    }
+                    break;
+                case 'general':
+                    if(empresa==''){
+                        throw 'Introduzca el nombre de la empresa';
+                    }
+                 break;
 
                 case 'aire3':
 
@@ -1530,14 +1562,14 @@ angular.module('app.sao')
             {
                 if(element.Uso.length<5)
                 {
-                  throw 'Introduzca cantidad de toneladas';
+                  throw 'Agregue la cantidad de toneladas m\u00E9tricas por a\u00F1os ';
                 }
             }
             if(element.CantRefriRefri!=undefined)
             {
                 if(element.CantRefriRefri.length<3)
                 {
-                    throw 'Introduzca cantidad de refrigerante consumido para refrigeración ';
+                    throw 'Introduzca cantidad de refrigerante consumido para refrigeraci\u00F3n ';
                 }
             }
             if(element.CantRefriAire!=undefined)
@@ -1551,7 +1583,7 @@ angular.module('app.sao')
             {
                 if(element.Recuperacion.length<5)
                 {
-                    throw 'Introduzca cantidad de equipos de recuperación ';
+                    throw 'Introduzca cantidad de equipos de recuperaci\u00F3n ';
                 }
             }
             if(element.Recuperado!=undefined)
@@ -1637,13 +1669,18 @@ angular.module('app.sao')
 
                 case 'general2':
                     // $scope.record.sectores = SAO.Sectores[1];
-                    $scope.record.alternativaHFC = SAO.AlternativaHFC[0];
-                    $scope.record.alternativaHFCMezclas = SAO.AlternativaHFCMezclas[0];
-                    $scope.record.alternativaHFO = SAO.AlternativaHFO[0];
-                    $scope.record.alternativaOtras = SAO.AlternativaOtras[0];
+                    // $scope.record.alternativaHFC = SAO.AlternativaHFC[0];
+                    // $scope.record.alternativaHFCMezclas = SAO.AlternativaHFCMezclas[0];
+                    // $scope.record.alternativaHFO = SAO.AlternativaHFO[0];
+                    // $scope.record.alternativaOtras = SAO.AlternativaOtras[0];
+                    // $scope.record.ra = SAO.RA[0];
+                    // $scope.record.Sustancias = SAO.Sustancias[0];
+                    // $scope.record.Sectores = SAO.Sectores[0];
+                    $scope.record.Alternativa = selectedTabla22.aplicacion;
+                    $scope.record.Tipo = selectedTabla22.alternativas[0];
+                    $scope.record.Sector = selectedTabla22.uso2[0];
                     $scope.record.ra = SAO.RA[0];
-                    $scope.record.Sustancias = SAO.Sustancias[0];
-                    $scope.record.Sectores = SAO.Sectores[0];
+
 
                     break;
                 case 'espuma1':
@@ -1678,7 +1715,7 @@ angular.module('app.sao')
                     break;
                 case 'aire3':
                     $scope.record.Alternativas = SAO.Tabla11A[0].alternativas[0];
-                    $scope.year = 2011;
+                    $scope.year = 2010;
 
                     break;
                 case 'consumo':
@@ -1688,7 +1725,7 @@ angular.module('app.sao')
                     break;
                 case 'refri':
                     $scope.record.Alternativas = SAO.Tabla11B[0].alternativas[0];
-                    $scope.year = 2011;
+                    $scope.year = 2010;
 
                     break;
                 case 'aerosoles':
@@ -1699,6 +1736,10 @@ angular.module('app.sao')
                 case 'importaciones1':
                     $scope.record.Sustancia = SAO.SustanciasTabla6[0];
                     $scope.year = 2010;
+
+                    break;
+                case 'importaciones2':
+                    $scope.year = 2011;
 
                     break;
                 case 'empresa1':
@@ -1867,6 +1908,14 @@ angular.module('app.sao')
             $scope.record.Alternativa = selectedTabla2.uso2[0];
             // $scope.record.uso2 = selectedTabla2.uso2;
         };
+        $scope.ShowTabla22 = function(){
+            selectedTabla22 = $scope.Tabla22R;
+            $scope.record.Alternativa = selectedTabla2.aplicacion;
+            $scope.record.Tipo = selectedTabla22.alternativas[0];
+            $scope.record.Sector = selectedTabla22.uso2[0];
+            $scope.record.ra = SAO.RA[0];
+            // $scope.record.uso2 = selectedTabla2.uso2;
+        };
 
         // Modal Tabla5
 
@@ -1883,6 +1932,7 @@ angular.module('app.sao')
             $scope.record.Carga = selectedTabla9.carga;
             $scope.record.Aplicaciones = selectedTabla9.aplicacion;
             $scope.record.Alternativas = selectedTabla9.alternativas[0];
+
         };
 
         //Modal Tabla12
@@ -1907,6 +1957,7 @@ angular.module('app.sao')
             $scope.record.Capacidad = selectedTabla11A.carga;
             $scope.record.Aplicaciones = selectedTabla11A.aplicacion;
             $scope.record.Alternativas = selectedTabla11A.alternativas[0];
+            $scope.record.clasificacion = SAO.Clasificacion[1];
         };
         $scope.ShowTabla11B = function(){
             selectedTabla11B = $scope.Tabla11BR;
