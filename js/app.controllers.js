@@ -1539,7 +1539,7 @@ angular.module('app.sao')
                 case 'aire3':
 
                 case 'refri':
-                    element.Uso = [{anno:2011, tons: 0},{anno:2012, tons: 0},{anno:2013, tons: 0},{anno:2014, tons: 0},{anno:2015, tons: (element.carga.max*element.unidades)/1000}];
+                    element.Uso = [{anno:2011, tons: 0, "nombre": 2011+":"+0},{anno:2012, tons: 0,"nombre": 2012+":"+0},{anno:2013, tons: 0,"nombre": 2013+":"+0},{anno:2014, tons: 0,"nombre": 2014+":"+0},{anno:2015, tons: (element.Capacidad.max*element.unidades)/1000,"nombre": 2015+":"+(element.Capacidad.max*element.unidades)/1000}];
 
                 case 'aire2':
                 case 'consumo':
@@ -1639,8 +1639,14 @@ angular.module('app.sao')
            }
            catch (err)
            {
+               if(Object.prototype.toString.call( err ) === '[object Object]'){
+                   $scope.error.message = err.message;
+               }
+               else {
+                   $scope.error.message = err;
+               }
                $scope.error.show = true;
-               $scope.error.message = err;
+
            }
 
         };

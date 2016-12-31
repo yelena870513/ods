@@ -19,7 +19,7 @@ function createWindow () {
   mainWindow.loadURL(`file://${__dirname}/index.html`)  ;
 
   // Open the DevTools. | Descomentarear para Depurar
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   //Icono
   //BrowserWindow({icon:`file://${__dirname}/app.ico`});
