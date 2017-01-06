@@ -2046,7 +2046,7 @@ angular.module('app.sao')
 
 
     })
-    .controller('loginController',function ($scope, Manager,$location, $localStorage){
+    .controller('loginController',function ($scope, Manager,$location, $localStorage,SHA256){
         $scope.user = {
             "username":"",
             "password":"",
@@ -2069,6 +2069,7 @@ angular.module('app.sao')
                     $scope.users = data.rows.map(function(el) {
                         return el.doc;
                     });
+                    user.password = SHA256(user.password).toString();
                     var result =  _.findWhere($scope.users,user);
                     if(result!=undefined)
                     {
@@ -2102,10 +2103,11 @@ angular.module('app.sao')
             var instance = $uibModal.open({
                 animation: true,
                 templateUrl: "template/modal/user-modal.html",
-                controller: function ($scope,Manager,user,$uibModalInstance) {
+                controller: function ($scope,Manager,user,$uibModalInstance,SHA256) {
                     $scope.user = user;
                     $scope.Save= function (user) {
                         user.tipo = "usuario";
+                        user.password = SHA256(user.password).toString();
                         Manager.create(user).then(function(result) {
                             //todo on success
                             console.info(JSON.stringify(result));
@@ -2146,7 +2148,10 @@ angular.module('app.sao')
         };
 
         $scope.Delete = function (el) {
-            DeleteElement(el);
+            DeleteElement(el).finally(function () {
+                Refresh();
+                // Finish();
+            });
         };
 
         function Refresh()
@@ -2176,6 +2181,9 @@ angular.module('app.sao')
                 if($scope.user==undefined)
                 {
                     $location.path('/login');
+                }
+                else {
+                    Refresh();
                 }
             },500);
 

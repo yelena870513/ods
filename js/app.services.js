@@ -904,4 +904,10 @@ angular.module('app.sao')
             }
         };
     }
-]);
+]).
+factory("SHA256",function () {
+    return  CryptoJS.SHA256;
+})
+
+
+;
