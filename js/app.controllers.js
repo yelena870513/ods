@@ -1,5 +1,5 @@
 angular.module('app.sao')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns) {
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns,$timeout,$location) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
         //DB en memoria
@@ -233,6 +233,17 @@ angular.module('app.sao')
 
         ////LOCAL MEMBERS
         function init() {
+            var user = $localStorage.user;
+            if(user==undefined)
+            {
+
+                $timeout(function () {
+                    $location.path('/login');
+                },300);
+            }
+            else{
+                $scope.user  = user;
+            }
             Manager.local().then(function(res) {
                 if (res!=undefined) {
                     $scope.documents = res.rows.map(function(el) {
@@ -715,6 +726,17 @@ angular.module('app.sao')
 
         function init()
         {
+            var user = $localStorage.user;
+            if(user==undefined)
+            {
+
+                $timeout(function () {
+                    $location.path('/login');
+                },300);
+            }
+            else{
+                $scope.user  = user;
+            }
             var hash = $location.path();
             if(hash.indexOf('saora')!=-1)
             {
@@ -2058,11 +2080,7 @@ angular.module('app.sao')
 
         $scope.SignIn = function (user)
         {
-            if(user.username=='sao'){
-                $localStorage.user = user;
-                $location.path('/home');
-            }
-            else{
+
                 Manager.record('usuario').
                 then(function (data)
                 {
@@ -2070,7 +2088,7 @@ angular.module('app.sao')
                         return el.doc;
                     });
                     user.password = SHA256(user.password).toString();
-                    var result =  _.findWhere($scope.users,user);
+                    var result =  _.find($scope.users,{username:user.username,password:user.password});
                     if(result!=undefined)
                     {
 
@@ -2079,7 +2097,7 @@ angular.module('app.sao')
                     }
                     else
                     {
-                        $scope.signinError.content = reason;
+
                         $scope.signinError.show = true;
                         $scope.signinError.message = "Credenciales incorrectas";
                     }
@@ -2090,7 +2108,7 @@ angular.module('app.sao')
                     $scope.signinError.show = true;
                     $scope.signinError.message = "Ha ocurrido un error";
                 })
-            }
+
 
             ;
         }

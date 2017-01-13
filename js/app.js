@@ -106,5 +106,26 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
     })
 
     ;
+
+}).run(function (Manager,SHA256) {
+
+    //Creando al usuario sino existe
+    Manager.record('usuario').then(function (data) {
+        var users = data.rows.map(function (el) {
+            return el.doc;
+        });
+
+        var result =  _.find(users,{"username":"sao"});
+        if(result==undefined)
+        {
+
+            Manager.create({
+                "username":"sao",
+                "password":SHA256("sao").toString(),
+                "tipo":"usuario"
+            });
+        }
+        ;
+    });
 })
 ;
