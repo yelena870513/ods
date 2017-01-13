@@ -898,4 +898,13 @@ angular.module('app.sao')
             }
         };
     }
-]);
+])
+    .
+factory('ModelValidator',function(){
+        var validator = {};
+        validator.isValidUser = function(user){
+            var pass = new RegExp(' /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A‌​-Za-z\d$@$!%*?&#.$($‌​)$-$_]{8,15}$/');
+            var username = new RegExp(' /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A‌​-Za-z\d$@$!%*?&#.$($‌​)$-$_]{8,15}$/');
+            return pass.test(user.password) && username.test(user.username);
+        }
+    });

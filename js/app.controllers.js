@@ -2038,7 +2038,7 @@ angular.module('app.sao')
         }
 
     })
-    .controller('userController',function ($scope, Manager, $uibModal,$location,$timeout,$localStorage) {
+    .controller('userController',function ($scope, Manager, $uibModal,$location,$timeout,$localStorage,ModelValidator) {
         $scope.users = [];
         $scope.user = undefined;
         $scope.User = function (user,size) {
@@ -2047,18 +2047,30 @@ angular.module('app.sao')
                 templateUrl: "template/modal/user-modal.html",
                 controller: function ($scope,Manager,user,$uibModalInstance) {
                     $scope.user = user;
-                    $scope.Save= function (user) {
+                    $scope.Save= function (user)
+                    {
                         user.tipo = "usuario";
-                        Manager.create(user).then(function(result) {
-                            //todo on success
-                            console.info(JSON.stringify(result));
-                            Finish();
-                        }).
-                        catch (function(reason) {
-                            //todo on fail
-                            console.warn(JSON.stringify(reason));
-                            Close();
-                        })
+                        if (ModelValidator.isValidUser(user))
+                        {
+                            Manager.create(user).then(function(result) {
+                                //todo on success
+                                console.info(JSON.stringify(result));
+                                Finish();
+                            }).
+                            catch (function(reason) {
+                                //todo on fail
+                                console.warn(JSON.stringify(reason));
+                                Close();
+                            })
+                        }
+                        else
+                        {
+
+                            $scope.signinError.show = true;
+                            $scope.signinError.message = "Ha ocurrido un error";
+                        }
+
+
                     };
 
                     $scope.Close = function () {
