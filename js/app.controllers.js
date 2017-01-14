@@ -484,7 +484,7 @@ angular.module('app.sao')
 
 
     })
-    .controller("reportController", function($scope, SAO, Manager, $uibModal,SType,Columns,$location,$timeout,$q) {
+    .controller("reportController", function($scope, SAO, Manager, $uibModal,SType,Columns,$location,$timeout,$q,$localStorage) {
         //Este controlador es para los reportes.
 
         $scope.tables = [];
@@ -514,6 +514,10 @@ angular.module('app.sao')
             {
                 return hash.indexOf(la)!=-1;
             })[0];
+
+            if (current==undefined) {
+                current = 'sao';
+            }
 
             html2canvas(document.getElementById('table-data'),{
                 onrendered:function (canvas) {

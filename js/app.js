@@ -1,7 +1,17 @@
 'use strict';
 //fs y ws son los manager para guardar en fichero la base de datos una vez terminado de gestionar todo.
+var electron = require('electron');
+// console.log(electron.getPath('documents'));
 var fs = require('fs');
-var ws = fs.createWriteStream('data/sao.json');
+var os = require('os');
+fs.exists(os.homedir()+'/.sao/data',function (exists) {
+    if (!exists) {
+        fs.mkdir(os.homedir()+'/.sao');
+        fs.mkdir(os.homedir()+'/.sao/data');
+    }
+});
+
+var ws = fs.createWriteStream(os.homedir()+'/.sao/data/sao.json');
 var replicationStream = require('pouchdb-replication-stream');
 var MemoryStream = require('memorystream');
 PouchDB.plugin(replicationStream.plugin);
