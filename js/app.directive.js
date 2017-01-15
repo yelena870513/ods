@@ -2,7 +2,8 @@
  * Esta es la directiva que construye el arbol del menu
  */
 //directiva para simular el arbol de los menu.
-angular.module('app.sao').directive("tree", function(RecursionHelper) {
+angular.module('app.sao')
+    .directive("tree", function(RecursionHelper) {
 return {
     restrict: "AE",
     require: '^ngModel',
@@ -47,5 +48,16 @@ return {
 
 }
 })
+    .directive('responsiveNav',function () {
+        return {
+            restrict: "A",
+            link:function (scope, element, attrs, controller, transcludeFn) {
+                scope.navigation =  responsiveNav('#'+attrs.id,{"insert":"before","init":function () {
+                    this.open();
+                }});
+
+            }
+        }
+    })
 
 ;

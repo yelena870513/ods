@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Censo Nacional",
   "main": "main.js",
+  "license": "MIT",
+  "authors": [
+    "Yelena Islen San Juan <yelena870513@gmail.com>"
+  ],
   "scripts": {
     "start": "electron ."    
   },

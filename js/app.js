@@ -103,7 +103,7 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             controller:function ($location,$localStorage)
             {
                 delete $localStorage.user;
-                $location.path('/home');
+                $location.path('/login');
 
             }
         }).
@@ -135,7 +135,22 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
                 "tipo":"usuario"
             });
         }
-        ;
     });
+}).controller('mainController',function ($scope,$location) {
+
+    //Manejador global de la interfaz de usuario
+    var hashes = ['general','charts','users','list'];
+    $scope.navigation = {};
+    $scope.isActive=function (path) {
+        var hash = $location.path();
+
+        var current = hashes.filter(function (la)
+        {
+            return hash.indexOf(la)!=-1;
+        })[0];
+
+        return current==path;
+    }
+
 })
 ;
