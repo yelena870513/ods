@@ -52,9 +52,7 @@ return {
         return {
             restrict: "A",
             link:function (scope, element, attrs, controller, transcludeFn) {
-                scope.navigation =  responsiveNav('#'+attrs.id,{"insert":"before","init":function () {
-                    this.open();
-                }});
+                scope.navigation =  responsiveNav('#'+attrs.id,{"insert":"before","label":"<i class='ion-android-menu'></i>"});
 
             }
         }
