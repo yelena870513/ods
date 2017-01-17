@@ -140,3 +140,8 @@ label.negro{
         display: none;
     }
 }
+
+.active-menu{
+    background-color: #336699;
+    color: white;
+}

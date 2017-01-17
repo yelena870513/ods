@@ -1,7 +1,8 @@
 angular.module('app.sao')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns,$timeout,$location) {
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns,$timeout,$location,SType) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
+        var active = '';
         //DB en memoria
         $scope.documents = [];
         $scope.table = {
@@ -423,8 +424,23 @@ angular.module('app.sao')
 
         $scope.SelectModal = function (tipo) {
             $scope.table.name = tipo;
+            for (var i in SType)
+            {
+                var tags = SType[i];
+                if (tags.indexOf(tipo)!=-1)
+                {
+                    active = i;
+                    break;
+                }
+            }
             $scope.ShowRecord();
         };
+
+        $scope.isActive=function(path){
+          return path==active;
+        };
+
+
 
         $scope.ShowRecord = function() {
             try {

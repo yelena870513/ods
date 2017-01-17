@@ -750,7 +750,7 @@ angular.module('app.sao')
             "general":["general1","general2","general3"],
             "espuma":["espuma1","espuma2","espuma3"],
             "aire":["aire1","aire2","aire3"],
-            "refri":["refri1","consumo"],
+            "refri":["refri","consumo"],
             "aerosoles":["aerosoles"],
             "importaciones":["importaciones1","importaciones1","importaciones1"],
             "empresa":["empresa1","empresa2","empresa3"]
