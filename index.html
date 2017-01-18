@@ -12,44 +12,87 @@
 
 
 </head>
-<body data-ng-app="app.sao">
+<!--<body data-ng-app="app.sao">-->
+<!--<nav class="navbar navbar-inverse" role="navigation">-->
+    <!--<div class="navbar-header">-->
+        <!--<a class="navbar-brand logo1"> <img class="logo2" src="img/logo.png"></a>-->
+    <!--</div>-->
+    <!--<ul class="nav navbar-nav">-->
+
+
+        <!--<li>-->
+            <!--<a data-ui-sref="general">Datos Generales</a>-->
+        <!--</li>-->
+
+        <!--<li>-->
+            <!--<a data-ui-sref="charts">Gráficas</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a data-ui-sref="users">Usuario</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a data-ui-sref="salir"><i class="fa fa-user"></i> Cerrar sesión</a>-->
+
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a data-ui-sref="cerrar"><i class="fa fa-sign-out"></i>Salir</a>-->
+        <!--</li>-->
+    <!--</ul>-->
+
+
+  <!--</nav>-->
+
+<!--<div class="container">-->
+    <!--<div data-ui-view></div>-->
+    <!--&lt;!&ndash;<div> <a class=""> <img class="" src="img/logo.png"></a></div>&ndash;&gt;-->
+<!--</div>-->
+<body data-ng-app="app.sao" data-ng-controller="mainController">
 <nav class="navbar navbar-inverse" role="navigation">
     <!--<div class="navbar-header">-->
-        <!--<a class="navbar-brand">Censo Nacional</a>-->
+    <!--<a class="navbar-brand">Censo Nacional</a>-->
     <!--</div>-->
     <ul class="nav navbar-nav">
-        <li>
+        <li data-ng-class="{'active':isActive('general') || isActive('list')}">
             <a data-ui-sref="general">Datos Generales</a>
         </li>
-        <li>
+        <li data-ng-class="{'active':isActive('charts')}">
             <a data-ui-sref="charts">Gráficas</a>
         </li>
-        <li>
+        <li data-ng-class="{'active':isActive('users')}">
             <a data-ui-sref="users">Usuarios</a>
         </li>
         <li>
-            <a data-ui-sref="salir"><i class="fa fa-user"></i>Salir</a>
+            <a data-ui-sref="salir"><i class="fa fa-user"></i>Cerrar sesión</a>
 
         </li>
         <li>
-            <a data-ui-sref="cerrar"><i class="fa fa-sign-out"></i>Cerrar</a>
+            <a data-ui-sref="cerrar"><i class="fa fa-sign-out"></i>Salir</a>
         </li>
     </ul>
 
-<div>
-    <center> <img class="logo" src="img/logo.png"></center>
-</div>
-  </nav>
+    <div>
+        <h1 style="color: #fff; text-align: center; padding-top: 100px; font-size:5em">Censo Nacional <br> SAO y HFC</h1>
+    </div>
+</nav>
 
 <div class="container">
     <div data-ui-view></div>
 </div>
+<footer class="footer">
+    <a><img class="logos" src="img/2.jpg"></a>
+    <a><img class="logos" src="img/1.jpg"></a>
+    <a><img class="logos1" src="img/3.jpg"></a>
+
+</footer>
+
 
 <script src="lib/pouchdb.js"></script>
 <script src="lib/pouchdb.replication-stream.min.js"></script>
 <script src="lib/pouchdb.load.js"></script>
 <script src="lib/chart.js/dist/Chart.bundle.min.js"></script>
 <script src="lib/underscore.js"></script>
+<script src="lib/crypto-js/crypto-js.js"></script>
+<script src="lib/crypto-js/sha256.js"></script>
 <script src="lib/file-saver/FileSaver.min.js"></script>
 <script src="lib/pouchdb-replication-stream/dist/pouchdb.replication-stream.min.js"></script>
 <script src="lib/html2canvas.js"></script>
@@ -61,6 +104,7 @@
 <script src="lib/lib/angular-chart.js/dist/angular-chart.min.js"></script>
 <script src="lib/ngstorage/ngStorage.min.js"></script>
 <script src="lib/ng-file-upload/ng-file-upload.js"></script>
+<script src="lib/angular-messages.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/app.controllers.js"></script>
 <script src="js/app.services.js"></script>
