@@ -910,8 +910,9 @@ factory('ModelValidator',function()
     {
         var validator = {};
         validator.isValidUser = function(user){
-            var pass = new RegExp(' /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A‌​-Za-z\d$@$!%*?&#.$($‌​)$-$_]{8,15}$/');
-            var username = new RegExp(' /^[a-z][a-z0-9\.]{8,15}$/i');
+
+            var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
+            var username = /^[a-z][a-z0-9\.]{8,15}$/i;
             return pass.test(user.password) && username.test(user.username);
         };
 

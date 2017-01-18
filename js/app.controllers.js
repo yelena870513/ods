@@ -2137,17 +2137,28 @@ angular.module('app.sao')
     .controller('userController',function ($scope, Manager, $uibModal,$location,$timeout,$localStorage,ModelValidator) {
         $scope.users = [];
         $scope.user = undefined;
+        $scope.signinError ={
+            show:false,
+            message:'Ha ocurrido un error'
+
+        };
         $scope.User = function (user,size) {
             var instance = $uibModal.open({
                 animation: true,
                 templateUrl: "template/modal/user-modal.html",
                 controller: function ($scope,Manager,user,$uibModalInstance,SHA256) {
                     $scope.user = user;
+                    $scope.signinError ={
+                        show:false,
+                        message:'Ha ocurrido un error'
+
+                    };
                     $scope.Save= function (user)
                     {
                         user.tipo = "usuario";
                         if (ModelValidator.isValidUser(user))
                         {
+                            user.password = SHA256(user.password).toString();
                             Manager.create(user).then(function(result) {
                                 //todo on success
                                 console.info(JSON.stringify(result));
@@ -2163,21 +2174,12 @@ angular.module('app.sao')
                         {
 
                             $scope.signinError.show = true;
-                            $scope.signinError.message = "Ha ocurrido un error";
+                            $scope.signinError.message = "Verifique la seguridad de las credenciales.";
                         }
 
 
-                        user.password = SHA256(user.password).toString();
-                        Manager.create(user).then(function(result) {
-                            //todo on success
-                            console.info(JSON.stringify(result));
-                            Finish();
-                        }).
-                        catch (function(reason) {
-                            //todo on fail
-                            console.warn(JSON.stringify(reason));
-                            Close();
-                        })
+
+
                     };
 
                     $scope.Close = function () {
