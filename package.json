@@ -8,12 +8,13 @@
     "Yelena Islen San Juan <yelena870513@gmail.com>"
   ],
   "scripts": {
-    "start": "electron ."    
+    "start": "electron ."
   },
   "devDependencies": {
     "electron-prebuilt": "^1.2.0"
   },
   "dependencies": {
+    "angular-messages": "^1.6.1",
     "pouchdb": "^5.4.5"
   }
 }
