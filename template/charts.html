@@ -1,27 +1,9 @@
 <div class="container " data-ng-show="user">
     <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <!--<div class="btn-group" uib-dropdown is-open="status.isopen">-->
-            <!--<button id="single-button-datos" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">-->
-                <!--Ajustes <span class="caret"></span>-->
-            <!--</button>-->
-            <!--<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">-->
-                <!--<li role="menuitem"><a  data-ng-click="Set()">Datos generales</a></li>-->
 
-            <!--</ul>-->
-        <!--</div>-->
-        <div class="btn-group" uib-dropdown is-open="status8.isopen">
-            <button id="single-button-general" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-                General <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a data-ng-click="SelectChart('general1')" >Uso general de alternativas a las SAO en la actualidad</a></li>
-                <li role="menuitem"><a data-ng-click="SelectChart('general3')" >Sectores y subsectores donde se usan alternativas de ODS actualmente</a></li>
-                <li role="menuitem"><a data-ng-click="SelectChart('general2')">Resumen de su uso en todos los sectores para cada año entre 2011-2015 </a></li>
-            </ul>
-        </div>
 
         <div class="btn-group" uib-dropdown is-open="status2.isopen">
-            <button id="single-button-espuma" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-espuma" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
                 Espuma <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -32,71 +14,95 @@
             </ul>
         </div>
         <div class="btn-group" uib-dropdown is-open="status3.isopen">
-            <button id="single-button-aire" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
                 Aire Acondicionado <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li role="menuitem"><a data-ng-click="SelectChart('aire1')" >Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado</a></li>
-                <li role="menuitem"><a data-ng-click="SelectChart('aire2')">Uso de alternativas de SAO en la fabricación de aires acondicionados</a></li>
-                <li role="menuitem"><a data-ng-click="SelectChart('aire3')">La recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('aire2')">Fabricantes de aires acondicionados</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('aire3')">Uso de alternativas de SAO en aires acondicionados</a></li>
             </ul>
         </div>
         <div class="btn-group" uib-dropdown is-open="status4.isopen">
-            <button id="single-button-refrigeracion" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-refrigeracion" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
                 Refrigeración <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li role="menuitem"><a data-ng-click="SelectChart('consumo')">Fabricante de refrigeración</a></li>
-                <li role="menuitem"><a data-ng-click="SelectChart('refri')">Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('refri')">Uso de alternativas de SAO en refrigeración</a></li>
 
             </ul>
         </div>
 
         <div class="btn-group" uib-dropdown is-open="status5.isopen">
-            <button id="single-button-consumo" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-consumo" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
                 Aerosoles <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a  data-ng-click="SelectChart('aerosoles')">Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles </a></li>
+                <li role="menuitem"><a  data-ng-click="SelectChart('aerosoles')">Uso de alternativas de SAO en el sector de aerosoles </a></li>
 
             </ul>
         </div>
         <div class="btn-group" uib-dropdown is-open="status6.isopen">
-            <button id="single-button-importaciones" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-importaciones" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
                 Importaciones <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a data-ng-click="SelectChart('importaciones1')" >Demanda de Sao y Agentes soplantes en el sector de espuma</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('importaciones1')" >Demanda de SAO y refrigerantes...</a></li>
                 <li role="menuitem"><a data-ng-click="SelectChart('importaciones2')">Cantidad de importaciones de alternativas de ODS</a></li>
             </ul>
         </div>
         <div class="btn-group" uib-dropdown is-open="status7.isopen">
-            <button id="single-button-empresa" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-empresa" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
                 Empresa <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a data-ng-click="SelectChart('empresa1')" >Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz</a></li>
-                <li role="menuitem"><a data-ng-click="SelectChart('empresa2')">Recolección de datos en el uso de alternativas de SAO en Refrigeracion Movil</a></li>
-                <li role="menuitem"><a data-ng-click="SelectChart('empresa3')">La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('empresa1')" >Aire Acondicionado Automotriz</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('empresa2')">Refrigeración Móvil</a></li>
+                <li role="menuitem"><a data-ng-click="SelectChart('empresa3')">Sector de solventes</a></li>
             </ul>
         </div>
     </div>
-    <section class="content">
+    <section class="content" style="height: 200px">
         Usuario {{user.username}}
     </section>
     <section class="content">
         <div class="row">
-            <div class="col-md-12" data-ng-show="bar.show" style="width: 526px; height: 323px;">
+            <div class="col-md-12 barra" data-ng-show="bar.show" >
                 <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series"></canvas>
             </div>
 
         </div>
     </section>
+    <!--<section class="content">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-12" >-->
+                <!--<div class="form-group">-->
+                    <!--<label for="pie-select" style="color: #edf4ec">Seleccione Año a mostrar</label>-->
+                    <!--<select id="pie-select"-->
+                            <!--class="form-control select2 select2-hidden-accessible"-->
+                            <!--style="width: 100%;"-->
+                            <!--tabindex="-1"-->
+                            <!--aria-hidden="true"-->
+                            <!--data-ng-model="selectedYear"-->
+                            <!--data-ng-change="ShowSelectedPie()"-->
+                            <!--data-ng-options="item as item for item in years"-->
+                    <!--&gt;  </select>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-12" data-ng-show="pie.show">-->
+                <!--<canvas id="pie" class="chart chart-pie"   data-chart-data="pie.data" data-chart-labels="pie.labels" data-chart-options="pie.options">-->
+                <!--</canvas>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</section>-->
     <section class="content" data-ng-show="bar.show">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="pie-select">Seleccione Año a mostrar</label>
+                    <label style="color: #000" for="pie-select">Seleccione Año a mostrar</label>
                     <select id="pie-select"
                             class="form-control select2 select2-hidden-accessible"
                             style="width: 100%;"

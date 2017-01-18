@@ -1,7 +1,8 @@
 angular.module('app.sao')
-    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns,$timeout,$location) {
+    .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns,$timeout,$location,SType) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
+        var active = '';
         //DB en memoria
         $scope.documents = [];
         $scope.table = {
@@ -65,19 +66,7 @@ angular.module('app.sao')
             return el;
         });
         $scope.general2 = {
-            // "otroHFC": "",
-            // "otroHFCMezclas": "",
-            // "otroHFO": "",
-            // "otroAlternativasOtras": "",
-            // "alternativaHFC": SAO.AlternativaHFC[0],
-            // "alternativaHFCMezclas": SAO.AlternativaHFCMezclas[0],
-            // "alternativaHFO": SAO.AlternativaHFO[0],
-            // "alternativaOtras": SAO.AlternativaOtras[0],
-            // "ra": SAO.RA[0],
-            // "Sectores": SAO.Sectores[0],
-            // "Sustancias": SAO.Sustancias[0],
-            // "sectoresAnexo": SAO.SectoresAnexo[0],
-            // "tipo": "general2"
+
             "Alternativa":SAO.Tabla22[0].aplicacion,
             "Tipo":SAO.Tabla22[0].alternativas[0],
             "Sector":SAO.Tabla22[0].uso2[0],
@@ -143,7 +132,7 @@ angular.module('app.sao')
         //AEROSOLES
 
         $scope.aerosoles = {
-            "Aplicacion":SAO.Tabla12[0].aplicacion,
+            "Aplicaciones":SAO.Tabla12[0].aplicacion,
             "Alternativas":SAO.Tabla12[0].alternativas[0],
             "otrosAlternativa":"",
             "Uso":[],//{ano:"---",tons:""},
@@ -156,11 +145,12 @@ angular.module('app.sao')
             "Uso":[],//{ano:"---",tons:""},
             "tipo": "importaciones1"
         };
+
         $scope.importaciones2 = {
-            "Alternativa":SAO.Tabla3Anexo2[0].aplicacion,
-            "Alternativas":SAO.Tabla3Anexo2[0].alternativas[0],
+
+            "Alternativa":SAO.Tabla23[0].aplicacion,
+            "Tipo":SAO.Tabla23[0].alternativas[0],
             "otrosAlternativa":"",
-            "Uso":[],//{ano:"---",tons:""},
             "tipo":"importaciones2"
         };
 
@@ -212,8 +202,8 @@ angular.module('app.sao')
         };
         $scope.empresa4 = {
             "Organizacion":SAO.OrgProduccion[0],
-            "CantRefigeranteAire":SAO.SustanciasAire[0],
-            "CantRefigeranteRefrigeracion":SAO.SustanciasRefrigerante[0],
+            "SustaciaAire":SAO.SustanciasAire[1],
+            "SustanciaRefrigerante":SAO.SustanciasRefrigerante[1],
             "TipoRefrigeracion":SAO.TipoRefri[0],
             "TipoAire":SAO.TipoAire[0],
             "CantRefriAire":[],
@@ -289,11 +279,11 @@ angular.module('app.sao')
                         return el.value == true;
                     }));
                     break;
-                case 'general2':
-                    element.sectoresAnexo = element.sectoresAnexo.concat($scope.SectoresAnexo.filter(function(el) {
-                        return el.value == true;
-                    }));
-                    break;
+                // case 'general2':
+                //     element.sectoresAnexo = element.sectoresAnexo.concat($scope.SectoresAnexo.filter(function(el) {
+                //         return el.value == true;
+                //     }));
+                //     break;
                 default:
 
                     break;
@@ -423,7 +413,20 @@ angular.module('app.sao')
 
         $scope.SelectModal = function (tipo) {
             $scope.table.name = tipo;
+            for (var i in SType)
+            {
+                var tags = SType[i];
+                if (tags.indexOf(tipo)!=-1)
+                {
+                    active = i;
+                    break;
+                }
+            }
             $scope.ShowRecord();
+        };
+
+        $scope.isActive=function(path){
+            return path==active;
         };
 
         $scope.ShowRecord = function() {
@@ -514,10 +517,6 @@ angular.module('app.sao')
             {
                 return hash.indexOf(la)!=-1;
             })[0];
-
-            if (current==undefined) {
-                current = 'sao';
-            }
 
             html2canvas(document.getElementById('table-data'),{
                 onrendered:function (canvas) {
@@ -666,7 +665,7 @@ angular.module('app.sao')
                         var table = Format({
                             "columns":dataColumns,
                             "records":dataTable,
-                            "title":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración.",
+                            "title":"Distribuci\u00F3n de SAO y alternativas de SAO en el sector de la Refrigeraci\u00F3n",
                             "name":'refri'
                         });
                         $scope.tables.push(table);
@@ -714,7 +713,7 @@ angular.module('app.sao')
                         var table = Format({
                             "columns":dataColumns,
                             "records":dataTable,
-                            "title":"Distribución de SAO y alternativas de SAO en el sector  Aire Acondicionado.",
+                            "title":"Distribuci\u00F3n de SAO y alternativas de SAO en el sector  Aire Acondicionado",
                             "name":'aire3'
                         });
                         $scope.tables.push(table);
@@ -770,7 +769,7 @@ angular.module('app.sao')
         $scope.user = undefined;
         $scope.records= [];
         $scope.years = [2010,2015];
-        $scope.selectedYear = 0;
+        $scope.selectedYear = 2010;
         $scope.bar = {
             "labels":[],
             "series":[],
@@ -1415,7 +1414,7 @@ angular.module('app.sao')
                     },
                     title: {
                         display: true,
-                        text:'Año '+year
+                        text:'A\u00F1o '+year
                     }
                 },
                 "show":true
@@ -1464,6 +1463,7 @@ angular.module('app.sao')
         $scope.consumoR = SAO.Aplicaciones8[0];
         $scope.Tabla2R = SAO.Tabla2[0];
         $scope.Tabla22R = SAO.Tabla22[0];
+        $scope.Tabla23R = SAO.Tabla23[0];
         $scope.Tabla5R = SAO.Tabla5[0];
         $scope.Tabla9R = SAO.Tabla9[0];
         $scope.Tabla12R = SAO.Tabla12[0];
@@ -1477,6 +1477,7 @@ angular.module('app.sao')
         var selectedConsumo = $scope.consumoR;
         var selectedTabla2 = $scope.Tabla2R;
         var selectedTabla22 = $scope.Tabla22R;
+        var selectedTabla23 = $scope.Tabla23R;
         var selectedTabla5 = $scope.Tabla5R;
         var selectedTabla9 = $scope.Tabla9R;
         var selectedTabla12 = $scope.Tabla12R;
@@ -1488,6 +1489,24 @@ angular.module('app.sao')
         var selectedTabla6 = $scope.SustanciasTabla6;
         var SubsectorTabla7 = $scope.SubsectorTabla7;
 
+
+        //init();
+
+        function init()
+        {
+            var user = $localStorage.user;
+            if(user==undefined)
+            {
+
+                $timeout(function () {
+                    $location.path('/login');
+                },300);
+            }
+            else{
+                $scope.user = user;
+            }
+
+        }
 
         init();
 
@@ -1538,6 +1557,7 @@ angular.module('app.sao')
                     }
                     break;
                 case 'general2':
+                case 'importaciones2':
                     if(element.otrosAlternativa!=''){
                         element.Tipo={nombre:element.otrosAlternativa}
                     }
@@ -1588,7 +1608,7 @@ angular.module('app.sao')
             {
                 if(element.Uso.length<5)
                 {
-                  throw 'Agregue la cantidad de toneladas m\u00E9tricas por a\u00F1os ';
+                  throw 'Faltan a\u00F1os por introducir cantidad de toneladas m\u00E9tricas ';
                 }
             }
             if(element.CantRefriRefri!=undefined)
@@ -1618,6 +1638,17 @@ angular.module('app.sao')
                 {
                     throw 'Introduzca cantidad recuperada ';
                 }
+            }
+            if(element.unidades=='')
+            {
+
+                    throw 'Introduzca las unidades';
+            }
+            if(element.explotacion=='')
+            {
+
+                throw 'Introduzca los a\u00F1os de explotaci\u00F3n';
+
             }
 
 
@@ -1793,8 +1824,8 @@ angular.module('app.sao')
                     $scope.record.Organizacion = SAO.OrgProduccion[0];
                     $scope.record.TipoAire = SAO.TipoAire[0];
                     $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
-                    $scope.record.CantRefigeranteRefrigeracion = SAO.SustanciasRefrigerante[0];
-                    $scope.record.CantRefigeranteAire = SAO.SustanciasAire[0];
+                    $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[1];
+                    $scope.record.SustanciaAire = SAO.SustanciasAire[1];
                     $scope.re2 = 'AR500';
                     $scope.re3 = 'R134a';
                     $scope.re4 = 'Ingenieros';
@@ -1948,6 +1979,12 @@ angular.module('app.sao')
             $scope.record.ra = SAO.RA[0];
             // $scope.record.uso2 = selectedTabla2.uso2;
         };
+            $scope.ShowTabla23 = function(){
+            selectedTabla23 = $scope.Tabla23R;
+            $scope.record.Alternativa = selectedTabla2.aplicacion;
+            $scope.record.Tipo = selectedTabla23.alternativas[0];
+
+        };
 
         // Modal Tabla5
 
@@ -2069,6 +2106,23 @@ angular.module('app.sao')
                 $scope.isLoading = false;
             });
         }
+        function init()
+        {
+            var user = $localStorage.user;
+            if(user==undefined)
+            {
+
+                $timeout(function () {
+                    $location.path('/login');
+                },300);
+            }
+            else{
+                $scope.user = user;
+            }
+
+        }
+
+        init();
 
 
     })
@@ -2085,7 +2139,7 @@ angular.module('app.sao')
         $scope.SignIn = function (user)
         {
 
-                Manager.record('usuario').
+            Manager.record('usuario').
                 then(function (data)
                 {
                     $scope.users = data.rows.map(function(el) {
@@ -2121,23 +2175,34 @@ angular.module('app.sao')
     .controller('userController',function ($scope, Manager, $uibModal,$location,$timeout,$localStorage,ModelValidator) {
         $scope.users = [];
         $scope.user = undefined;
+        $scope.signinError ={
+            show:false,
+            message:'Ha ocurrido un error'
+
+        };
         $scope.User = function (user,size) {
             var instance = $uibModal.open({
                 animation: true,
                 templateUrl: "template/modal/user-modal.html",
                 controller: function ($scope,Manager,user,$uibModalInstance,SHA256) {
                     $scope.user = user;
+                    $scope.signinError ={
+                        show:false,
+                        message:'Ha ocurrido un error'
+
+                    };
                     $scope.Save= function (user)
                     {
                         user.tipo = "usuario";
                         if (ModelValidator.isValidUser(user))
                         {
+                            user.password = SHA256(user.password).toString();
                             Manager.create(user).then(function(result) {
                                 //todo on success
                                 console.info(JSON.stringify(result));
                                 Finish();
                             }).
-                            catch (function(reason) {
+                                catch (function(reason) {
                                 //todo on fail
                                 console.warn(JSON.stringify(reason));
                                 Close();
@@ -2147,21 +2212,12 @@ angular.module('app.sao')
                         {
 
                             $scope.signinError.show = true;
-                            $scope.signinError.message = "Ha ocurrido un error";
+                            $scope.signinError.message = "Verifique la seguridad de las credenciales.";
                         }
 
 
-                        user.password = SHA256(user.password).toString();
-                        Manager.create(user).then(function(result) {
-                            //todo on success
-                            console.info(JSON.stringify(result));
-                            Finish();
-                        }).
-                        catch (function(reason) {
-                            //todo on fail
-                            console.warn(JSON.stringify(reason));
-                            Close();
-                        })
+
+
                     };
 
                     $scope.Close = function () {
@@ -2178,9 +2234,9 @@ angular.module('app.sao')
                 },
                 size: size,
                 resolve: {
-                   user:function () {
-                       return user;
-                   }
+                    user:function () {
+                        return user;
+                    }
                 }
             });
 
@@ -2212,14 +2268,14 @@ angular.module('app.sao')
                 //todo on success
                 console.info(JSON.stringify(result));
             }).
-            catch (function(reason) {
+                catch (function(reason) {
                 //todo on fail
                 console.warn(JSON.stringify(reason));
             })
         }
         function init()
         {
-           $scope.user = $localStorage.user;
+            $scope.user = $localStorage.user;
 
             $timeout(function () {
                 if($scope.user==undefined)
@@ -2234,6 +2290,6 @@ angular.module('app.sao')
         }
 
         init();
-    })
+    });
 
-;
+

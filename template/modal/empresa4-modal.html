@@ -75,7 +75,7 @@
                     <div class="form-group">
                         <label>Sustancias para refrigeración:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.CantRefigeranteRefrigeracion"
+                                data-ng-model="record.SustanciaRefrigerante"
                                 data-ng-options="item as item.nombre for item in SAO.SustanciasRefrigerante"
                         >
 
@@ -83,7 +83,7 @@
 
                     </div>
                     <div class="form-group">
-                        <label>Cantidad Refrigerante consumido para refrigeración:</label>
+                        <label>Refrigerante consumido para refrigeración:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="re"
                                 data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>
@@ -115,7 +115,7 @@
                     <div class="form-group">
                         <label>Sustancias para aire acondicionado:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.CantRefigeranteAire"
+                                data-ng-model="record.SustanciaAire"
                                 data-ng-options="item as item.nombre for item in SAO.SustanciasAire"
                         >
 
@@ -123,7 +123,7 @@
 
                     </div>
                     <div class="form-group">
-                        <label>Cantidad de refrigerante consumido para aire acondicionado:</label>
+                        <label>Refrigerante consumido para aire acondicionado:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="re1"
                                 data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>
@@ -134,7 +134,7 @@
                             <span class="badge">{{el.re1}} -- {{el.cant1}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriAire.splice(el,1)"></i>
                         </li>
                     </ul>
-                    <i  class="fa fa-plus"  data-ng-click="ConsumoCantRefriAire(re1,cant1)" title="Adicionar"> </i>
+                   <p></p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoCantRefriAire(re1,cant1)" title="Agregar"> </i> Agregar</div>
 
                     </select>
 
@@ -147,12 +147,12 @@
                     <!--</div>-->
 
 
-            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
 
-                        <label>Equipos de Recuperacion (Cantidad):</label>
+                        <label>Equipos de Recuperación (Cantidad):</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="re2"
                                 data-ng-options="item as item for item in ['AR500','CR500','Criolla','Otras','Ninguna']"></select>
@@ -164,7 +164,7 @@
                                 <span class="badge">{{el.re2}} -- {{el.cant2}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperacion.splice(el,1)"></i>
                             </li>
                         </ul>
-                        <i  class="fa fa-plus"  data-ng-click="ConsumoRecuperacion(re2,cant2)" title="Adicionar"> </i>
+                       <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoRecuperacion(re2,cant2)" title="Agregar"> </i> Agregar</p>
 
 
                     </div>
@@ -180,7 +180,7 @@
                                 <span class="badge">{{el.re3}} -- {{el.cant3}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperado.splice(el,1)"></i>
                             </li>
                         </ul>
-                        <i  class="fa fa-plus"  data-ng-click="ConsumoRecuperado(re3,cant3)" title="Adicionar"> </i>
+                        <p><i  class="fa fa-plus mas"  data-ng-click="ConsumoRecuperado(re3,cant3)" title="Agregar"> </i> Agregar</p>
 
                     </div>
 
@@ -194,16 +194,16 @@
                 <label >Personal productivo:</label>
                 <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                         data-ng-model="re4"
-                        data-ng-options="item as item for item in ['Ingenieros','Tecnicos','Mecanicos','CCBP (Curso buenas practicas de refrigeracion)']"></select>
+                        data-ng-options="item as item for item in ['Ingenieros','T\u00E9cnicos','Mec\u00E1nicos','CCBP']"></select>
             </div>
-            <div class="form-group">
+            <p class="form-group">
                 <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-model="cant4"/>
                 <ul class="list-group">
                     <li class="list-group-item-success" data-ng-repeat="el in record.Total">
                         <span class="badge">{{el.re4}} -- {{el.cant4}}</span><i class="fa fa-trash-o" data-ng-click="record.Total.splice(el,1)"></i>
                     </li>
                 </ul>
-                <i  class="fa fa-plus"  data-ng-click="ConsumoTotal(re4,cant4)" title="Adicionar"> </i>
+               <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoTotal(re4,cant4)" title="Agregar"> </i> Agregar</p>
 
             </div>
         </div>
@@ -216,7 +216,7 @@
     </form>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            Salvar
+            Agregar
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

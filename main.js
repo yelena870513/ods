@@ -11,7 +11,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1300, height: 768, fullscreen: false,icon:"app.ico"})  ;
+  mainWindow = new BrowserWindow({width: 1300, height: 768, fullscreen: false,icon:"logo.ico"})  ;
 
   //mainWindow.maximize()
 
@@ -19,7 +19,7 @@ function createWindow () {
   mainWindow.loadURL(`file://${__dirname}/index.html`)  ;
 
   // Open the DevTools. | Descomentarear para Depurar
-  mainWindow.webContents.openDevTools();
+   mainWindow.webContents.openDevTools();
 
   //Icono
   //BrowserWindow({icon:`file://${__dirname}/app.ico`});
