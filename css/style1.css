@@ -18,11 +18,14 @@ label.negro{
 }
 .navbar-inverse {
 
-    background-color: #008ac0;
-
+    /*background-color: #008ac0;*/
+background-image: url("../img/fondo_contenido.png");
 }
 .table.table-bordered th{
     text-transform:capitalize;
+}
+.navbar-inverse .navbar-nav>li>a {
+    color: #fdc74a;
 }
 
 /*-------------Para enmarcar el menu activo------------------------*/
@@ -140,8 +143,37 @@ label.negro{
         display: none;
     }
 }
-
+.footer{
+    display: block;
+    background: #fff;
+    height: 100px;
+    width: 100%;
+    /*position: absolute;*/
+    bottom: 0;
+    left: 0;
+}
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #ccc;
+}
 .active-menu{
-    background-color: #336699;
-    color: white;
+    background-color: #fdc74a;
+    color: black;
+}
+
+img.logos{
+    width: 12%;
+}
+
+img.logos1{
+    width: 25%;
+}
+i.mas{
+    color: red;
+}
+
+/*error en modals*/
+.control-error{
+    box-shadow: inset;
+    border-color: #9f191f;
+    border-radius: 0.2em;
 }

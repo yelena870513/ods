@@ -25,18 +25,22 @@
             </select>
         </div>
         <div class="form-group">
-            <label >Consumo por año:</label>
+            <label >Año:</label>
             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                     data-ng-model="year"
                     data-ng-options="item as item for item in [2010,2015,2020,2025,2030]"></select>
             </div>
-        <div class="form-group">
+        <div class="form-group" data-ng-class="{ 'has-error': actionForm.name.$touched && actionForm.name.$invalid }">
 
-            <label >Toneladas métricas:</label>
-            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
+            <label >Consumo en toneladas métricas:</label>
+            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" required />
             </div>
-        <div class="form-group">
-        <i  class="fa fa-plus"  data-ng-click="ConsumoYear(year,amount)" title="Adicionar"> </i>
+        <div class="help-block" data-ng-messages="actionForm.email.$error" data-ng-if="actionForm.email.$touched">
+            <div data-ng-messages-include="messages.html"></div>
+        </div>
+
+        <div class="form-group" >
+        <p><i  class="fa fa-plus mas"   data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i>  Agregar año</p>
             <ul class="list-group">
                 <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice(el,1)"></i>
@@ -44,11 +48,12 @@
             </ul>
 
         </div>
+
     </form>
     <div class="modal-footer">
 
         <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            Salvar
+            Agregar
     </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
             Cerrar
     </button>

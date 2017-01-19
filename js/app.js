@@ -21,37 +21,37 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
     $urlRouterProvider.otherwise('/general');
 //Las principales rutas de la aplicacion
     $stateProvider.
-    state('general',{
-        url:'/general',
-        templateUrl:'template/records.html',
-        controller: "generalController"
-    }).
-    ////Reportes
-    state('list',{
-        url:'/list',
-        templateUrl:'template/reports.html',
-        controller:'reportController'
-    }) .
-    state('list.general',{
-        url:'/general',
-        templateUrl:'template/data-table/general-table.html',
-        controller:'reportController'
-    }).
-    state('list.espuma',{
-        url:'/espuma',
-        templateUrl:'template/data-table/espuma-table.html',
-        controller:'reportController'
-    }).
-    state('list.aire',{
-        url:'/aire',
-        templateUrl:'template/data-table/aire-table.html',
-        controller:'reportController'
-    }).
-    state('list.refri',{
-        url:'/refri',
-        templateUrl:'template/data-table/refri-table.html',
-        controller:'reportController'
-    }).
+        state('general',{
+            url:'/general',
+            templateUrl:'template/records.html',
+            controller: "generalController"
+        }).
+        ////Reportes
+        state('list',{
+            url:'/list',
+            templateUrl:'template/reports.html',
+            controller:'reportController'
+        }) .
+        state('list.general',{
+            url:'/general',
+            templateUrl:'template/data-table/general-table.html',
+            controller:'reportController'
+        }).
+        state('list.espuma',{
+            url:'/espuma',
+            templateUrl:'template/data-table/espuma-table.html',
+            controller:'reportController'
+        }).
+        state('list.aire',{
+            url:'/aire',
+            templateUrl:'template/data-table/aire-table.html',
+            controller:'reportController'
+        }).
+        state('list.refri',{
+            url:'/refri',
+            templateUrl:'template/data-table/refri-table.html',
+            controller:'reportController'
+        }).
         state('list.aerosoles',{
             url:'/aerosoles',
             templateUrl:'template/data-table/aerosoles-table.html',
@@ -63,41 +63,41 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             templateUrl:'template/data-table/importaciones-table.html',
             controller:'reportController'
         }).
-    state('list.empresa',{
-        url:'/empresa',
-        templateUrl:'template/data-table/empresa-table.html',
-        controller:'reportController'
-    }).
-    state('list.saora',{
-        url:'/saora',
-        templateUrl:'template/data-table/saora-table.html',
-        controller:'reportController'
-    }).
+        state('list.empresa',{
+            url:'/empresa',
+            templateUrl:'template/data-table/empresa-table.html',
+            controller:'reportController'
+        }).
+        state('list.saora',{
+            url:'/saora',
+            templateUrl:'template/data-table/saora-table.html',
+            controller:'reportController'
+        }).
 
 
 
-    ///Graficas
-    state('charts',{
+        ///Graficas
+        state('charts',{
             url:'/charts',
             templateUrl:'template/charts.html',
             controller:'chartController'
         }).
 
-    ////Login
+        ////Login
         state('login',
         {
-        url:'/login',
-        templateUrl:'template/login.html',
-        controller:'loginController'
-    }).
+            url:'/login',
+            templateUrl:'template/login.html',
+            controller:'loginController'
+        }).
         //Seguridad
         state('users',
         {
-        url:'/users',
-        templateUrl:'template/users.html',
-        controller:'userController'
-    }).
-    state('salir',
+            url:'/users',
+            templateUrl:'template/users.html',
+            controller:'userController'
+        }).
+        state('salir',
         {
             url:'/logout',
             controller:function ($location,$localStorage)
@@ -107,13 +107,13 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
 
             }
         }).
-    state('cerrar',{
-        url:"/close",
-        controller:function(){
-            //mainWindow.close();
-            window.close();
-        }
-    })
+        state('cerrar',{
+            url:"/close",
+            controller:function(){
+                //mainWindow.close();
+                window.close();
+            }
+        })
 
     ;
 

@@ -24,15 +24,16 @@
             </select>
         </div>
         <div class="form-group">
-            <label >Consumo por año:</label>
+            <label >Año:</label>
             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                     data-ng-model="year"
                     data-ng-options="item as item for item in [2010,2015,2020,2030]"></select>
             </div>
         <div class="form-group">
 
-            <label >Toneladas métricas:</label>
-            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
+            <label >Consumo en toneladas métricas:</label>
+            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"
+                    data-ng-class="{'has-error':error.show}"/>
             <ul class="list-group">
                 <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
                     {{el.anno}} -- {{el.tons}}
@@ -43,7 +44,7 @@
     </form>
     <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="ConsumoYear(year,amount)">
-            Adicionar
+            Agregar
         </button>
         <button type="button" class="btn btn-primary"  data-ng-click="Save()">
             Salvar

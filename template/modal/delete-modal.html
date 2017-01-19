@@ -6,11 +6,12 @@
 <div class="modal-body">
         <p>¿Desea eliminar el elemento?</p>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="Close()">
+        <button type="button" class="btn btn-default pull-left" data-ng-click="Delete(record)">
+            Eliminar
+        </button>
+        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal" data-ng-click="Close()">
            Cerrar
         </button>
-        <button type="button" class="btn btn-primary" data-ng-click="Delete(record)">
-           Eliminar
-        </button>
+
     </div>
 </div>

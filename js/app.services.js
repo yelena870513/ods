@@ -276,70 +276,7 @@ angular.module('app.sao')
             "id": "15",
             "nombre": 'Isla de la Juventud'
         }],
-        "Ministerio": [{
-            "id": "1",
-            "nombre": 'Consejo de Administración Provincuial (CAP)'
-        }, {
-            "id": "2",
-            "nombre": 'Ministerio del Turismo (MINTUR)'
-        }, {
-            "id": "3",
-            "nombre": 'Ministerio de la Industria Básica (MINBAS)'
-        }, {
-            "id": "4",
-            "nombre": 'Ministerio de Salud Pública (MINSAP)'
-        }, {
-            "id": "5",
-            "nombre": 'Consejo de Estado (CE)'
-        }, {
-            "id": "6",
-            "nombre": 'Ministerio de la Azúcar (MINAZ)'
-        }, {
-            "id": "7",
-            "nombre": 'Ministerio de la Informática y las Comunicaciones (MIC)'
-        }, {
-            "id": "8",
-            "nombre": 'Ministerio de la Construcción (MICONS)'
-        }, {
-            "id": "9",
-            "nombre": 'Ministerio de Educación Superior (MES)'
-        }, {
-            "id": "10",
-            "nombre": 'Ministerio del Transporte (MITRANS)'
-        }, {
-            "id": "11",
-            "nombre": 'Ministerio de la Industria Alimenticia (MINAL)'
-        }, {
-            "id": "12",
-            "nombre": 'Ministerio de la Ind. Sidero Mécanica y Electrónica (SIME)'
-        }, {
-            "id": "13",
-            "nombre": 'Ministerio del Comercio Interior (MINCIN)'
-        }, {
-            "id": "14",
-            "nombre": 'Ministerio de Cultura (MINCULT)'
-        }, {
-            "id": "15",
-            "nombre": 'Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA)'
-        }, {
-            "id": "16",
-            "nombre": 'Ministerio de la Industria Ligera (MINIL)'
-        }, {
-            "id": "17",
-            "nombre": 'Instituto de la Aeronautica Civil de Cuba (IACC)'
-        }, {
-            "id": "18",
-            "nombre": 'CIMEX'
-        }, {
-            "id": "19",
-            "nombre": 'Unión de Jóvenes Comunistas (UJC)'
-        }, {
-            "id": "20",
-            "nombre": 'Central de Trabajadores de Cuba (CTC)'
-        }, {
-            "id": "21",
-            "nombre": 'Otros'
-        }],
+
         "OSDE": [{
             "id": "1",
             "nombre": 'OSDE1'
@@ -492,6 +429,93 @@ angular.module('app.sao')
             "id": "10",
             "nombre": 'R-717'
         }],
+        "Ministerio": [
+            {
+                "id": "20",
+                "nombre": 'Central de Trabajadores de Cuba (CTC)'
+            },
+            {
+            "id": "1",
+            "nombre": 'Consejo de Administración Provincial (CAP)'
+            },
+            {
+                "id": "5",
+                "nombre": 'Consejo de Estado (CE)'
+            },
+            {
+                "id": "18",
+                "nombre": 'CIMEX'
+            },
+            {
+                "id": "17",
+                "nombre": 'Instituto de la Aeronáutica Civil de Cuba (IACC)'
+            },
+            {
+                "id": "6",
+                "nombre": 'Ministerio del Azúcar (MINAZ)'
+            },
+            {
+                "id": "15",
+                "nombre": 'Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA)'
+            },
+            {
+                "id": "13",
+                "nombre": 'Ministerio de Comercio Interior (MINCIN)'
+            },
+            {
+                "id": "8",
+                "nombre": 'Ministerio de la Construcción (MICONS)'
+            },
+            {
+                "id": "7",
+                "nombre": 'Ministerio de Comunicaciones de la República de Cuba (MINCOM)'
+            },
+            {
+                "id": "14",
+                "nombre": 'Ministerio de Cultura (MINCULT)'
+            },
+            {
+                "id": "9",
+                "nombre": 'Ministerio de Educación Superior (MES)'
+            },
+            {
+                "id": "11",
+                "nombre": 'Ministerio de la Industria Alimenticia (MINAL)'
+            },
+            {
+                "id": "3",
+                "nombre": 'Ministerio de la Industria Básica (MINBAS)'
+            },
+            {
+                "id": "16",
+                "nombre": 'Ministerio de la Industria Ligera (MINIL)'
+            },
+            {
+                "id": "12",
+                "nombre": 'Ministerio de la Industria Sidero Mécanica y Electrónica (SIME)'
+            },
+            {
+            "id": "2",
+            "nombre": 'Ministerio del Turismo (MINTUR)'
+            },
+            {
+                "id": "10",
+                "nombre": 'Ministerio de Transporte (MITRANS)'
+            },
+
+            {
+            "id": "4",
+            "nombre": 'Ministerio de Salud Pública (MINSAP)'
+            },
+            {
+            "id": "19",
+            "nombre": 'Unión de Jóvenes Comunistas (UJC)'
+            },
+
+        {
+            "id": "21",
+            "nombre": 'Otros'
+        }],
         "RA": [
             {
             "id": "1",
@@ -628,9 +652,15 @@ angular.module('app.sao')
         "Tabla22":[
             {"id":1,"aplicacion":{"id":1,"nombre":"HFC"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-227ea/HFC-365mfc "},{"id":3,"nombre":"HFC-32  "},{"id":4,"nombre":"HFC-152a "},{"id":5,"nombre":"HFC-245fa "}],"uso2":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"HFC Mezclas"}, "alternativas":[{"id":1,"nombre":"R-404A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-410A "},{"id":4,"nombre":"R-507A "}],"uso2":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"}, ,{"id":4,"nombre":"Extintores"},,{"id":5,"nombre":"Solventes"}]},
-            {"id":2,"aplicacion":{"id":1,"nombre":"HFO"}, "alternativas":[{"id":1,"nombre":"HFO-1234yf "},{"id":2,"nombre":"HFO-1234ze "},{"id":3,"nombre":"HFO-1233zd "},{"id":4,"nombre":"HFO-1336mzzm "}],"uso2":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"}, ,{"id":4,"nombre":"Extintores"},,{"id":5,"nombre":"Solventes"}]},
-            {"id":3,"aplicacion":{"id":1,"nombre":"Otras alternativas"}, "alternativas":[{"id":1,"nombre":"Metil formato "},{"id":2,"nombre":"Metilal"},{"id":3,"nombre":"Etanol"},{"id":4,"nombre":"DME"},{"id":5,"nombre":"HC-290 "},{"id":6,"nombre":"HC-600a "},{"id":7,"nombre":"Pentano(C,N,I) "},{"id":8,"nombre":"R-744 "}],"uso2":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"}, ,{"id":4,"nombre":"Extintores"},,{"id":5,"nombre":"Solventes"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"HFO"}, "alternativas":[{"id":1,"nombre":"HFO-1234yf "},{"id":2,"nombre":"HFO-1234ze "},{"id":3,"nombre":"HFO-1233zd "},{"id":4,"nombre":"HFO-1336mzzm "}],"uso2":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"}, ,{"id":4,"nombre":"Extintores"},,{"id":5,"nombre":"Solventes"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Otras alternativas"}, "alternativas":[{"id":1,"nombre":"Metil formato "},{"id":2,"nombre":"Metilal"},{"id":3,"nombre":"Etanol"},{"id":4,"nombre":"DME"},{"id":5,"nombre":"HC-290 "},{"id":6,"nombre":"HC-600a "},{"id":7,"nombre":"Pentano(C,N,I) "},{"id":8,"nombre":"R-744 "}],"uso2":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"}, ,{"id":4,"nombre":"Extintores"},,{"id":5,"nombre":"Solventes"}]},
             ],
+        "Tabla23":[
+            {"id":1,"aplicacion":{"id":1,"nombre":"HFC"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-227ea/HFC-365mfc "},{"id":3,"nombre":"HFC-32  "},{"id":4,"nombre":"HFC-152a "},{"id":5,"nombre":"HFC-245fa "}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"HFC Mezclas"}, "alternativas":[{"id":1,"nombre":"R-404A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-410A "},{"id":4,"nombre":"R-507A "}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"HFO"}, "alternativas":[{"id":1,"nombre":"HFO-1234yf "},{"id":2,"nombre":"HFO-1234ze "},{"id":3,"nombre":"HFO-1233zd "},{"id":4,"nombre":"HFO-1336mzzm "}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Otras alternativas"}, "alternativas":[{"id":1,"nombre":"Metil formato "},{"id":2,"nombre":"Metilal"},{"id":3,"nombre":"Etanol"},{"id":4,"nombre":"DME"},{"id":5,"nombre":"HC-290 "},{"id":6,"nombre":"HC-600a "},{"id":7,"nombre":"Pentano(C,N,I) "},{"id":8,"nombre":"R-744 "}]},
+        ],
         "OrgProduccion":[{"id":"1","nombre":'Brigada de trabajo fija'},{"id":"2","nombre":'Brigada de trabajo móvil'}, {"id":"3","nombre":'Individuo fijo '},{"id":"4","nombre":'Individuo móvil'}],
         "TipoRefri":[{"id":"1","nombre":'Doméstica'},{"id":"2","nombre":'Comercial'},{"id":"3","nombre":'Industrial'},{"id":"4","nombre":'Móvil (Contenedores refrigerados)'}],
         "TipoAire":[{"id":"1","nombre":'Doméstica (Ventana)'},{"id":"2","nombre":'Comercial (Split, consolas, etc)'},{"id":"3","nombre":'Acondicionado industrial (Enfriadoras de agua u otras sustancias)'},{"id":"4","nombre":'Móvil (Autos, guaguas, camiones, etc)'}],
@@ -646,19 +676,19 @@ angular.module('app.sao')
         "Tabla2":[
             {"id":1,"aplicacion":{"id":1,"nombre":"Aerosol"},"alternativas":[{"id":1,"nombre":"Propelente"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Espuma: poliuretano "}, "alternativas":[{"id":1,"nombre":"Aislamiento de Refrigeración Doméstica"},{"id":2,"nombre":"Propelente"},{"id":3,"nombre":"Contenedores Refrigerados"},{"id":4,"nombre":"Tableros"},{"id":5,"nombre":"Panel Continuo "},{"id":6,"nombre":"Panel Discontinuo"},{"id":7,"nombre":"Espuma en Espray "},{"id":8,"nombre":"Tubería en Tubería "},{"id":9,"nombre":"Bloques"},{"id":10,"nombre":"Bloques de poliuretano "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
-            {"id":3,"aplicacion":{"id":1,"nombre":"Espuma: polietileno extruido"}, "alternativas":[{"id":1,"nombre":" "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
-            {"id":4,"aplicacion":{"id":1,"nombre":"Extintores"}, "alternativas":[{"id":1,"nombre":" "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Espuma: polietileno extruido"}, "alternativas":[{"id":1,"nombre":"-"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":4,"aplicacion":{"id":1,"nombre":"Extintores"}, "alternativas":[{"id":1,"nombre":"- "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":5,"aplicacion":{"id":1,"nombre":"Refrigeración"}, "alternativas":[{"id":1,"nombre":"Refrigeradores domésticos y Freezers/ Otras aplicaciones"},{"id":2,"nombre":"Refrigeración Comercial"},{"id":3,"nombre":"Equipos Autónomos"},{"id":4,"nombre":"Unidades Condensadoras"},{"id":5,"nombre":"Sistemas Centralizados"},{"id":6,"nombre":"Transporte"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":6,"aplicacion":{"id":1,"nombre":"Refrigeración: Aire Acondicionado automotriz"}, "alternativas":[{"id":1,"nombre":"Automóviles, Transporte Público"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":7,"aplicacion":{"id":1,"nombre":"Refrigeración: chillers "}, "alternativas":[{"id":1,"nombre":"Desplazamiento Positivo"},{"id":2,"nombre":"Centrífugo"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":8,"aplicacion":{"id":1,"nombre":"Acondicionadores de Aire"}, "alternativas":[{"id":1,"nombre":"Pequeño Autónomo"},{"id":2,"nombre":"Mini-split "},{"id":3,"nombre":"Multi-split "},{"id":4,"nombre":"Split comercial con conductos"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
-            {"id":9,"aplicacion":{"id":1,"nombre":"Solventes"}, "alternativas":[{"id":1,"nombre":" "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":9,"aplicacion":{"id":1,"nombre":"Solventes"}, "alternativas":[{"id":1,"nombre":"- "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
         ],
         // "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
         "SustanciasTabla3":[{"id":"1","nombre":'HCFC-141b '},{"id":"2","nombre":'HCFC-142b '}, {"id":"3","nombre":'HCFC-22 '},{"id":"4","nombre":'HCFC-245a '},{"id":"5","nombre":'HFC-365mfc/HFC-227ea '},{"id":"6","nombre":'HFC-134a/HFC-152a '},{"id":"7","nombre":'HFO/HCFO '},{"id":"8","nombre":'Hidrocarburos'},{"id":"9","nombre":'Otros'}],
         "SubsectorTabla4":[{"id":"1","nombre":'Aislamiento de Refrigeración Doméstica'}, {"id":"2","nombre":'Aislamiento en otra aplicación'}, {"id":"3","nombre":'HCContenedores Refrigerados'},{"id":"4","nombre":'Tableros'},{"id":"5","nombre":'Panel Continuo'},{"id":"6","nombre":'Panel Discontinuo'},{"id":"7","nombre":'Espuma en espray'},{"id":"8","nombre":'Tubería en tubería'},{"id":"9","nombre":'Bloques '},{"id":"10","nombre":'Bloques de Poliuretano'},{"id":"11","nombre":'Espuma: polietileno extruido '}],
         "Tabla5":[
-            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 "}]},
+            {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rígida de poliuretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 "}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 "},{"id":6,"nombre":"Supercrítico CO2"}]},
             {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 "}]},
             {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
@@ -689,9 +719,9 @@ angular.module('app.sao')
             {"id":4,"aplicacion":{"id":1,"nombre":"Otras alternativas"}, "refriAire":[{"id":1,"nombre":"Fabricación"}, {"id":2,"nombre":"Servicio"}],"alternativas":[{"id":1,"nombre":"Metil formato"},{"id":2,"nombre":"Metilal"},{"id":3,"nombre":"Etanol"},{"id":4,"nombre":"DME"},{"id":5,"nombre":"HC-290 "},{"id":6,"nombre":"HC-600a "},{"id":7,"nombre":"R-744 "},{"id":8,"nombre":"R-717"},{"id":6,"nombre":"HC-600a "},{"id":6,"nombre":"HC-600a "}],"sectores":[{"id":1,"nombre":"Espuma: poliuretano"},{"id":2,"nombre":"Espuma: polietileno extruido"},{"id":3,"nombre":"Aerosol"},{"id":4,"nombre":"Extintores"},{"id":5,"nombre":"Solventes"},{"id":6,"nombre":"Otros"}]},
         ],
         "Tabla11A":[
-            {"id":1,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (AAV)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":7},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
-            {"id":2,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (Portatil)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
-            {"id":3,"aplicacion":{"id":1,"nombre":"Pequeño autonomo (Deshumidificadores)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":1,"aplicacion":{"id":1,"nombre":"Pequeño autónomo (AAV)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":7},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Pequeño autónomo (Portatil)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Pequeño autónomo (Deshumidificadores)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
             {"id":4,"aplicacion":{"id":1,"nombre":"Mini Split (Cassete)"}, "carga":{"nombre":"2-12/1.32-7.94","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
             {"id":5,"aplicacion":{"id":1,"nombre":"Mini Split (Ocultos)"}, "carga":{"nombre":"2-12/1.32-7.94","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
             {"id":6,"aplicacion":{"id":1,"nombre":"Mini Split (Otros)"}, "carga":{"nombre":"2-12/1.32-7.94","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
@@ -741,11 +771,11 @@ angular.module('app.sao')
             {"id":2,"aplicacion":{"id":1,"nombre":"Limpieza para la electrónica"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
             {"id":3,"aplicacion":{"id":1,"nombre":"Limpieza de precisión"},"alternativas":[{"id":1,"nombre":"HFC"},{"id":2,"nombre":"HFE"},{"id":3,"nombre":"No en un tipo de tecnolgía"}]},
         ],
-        "Clasificacion":[{"nombre":"Aire Acondicionado Automotriz"},{"nombre":"Domestica"},{"nombre":"Commercial"},{"nombre":"Industrial"},{"nombre":"Transporte"},{"nombre":"Aire Acondicionado estacionario"}],
-        "ClasificacionRefri":[{"nombre":"Domestica"},{"nombre":"Commercial"},{"nombre":"Industrial"},{"nombre":"Transporte"}],
+        "Clasificacion":[{"nombre":"Aire Acondicionado Automotriz"},{"nombre":"Doméstica"},{"nombre":"Comercial"},{"nombre":"Industrial"},{"nombre":"Transporte"},{"nombre":"Aire Acondicionado estacionario"}],
+        "ClasificacionRefri":[{"nombre":"Doméstica"},{"nombre":"Comercial"},{"nombre":"Industrial"},{"nombre":"Transporte"}],
     }
 })
-.factory('SType',function () {
+    .factory('SType',function () {
         return {
             "general":["general1","general2","general3"],
             "espuma":["espuma1","espuma2","espuma3"],
@@ -756,28 +786,40 @@ angular.module('app.sao')
             "empresa":["empresa1","empresa2","empresa3"]
         };
     })
+//.factory('SType',function () {
+//        return {
+//            "general":["general1","general2","general3"],
+//            "espuma":["espuma1","espuma2","espuma3"],
+//            "aire":["aire1","aire2","aire3"],
+//            "refri":["refri1","consumo"],
+//            "aerosoles":["aerosoles"],
+//            "importaciones":["importaciones1","importaciones1","importaciones1"],
+//            "empresa":["empresa1","empresa2","empresa3"]
+//        };
+//    })
 .factory('Columns',function () {
     return        [
         // "general":["provincia","ministerio","osde","empresa"],
 
         {"fields":["sustancia", "sectores"],"nombre":"Uso general de alternativas a las SAO en la actualidad","tipo":"general1"},
         {"fields":["Alternativa", "Tipo", "Sector", "ra"],"nombre":"Resumen de su uso en todos los sectores para cada año entre 2011-2015", "tipo":"general2"},
+        {"fields":["Alternativa", "Tipo"],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agentes soplantes en el sector de espuma","tipo":"espuma1"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma","tipo":"espuma2"},
-        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y Refrigerantes Alternativos de SAO","tipo":"importaciones1"},
+        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO","tipo":"importaciones1"},
         {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido", "tipo":"espuma3"},
-        {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
+        // {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
         {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles ", "tipo":"aerosoles"},
-        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Refrigeracion Movil ", "tipo":"empresa2"},
+        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Refrigeracion Móvil ", "tipo":"empresa2"},
         {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes", "tipo":"empresa3"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado","tipo":"aire1"},
         {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados", "tipo":"aire2"},
-        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) Y Sus Alternativas en el subsector de manufactura", "tipo":"consumo"},
+        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) y sus alternativas en el subsector de manufactura", "tipo":"consumo"},
         {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz", "tipo":"empresa1"},
-        {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración", "tipo":"refri"},
+        {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración", "tipo":"refri"},
         {"fields":["Aplicaciones", "Capacidad", "Alternativas","Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado", "tipo":"aire3"},
         {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente", "tipo":"general3"},
-        {"fields":["Organizacion", "CantRefigeranteAire", "CantRefigeranteRefrigeracion", 'TipoRefrigeracion','TipoAire'],"nombre":"Taller de servicios", "tipo":"empresa4"}
+        {"fields":["Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", 'SustanciaAire','TipoAire'],"nombre":"Taller de servicios", "tipo":"empresa4"}
 
     ];
 })
@@ -905,23 +947,37 @@ angular.module('app.sao')
         };
     }
 ])
-    .
-factory('ModelValidator',function()
+    .factory('ModelValidator',function()
     {
         var validator = {};
+        var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
+        var username = /^[a-z][a-z0-9\.]{3,15}$/i;
+
         validator.isValidUser = function(user){
 
-            var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
-            var username = /^[a-z][a-z0-9\.]{8,15}$/i;
+
             return pass.test(user.password) && username.test(user.username);
+        };
+
+        validator.UserError = function (user) {
+            var errors = [];
+            if (!pass.test(user.password))
+            {
+                errors.push('password');
+            }
+
+            if (!username.test(user.username))
+            {
+                errors.push('username');
+            }
+            return errors;
         };
 
         return validator;
     })
-.
-factory("SHA256",function () {
-    return  CryptoJS.SHA256;
-})
-
+    .
+    factory("SHA256",function () {
+        return  CryptoJS.SHA256;
+    })
 
 ;

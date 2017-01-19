@@ -12,10 +12,44 @@
 
 
 </head>
+<!--<body data-ng-app="app.sao">-->
+<!--<nav class="navbar navbar-inverse" role="navigation">-->
+    <!--<div class="navbar-header">-->
+        <!--<a class="navbar-brand logo1"> <img class="logo2" src="img/logo.png"></a>-->
+    <!--</div>-->
+    <!--<ul class="nav navbar-nav">-->
+
+
+        <!--<li>-->
+            <!--<a data-ui-sref="general">Datos Generales</a>-->
+        <!--</li>-->
+
+        <!--<li>-->
+            <!--<a data-ui-sref="charts">Gráficas</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a data-ui-sref="users">Usuario</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a data-ui-sref="salir"><i class="fa fa-user"></i> Cerrar sesión</a>-->
+
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a data-ui-sref="cerrar"><i class="fa fa-sign-out"></i>Salir</a>-->
+        <!--</li>-->
+    <!--</ul>-->
+
+
+  <!--</nav>-->
+
+<!--<div class="container">-->
+    <!--<div data-ui-view></div>-->
+    <!--&lt;!&ndash;<div> <a class=""> <img class="" src="img/logo.png"></a></div>&ndash;&gt;-->
+<!--</div>-->
 <body data-ng-app="app.sao" data-ng-controller="mainController">
 <nav class="navbar navbar-inverse" role="navigation">
     <!--<div class="navbar-header">-->
-        <!--<a class="navbar-brand">Censo Nacional</a>-->
+    <!--<a class="navbar-brand">Censo Nacional</a>-->
     <!--</div>-->
     <ul class="nav navbar-nav">
         <li data-ng-class="{'active':isActive('general') || isActive('list')}">
@@ -28,22 +62,28 @@
             <a data-ui-sref="users">Usuarios</a>
         </li>
         <li>
-            <a data-ui-sref="salir"><i class="fa fa-user"></i>Salir</a>
+            <a data-ui-sref="salir"><i class="fa fa-user"></i>Cerrar sesión</a>
 
         </li>
         <li>
-            <a data-ui-sref="cerrar"><i class="fa fa-sign-out"></i>Cerrar</a>
+            <a data-ui-sref="cerrar"><i class="fa fa-sign-out"></i>Salir</a>
         </li>
     </ul>
 
-<div>
-    <center> <img class="logo" src="img/logo.png"></center>
-</div>
-  </nav>
+    <div>
+        <h1 style="color: #fff; text-align: center; padding-top: 100px; font-size:5em">Censo Nacional <br> SAO y HFC</h1>
+    </div>
+</nav>
 
 <div class="container">
     <div data-ui-view></div>
 </div>
+<footer class="footer">
+    <a><img class="logos" src="img/2.jpg"></a>
+    <a><img class="logos" src="img/1.jpg"></a>
+    <a><img class="logos1" src="img/3.jpg"></a>
+</footer>
+
 
 <script src="lib/pouchdb.js"></script>
 <script src="lib/pouchdb.replication-stream.min.js"></script>
@@ -56,7 +96,6 @@
 <script src="lib/pouchdb-replication-stream/dist/pouchdb.replication-stream.min.js"></script>
 <script src="lib/html2canvas.js"></script>
 <script src="lib/pdfmake/build/pdfmake.min.js"></script>
-<script src="lib/responsive-nav.js"></script>
 <script src="lib/angular.js"></script>
 <script src="lib/angular-ui-router.min.js"></script>
 <script src="lib/ui-bootstrap.js"></script>
