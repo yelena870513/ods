@@ -763,9 +763,10 @@ angular.module('app.sao')
 
         init();
     })
-    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$location,$timeout,$localStorage) {
+    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$location,$timeout,$localStorage,SType) {
         //Controlador para los charts
         var charting = '';
+        var active = '';
         $scope.user = undefined;
         $scope.records= [];
         $scope.years = [2010,2015];
@@ -800,12 +801,27 @@ angular.module('app.sao')
 
         $scope.SelectChart= function (chart) {
             charting = chart;
+            for (var i in SType)
+            {
+                var tags = SType[i];
+                if (tags.indexOf(chart)!=-1)
+                {
+                    active = i;
+                    break;
+                }
+            }
             FetchRecords(chart);
         };
+
+        $scope.isActive=function(path){
+            return path==active;
+        };
+
 
         $scope.ShowRecord = function() {
             try {
                 FetchRecords($scope.table.name);
+
 
                 $scope.records = $scope.documents.filter(function(el) {
                     return el.tipo == $scope.table.name;
@@ -2186,9 +2202,22 @@ angular.module('app.sao')
                 templateUrl: "template/modal/user-modal.html",
                 controller: function ($scope,Manager,user,$uibModalInstance,SHA256) {
                     $scope.user = user;
-                    $scope.signinError ={
+                    $scope.error ={
                         show:false,
-                        message:'Ha ocurrido un error'
+                        message:'Ha ocurrido un error.',
+                        user:{
+                            password:
+                            {
+                                show:false,
+                                message:"Una clave segura cuenta con blah blah."
+                            },
+                            username:
+                            {
+                                show:false,
+                                message:"Una nombre de usuario correcto cuenta con blah blah."
+                            }
+                        }
+
 
                     };
                     $scope.Save= function (user)
@@ -2210,9 +2239,17 @@ angular.module('app.sao')
                         }
                         else
                         {
-
-                            $scope.signinError.show = true;
-                            $scope.signinError.message = "Verifique la seguridad de las credenciales.";
+                            var fields = ModelValidator.UserError(user);
+                            if (fields.indexOf('password')!=-1)
+                            {
+                                $scope.error.user.password.show=true;
+                            }
+                            if (fields.indexOf('username')!=-1)
+                            {
+                                $scope.error.user.username.show=true;
+                            }
+                            $scope.error.show = true;
+                            $scope.error.message = "Verifique la seguridad de las credenciales.";
                         }
 
 

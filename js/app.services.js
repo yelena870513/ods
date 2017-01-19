@@ -950,11 +950,27 @@ angular.module('app.sao')
     .factory('ModelValidator',function()
     {
         var validator = {};
+        var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
+        var username = /^[a-z][a-z0-9\.]{3,15}$/i;
+
         validator.isValidUser = function(user){
 
-            var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
-            var username = /^[a-z][a-z0-9\.]{8,15}$/i;
+
             return pass.test(user.password) && username.test(user.username);
+        };
+
+        validator.UserError = function (user) {
+            var errors = [];
+            if (!pass.test(user.password))
+            {
+                errors.push('password');
+            }
+
+            if (!username.test(user.username))
+            {
+                errors.push('username');
+            }
+            return errors;
         };
 
         return validator;
