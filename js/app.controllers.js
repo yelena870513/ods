@@ -518,20 +518,42 @@ angular.module('app.sao')
                 return hash.indexOf(la)!=-1;
             })[0];
 
-            html2canvas(document.getElementById('table-data'),{
-                onrendered:function (canvas) {
-                    var data = canvas.toDataURL();
+            //html2canvas(document.getElementById('table-data'),{
+            //    onrendered:function (canvas) {
+            //        var data = canvas.toDataURL();
+            //        var docDefinition = {
+            //            content:[
+            //                {
+            //                    image:data,
+            //                    width:500
+            //                }
+            //            ]
+            //        };
+            //        pdfMake.createPdf(docDefinition).download(current+".pdf");
+            //    }
+            //});
+
+
+
+            domtoimage.toPng(document.getElementById('table-data'))
+                .then(function (dataUrl) {
+                    //var img = new Image();
                     var docDefinition = {
                         content:[
                             {
-                                image:data,
+                                image:dataUrl,
                                 width:500
                             }
                         ]
                     };
+
                     pdfMake.createPdf(docDefinition).download(current+".pdf");
-                }
-            });
+                    //img.src = dataUrl;
+                    //document.body.appendChild(img);
+                })
+                .catch(function (error) {
+                    console.error('oops, something went wrong!', error);
+                });
         };
 
         function FetchTable(table)

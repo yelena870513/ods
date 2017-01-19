@@ -1,6 +1,7 @@
 'use strict';
 //fs y ws son los manager para guardar en fichero la base de datos una vez terminado de gestionar todo.
 var electron = require('electron');
+var domtoimage = require('dom-to-image');
 // console.log(electron.getPath('documents'));
 var fs = require('fs');
 var os = require('os');
