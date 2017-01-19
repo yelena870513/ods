@@ -1508,23 +1508,23 @@ angular.module('app.sao')
 
         //init();
 
-        function init()
-        {
-            var user = $localStorage.user;
-            if(user==undefined)
-            {
-
-                $timeout(function () {
-                    $location.path('/login');
-                },300);
-            }
-            else{
-                $scope.user = user;
-            }
-
-        }
-
-        init();
+        // function init()
+        // {
+        //     var user = $localStorage.user;
+        //     if(user==undefined)
+        //     {
+        //
+        //         $timeout(function () {
+        //             $location.path('/login');
+        //         },300);
+        //     }
+        //     else{
+        //         $scope.user = user;
+        //     }
+        //
+        // }
+        //
+        // init();
 
 
 
@@ -1734,6 +1734,8 @@ angular.module('app.sao')
         ;
 
         function init() {
+
+
             switch ($scope.record.tipo) {
                 case 'general3':
                      $scope.record.Sector = selectedTabla2.aplicacion;
@@ -2067,6 +2069,8 @@ angular.module('app.sao')
             $scope.record.Aplicaciones = selectedTabla13.aplicacion;
             $scope.record.Alternativas = selectedTabla13.alternativas[0];
         }
+
+        init();
 
     })
     .controller("uploadController",function ($scope, SAO, Manager, $uibModalInstance,$timeout,pouchDB) {
