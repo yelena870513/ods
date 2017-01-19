@@ -84,7 +84,13 @@
                     <div class="form-group">
 
                         <label >Toneladas métricas:</label>
-                        <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
+                        <!--Aqui te fijas como se utiliza el ng/class para el caso de los errores-->
+                        <input  class="form-control"
+                                data-ng-class="{'control-error':error.show}"
+                                type="number"
+                                min="0"
+                                placeholder="Tons"
+                                data-ng-model="amount"/>
                     </div>
                     <div class="form-group">
                         <i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i>

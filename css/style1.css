@@ -170,3 +170,10 @@ img.logos1{
 i.mas{
     color: red;
 }
+
+/*error en modals*/
+.control-error{
+    box-shadow: inset;
+    border-color: #9f191f;
+    border-radius: 0.2em;
+}
