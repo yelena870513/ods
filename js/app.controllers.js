@@ -1694,6 +1694,20 @@ angular.module('app.sao')
             AddElement(element);
         }
 
+        function ValidateSettings()
+        {
+            if ($scope.general.empresa=='')
+            {
+                throw 'Introduzca nombre de la empresa';
+            }
+
+            if ($scope.general.osde=='')
+            {
+                throw 'Introduzca nombre de la OSDE';
+            }
+
+        }
+
         function Close() {
             $uibModalInstance.dismiss('cancel');
         }
@@ -1754,6 +1768,18 @@ angular.module('app.sao')
 
         }
         ;
+
+
+        $scope.Check = function () {
+            try{
+                ValidateSettings();
+            }
+            catch (err){
+                $scope.error.message = err;
+                $scope.error.show = true;
+
+            }
+        }
 
         function init() {
 
