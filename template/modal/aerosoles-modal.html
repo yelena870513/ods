@@ -54,12 +54,13 @@
                         <label for="year">Año:</label>
                         <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="year"
+                                data-ng-class="{'control-error':error.show}"
                                 data-ng-options="item as item for item in [2011,2012,2013,2014,2015]"></select>
                         </div>
 
                         <div class="form-group">
                             <label >Consumo en toneladas métricas:</label>
-                            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
+                            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-class="{'control-error':error.show}" data-ng-model="amount"/>
                         </div>
                         <div class="form-group">
                             <p><i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>

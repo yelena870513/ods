@@ -27,12 +27,13 @@
             <label >Año:</label>
             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                     data-ng-model="year"
+                    data-ng-class="{'control-error':error.show}"
                     data-ng-options="item as item for item in [2010,2015,2020,2025,2030]"></select>
             </div>
 
         <div class="form-group">
             <label >Consumo en toneladas métricas:</label>
-            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
+            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" data-ng-class="{'control-error':error.show}"/>
             <ul class="list-group">
                 <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
                     <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice(el,1)"></i>
