@@ -7,6 +7,12 @@
 </div>
 <div class="modal-body">
     <div class="row-fluid">
+
+            <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+                <button type="button" class="close" ng-click="error.show = false;Close();" aria-hidden="true">×</button>
+                {{error.message}}
+            </div>
+
         <div class="col-md-6">
             <div class="form-group">
                 <label>Provincia:</label>
@@ -25,20 +31,22 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>OSDE:</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                        data-ng-model="general.osde"
-                        data-ng-options="item as item.nombre for item in SAO.OSDE">
-                </select>
+                <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                        <!--data-ng-model="general.osde"-->
+                        <!--data-ng-options="item as item.nombre for item in SAO.OSDE">-->
+                <!--</select>-->
+                <input id="exampleInputEmail2" class="form-control" type="text" placeholder="OSDE" data-ng-class="{'control-error':error.show}" data-ng-model="general.osde">
 
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Empresa:</label>
-                <input id="exampleInputEmail1" class="form-control" type="text" placeholder="Empresa" data-ng-model="general.empresa">
+                <input id="exampleInputEmail1" class="form-control" type="text" placeholder="Empresa" data-ng-class="{'control-error':error.show}" data-ng-model="general.empresa">
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="Close()">
+
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="CloseGeneral()">
             Cerrar
         </button>
     </div>

@@ -30,14 +30,15 @@ angular.module('app.sao')
         $scope.records = Object.keys($scope.columns);
         //Informacion general
         $scope.Provincias = SAO.Provincias;
-        $scope.OSDE = SAO.OSDE;
+        //$scope.OSDE = SAO.OSDE;
         $scope.Ministerio = SAO.Ministerio;
 
         //Tipo de objetos
         $scope.general = {
             "provincia": SAO.Provincias[1],
             "ministerio": SAO.Ministerio[1],
-            "osde": SAO.OSDE[1],
+            //"osde": SAO.OSDE[1],
+            "osde": "",
             "empresa": "",
             "tipo": "general"
         };
@@ -121,12 +122,13 @@ angular.module('app.sao')
             "Aplicaciones":SAO.Tabla11A[0].aplicacion,
             "Capacidad":SAO.Tabla11A[0].carga,
             "Alternativas":SAO.Tabla11A[0].alternativas[0],
+            "clasificacion":SAO.Clasificacion[0],
             "otrosAlternativa":"",
             "unidades":"",
             "Uso":[],//{ano:"---",tons:""},
             "clasificacion":SAO.Clasificacion[1],
-            "tipo":"aire3",
-            "clasificacion":""
+            "tipo":"aire3"
+            //"clasificacion":""
         };
 
         //AEROSOLES
@@ -168,12 +170,13 @@ angular.module('app.sao')
             "Aplicaciones":SAO.Tabla11B[0].aplicacion,
             "Capacidad":SAO.Tabla11B[0].carga,
             "Alternativas":SAO.Tabla11B[0].alternativas[0],
+            "clasificacion":SAO.ClasificacionRefri[0],
             "otrosAlternativa":"",
             "unidades":"",
             "explotacion":"",
             "Uso":[],//{ano:"---",tons:""},
-            "tipo":"refri",
-            "clasificacion":""
+            "tipo":"refri"
+            //"clasificacion":""
         };
 
         //EMPRESA
@@ -1528,28 +1531,6 @@ angular.module('app.sao')
         var SubsectorTabla7 = $scope.SubsectorTabla7;
 
 
-        //init();
-
-        // function init()
-        // {
-        //     var user = $localStorage.user;
-        //     if(user==undefined)
-        //     {
-        //
-        //         $timeout(function () {
-        //             $location.path('/login');
-        //         },300);
-        //     }
-        //     else{
-        //         $scope.user = user;
-        //     }
-        //
-        // }
-        //
-        // init();
-
-
-
         ///CRUD operations
 
         function UpdateElement(element) {
@@ -1615,9 +1596,13 @@ angular.module('app.sao')
                     }
                     break;
                 case 'general':
-                    if(empresa==''){
+                    if(element.osde==''){
+                        throw 'Introduzca el nombre de la OSDE';
+                    }
+                    if(element.empresa==''){
                         throw 'Introduzca el nombre de la empresa';
                     }
+
                  break;
 
                 case 'aire3':
@@ -1646,7 +1631,7 @@ angular.module('app.sao')
             {
                 if(element.Uso.length<5)
                 {
-                  throw 'Faltan a\u00F1os por introducir cantidad de toneladas m\u00E9tricas ';
+                  throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
                 }
             }
             if(element.CantRefriRefri!=undefined)
@@ -1719,6 +1704,21 @@ angular.module('app.sao')
             // console.log($scope.record);
             Close();
         };
+        $scope.CloseGeneral = function() {
+            //TODO: reverse update in actions list
+            // console.log($scope.record);
+
+            if(element.osde==''){
+                throw 'Introduzca el nombre de la OSDE';
+            }
+            if(element.empresa==''){
+                throw 'Introduzca el nombre de la empresa';
+            }
+
+
+            Finish();
+        };
+
 
         $scope.Save = function() {
             //TODO: reverse update in actions list
@@ -1818,6 +1818,7 @@ angular.module('app.sao')
                     break;
                 case 'aire3':
                     $scope.record.Alternativas = SAO.Tabla11A[0].alternativas[0];
+                    $scope.record.clasificacion = SAO.Clasificacion[0];
                     $scope.year = 2010;
 
                     break;
@@ -1828,6 +1829,7 @@ angular.module('app.sao')
                     break;
                 case 'refri':
                     $scope.record.Alternativas = SAO.Tabla11B[0].alternativas[0];
+                    $scope.record.clasificacion = SAO.ClasificacionRefri[0];
                     $scope.year = 2010;
 
                     break;

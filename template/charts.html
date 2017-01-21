@@ -14,7 +14,7 @@
             </ul>
         </div>
         <div class="btn-group" uib-dropdown is-open="status3.isopen">
-            <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aire')}">
                 Aire Acondicionado <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -24,7 +24,7 @@
             </ul>
         </div>
         <div class="btn-group" uib-dropdown is-open="status4.isopen">
-            <button id="single-button-refrigeracion" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-refrigeracion" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('refri')}">
                 Refrigeración <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -35,7 +35,7 @@
         </div>
 
         <div class="btn-group" uib-dropdown is-open="status5.isopen">
-            <button id="single-button-consumo" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-consumo" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
                 Aerosoles <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -44,7 +44,7 @@
             </ul>
         </div>
         <div class="btn-group" uib-dropdown is-open="status6.isopen">
-            <button id="single-button-importaciones" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-importaciones" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('importaciones')}">
                 Importaciones <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -53,7 +53,7 @@
             </ul>
         </div>
         <div class="btn-group" uib-dropdown is-open="status7.isopen">
-            <button id="single-button-empresa" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled">
+            <button id="single-button-empresa" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" empresa>
                 Empresa <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
