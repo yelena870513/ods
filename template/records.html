@@ -88,6 +88,14 @@
         </div>
     </div>
     <section class="content"style="margin-top: 2em" >
+        <div class="alert alert-success alert-dismissable" data-ng-show="alerts.show">
+            <button type="button" class="close" ng-click="alerts.show = false;" aria-hidden="true">×</button>
+            {{alerts.message}}
+        </div>
+        <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+        <button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>
+        {{error.message}}
+    </div>
         <div data-ng-show="table.columns.length>0">
             <h4 >{{table.title  }}</h4>
             <table class="table table-bordered table table-striped table-hover">

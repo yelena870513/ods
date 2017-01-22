@@ -58,6 +58,7 @@
                         <label for="year">Año:</label>
                         <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="year"
+                                data-ng-change="amount=0"
                                 data-ng-class="{'control-error':error.show}"
                                 data-ng-options="item as item for item in [2011,2012,2013,2014,2015]"></select>
                         </div>
@@ -66,8 +67,8 @@
                         <label for="amount">Consumo en toneladas métricas:</label>
                         <input id="amount" class="form-control" type="number" min="0" placeholder="Tons" data-ng-class="{'control-error':error.show}" data-ng-model="amount"/>
                         <ul class="list-group">
-                            <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
-                                <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice(el,1)"></i>
+                            <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
+                                <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
                             </li>
                         </ul>
 

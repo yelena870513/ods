@@ -2,6 +2,17 @@ angular.module('app.sao')
     .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns,$timeout,$location,SType) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
+        $scope.alerts=
+        {
+            show:false,
+            message:'',
+        };
+
+        $scope.error=
+        {
+            show:false,
+            message:'Error.',
+        };
         var active = '';
         //DB en memoria
         $scope.documents = [];
@@ -122,7 +133,7 @@ angular.module('app.sao')
             "Aplicaciones":SAO.Tabla11A[0].aplicacion,
             "Capacidad":SAO.Tabla11A[0].carga,
             "Alternativas":SAO.Tabla11A[0].alternativas[0],
-            "clasificacion":SAO.Clasificacion[0],
+            // "clasificacion":SAO.Clasificacion[0],
             "otrosAlternativa":"",
             "unidades":"",
             "Uso":[],//{ano:"---",tons:""},
@@ -411,7 +422,20 @@ angular.module('app.sao')
 
 
         $scope.Save = function() {
-            Manager.flush();
+            Manager.flush().then(function (e) {
+                $scope.alerts.show = true;
+                $scope.alerts.message = 'Datos salvados.';
+                $timeout(function () {
+                    $scope.alerts.show = false;
+                },3000);
+            },function (reason) {
+                $scope.error.show = true;
+                $scope.error.message = 'Error salvando los datos.';
+                $timeout(function () {
+                    $scope.error.show = false;
+                    $scope.error.message = 'Error!.';
+                },3000);
+            });
         };
 
         $scope.SelectModal = function (tipo) {
@@ -564,34 +588,118 @@ angular.module('app.sao')
             var tableNames= SType[table];
             tableNames.forEach(function (name)
             {
-                Manager.record(name).then(function (data) {
+                Manager.record(name).then(function (data)
+                {
                     var dataColums=$scope.columns.filter(function (el) {
                         return el.tipo==name;
                     })[0];
 
-             if(dataColums!=undefined)
-             {
-                 $timeout(
-                     function () {
+                     if(dataColums!=undefined)
+                     {
 
-                         var table = Format({
-                             "columns":dataColums.fields,
-                             "records":data.rows.map(function(el) {
-                                 return el.doc;
-                             }),
-                             "title":dataColums.nombre,
-                             "name":name
-                         });
-                        $scope.tables.push(table);
-                 },200)
-                ;
+                         $timeout(
+                             function () {
+                                 var rows = data.rows.map(function(el) {
+                                     return el.doc;
+                                 });
 
-             }
+                                 rows =  ReformatData(rows,name);
+                                // rows =  ReformatData(rows,name);
+
+                                 var table = Format({
+                                     "columns":dataColums.fields,
+                                     "records":rows,
+                                     "title":dataColums.nombre,
+                                     "name":name
+                                 });
+
+                                $scope.tables.push(table);
+                         },200)
+                        ;
+
+                     }
 
 
                 });
             });
 
+        }
+
+        function ReformatData(data,table){
+            var rows = [];
+            switch (table)
+            {
+                case 'espuma1':
+                case 'importaciones1':
+                    rows = ReduceItems(data,"Sustancia");
+                    break;
+                case 'espuma2':
+                case 'espuma3':
+
+                    rows = ReduceItems(data,"Subsector");
+                    break;
+                case 'aire2':
+                case 'aire3':
+                case 'refri':
+                case 'consumo':
+                case 'aerosoles':
+                case 'empresa1':
+                case 'empresa2':
+                case 'empresa3':
+                    rows = ReduceItems(data,"Aplicaciones");
+                    break;
+            }
+
+            return rows;
+        }
+
+        function ReduceItems(source, property) {
+            var rows = [];
+            for(var d=0;d<source.length;d++)
+            {
+
+                var c = source[d][property].nombre;
+
+                var results  =  _.find(rows,function (id) {
+                    return  id[property].nombre==c;
+                });
+
+
+                if(results==undefined)
+                {
+                    var where =_.filter(source,function (id) {
+                        return  id[property].nombre==c;
+                    });
+                    var row = {
+                        "Uso":[]
+                    };
+
+                    row[property]={
+                        "nombre":c
+                    };
+
+
+                    _.each(where,function (o)
+                    {
+                        if (row.Uso.length==0)
+                        {
+                            row.Uso = o.Uso;
+                        }
+                        else
+                        {
+                            _.each(o.Uso,function (u,index)
+                            {
+                                row.Uso[index].tons+=u.tons;
+                            });
+                        }
+                    });
+
+                    rows.push(row);
+
+                }
+            }
+
+            return rows;
         }
 
         function SimpleTable(table)
@@ -613,11 +721,11 @@ angular.module('app.sao')
                     {
                         if(tableData.columns.indexOf("Uso")!=-1)
                         {
-                            var keys = tableData.records[0].Uso.filter(function (u) {
+                            var keys = _.unique(tableData.records[0].Uso.filter(function (u) {
                                 return u.anno;
                             }).map(function (j) {
                                 return j.anno;
-                            });
+                            }));
 
                             var rows = tableData.records.map(function (m) {
                                 keys.forEach(function (k)
@@ -659,29 +767,35 @@ angular.module('app.sao')
                        "Uso":[]
                     };
                     var matches = $scope.records.filter(function (fc) {
-                        return fc.clasificacion==c&&fc.tipo=='refri';
+                        return fc.clasificacion.nombre==c&&fc.tipo=='refri';
                     });
 
-                    for (var i =0;i<matches.length;i++)
+                    if(matches.length>0)
                     {
-                        for (var k = 0; matches[i].Uso.length;i++)
+                        for (var i =0;i<matches.length;i++)
                         {
-                            if(row.Uso[k]==undefined)
+                            if(matches[i]!=undefined)
                             {
-                                row.Uso[k] = matches[i].Uso[k]
-                            }
-                            else
-                            {
-                                if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                for (var k = 0;k< matches[i].Uso.length;k++)
                                 {
-                                    row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                    if(row.Uso[k]==undefined)
+                                    {
+                                        row.Uso[k] = matches[i].Uso[k]
+                                    }
+                                    else
+                                    {
+                                        if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                        {
+                                            row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                        }
+                                    }
                                 }
                             }
+
                         }
 
+                        dataTable.push(row);
                     }
-
-                    dataTable.push(row);
                 });
 
                 $timeout(
@@ -706,29 +820,35 @@ angular.module('app.sao')
                         "Uso":[]
                     };
                     var matches = $scope.records.filter(function (fc) {
-                        return fc.clasificacion==c&&fc.tipo=='refri';
+                        return fc.clasificacion.nombre==c&&fc.tipo=='aire3';
                     });
 
-                    for (var i =0;i<matches.length;i++)
+                    if(matches.length>0)
                     {
-                        for (var k = 0; matches[i].Uso.length;i++)
+                        for (var i =0;i<matches.length;i++)
                         {
-                            if(row.Uso[k]==undefined)
+                            if(matches[i]!=undefined)
                             {
-                                row.Uso[k] = matches[i].Uso[k]
-                            }
-                            else
-                            {
-                                if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                for (var k = 0;k< matches[i].Uso.length;k++)
                                 {
-                                    row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                    if(row.Uso[k]==undefined)
+                                    {
+                                        row.Uso[k] = matches[i].Uso[k]
+                                    }
+                                    else
+                                    {
+                                        if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                        {
+                                            row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                        }
+                                    }
                                 }
                             }
+
                         }
 
+                        dataTable.push(row);
                     }
-
-                    dataTable.push(row);
 
                 });
 
@@ -1608,7 +1728,7 @@ angular.module('app.sao')
                 case 'aire3':
 
                 case 'refri':
-                    element.Uso = [{anno:2011, tons: 0, "nombre": 2011+":"+0},{anno:2012, tons: 0,"nombre": 2012+":"+0},{anno:2013, tons: 0,"nombre": 2013+":"+0},{anno:2014, tons: 0,"nombre": 2014+":"+0},{anno:2015, tons: (element.Capacidad.max*element.unidades)/1000,"nombre": 2015+":"+(element.Capacidad.max*element.unidades)/1000}];
+                    // element.Uso = [{anno:2011, tons: 0, "nombre": 2011+":"+0},{anno:2012, tons: 0,"nombre": 2012+":"+0},{anno:2013, tons: 0,"nombre": 2013+":"+0},{anno:2014, tons: 0,"nombre": 2014+":"+0},{anno:2015, tons: (element.Capacidad.max*element.unidades)/1000,"nombre": 2015+":"+(element.Capacidad.max*element.unidades)/1000}];
 
                 case 'aire2':
                 case 'consumo':
@@ -1681,15 +1801,17 @@ angular.module('app.sao')
 
         function ValidateSettings()
         {
-            if ($scope.general.empresa=='')
-            {
-                throw 'Introduzca nombre de la empresa';
-            }
 
             if ($scope.general.osde=='')
             {
                 throw 'Introduzca nombre de la OSDE';
             }
+            if ($scope.general.empresa=='')
+            {
+                throw 'Introduzca nombre de la empresa';
+            }
+
+
 
         }
 
@@ -1773,13 +1895,14 @@ angular.module('app.sao')
         $scope.Check = function () {
             try{
                 ValidateSettings();
+                Finish();
             }
             catch (err){
                 $scope.error.message = err;
                 $scope.error.show = true;
 
             }
-        }
+        };
 
         function init() {
 
@@ -2076,7 +2199,7 @@ angular.module('app.sao')
 
         $scope.ShowTabla12 = function(){
             selectedTabla12 = $scope.Tabla12R;
-            $scope.record.Aplicacion = selectedTabla12.aplicacion;
+            $scope.record.Aplicaciones = selectedTabla12.aplicacion;
             $scope.record.Alternativas = selectedTabla12.alternativas[0];
         };
 
