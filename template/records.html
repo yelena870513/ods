@@ -110,7 +110,7 @@
                     <td data-ng-repeat="col in table.columns">{{record[col] | mainString }}</td>
                     <td>
                         <!--Llamada de los eliminar y los editar-->
-                        <a class="btn btn-edict" data-ng-click="OpenModal(record)"><i class="fa fa-edit" title="Editar"></i></a>
+                        <a class="btn btn-edict" data-ng-click="OpenModal(record,undefined,'edit')"><i class="fa fa-edit" title="Editar"></i></a>
                         <a class="btn btn-edict"data-ng-click="Delete(record)"><i class="fa fa-trash-o" title="Eliminar"></i></a>
                     </td>
                 </tr>

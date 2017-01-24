@@ -307,7 +307,7 @@ angular.module('app.sao')
         };
 
 
-        $scope.OpenModal = function(record, size) {
+        $scope.OpenModal = function(record, size,action) {
             var instance = $uibModal.open({
                 animation: true,
                 templateUrl: "template/modal/" + $scope.table.name + "-modal.html",
@@ -327,6 +327,9 @@ angular.module('app.sao')
                     },
                     documents: function() {
                         return $scope.documents;
+                    },
+                    action:function(){
+                        return action;
                     }
                 }
             });
@@ -381,6 +384,9 @@ angular.module('app.sao')
 
                     documents: function() {
                         return $scope.documents;
+                    },
+                    action: function () {
+                        return 'delete';
                     }
                 }
             });
@@ -648,6 +654,8 @@ angular.module('app.sao')
                 case 'empresa3':
                     rows = ReduceItems(data,"Aplicaciones");
                     break;
+                default:
+                    rows = data;
             }
 
             return rows;
@@ -1604,13 +1612,15 @@ angular.module('app.sao')
 
 
     })
-    .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents) {
+    .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents,action) {
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.record = record;
+        $scope.action = action;
         $scope.error = {
             show:false,
-            message:'Ha ocurrido un error'
+            message:'Ha ocurrido un error',
+            tipo:''
         };
         $scope.SAO = SAO;
         $scope.general = general;
@@ -1804,10 +1814,12 @@ angular.module('app.sao')
 
             if ($scope.general.osde=='')
             {
+                $scope.error.tipo = 'osde';
                 throw 'Introduzca nombre de la OSDE';
             }
             if ($scope.general.empresa=='')
             {
+                $scope.error.tipo = 'empresa';
                 throw 'Introduzca nombre de la empresa';
             }
 
@@ -1907,131 +1919,134 @@ angular.module('app.sao')
         function init() {
 
 
-            switch ($scope.record.tipo) {
-                case 'general3':
-                     $scope.record.Sector = selectedTabla2.aplicacion;
-                     $scope.record.Subsector = selectedTabla2.alternativas[0];
-                     $scope.record.Alternativa = selectedTabla2.uso2[0];
-                    break;
-                case 'general1':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    $scope.record.sustancia = SAO.Sustancias[1];
+            if (action!='edit')
+            {
+                switch ($scope.record.tipo) {
+                    case 'general3':
+                        $scope.record.Sector = selectedTabla2.aplicacion;
+                        $scope.record.Subsector = selectedTabla2.alternativas[0];
+                        $scope.record.Alternativa = selectedTabla2.uso2[0];
+                        break;
+                    case 'general1':
+                        // $scope.record.sectores = SAO.Sectores[1];
+                        $scope.record.sustancia = SAO.Sustancias[1];
 
-                    break;
+                        break;
 
-                case 'general2':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    // $scope.record.alternativaHFC = SAO.AlternativaHFC[0];
-                    // $scope.record.alternativaHFCMezclas = SAO.AlternativaHFCMezclas[0];
-                    // $scope.record.alternativaHFO = SAO.AlternativaHFO[0];
-                    // $scope.record.alternativaOtras = SAO.AlternativaOtras[0];
-                    // $scope.record.ra = SAO.RA[0];
-                    // $scope.record.Sustancias = SAO.Sustancias[0];
-                    // $scope.record.Sectores = SAO.Sectores[0];
-                    $scope.record.Alternativa = selectedTabla22.aplicacion;
-                    $scope.record.Tipo = selectedTabla22.alternativas[0];
-                    $scope.record.Sector = selectedTabla22.uso2[0];
-                    $scope.record.ra = SAO.RA[0];
-
-
-                    break;
-                case 'espuma1':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    $scope.record.Sustancia = SAO.SustanciasTabla3[0];
-                    $scope.year = 2010;
-
-                    break;
-                case 'espuma2':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
-                    $scope.record.Subsector = SAO.SubsectorTabla4[0];
-                    $scope.year = 2010;
-
-                    break;
-                case 'espuma3':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
-                    $scope.record.Alternativa = SAO.Tabla5[0].alternativas[0];
-                    $scope.year = 2011;
-
-                    break;
-                // case 'aire1':
-                //     $scope.record.Alternativa = SAO.SubsectorTabla7[0];
-                //     $scope.year = 2010;
-                //
-                //     break;
-                case 'aire2':
-                    $scope.record.Alternativas = SAO.Tabla9[0].alternativas[0];
-                    $scope.year = 2011;
-
-                    break;
-                case 'aire3':
-                    $scope.record.Alternativas = SAO.Tabla11A[0].alternativas[0];
-                    $scope.record.clasificacion = SAO.Clasificacion[0];
-                    $scope.year = 2010;
-
-                    break;
-                case 'consumo':
-                    $scope.record.Alternativas = SAO.Aplicaciones8[0].alternativas[0];
-                    $scope.year = 2011;
-
-                    break;
-                case 'refri':
-                    $scope.record.Alternativas = SAO.Tabla11B[0].alternativas[0];
-                    $scope.record.clasificacion = SAO.ClasificacionRefri[0];
-                    $scope.year = 2010;
-
-                    break;
-                case 'aerosoles':
-                    $scope.record.Alternativas = SAO.Tabla12[0].alternativas[0];
-                    $scope.year = 2011;
-
-                    break;
-                case 'importaciones1':
-                    $scope.record.Sustancia = SAO.SustanciasTabla6[0];
-                    $scope.year = 2010;
-
-                    break;
-                case 'importaciones2':
-                    $scope.year = 2011;
-
-                    break;
-                case 'empresa1':
-                    $scope.record.Alternativas = SAO.Tabla10A[0].alternativas[0];
-                    $scope.year = 2011;
-
-                    break;
-                case 'empresa2':
-                $scope.record.Alternativas = SAO.Tabla10B[0].alternativas[0];
-                $scope.year = 2011;
-
-                break;
-                case 'empresa3':
-                    $scope.record.Alternativas = SAO.Tabla13[0].alternativas[0];
-                    $scope.year = 2011;
-
-                    break;
-                case 'empresa4':
-                    $scope.record.Organizacion = SAO.OrgProduccion[0];
-                    $scope.record.TipoAire = SAO.TipoAire[0];
-                    $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
-                    $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[1];
-                    $scope.record.SustanciaAire = SAO.SustanciasAire[1];
-                    $scope.re2 = 'AR500';
-                    $scope.re3 = 'R134a';
-                    $scope.re4 = 'Ingenieros';
-                    $scope.re = 'HCFC';
-                    $scope.re1 = 'HCFC';
+                    case 'general2':
+                        // $scope.record.sectores = SAO.Sectores[1];
+                        // $scope.record.alternativaHFC = SAO.AlternativaHFC[0];
+                        // $scope.record.alternativaHFCMezclas = SAO.AlternativaHFCMezclas[0];
+                        // $scope.record.alternativaHFO = SAO.AlternativaHFO[0];
+                        // $scope.record.alternativaOtras = SAO.AlternativaOtras[0];
+                        // $scope.record.ra = SAO.RA[0];
+                        // $scope.record.Sustancias = SAO.Sustancias[0];
+                        // $scope.record.Sectores = SAO.Sectores[0];
+                        $scope.record.Alternativa = selectedTabla22.aplicacion;
+                        $scope.record.Tipo = selectedTabla22.alternativas[0];
+                        $scope.record.Sector = selectedTabla22.uso2[0];
+                        $scope.record.ra = SAO.RA[0];
 
 
+                        break;
+                    case 'espuma1':
+                        // $scope.record.sectores = SAO.Sectores[1];
+                        $scope.record.Sustancia = SAO.SustanciasTabla3[0];
+                        $scope.year = 2010;
 
-                    break;
+                        break;
+                    case 'espuma2':
+                        // $scope.record.sectores = SAO.Sectores[1];
+                        // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
+                        $scope.record.Subsector = SAO.SubsectorTabla4[0];
+                        $scope.year = 2010;
+
+                        break;
+                    case 'espuma3':
+                        // $scope.record.sectores = SAO.Sectores[1];
+                        // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
+                        $scope.record.Alternativa = SAO.Tabla5[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    // case 'aire1':
+                    //     $scope.record.Alternativa = SAO.SubsectorTabla7[0];
+                    //     $scope.year = 2010;
+                    //
+                    //     break;
+                    case 'aire2':
+                        $scope.record.Alternativas = SAO.Tabla9[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'aire3':
+                        $scope.record.Alternativas = SAO.Tabla11A[0].alternativas[0];
+                        $scope.record.clasificacion = SAO.Clasificacion[0];
+                        $scope.year = 2010;
+
+                        break;
+                    case 'consumo':
+                        $scope.record.Alternativas = SAO.Aplicaciones8[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'refri':
+                        $scope.record.Alternativas = SAO.Tabla11B[0].alternativas[0];
+                        $scope.record.clasificacion = SAO.ClasificacionRefri[0];
+                        $scope.year = 2010;
+
+                        break;
+                    case 'aerosoles':
+                        $scope.record.Alternativas = SAO.Tabla12[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'importaciones1':
+                        $scope.record.Sustancia = SAO.SustanciasTabla6[0];
+                        $scope.year = 2010;
+
+                        break;
+                    case 'importaciones2':
+                        $scope.year = 2011;
+
+                        break;
+                    case 'empresa1':
+                        $scope.record.Alternativas = SAO.Tabla10A[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'empresa2':
+                        $scope.record.Alternativas = SAO.Tabla10B[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'empresa3':
+                        $scope.record.Alternativas = SAO.Tabla13[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'empresa4':
+                        $scope.record.Organizacion = SAO.OrgProduccion[0];
+                        $scope.record.TipoAire = SAO.TipoAire[0];
+                        $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
+                        $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[1];
+                        $scope.record.SustanciaAire = SAO.SustanciasAire[1];
+                        $scope.re2 = 'AR500';
+                        $scope.re3 = 'R134a';
+                        $scope.re4 = 'Ingenieros';
+                        $scope.re = 'HCFC';
+                        $scope.re1 = 'HCFC';
 
 
 
-                default:
+                        break;
 
-                    break;
+
+
+                    default:
+
+                        break;
+                }
             }
         }
 

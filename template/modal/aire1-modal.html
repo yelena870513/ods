@@ -34,7 +34,7 @@
 
             <label >Consumo en toneladas métricas:</label>
             <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"
-                    data-ng-class="{'control-error':error.show}" data-ng-class="{'has-error':error.show}"/>
+                    data-ng-class="{'control-error':error.show}" />
             <ul class="list-group">
                 <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
                     {{el.anno}} -- {{el.tons}}
