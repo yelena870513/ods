@@ -88,6 +88,14 @@
         </div>
     </div>
     <section class="content"style="margin-top: 2em" >
+        <div class="alert alert-success alert-dismissable" data-ng-show="alerts.show">
+            <button type="button" class="close" ng-click="alerts.show = false;" aria-hidden="true">×</button>
+            {{alerts.message}}
+        </div>
+        <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+        <button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>
+        {{error.message}}
+    </div>
         <div data-ng-show="table.columns.length>0">
             <h4 >{{table.title  }}</h4>
             <table class="table table-bordered table table-striped table-hover">
@@ -102,7 +110,7 @@
                     <td data-ng-repeat="col in table.columns">{{record[col] | mainString }}</td>
                     <td>
                         <!--Llamada de los eliminar y los editar-->
-                        <a class="btn btn-edict" data-ng-click="OpenModal(record)"><i class="fa fa-edit" title="Editar"></i></a>
+                        <a class="btn btn-edict" data-ng-click="OpenModal(record,undefined,'edit')"><i class="fa fa-edit" title="Editar"></i></a>
                         <a class="btn btn-edict"data-ng-click="Delete(record)"><i class="fa fa-trash-o" title="Eliminar"></i></a>
                     </td>
                 </tr>

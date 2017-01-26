@@ -8,12 +8,12 @@
                     <table class="table table-bordered table table-striped table-hover">
                         <thead>
                         <tr >
-                            <th data-ng-repeat="col in table.columns">{{col  }}</th>
+                            <th data-ng-repeat="col in table.columns track by $index">{{col  }}</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr data-ng-repeat="record in table.records track by $index">
-                            <td data-ng-repeat="col in table.columns">{{record[col] | mainString }}</td>
+                            <td data-ng-repeat="col in table.columns track by $index">{{record[col] | mainString }}</td>
                         </tr>
                         </tbody>
                     </table>

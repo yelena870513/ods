@@ -2,6 +2,17 @@ angular.module('app.sao')
     .controller("generalController", function($scope, Manager, SAO, Util, $uibModal,Menu,$sce,SubMenu,$localStorage, Columns,$timeout,$location,SType) {
 
         $scope.treeTemplate = $sce.trustAsHtml("template/directive/tree.html");
+        $scope.alerts=
+        {
+            show:false,
+            message:''
+        };
+
+        $scope.error=
+        {
+            show:false,
+            message:'Error.'
+        };
         var active = '';
         //DB en memoria
         $scope.documents = [];
@@ -122,7 +133,8 @@ angular.module('app.sao')
             "Aplicaciones":SAO.Tabla11A[0].aplicacion,
             "Capacidad":SAO.Tabla11A[0].carga,
             "Alternativas":SAO.Tabla11A[0].alternativas[0],
-            "clasificacion":SAO.Clasificacion[0],
+            "Estado":SAO.Estado[0],
+            // "clasificacion":SAO.Clasificacion[0],
             "otrosAlternativa":"",
             "unidades":"",
             "Uso":[],//{ano:"---",tons:""},
@@ -171,6 +183,7 @@ angular.module('app.sao')
             "Capacidad":SAO.Tabla11B[0].carga,
             "Alternativas":SAO.Tabla11B[0].alternativas[0],
             "clasificacion":SAO.ClasificacionRefri[0],
+            "Estado":SAO.EstadoRefri[0],
             "otrosAlternativa":"",
             "unidades":"",
             "explotacion":"",
@@ -295,8 +308,7 @@ angular.module('app.sao')
             AddElement(element);
         };
 
-
-        $scope.OpenModal = function(record, size) {
+        $scope.OpenModal = function(record, size,action) {
             var instance = $uibModal.open({
                 animation: true,
                 templateUrl: "template/modal/" + $scope.table.name + "-modal.html",
@@ -316,6 +328,9 @@ angular.module('app.sao')
                     },
                     documents: function() {
                         return $scope.documents;
+                    },
+                    action:function(){
+                        return action;
                     }
                 }
             });
@@ -326,6 +341,36 @@ angular.module('app.sao')
                 console.warn(JSON.stringify(reason));
             });
         };
+        //$scope.OpenModal = function(record, size) {
+        //    var instance = $uibModal.open({
+        //        animation: true,
+        //        templateUrl: "template/modal/" + $scope.table.name + "-modal.html",
+        //        controller: 'modalController',
+        //        size: size,
+        //        resolve: {
+        //            record: function() {
+        //                if (record == undefined) {
+        //
+        //                    record = angular.copy($scope[$scope.table.name]);
+        //                    record.tipo = $scope.table.name;
+        //                }
+        //                return record;
+        //            },
+        //            general: function() {
+        //                return $scope.general;
+        //            },
+        //            documents: function() {
+        //                return $scope.documents;
+        //            }
+        //        }
+        //    });
+
+        //    instance.result.then(function(data) {
+        //        $scope.Refresh();
+        //    }, function(reason) {
+        //        console.warn(JSON.stringify(reason));
+        //    });
+        //};
 
         $scope.LoadModal = function (size) {
             var instance = $uibModal.open({
@@ -354,6 +399,32 @@ angular.module('app.sao')
 
         };
 
+        //$scope.Delete = function(record, size) {
+        //    var instance = $uibModal.open({
+        //        animation: true,
+        //        templateUrl: "template/modal/delete-modal.html",
+        //        controller: 'modalController',
+        //        size: size,
+        //        resolve: {
+        //            record: function() {
+        //                return record;
+        //            },
+        //            general: function() {
+        //                return $scope.general;
+        //            },
+        //
+        //            documents: function() {
+        //                return $scope.documents;
+        //            }
+        //        }
+        //    });
+        //
+        //    instance.result.then(function(data) {
+        //        $scope.Refresh();
+        //    }, function(reason) {
+        //        console.warn(JSON.stringify(reason));
+        //    });
+        //};
         $scope.Delete = function(record, size) {
             var instance = $uibModal.open({
                 animation: true,
@@ -370,6 +441,9 @@ angular.module('app.sao')
 
                     documents: function() {
                         return $scope.documents;
+                    },
+                    action: function () {
+                        return 'delete';
                     }
                 }
             });
@@ -411,7 +485,20 @@ angular.module('app.sao')
 
 
         $scope.Save = function() {
-            Manager.flush();
+            Manager.flush().then(function (e) {
+                $scope.alerts.show = true;
+                $scope.alerts.message = 'Datos salvados correctamente.';
+                $timeout(function () {
+                    $scope.alerts.show = false;
+                },3000);
+            },function (reason) {
+                $scope.error.show = true;
+                $scope.error.message = 'Error salvando los datos.';
+                $timeout(function () {
+                    $scope.error.show = false;
+                    $scope.error.message = 'Error!.';
+                },3000);
+            });
         };
 
         $scope.SelectModal = function (tipo) {
@@ -564,34 +651,121 @@ angular.module('app.sao')
             var tableNames= SType[table];
             tableNames.forEach(function (name)
             {
-                Manager.record(name).then(function (data) {
+                Manager.record(name).then(function (data)
+                {
                     var dataColums=$scope.columns.filter(function (el) {
                         return el.tipo==name;
                     })[0];
 
-             if(dataColums!=undefined)
-             {
-                 $timeout(
-                     function () {
+                     if(dataColums!=undefined)
+                     {
 
-                         var table = Format({
-                             "columns":dataColums.fields,
-                             "records":data.rows.map(function(el) {
-                                 return el.doc;
-                             }),
-                             "title":dataColums.nombre,
-                             "name":name
-                         });
-                        $scope.tables.push(table);
-                 },200)
-                ;
+                         $timeout(
+                             function () {
+                                 var rows = data.rows.map(function(el) {
+                                     return el.doc;
+                                 });
 
-             }
+                                 rows =  ReformatData(rows,name);
+                                // rows =  ReformatData(rows,name);
+
+                                 var table = Format({
+                                     "columns":dataColums.fields,
+                                     "records":rows,
+                                     "title":dataColums.nombre,
+                                     "name":name
+                                 });
+
+                                $scope.tables.push(table);
+                         },200)
+                        ;
+
+                     }
 
 
                 });
             });
 
+        }
+
+        function ReformatData(data,table){
+            var rows = [];
+            switch (table)
+            {
+
+                case 'espuma1':
+                case 'importaciones1':
+                    rows = ReduceItems(data,"Sustancia");
+                    break;
+                case 'espuma2':
+                case 'espuma3':
+
+                    rows = ReduceItems(data,"Subsector");
+                    break;
+                case 'aire2':
+                case 'aire3':
+                case 'refri':
+                case 'consumo':
+                case 'aerosoles':
+                case 'empresa1':
+                case 'empresa2':
+                case 'empresa3':
+                    rows = ReduceItems(data,"Aplicaciones");
+                    break;
+                default:
+                    rows = data;
+            }
+
+            return rows;
+        }
+
+        function ReduceItems(source, property) {
+            var rows = [];
+            for(var d=0;d<source.length;d++)
+            {
+
+                var c = source[d][property].nombre;
+
+                var results  =  _.find(rows,function (id) {
+                    return  id[property].nombre==c;
+                });
+
+
+                if(results==undefined)
+                {
+                    var where =_.filter(source,function (id) {
+                        return  id[property].nombre==c;
+                    });
+                    var row = {
+                        "Uso":[]
+                    };
+
+                    row[property]={
+                        "nombre":c
+                    };
+
+
+                    _.each(where,function (o)
+                    {
+                        if (row.Uso.length==0)
+                        {
+                            row.Uso = o.Uso;
+                        }
+                        else
+                        {
+                            _.each(o.Uso,function (u,index)
+                            {
+                                row.Uso[index].tons+=u.tons;
+                            });
+                        }
+                    });
+
+                    rows.push(row);
+
+                }
+            }
+
+            return rows;
         }
 
         function SimpleTable(table)
@@ -613,11 +787,11 @@ angular.module('app.sao')
                     {
                         if(tableData.columns.indexOf("Uso")!=-1)
                         {
-                            var keys = tableData.records[0].Uso.filter(function (u) {
+                            var keys = _.unique(tableData.records[0].Uso.filter(function (u) {
                                 return u.anno;
                             }).map(function (j) {
                                 return j.anno;
-                            });
+                            }));
 
                             var rows = tableData.records.map(function (m) {
                                 keys.forEach(function (k)
@@ -659,29 +833,35 @@ angular.module('app.sao')
                        "Uso":[]
                     };
                     var matches = $scope.records.filter(function (fc) {
-                        return fc.clasificacion==c&&fc.tipo=='refri';
+                        return fc.clasificacion.nombre==c&&fc.tipo=='refri';
                     });
 
-                    for (var i =0;i<matches.length;i++)
+                    if(matches.length>0)
                     {
-                        for (var k = 0; matches[i].Uso.length;i++)
+                        for (var i =0;i<matches.length;i++)
                         {
-                            if(row.Uso[k]==undefined)
+                            if(matches[i]!=undefined)
                             {
-                                row.Uso[k] = matches[i].Uso[k]
-                            }
-                            else
-                            {
-                                if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                for (var k = 0;k< matches[i].Uso.length;k++)
                                 {
-                                    row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                    if(row.Uso[k]==undefined)
+                                    {
+                                        row.Uso[k] = matches[i].Uso[k]
+                                    }
+                                    else
+                                    {
+                                        if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                        {
+                                            row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                        }
+                                    }
                                 }
                             }
+
                         }
 
+                        dataTable.push(row);
                     }
-
-                    dataTable.push(row);
                 });
 
                 $timeout(
@@ -706,29 +886,35 @@ angular.module('app.sao')
                         "Uso":[]
                     };
                     var matches = $scope.records.filter(function (fc) {
-                        return fc.clasificacion==c&&fc.tipo=='refri';
+                        return fc.clasificacion.nombre==c&&fc.tipo=='aire3';
                     });
 
-                    for (var i =0;i<matches.length;i++)
+                    if(matches.length>0)
                     {
-                        for (var k = 0; matches[i].Uso.length;i++)
+                        for (var i =0;i<matches.length;i++)
                         {
-                            if(row.Uso[k]==undefined)
+                            if(matches[i]!=undefined)
                             {
-                                row.Uso[k] = matches[i].Uso[k]
-                            }
-                            else
-                            {
-                                if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                for (var k = 0;k< matches[i].Uso.length;k++)
                                 {
-                                    row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                    if(row.Uso[k]==undefined)
+                                    {
+                                        row.Uso[k] = matches[i].Uso[k]
+                                    }
+                                    else
+                                    {
+                                        if(row.Uso[k].anno==matches[i].Uso[k].anno)
+                                        {
+                                            row.Uso[k].tons+=matches[i].Uso[k].tons;
+                                        }
+                                    }
                                 }
                             }
+
                         }
 
+                        dataTable.push(row);
                     }
-
-                    dataTable.push(row);
 
                 });
 
@@ -1484,13 +1670,17 @@ angular.module('app.sao')
 
 
     })
-    .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents) {
+    .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents,action) {
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
+        $scope.action = action;
         $scope.record = record;
+
+
         $scope.error = {
             show:false,
-            message:'Ha ocurrido un error'
+            message:'Ha ocurrido un error',
+            tipo: " "
         };
         $scope.SAO = SAO;
         $scope.general = general;
@@ -1608,7 +1798,7 @@ angular.module('app.sao')
                 case 'aire3':
 
                 case 'refri':
-                    element.Uso = [{anno:2011, tons: 0, "nombre": 2011+":"+0},{anno:2012, tons: 0,"nombre": 2012+":"+0},{anno:2013, tons: 0,"nombre": 2013+":"+0},{anno:2014, tons: 0,"nombre": 2014+":"+0},{anno:2015, tons: (element.Capacidad.max*element.unidades)/1000,"nombre": 2015+":"+(element.Capacidad.max*element.unidades)/1000}];
+                    // element.Uso = [{anno:2011, tons: 0, "nombre": 2011+":"+0},{anno:2012, tons: 0,"nombre": 2012+":"+0},{anno:2013, tons: 0,"nombre": 2013+":"+0},{anno:2014, tons: 0,"nombre": 2014+":"+0},{anno:2015, tons: (element.Capacidad.max*element.unidades)/1000,"nombre": 2015+":"+(element.Capacidad.max*element.unidades)/1000}];
 
                 case 'aire2':
                 case 'consumo':
@@ -1665,7 +1855,7 @@ angular.module('app.sao')
             if(element.unidades=='')
             {
 
-                    throw 'Introduzca las unidades';
+                    throw 'Introduzca el # de unidades';
             }
             if(element.explotacion=='')
             {
@@ -1677,6 +1867,21 @@ angular.module('app.sao')
 
 
             AddElement(element);
+        }
+
+        function ValidateSettings()
+        {
+
+            if ($scope.general.osde=='')
+            {
+                $scope.error.tipo='osde'
+                throw 'Introduzca el nombre de la OSDE';
+            }
+            if ($scope.general.empresa=='')
+            {
+                $scope.error.tipo='empresa'
+                throw 'Introduzca el nombre de la empresa';
+            }
         }
 
         function Close() {
@@ -1726,7 +1931,7 @@ angular.module('app.sao')
                if ($scope.record._id == undefined) {
                    Add($scope.record);
                } else {
-                   UpdateElement($scope.record);
+                   Add($scope.record);
                }
 
                Finish();
@@ -1755,134 +1960,192 @@ angular.module('app.sao')
         }
         ;
 
+
+        $scope.Check = function () {
+            try{
+                ValidateSettings();
+                Finish();
+            }
+            catch (err){
+                $scope.error.message = err;
+                $scope.error.show = true;
+
+            }
+        };
+
         function init() {
 
+            if (action != 'edit')
+            {
+                switch ($scope.record.tipo)
+                {
+                    case 'general3':
+                        $scope.record.Sector = selectedTabla2.aplicacion;
+                        $scope.record.Subsector = selectedTabla2.alternativas[0];
+                        $scope.record.Alternativa = selectedTabla2.uso2[0];
+                        break;
+                    case 'general1':
+                        // $scope.record.sectores = SAO.Sectores[1];
+                        $scope.record.sustancia = SAO.Sustancias[1];
 
-            switch ($scope.record.tipo) {
-                case 'general3':
-                     $scope.record.Sector = selectedTabla2.aplicacion;
-                     $scope.record.Subsector = selectedTabla2.alternativas[0];
-                     $scope.record.Alternativa = selectedTabla2.uso2[0];
-                    break;
-                case 'general1':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    $scope.record.sustancia = SAO.Sustancias[1];
+                        break;
 
-                    break;
+                    case 'general2':
 
-                case 'general2':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    // $scope.record.alternativaHFC = SAO.AlternativaHFC[0];
-                    // $scope.record.alternativaHFCMezclas = SAO.AlternativaHFCMezclas[0];
-                    // $scope.record.alternativaHFO = SAO.AlternativaHFO[0];
-                    // $scope.record.alternativaOtras = SAO.AlternativaOtras[0];
-                    // $scope.record.ra = SAO.RA[0];
-                    // $scope.record.Sustancias = SAO.Sustancias[0];
-                    // $scope.record.Sectores = SAO.Sectores[0];
-                    $scope.record.Alternativa = selectedTabla22.aplicacion;
-                    $scope.record.Tipo = selectedTabla22.alternativas[0];
-                    $scope.record.Sector = selectedTabla22.uso2[0];
-                    $scope.record.ra = SAO.RA[0];
+                        $scope.record.Alternativa = selectedTabla22.aplicacion;
+                        $scope.record.Tipo = selectedTabla22.alternativas[0];
+                        $scope.record.Sector = selectedTabla22.uso2[0];
+                        $scope.record.ra = SAO.RA[0];
 
 
-                    break;
-                case 'espuma1':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    $scope.record.Sustancia = SAO.SustanciasTabla3[0];
-                    $scope.year = 2010;
+                        break;
+                    case 'espuma1':
 
-                    break;
-                case 'espuma2':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
-                    $scope.record.Subsector = SAO.SubsectorTabla4[0];
-                    $scope.year = 2010;
+                        $scope.record.Sustancia = SAO.SustanciasTabla3[0];
+                        $scope.year = 2010;
 
-                    break;
-                case 'espuma3':
-                    // $scope.record.sectores = SAO.Sectores[1];
-                    // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
-                    $scope.record.Alternativa = SAO.Tabla5[0].alternativas[0];
-                    $scope.year = 2011;
+                        break;
+                    case 'espuma2':
 
-                    break;
-                // case 'aire1':
-                //     $scope.record.Alternativa = SAO.SubsectorTabla7[0];
-                //     $scope.year = 2010;
-                //
-                //     break;
-                case 'aire2':
-                    $scope.record.Alternativas = SAO.Tabla9[0].alternativas[0];
-                    $scope.year = 2011;
+                        $scope.record.Subsector = SAO.SubsectorTabla4[0];
+                        $scope.year = 2010;
 
-                    break;
-                case 'aire3':
-                    $scope.record.Alternativas = SAO.Tabla11A[0].alternativas[0];
-                    $scope.record.clasificacion = SAO.Clasificacion[0];
-                    $scope.year = 2010;
+                        break;
+                    case 'espuma3':
 
-                    break;
-                case 'consumo':
-                    $scope.record.Alternativas = SAO.Aplicaciones8[0].alternativas[0];
-                    $scope.year = 2011;
+                        $scope.record.Alternativa = SAO.Tabla5[0].alternativas[0];
+                        $scope.year = 2011;
 
-                    break;
-                case 'refri':
-                    $scope.record.Alternativas = SAO.Tabla11B[0].alternativas[0];
-                    $scope.record.clasificacion = SAO.ClasificacionRefri[0];
-                    $scope.year = 2010;
+                        break;
 
-                    break;
-                case 'aerosoles':
-                    $scope.record.Alternativas = SAO.Tabla12[0].alternativas[0];
-                    $scope.year = 2011;
+                    case 'aire2':
+                        $scope.record.Alternativas = SAO.Tabla9[0].alternativas[0];
+                        $scope.year = 2011;
 
-                    break;
-                case 'importaciones1':
-                    $scope.record.Sustancia = SAO.SustanciasTabla6[0];
-                    $scope.year = 2010;
+                        break;
+                    case 'aire3':
+                        $scope.record.Alternativas = SAO.Tabla11A[0].alternativas[0];
+                        $scope.record.clasificacion = SAO.Clasificacion[0];
+                        $scope.record.Estado = SAO.Estado[0];
+                        $scope.year = 2010;
 
-                    break;
-                case 'importaciones2':
-                    $scope.year = 2011;
+                        break;
+                    case 'consumo':
+                        $scope.record.Alternativas = SAO.Aplicaciones8[0].alternativas[0];
+                        $scope.year = 2011;
 
-                    break;
-                case 'empresa1':
-                    $scope.record.Alternativas = SAO.Tabla10A[0].alternativas[0];
-                    $scope.year = 2011;
+                        break;
+                    case 'refri':
+                        $scope.record.Alternativas = SAO.Tabla11B[0].alternativas[0];
+                        $scope.record.clasificacion = SAO.ClasificacionRefri[0];
+                        $scope.record.EstadoRefri = SAO.EstadoRefri[0];
+                        $scope.year = 2010;
 
-                    break;
-                case 'empresa2':
-                $scope.record.Alternativas = SAO.Tabla10B[0].alternativas[0];
-                $scope.year = 2011;
+                        break;
+                    case 'aerosoles':
+                        $scope.record.Alternativas = SAO.Tabla12[0].alternativas[0];
+                        $scope.year = 2011;
 
-                break;
-                case 'empresa3':
-                    $scope.record.Alternativas = SAO.Tabla13[0].alternativas[0];
-                    $scope.year = 2011;
+                        break;
+                    case 'importaciones1':
+                        $scope.record.Sustancia = SAO.SustanciasTabla6[0];
+                        $scope.year = 2010;
 
-                    break;
-                case 'empresa4':
-                    $scope.record.Organizacion = SAO.OrgProduccion[0];
-                    $scope.record.TipoAire = SAO.TipoAire[0];
-                    $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
-                    $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[1];
-                    $scope.record.SustanciaAire = SAO.SustanciasAire[1];
-                    $scope.re2 = 'AR500';
-                    $scope.re3 = 'R134a';
-                    $scope.re4 = 'Ingenieros';
-                    $scope.re = 'HCFC';
-                    $scope.re1 = 'HCFC';
+                        break;
+                    case 'importaciones2':
+                        $scope.year = 2011;
+
+                        break;
+                    case 'empresa1':
+                        $scope.record.Alternativas = SAO.Tabla10A[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'empresa2':
+                        $scope.record.Alternativas = SAO.Tabla10B[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'empresa3':
+                        $scope.record.Alternativas = SAO.Tabla13[0].alternativas[0];
+                        $scope.year = 2011;
+
+                        break;
+                    case 'empresa4':
+                        $scope.record.Organizacion = SAO.OrgProduccion[0];
+                        $scope.record.TipoAire = SAO.TipoAire[0];
+                        $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
+                        $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[1];
+                        $scope.record.SustanciaAire = SAO.SustanciasAire[1];
+                        $scope.re2 = 'AR500';
+                        $scope.re3 = 'R134a';
+                        $scope.re4 = 'Ingenieros';
+                        $scope.re = 'HCFC';
+                        $scope.re1 = 'HCFC';
 
 
-
-                    break;
-
+                        break;
 
 
-                default:
+                    default:
 
-                    break;
+                        break;
+                }
+            }
+            else{
+                switch ($scope.record.tipo)
+                {
+
+                    case 'general3':
+                        $scope.Tabla2R = _.find(SAO.Tabla2,function(o){return o.aplicacion.nombre==$scope.record.Sector.nombre;});
+                        var alts = _.find($scope.Tabla2R.alternativas,function(a){return a.nombre == $scope.record.Subsector.nombre; });
+                        if (alts==undefined)
+                        {
+                            $scope.Tabla2R.alternativas =$scope.Tabla2R.alternativas.concat($scope.record.Subsector);
+                        }
+                        selectedTabla2 = $scope.Tabla2R;
+                    case 'espuma1':
+                    case 'espuma2':
+                    case 'aire3':
+                        //$scope.Tabla11AR = _.find(SAO.Tabla11A,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        //var alts = _.find($scope.Tabla11AR.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        //if (alts==undefined)
+                        //{
+                        //    $scope.Tabla11AR.alternativas =$scope.Tabla11AR.alternativas.concat($scope.record.Alternativas);
+                        //}
+                        //selectedTabla11A = $scope.Tabla11AR;
+                    case 'refri':
+                    case 'importaciones1':
+                        $scope.year = 2010;
+                        break;
+
+                    case 'espuma3':
+                        $scope.Tabla5R = _.find(SAO.Tabla5,function(o){return o.aplicacion.nombre==$scope.record.Subsector.nombre;});
+                        var alts = _.find($scope.Tabla5R.alternativas,function(a){return a.nombre == $scope.record.Alternativa.nombre; });
+                        if (alts==undefined)
+                        {
+                            $scope.Tabla5R.alternativas =$scope.Tabla5R.alternativas.concat($scope.record.Alternativa);
+                        }
+                        selectedTabla5 = $scope.Tabla5R;
+                    case 'aire2':
+                        $scope.Tabla9R = _.find(SAO.Tabla9,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        var alts = _.find($scope.Tabla9R.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (alts==undefined)
+                        {
+                            $scope.Tabla9R.alternativas =$scope.Tabla9R.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedTabla9 = $scope.Tabla9R;
+                    case 'consumo':
+                    case 'aerosoles':
+                    case 'importaciones2':
+                    case 'empresa1':
+                    case 'empresa3':
+                        $scope.year = 2011;
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
 
@@ -2015,7 +2278,7 @@ angular.module('app.sao')
         };
         $scope.ShowTabla22 = function(){
             selectedTabla22 = $scope.Tabla22R;
-            $scope.record.Alternativa = selectedTabla2.aplicacion;
+            $scope.record.Alternativa = selectedTabla22.aplicacion;
             $scope.record.Tipo = selectedTabla22.alternativas[0];
             $scope.record.Sector = selectedTabla22.uso2[0];
             $scope.record.ra = SAO.RA[0];
@@ -2035,6 +2298,13 @@ angular.module('app.sao')
             $scope.record.Subsector = selectedTabla5.aplicacion;
             $scope.record.Alternativa = selectedTabla5.alternativas[0];
         };
+        //$scope.ShowTabla5 = function(){
+        //    selectedTabla5 = $scope.Tabla5R;
+        //    $scope.record.Subsector = selectedTabla5.aplicacion;
+        //    $scope.record.Alternativa = selectedTabla5.alternativas[0];
+        //    $scope.record.otrosAlternativa = "";
+        //
+        //};
 
         //Modal Tabla 9
 
@@ -2050,7 +2320,7 @@ angular.module('app.sao')
 
         $scope.ShowTabla12 = function(){
             selectedTabla12 = $scope.Tabla12R;
-            $scope.record.Aplicacion = selectedTabla12.aplicacion;
+            $scope.record.Aplicaciones = selectedTabla12.aplicacion;
             $scope.record.Alternativas = selectedTabla12.alternativas[0];
         };
 

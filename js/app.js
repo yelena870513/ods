@@ -110,9 +110,37 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
         }).
         state('cerrar',{
             url:"/close",
-            controller:function(){
+            controller:function($uibModal,$location){
                 //mainWindow.close();
-                window.close();
+                var instance = $uibModal.open({
+                    animation: true,
+                    templateUrl: "template/modal/exit-modal.html",
+                    controller: function ($scope,$uibModalInstance) {
+                        $scope.Exit=function ()
+                        {
+                            $uibModalInstance.close('close');
+                        }
+                        ;
+
+                        $scope.Close=function ()
+                        {
+                            $uibModalInstance.dismiss('cancel');
+                        };
+                    },
+                    size: undefined,
+                    resolve: {
+
+                    }
+                });
+
+                instance.result.then(function(data)
+                {
+                    window.close();
+                }, function(reason)
+                {
+                    $location.path('/general');
+                });
+
             }
         })
 

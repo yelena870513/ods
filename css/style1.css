@@ -174,7 +174,7 @@ i.mas{
 /*error en modals*/
 .control-error{
     box-shadow: inset;
-    border-color: #9f191f;
+    border-color: #dd4b39;
     border-radius: 0.2em;
 }
 
