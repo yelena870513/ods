@@ -21,7 +21,7 @@
                         <label>Subsector/aplicación:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="Tabla5R"
-                                data-ng-change="ShowTabla5()"
+                                data-ng-change="ShowTabla5();"
                                 data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla5"
                         >
                         </select>
@@ -36,6 +36,7 @@
                         <label>Alternativa</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="record.Alternativa"
+                                data-ng-change="record.otrosAlternativa='';"
                                 data-ng-options="item as item.nombre for item in Tabla5R.alternativas"
                         >
 

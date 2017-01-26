@@ -1871,11 +1871,12 @@ angular.module('app.sao')
         $scope.Save = function() {
             //TODO: reverse update in actions list
            try{
-               if ($scope.record._id == undefined) {
-                   Add($scope.record);
-               } else {
-                   UpdateElement($scope.record);
-               }
+               Add($scope.record);
+               //if ($scope.record._id == undefined) {
+               //    Add($scope.record);
+               //} else {
+               //    UpdateElement($scope.record);
+               //}
 
                Finish();
 
@@ -2048,6 +2049,38 @@ angular.module('app.sao')
                         break;
                 }
             }
+            else{
+                switch ($scope.record.tipo)
+                {
+
+                    case 'espuma1':
+                    case 'espuma2':
+                    case 'aire3':
+                    case 'refri':
+                    case 'importaciones1':
+                        $scope.year = 2010;
+                        break;
+                    case 'espuma3':
+                        $scope.Tabla5R = _.find(SAO.Tabla5,function(o){return o.aplicacion.nombre==$scope.record.Subsector.nombre;});
+                        var alts = _.find($scope.Tabla5R.alternativas,function(a){return a.nombre == $scope.record.Alternativa.nombre; });
+                        if (alts==undefined)
+                        {
+                            $scope.Tabla5R.alternativas =$scope.Tabla5R.alternativas.concat($scope.record.Alternativa);
+                        }
+                        selectedTabla5 = $scope.Tabla5R;
+                    case 'aire2':
+                    case 'consumo':
+                    case 'aerosoles':
+                    case 'importaciones2':
+                    case 'empresa1':
+                    case 'empresa3':
+                        $scope.year = 2011;
+                        break;
+                    default:
+                        break;
+                }
+
+            }
         }
 
 
@@ -2198,6 +2231,8 @@ angular.module('app.sao')
             selectedTabla5 = $scope.Tabla5R;
             $scope.record.Subsector = selectedTabla5.aplicacion;
             $scope.record.Alternativa = selectedTabla5.alternativas[0];
+
+
         };
 
         //Modal Tabla 9
