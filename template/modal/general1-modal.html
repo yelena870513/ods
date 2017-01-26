@@ -29,7 +29,7 @@
              <select class="form-control select2 select2-hidden-accessible"
                     style="width: 100%;" tabindex="-1"
                     aria-hidden="true"
-                    multiple
+                    multiple="true"                    
                     id="sectores"
                     data-ng-model="record.sectores"
                     data-ng-options="item as item.nombre for item in SAO.Sectores"                   
@@ -38,9 +38,8 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            <span data-ng-if="action!='edit'">Agregar</span>
-            <span data-ng-if="action=='edit'">Editar</span>
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Agregar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

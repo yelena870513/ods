@@ -5,13 +5,13 @@ angular.module('app.sao')
         $scope.alerts=
         {
             show:false,
-            message:'',
+            message:''
         };
 
         $scope.error=
         {
             show:false,
-            message:'Error.',
+            message:'Error.'
         };
         var active = '';
         //DB en memoria
@@ -133,6 +133,7 @@ angular.module('app.sao')
             "Aplicaciones":SAO.Tabla11A[0].aplicacion,
             "Capacidad":SAO.Tabla11A[0].carga,
             "Alternativas":SAO.Tabla11A[0].alternativas[0],
+            "Estado":SAO.Estado[0],
             // "clasificacion":SAO.Clasificacion[0],
             "otrosAlternativa":"",
             "unidades":"",
@@ -182,12 +183,13 @@ angular.module('app.sao')
             "Capacidad":SAO.Tabla11B[0].carga,
             "Alternativas":SAO.Tabla11B[0].alternativas[0],
             "clasificacion":SAO.ClasificacionRefri[0],
+            "Estado":SAO.EstadoRefri[0],
             "otrosAlternativa":"",
             "unidades":"",
             "explotacion":"",
             "Uso":[],//{ano:"---",tons:""},
-            "tipo":"refri"
-            //"clasificacion":""
+            "tipo":"refri",
+            "clasificacion":""
         };
 
         //EMPRESA
@@ -305,7 +307,6 @@ angular.module('app.sao')
 
             AddElement(element);
         };
-
 
         $scope.OpenModal = function(record, size,action) {
             var instance = $uibModal.open({
@@ -430,7 +431,7 @@ angular.module('app.sao')
         $scope.Save = function() {
             Manager.flush().then(function (e) {
                 $scope.alerts.show = true;
-                $scope.alerts.message = 'Datos salvados.';
+                $scope.alerts.message = 'Datos salvados correctamente.';
                 $timeout(function () {
                     $scope.alerts.show = false;
                 },3000);
@@ -635,6 +636,7 @@ angular.module('app.sao')
             var rows = [];
             switch (table)
             {
+
                 case 'espuma1':
                 case 'importaciones1':
                     rows = ReduceItems(data,"Sustancia");
@@ -1615,12 +1617,14 @@ angular.module('app.sao')
     .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents,action) {
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
-        $scope.record = record;
         $scope.action = action;
+        $scope.record = record;
+
+
         $scope.error = {
             show:false,
             message:'Ha ocurrido un error',
-            tipo:''
+            tipo: " "
         };
         $scope.SAO = SAO;
         $scope.general = general;
@@ -1795,7 +1799,7 @@ angular.module('app.sao')
             if(element.unidades=='')
             {
 
-                    throw 'Introduzca las unidades';
+                    throw 'Introduzca el # de unidades';
             }
             if(element.explotacion=='')
             {
@@ -1814,17 +1818,14 @@ angular.module('app.sao')
 
             if ($scope.general.osde=='')
             {
-                $scope.error.tipo = 'osde';
-                throw 'Introduzca nombre de la OSDE';
+                $scope.error.tipo='osde'
+                throw 'Introduzca el nombre de la OSDE';
             }
             if ($scope.general.empresa=='')
             {
-                $scope.error.tipo = 'empresa';
-                throw 'Introduzca nombre de la empresa';
+                $scope.error.tipo='empresa'
+                throw 'Introduzca el nombre de la empresa';
             }
-
-
-
         }
 
         function Close() {
@@ -1871,12 +1872,11 @@ angular.module('app.sao')
         $scope.Save = function() {
             //TODO: reverse update in actions list
            try{
-               Add($scope.record);
-               //if ($scope.record._id == undefined) {
-               //    Add($scope.record);
-               //} else {
-               //    UpdateElement($scope.record);
-               //}
+               if ($scope.record._id == undefined) {
+                   Add($scope.record);
+               } else {
+                   Add($scope.record);
+               }
 
                Finish();
 
@@ -1919,10 +1919,10 @@ angular.module('app.sao')
 
         function init() {
 
-
-            if (action!='edit')
+            if (action != 'edit')
             {
-                switch ($scope.record.tipo) {
+                switch ($scope.record.tipo)
+                {
                     case 'general3':
                         $scope.record.Sector = selectedTabla2.aplicacion;
                         $scope.record.Subsector = selectedTabla2.alternativas[0];
@@ -1935,14 +1935,7 @@ angular.module('app.sao')
                         break;
 
                     case 'general2':
-                        // $scope.record.sectores = SAO.Sectores[1];
-                        // $scope.record.alternativaHFC = SAO.AlternativaHFC[0];
-                        // $scope.record.alternativaHFCMezclas = SAO.AlternativaHFCMezclas[0];
-                        // $scope.record.alternativaHFO = SAO.AlternativaHFO[0];
-                        // $scope.record.alternativaOtras = SAO.AlternativaOtras[0];
-                        // $scope.record.ra = SAO.RA[0];
-                        // $scope.record.Sustancias = SAO.Sustancias[0];
-                        // $scope.record.Sectores = SAO.Sectores[0];
+
                         $scope.record.Alternativa = selectedTabla22.aplicacion;
                         $scope.record.Tipo = selectedTabla22.alternativas[0];
                         $scope.record.Sector = selectedTabla22.uso2[0];
@@ -1951,30 +1944,24 @@ angular.module('app.sao')
 
                         break;
                     case 'espuma1':
-                        // $scope.record.sectores = SAO.Sectores[1];
+
                         $scope.record.Sustancia = SAO.SustanciasTabla3[0];
                         $scope.year = 2010;
 
                         break;
                     case 'espuma2':
-                        // $scope.record.sectores = SAO.Sectores[1];
-                        // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
+
                         $scope.record.Subsector = SAO.SubsectorTabla4[0];
                         $scope.year = 2010;
 
                         break;
                     case 'espuma3':
-                        // $scope.record.sectores = SAO.Sectores[1];
-                        // $scope.record.Sustancia = SAO.SubsectorTabla4[0];
+
                         $scope.record.Alternativa = SAO.Tabla5[0].alternativas[0];
                         $scope.year = 2011;
 
                         break;
-                    // case 'aire1':
-                    //     $scope.record.Alternativa = SAO.SubsectorTabla7[0];
-                    //     $scope.year = 2010;
-                    //
-                    //     break;
+
                     case 'aire2':
                         $scope.record.Alternativas = SAO.Tabla9[0].alternativas[0];
                         $scope.year = 2011;
@@ -1983,6 +1970,7 @@ angular.module('app.sao')
                     case 'aire3':
                         $scope.record.Alternativas = SAO.Tabla11A[0].alternativas[0];
                         $scope.record.clasificacion = SAO.Clasificacion[0];
+                        $scope.record.Estado = SAO.Estado[0];
                         $scope.year = 2010;
 
                         break;
@@ -1994,6 +1982,7 @@ angular.module('app.sao')
                     case 'refri':
                         $scope.record.Alternativas = SAO.Tabla11B[0].alternativas[0];
                         $scope.record.clasificacion = SAO.ClasificacionRefri[0];
+                        $scope.record.EstadoRefri = SAO.EstadoRefri[0];
                         $scope.year = 2010;
 
                         break;
@@ -2039,9 +2028,7 @@ angular.module('app.sao')
                         $scope.re1 = 'HCFC';
 
 
-
                         break;
-
 
 
                     default:
@@ -2053,13 +2040,29 @@ angular.module('app.sao')
                 switch ($scope.record.tipo)
                 {
 
+                    case 'general3':
+                        $scope.Tabla2R = _.find(SAO.Tabla2,function(o){return o.aplicacion.nombre==$scope.record.Sector.nombre;});
+                        var alts = _.find($scope.Tabla2R.alternativas,function(a){return a.nombre == $scope.record.Subsector.nombre; });
+                        if (alts==undefined)
+                        {
+                            $scope.Tabla2R.alternativas =$scope.Tabla2R.alternativas.concat($scope.record.Subsector);
+                        }
+                        selectedTabla2 = $scope.Tabla2R;
                     case 'espuma1':
                     case 'espuma2':
                     case 'aire3':
+                        //$scope.Tabla11AR = _.find(SAO.Tabla11A,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        //var alts = _.find($scope.Tabla11AR.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        //if (alts==undefined)
+                        //{
+                        //    $scope.Tabla11AR.alternativas =$scope.Tabla11AR.alternativas.concat($scope.record.Alternativas);
+                        //}
+                        //selectedTabla11A = $scope.Tabla11AR;
                     case 'refri':
                     case 'importaciones1':
                         $scope.year = 2010;
                         break;
+
                     case 'espuma3':
                         $scope.Tabla5R = _.find(SAO.Tabla5,function(o){return o.aplicacion.nombre==$scope.record.Subsector.nombre;});
                         var alts = _.find($scope.Tabla5R.alternativas,function(a){return a.nombre == $scope.record.Alternativa.nombre; });
@@ -2069,6 +2072,13 @@ angular.module('app.sao')
                         }
                         selectedTabla5 = $scope.Tabla5R;
                     case 'aire2':
+                        $scope.Tabla9R = _.find(SAO.Tabla9,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        var alts = _.find($scope.Tabla9R.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (alts==undefined)
+                        {
+                            $scope.Tabla9R.alternativas =$scope.Tabla9R.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedTabla9 = $scope.Tabla9R;
                     case 'consumo':
                     case 'aerosoles':
                     case 'importaciones2':
@@ -2212,7 +2222,7 @@ angular.module('app.sao')
         };
         $scope.ShowTabla22 = function(){
             selectedTabla22 = $scope.Tabla22R;
-            $scope.record.Alternativa = selectedTabla2.aplicacion;
+            $scope.record.Alternativa = selectedTabla22.aplicacion;
             $scope.record.Tipo = selectedTabla22.alternativas[0];
             $scope.record.Sector = selectedTabla22.uso2[0];
             $scope.record.ra = SAO.RA[0];
@@ -2231,8 +2241,6 @@ angular.module('app.sao')
             selectedTabla5 = $scope.Tabla5R;
             $scope.record.Subsector = selectedTabla5.aplicacion;
             $scope.record.Alternativa = selectedTabla5.alternativas[0];
-
-
         };
 
         //Modal Tabla 9

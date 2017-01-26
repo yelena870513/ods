@@ -42,12 +42,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Clasificación:</label>
-                        <!--<label for="alternativaHFC" >HFC:</label>-->
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="record.alternativaHFC"-->
-                                <!--id="alternativaHFC"-->
-                                <!--data-ng-options="item as item.nombre for item in SAO.AlternativaHFC">-->
-                        <!--</select>-->
+
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="record.Tipo"
                                 data-ng-options="item as item.nombre for item in Tabla22R.alternativas"
@@ -74,7 +69,7 @@
 
                             </select>
                             <br>
-                            <label>Sectores:</label>
+                            <label>Sector:</label>
                             <select class="form-control select2 select2-hidden-accessible"
                                     style="width: 100%;" tabindex="-1"
                                     aria-hidden="true"
@@ -88,8 +83,8 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            Agregar
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Agregar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

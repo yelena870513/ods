@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Aplicaciones:</label>
+                        <label>Aplicación:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="Tabla9R"
                                 data-ng-change="ShowTabla9()"
@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Alternativas:</label>
+                        <label>Alternativa:</label>
                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                                 data-ng-model="record.Alternativas"
                                 data-ng-options="item as item.nombre for item in Tabla9R.alternativas"
@@ -68,11 +68,11 @@
                         <input id="amount" class="form-control" type="number" min="0" placeholder="Tons" data-ng-class="{'control-error':error.show}" data-ng-model="amount"/>
                         <ul class="list-group">
                             <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
-                                <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
+                              <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
                             </li>
                         </ul>
 
-                       <p> <i  class="fa fa-plus mas "  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i></p>
+                       <p> <i  class="fa fa-plus mas "  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
                     </div>
 
                 </div>
@@ -81,8 +81,8 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            Agregar
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Agregar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

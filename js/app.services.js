@@ -776,6 +776,8 @@ angular.module('app.sao')
         ],
         "Clasificacion":[{"nombre":"Aire Acondicionado Automotriz"},{"nombre":"Doméstica"},{"nombre":"Comercial"},{"nombre":"Industrial"},{"nombre":"Transporte"},{"nombre":"Aire Acondicionado estacionario"}],
         "ClasificacionRefri":[{"nombre":"Doméstica"},{"nombre":"Comercial"},{"nombre":"Industrial"},{"nombre":"Transporte"}],
+        "Estado":[{"nombre":"Bueno"},{"nombre":"Malo"},{"nombre":"No reparable"}],
+        "EstadoRefri":[{"nombre":"Bueno"},{"nombre":"Malo"},{"nombre":"No reparable"}]
     }
 })
     .factory('SType',function () {
