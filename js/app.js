@@ -9,10 +9,10 @@ fs.exists(os.homedir()+'/.sao/data',function (exists) {
     if (!exists) {
         fs.mkdir(os.homedir()+'/.sao');
         fs.mkdir(os.homedir()+'/.sao/data');
+        fs.mkdir(os.homedir()+'/.sao/exported');
     }
 });
-const ipcRenderer = require('electron');
-console.log(ipcRenderer);
+
 var ws = fs.createWriteStream(os.homedir()+'/.sao/data/sao.json');
 var replicationStream = require('pouchdb-replication-stream');
 var MemoryStream = require('memorystream');

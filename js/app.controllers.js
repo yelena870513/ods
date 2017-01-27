@@ -525,10 +525,11 @@ angular.module('app.sao')
 
 
     })
-    .controller("reportController", function($scope, SAO, Manager, $uibModal,SType,Columns,$location,$timeout,$q,$localStorage) {
+    .controller("reportController", function($scope, SAO, Manager, $uibModal,SType,Columns,$location,$timeout,$q,$localStorage,currentWebContents) {
         //Este controlador es para los reportes.
 
         $scope.tables = [];
+        $scope.isPrinting = false;
         $scope.records = [];
         $scope.columns = Columns;
         $scope.labels = Object.keys(SType);
@@ -573,25 +574,50 @@ angular.module('app.sao')
 
 
 
-            domtoimage.toPng(document.getElementById('table-data'))
-                .then(function (dataUrl) {
-                    //var img = new Image();
-                    var docDefinition = {
-                        content:[
-                            {
-                                image:dataUrl,
-                                width:500
-                            }
-                        ]
-                    };
+            //domtoimage.toPng(document.getElementById('table-data'))
+            //    .then(function (dataUrl) {
+            //        //var img = new Image();
+            //        var docDefinition = {
+            //            content:[
+            //                {
+            //                    image:dataUrl,
+            //                    width:500
+            //                }
+            //            ]
+            //        };
+            //
+            //        pdfMake.createPdf(docDefinition).download(current+".pdf");
+            //        //img.src = dataUrl;
+            //        //document.body.appendChild(img);
+            //    })
+            //    .catch(function (error) {
+            //        console.error('oops, something went wrong!', error);
+            //    });
 
-                    pdfMake.createPdf(docDefinition).download(current+".pdf");
-                    //img.src = dataUrl;
-                    //document.body.appendChild(img);
+            $scope.isPrinting = true;
+            currentWebContents.printToPDF({
+                marginsType: 0,
+                printBackground: false,
+                printSelectionOnly: false,
+                landscape: false
+            }, function(error,data)
+            {
+                if (error) throw error;
+                fs.writeFile(os.homedir()+'/.sao/data/exported/'+ current+'.pdf', data, function(error)
+                {
+                    if (error) throw error;
+                    console.log('Write PDF successfully.');
+                    $scope.isPrinting = false;
+                    $timeout(function(){
+
+                        var buffer = fs.readFileSync(os.homedir()+'/.sao/data/exported/'+ current+'.pdf');
+                        var blob = new Blob([buffer]);
+                        saveAs(blob,current+'.pdf');
+                    },3000);
+
+
                 })
-                .catch(function (error) {
-                    console.error('oops, something went wrong!', error);
-                });
+            })
         };
 
         function FetchTable(table)
@@ -934,6 +960,7 @@ angular.module('app.sao')
         var charting = '';
         var active = '';
         $scope.user = undefined;
+        $scope.isPrinting = false;
         $scope.records= [];
         $scope.years = [2010,2015];
         $scope.selectedYear = 2010;
@@ -1023,18 +1050,28 @@ angular.module('app.sao')
         $scope.ToPdf= function(){
             // Use default printing options
             //var data = document.getElementById('chart');
+            $scope.isPrinting = true;
             currentWebContents.printToPDF({
                 marginsType: 0,
                 printBackground: false,
-                printSelectionOnly: true,
+                printSelectionOnly: false,
                 landscape: false
             }, function(error,data)
             {
                 if (error) throw error;
-                fs.writeFile(os.homedir()+'/.sao/data/print.pdf', data, function(error)
+                fs.writeFile(os.homedir()+'/.sao/data/'+ charting+'.pdf', data, function(error)
                 {
-                                        if (error) throw error;
-                                        console.log('Write PDF successfully.');
+                    if (error) throw error;
+                    console.log('Write PDF successfully.');
+                    $scope.isPrinting = false;
+                    $timeout(function(){
+
+                        var buffer = fs.readFileSync(os.homedir()+'/.sao/data/'+ charting+'.pdf');
+                        var blob = new Blob([buffer]);
+                        saveAs(blob,charting+'.pdf');
+                    },3000);
+
+
                 })
         })
         };
@@ -1137,7 +1174,7 @@ angular.module('app.sao')
 
                     table.names.forEach(function (el) {
                         var rec = $scope.records.filter(function (r) {
-                            return r.Sustancia.nombre==el;
+                            return r.Subsector.nombre==el;
                         })[0];
 
                         if (rec!=undefined)
@@ -1169,6 +1206,10 @@ angular.module('app.sao')
                             tooltips: {
                                 mode: 'index',
                                 intersect: false
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
                             },
                             responsive: true,
                             scales: {
@@ -1228,6 +1269,10 @@ angular.module('app.sao')
                             title:{
                                 display:true,
                                 text:"Espuma 3"
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
                             },
                             tooltips: {
                                 mode: 'index',
@@ -1291,6 +1336,10 @@ angular.module('app.sao')
                                 display:true,
                                 text:"Importaciones 1"
                             },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
                             tooltips: {
                                 mode: 'index',
                                 intersect: false
@@ -1351,6 +1400,10 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
 
                         }
                     };
@@ -1399,6 +1452,10 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
 
                         }
                     };
@@ -1446,6 +1503,10 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
 
                         }
                     };
@@ -1493,6 +1554,10 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
 
                         }
                     };
@@ -1539,6 +1604,10 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
 
                         }
                     };
@@ -1552,6 +1621,10 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":false,
                         options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
 
                         }};
                     break;

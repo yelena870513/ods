@@ -1,5 +1,5 @@
 <div class="container " data-ng-show="user">
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <div class="collapse navbar-collapse navbar-ex1-collapse" data-ng-hide="isPrinting">
 
 
         <div class="btn-group" uib-dropdown is-open="status2.isopen">
@@ -63,29 +63,30 @@
             </ul>
         </div>
     </div>
-    <section class="content" style="height: 200px">
-        Usuario {{user.username}}
-    </section>
-    <section class="printable" data-ng-show="bar.show">
-        <div class="row">
+    <section class="content" style="height: 200px" data-ng-hide="isPrinting">
+       <div class="row"  >
+        <div class="col-md-6">
+            <em>Usuario</em><span> {{user.username }} </span>
+        </div>
+       </div>
+        <div class="row" data-ng-show="bar.show">
             <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPdf()"><i class="fa fa-file-pdf-o"></i></button></div>
             <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPrint()"><i class="fa fa-print"></i></button></div>
             <div class="col-md-10"></div>
         </div>
     </section>
+
     <section class="content">
         <div class="row">
             <div class="col-md-12 barra" data-ng-show="bar.show" >
-                <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series"></canvas>
+                <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series" data-chart-options="bar.options"></canvas>
             </div>
 
         </div>
     </section>
-
-
-    <section class="content" data-ng-show="bar.show" id="chart">
-        <div class="row">
-            <div class="col-md-12">
+    <section class="content" data-ng-show="bar.show" >
+        <div class="row" data-ng-hide="isPrinting">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label style="color: #000" for="pie-select">Seleccione Año a mostrar</label>
                     <select id="pie-select"
@@ -98,6 +99,9 @@
                             data-ng-options="item as item for item in years"
                     >  </select>
                 </div>
+            </div>
+            <div class="col-md-6">
+
             </div>
         </div>
         <div class="row">
