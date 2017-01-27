@@ -416,6 +416,10 @@ angular.module('app.sao')
 
                     documents: function() {
                         return $scope.documents;
+                    },
+
+                    action:function () {
+                        return 'general';
                     }
                 }
             });
@@ -1614,7 +1618,7 @@ angular.module('app.sao')
 
 
     })
-    .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents,action) {
+    .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents,action,$timeout) {
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.action = action;
@@ -2041,23 +2045,39 @@ angular.module('app.sao')
                 {
 
                     case 'general3':
-                        $scope.Tabla2R = _.find(SAO.Tabla2,function(o){return o.aplicacion.nombre==$scope.record.Sector.nombre;});
-                        var alts = _.find($scope.Tabla2R.alternativas,function(a){return a.nombre == $scope.record.Subsector.nombre; });
-                        if (alts==undefined)
+                        var Temp=undefined;
+                        Temp = _.find(SAO.Tabla2,function(o){return o.aplicacion.nombre==$scope.record.Sector.nombre;});
+
+                        var general3 = _.find(Temp.alternativas,function(a){return a.nombre == $scope.record.Subsector.nombre; });
+                        if (general3==undefined)
                         {
-                            $scope.Tabla2R.alternativas =$scope.Tabla2R.alternativas.concat($scope.record.Subsector);
+                            Temp.alternativas =$scope.Tabla2R.alternativas.concat($scope.record.Subsector);
                         }
-                        selectedTabla2 = $scope.Tabla2R;
+                        selectedTabla2 = Temp;
+                        $timeout(function () {
+                            $scope.$apply($scope.Tabla2R=Temp);
+                        },10);
+                        break;
+                    case 'general2':
+                        $scope.Tabla22R = _.find(SAO.Tabla22,function(o){return o.aplicacion.nombre==$scope.record.Alternativa.nombre;});
+                        var general2 = _.find($scope.Tabla22R.alternativas,function(a){return a.nombre == $scope.record.Tipo.nombre; });
+                        if (general2==undefined)
+                        {
+                            $scope.Tabla22R.alternativas =$scope.Tabla22R.alternativas.concat($scope.record.Tipo);
+                        }
+                        selectedTabla22 = $scope.Tabla22R;
+
+                        break;
                     case 'espuma1':
                     case 'espuma2':
                     case 'aire3':
-                        //$scope.Tabla11AR = _.find(SAO.Tabla11A,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
-                        //var alts = _.find($scope.Tabla11AR.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
-                        //if (alts==undefined)
-                        //{
-                        //    $scope.Tabla11AR.alternativas =$scope.Tabla11AR.alternativas.concat($scope.record.Alternativas);
-                        //}
-                        //selectedTabla11A = $scope.Tabla11AR;
+                        $scope.Tabla11AR = _.find(SAO.Tabla11A,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        var alts = _.find($scope.Tabla11AR.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (alts==undefined)
+                        {
+                           $scope.Tabla11AR.alternativas =$scope.Tabla11AR.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedTabla11A = $scope.Tabla11AR;
                     case 'refri':
                     case 'importaciones1':
                         $scope.year = 2010;
@@ -2065,21 +2085,35 @@ angular.module('app.sao')
 
                     case 'espuma3':
                         $scope.Tabla5R = _.find(SAO.Tabla5,function(o){return o.aplicacion.nombre==$scope.record.Subsector.nombre;});
-                        var alts = _.find($scope.Tabla5R.alternativas,function(a){return a.nombre == $scope.record.Alternativa.nombre; });
-                        if (alts==undefined)
+                        var espuma3 = _.find($scope.Tabla5R.alternativas,function(a){return a.nombre == $scope.record.Alternativa.nombre; });
+                        if (espuma3==undefined)
                         {
                             $scope.Tabla5R.alternativas =$scope.Tabla5R.alternativas.concat($scope.record.Alternativa);
                         }
                         selectedTabla5 = $scope.Tabla5R;
+                        $scope.year = 2011;
+                        break;
                     case 'aire2':
                         $scope.Tabla9R = _.find(SAO.Tabla9,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
-                        var alts = _.find($scope.Tabla9R.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
-                        if (alts==undefined)
+                        var aire2 = _.find($scope.Tabla9R.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (aire2==undefined)
                         {
                             $scope.Tabla9R.alternativas =$scope.Tabla9R.alternativas.concat($scope.record.Alternativas);
                         }
                         selectedTabla9 = $scope.Tabla9R;
+                        $scope.year = 2011;
+                        break;
                     case 'consumo':
+                        $scope.consumoR = _.find(SAO.Aplicaciones8,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        var consumo = _.find($scope.consumoR.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (consumo==undefined)
+                        {
+                            $scope.consumoR.alternativas =$scope.consumoR.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedConsumo = $scope.consumoR;
+                        $scope.year = 2011;
+                        break;
+
                     case 'aerosoles':
                     case 'importaciones2':
                     case 'empresa1':
@@ -2304,7 +2338,7 @@ angular.module('app.sao')
         init();
 
     })
-    .controller("uploadController",function ($scope, SAO, Manager, $uibModalInstance,$timeout,pouchDB) {
+    .controller("uploadController",function ($scope, SAO, Manager, $uibModalInstance,$timeout,pouchDB,$localStorage) {
 
        $scope.isLoading = false;
        $scope.error = {
