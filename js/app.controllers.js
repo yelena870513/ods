@@ -708,6 +708,13 @@ angular.module('app.sao')
                         }
                     });
 
+                    //Inclusive properties
+                    var props = Object.keys(source[d]);
+                    props = _.without(props,property);
+                    _.each(props,function (p) {
+                        row[p]=source[d][p];
+                    });
+
                     rows.push(row);
 
                 }
