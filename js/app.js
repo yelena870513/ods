@@ -11,14 +11,15 @@ fs.exists(os.homedir()+'/.sao/data',function (exists) {
         fs.mkdir(os.homedir()+'/.sao/data');
     }
 });
-
+const ipcRenderer = require('electron');
+console.log(ipcRenderer);
 var ws = fs.createWriteStream(os.homedir()+'/.sao/data/sao.json');
 var replicationStream = require('pouchdb-replication-stream');
 var MemoryStream = require('memorystream');
 PouchDB.plugin(replicationStream.plugin);
 PouchDB.adapter('writableStream', replicationStream.adapters.writableStream);
 
-angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFileUpload','ngStorage']).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFileUpload','ngStorage','angular-electron']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/general');
 //Las principales rutas de la aplicacion
     $stateProvider.

@@ -929,7 +929,7 @@ angular.module('app.sao')
 
         init();
     })
-    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$location,$timeout,$localStorage,SType) {
+    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$location,$timeout,$localStorage,SType,currentWebContents) {
         //Controlador para los charts
         var charting = '';
         var active = '';
@@ -1018,6 +1018,29 @@ angular.module('app.sao')
 
         $scope.ShowSelectedPie = function () {
             ShowPieCharts($scope.selectedYear);
+        };
+
+        $scope.ToPdf= function(){
+            // Use default printing options
+            //var data = document.getElementById('chart');
+            currentWebContents.printToPDF({
+                marginsType: 0,
+                printBackground: false,
+                printSelectionOnly: true,
+                landscape: false
+            }, function(error,data)
+            {
+                if (error) throw error;
+                fs.writeFile(os.homedir()+'/.sao/data/print.pdf', data, function(error)
+                {
+                                        if (error) throw error;
+                                        console.log('Write PDF successfully.');
+                })
+        })
+        };
+
+        $scope.ToPrint= function(){
+            currentWebContents.print();
         };
 
         function FetchRecords(name) {
