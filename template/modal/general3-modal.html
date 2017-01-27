@@ -16,47 +16,51 @@
         <div class="box-body">
 
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Sector:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="Tabla2R"
-                                data-ng-change="ShowTabla2()"
-                                data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla2"
-                        >
+                <div class="col-md-12">
+                        <h3>Sector:</h3>
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="tabla2"
+                                   theme="bootstrap"
+                                   data-ng-model="record.Sector"
+                                   on-select="ShowTabla2($item,$model)">
+                            <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in SAO.Tabla2">
+                                <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
-                        </select>
-
-                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
-                    <label>Subsector:</label>
-                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                            data-ng-model="record.Subsector"
+                    <h3>Subsector:</h3>
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   id="sq"
+                                   data-ng-model="record.Subsector">
+                            <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in Tabla2R.alternativas">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
-                            data-ng-options="item as item.nombre for item in Tabla2R.alternativas"
-                    >
-
-                    </select>
-                        </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Alternativa:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.Alternativa"
-                                data-ng-options="item as item.nombre for item in Tabla2R.uso2"
-                        >
-
-                        </select>
-
-                    </div>
-
+                    <h3>Alternativa:</h3>
+                    <ui-select  style="width: 100%;" tabindex="-1"
+                               aria-hidden="true"
+                               id="sq1"
+                               theme="bootstrap"
+                               data-ng-model="record.Alternativa">
+                        <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
+                        <ui-select-choices repeat="item  in Tabla2R.uso2">
+                            <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
 

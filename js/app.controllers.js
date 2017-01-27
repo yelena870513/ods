@@ -557,43 +557,6 @@ angular.module('app.sao')
                 return hash.indexOf(la)!=-1;
             })[0];
 
-            //html2canvas(document.getElementById('table-data'),{
-            //    onrendered:function (canvas) {
-            //        var data = canvas.toDataURL();
-            //        var docDefinition = {
-            //            content:[
-            //                {
-            //                    image:data,
-            //                    width:500
-            //                }
-            //            ]
-            //        };
-            //        pdfMake.createPdf(docDefinition).download(current+".pdf");
-            //    }
-            //});
-
-
-
-            //domtoimage.toPng(document.getElementById('table-data'))
-            //    .then(function (dataUrl) {
-            //        //var img = new Image();
-            //        var docDefinition = {
-            //            content:[
-            //                {
-            //                    image:dataUrl,
-            //                    width:500
-            //                }
-            //            ]
-            //        };
-            //
-            //        pdfMake.createPdf(docDefinition).download(current+".pdf");
-            //        //img.src = dataUrl;
-            //        //document.body.appendChild(img);
-            //    })
-            //    .catch(function (error) {
-            //        console.error('oops, something went wrong!', error);
-            //    });
-
             $scope.isPrinting = true;
             currentWebContents.printToPDF({
                 marginsType: 0,
@@ -613,11 +576,11 @@ angular.module('app.sao')
                         var buffer = fs.readFileSync(os.homedir()+'/.sao/data/exported/'+ current+'.pdf');
                         var blob = new Blob([buffer]);
                         saveAs(blob,current+'.pdf');
-                    },3000);
+                    },300);
 
 
                 })
-            })
+            });
         };
 
         function FetchTable(table)
@@ -2350,7 +2313,9 @@ angular.module('app.sao')
         };
         //Modal tabla2
 
-        $scope.ShowTabla2 = function(){
+        $scope.ShowTabla2 = function($item,$model){
+
+            $scope.Tabla2R = _.find(SAO.Tabla2,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla2 = $scope.Tabla2R;
             $scope.record.Sector = selectedTabla2.aplicacion;
             $scope.record.Subsector = selectedTabla2.alternativas[0];

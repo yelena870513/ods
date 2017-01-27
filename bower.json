@@ -24,7 +24,8 @@
   "dependencies": {
     "chart.js": "^2.4.0",
     "angular-messages": "^1.6.1",
-    "angular-electron": "^0.2.1"
+    "angular-electron": "^0.2.1",
+    "angular-ui-select": "^0.19.6"
   },
   "resolutions": {
     "angular": "1.6.1"
