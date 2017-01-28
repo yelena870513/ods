@@ -18,22 +18,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Alternativa:</label>
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="alternativa"-->
-                                <!--data-ng-change="ShowAlt()"-->
-                        <!--&gt;-->
-                            <!--<option data-ng-repeat="item in ['AlternativaHFC','AlternativaHFCMezclas','AlternativaHFO','AlternativasOtras']">-->
-                                <!--{{item}}-->
-                            <!--</option>-->
-                        <!--</select>-->
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="Tabla22R"
-                                data-ng-change="ShowTabla22()"
-                                data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla22"
-                        >
-
-                        </select>
+                        <h5>Alternativa:</h5>
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   data-ng-model="record.Alternativa"
+                                   on-select="ShowTabla22($item,$model)">
+                            <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in SAO.Tabla22">
+                                <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
                        </div>
                 </div>
@@ -42,13 +37,18 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Clasificación:</label>
+                        <h5>Clasificación</h5>
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   data-ng-model="record.Tipo"
+                                   on-select="record.otrosAlternativa='';">
+                            <ui-select-match placeholder="Clasificación:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in Tabla22R.alternativas">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.Tipo"
-                                data-ng-options="item as item.nombre for item in Tabla22R.alternativas"
-                        >
-
-                        </select>
                     </div>
                     <div class="form-group" >
                         <label >Otros (especificar):</label>
@@ -60,24 +60,33 @@
             <div class="row">
                 <div class="col-md-12">
                         <div class="form-group">
-                            <label>Refrigeracion y Aire Acondicionado:</label>
-                            <select class="form-control select2 select2-hidden-accessible"
-                                    style="width: 100%;" tabindex="-1"
-                                    aria-hidden="true"
-                                    data-ng-model="record.ra"
-                                    data-ng-options="item as item.nombre for item in SAO.RA">
-
-                            </select>
-                            <br>
-                            <label>Sector:</label>
-                            <select class="form-control select2 select2-hidden-accessible"
-                                    style="width: 100%;" tabindex="-1"
-                                    aria-hidden="true"
-                                    data-ng-model="record.Sector"
-                                    data-ng-options="item as item.nombre for item in Tabla22R.uso2">
-                            </select>
+                            <h5>Refrigeracion y Aire Acondicionado:</h5>
+                            <ui-select style="width: 100%;" tabindex="-1"
+                                       aria-hidden="true"
+                                       theme="bootstrap"
+                                       data-ng-model="record.ra"
+                                       on-select="record.otrosAlternativa='';">
+                                <ui-select-match placeholder="Clasificación:">{{$select.selected.nombre}}</ui-select-match>
+                                <ui-select-choices repeat="item  in SAO.RA">
+                                    <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
 
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Sector:</h5>
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   data-ng-model="record.Sector"  >
+                            <ui-select-match placeholder="Sector:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in Tabla22R.uso2">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
                 </div>
             </div>
         </div>

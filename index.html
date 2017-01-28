@@ -14,50 +14,49 @@
 
 </head>
 <body data-ng-app="app.sao" data-ng-controller="mainController">
-<nav class="navbar navbar-inverse" role="navigation">
-    <!--<div class="navbar-header">-->
-    <!--<a class="navbar-brand">Censo Nacional</a>-->
-    <!--</div>-->
-    <ul class="nav navbar-nav">
-        <li data-ng-class="{'active':isActive('general') || isActive('list')}">
-            <a data-ui-sref="general">Datos Generales</a>
-        </li>
-        <li data-ng-class="{'active':isActive('charts')}">
-            <a data-ui-sref="charts">Gráficas</a>
-        </li>
-        <li data-ng-class="{'active':isActive('users')}">
-            <a data-ui-sref="users">Usuarios</a>
-        </li>
-        <li>
-            <a data-ui-sref="salir"><i class="fa fa-user"></i>Cerrar sesión</a>
+  <header class="main-header">
+      <nav class="navbar navbar-inverse" role="navigation">
+        <!--<div class="navbar-header">-->
+        <!--<a class="navbar-brand">Censo Nacional</a>-->
+        <!--</div>-->
+        <ul class="nav navbar-nav">
+            <li data-ng-class="{'active':isActive('general') || isActive('list')}">
+                <a data-ui-sref="general">Datos Generales</a>
+            </li>
+            <li data-ng-class="{'active':isActive('charts')}">
+                <a data-ui-sref="charts">Gráficas</a>
+            </li>
+            <li data-ng-class="{'active':isActive('users')}">
+                <a data-ui-sref="users">Usuarios</a>
+            </li>
+            <li>
+                <a data-ui-sref="salir"><i class="fa fa-user"></i>Cerrar sesión</a>
 
-        </li>
-        <li>
-            <a data-ui-sref="cerrar"><i class="fa fa-sign-out"></i>Salir</a>
-        </li>
-    </ul>
+            </li>
+            <li>
+                <a data-ui-sref="cerrar"><i class="fa fa-sign-out"></i>Salir</a>
+            </li>
+        </ul>
 
-    <div>
-        <h1 style="color: #fff; text-align: center; padding-top: 100px; font-size:5em">Censo Nacional <br> SAO y HFC</h1>
-    </div>
-</nav>
+        <div>
+            <h3 class="logo-lg" style="color: #fff; text-align: center; padding-top: 100px; font-size:5em">Censo Nacional <br> SAO y HFC</h3>
+        </div>
+    </nav>
+  </header>
+  <div class="content-wrapper" style="min-height: 916px;" data-ui-view></div>
+  <footer class="main-footer">
+       <div class="row pull-right">
+           <div class="col-md-2"></div>
+           <div class="col-md-10">
+              <div>
+                  <a><img class="logos" src="img/2.jpg"></a>
+                  <a><img class="logos" src="img/1.jpg"></a>
+                  <a><img class="logos1" src="img/3.jpg"></a>
+              </div>
+           </div>
 
-<div class="container">
-    <div data-ui-view></div>
-</div>
-<footer class="footer">
-   <div class="row pull-right">
-       <div class="col-md-2"></div>
-       <div class="col-md-10">
-          <div>
-              <a><img class="logos" src="img/2.jpg"></a>
-              <a><img class="logos" src="img/1.jpg"></a>
-              <a><img class="logos1" src="img/3.jpg"></a>
-          </div>
        </div>
-
-   </div>
-</footer>
+    </footer>
 
 
 <script src="lib/pouchdb.js"></script>

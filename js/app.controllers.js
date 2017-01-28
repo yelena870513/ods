@@ -566,14 +566,14 @@ angular.module('app.sao')
             }, function(error,data)
             {
                 if (error) throw error;
-                fs.writeFile(os.homedir()+'/.sao/data/exported/'+ current+'.pdf', data, function(error)
+                fs.writeFile(os.homedir()+'/.sao/data/'+ current+'.pdf', data, function(error)
                 {
                     if (error) throw error;
                     console.log('Write PDF successfully.');
                     $scope.isPrinting = false;
                     $timeout(function(){
 
-                        var buffer = fs.readFileSync(os.homedir()+'/.sao/data/exported/'+ current+'.pdf');
+                        var buffer = fs.readFileSync(os.homedir()+'/.sao/data/'+ current+'.pdf');
                         var blob = new Blob([buffer]);
                         saveAs(blob,current+'.pdf');
                     },300);
@@ -1688,7 +1688,7 @@ angular.module('app.sao')
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.action = action;
-        $scope.record = record;
+        $scope.record = angular.copy(record);
 
 
         $scope.error = {
@@ -1787,6 +1787,7 @@ angular.module('app.sao')
                     break;
                 case 'empresa4':
                     if(element.nombreTaller==''){
+                        $scope.error.tipo='taller';
                         throw 'Introduzca el nombre del taller';
                     }
                     if(element.municipio==''){
@@ -1888,12 +1889,12 @@ angular.module('app.sao')
 
             if ($scope.general.osde=='')
             {
-                $scope.error.tipo='osde'
+                $scope.error.tipo='osde';
                 throw 'Introduzca el nombre de la OSDE';
             }
             if ($scope.general.empresa=='')
             {
-                $scope.error.tipo='empresa'
+                $scope.error.tipo='empresa';
                 throw 'Introduzca el nombre de la empresa';
             }
         }
@@ -2322,7 +2323,8 @@ angular.module('app.sao')
             $scope.record.Alternativa = selectedTabla2.uso2[0];
             // $scope.record.uso2 = selectedTabla2.uso2;
         };
-        $scope.ShowTabla22 = function(){
+        $scope.ShowTabla22 = function($item,$model){
+            $scope.Tabla22R = _.find(SAO.Tabla22R,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla22 = $scope.Tabla22R;
             $scope.record.Alternativa = selectedTabla22.aplicacion;
             $scope.record.Tipo = selectedTabla22.alternativas[0];
@@ -2339,7 +2341,8 @@ angular.module('app.sao')
 
         // Modal Tabla5
 
-        $scope.ShowTabla5 = function(){
+        $scope.ShowTabla5 = function($item,$model){
+            $scope.Tabla5R = _.find(SAO.Tabla5,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla5 = $scope.Tabla5R;
             $scope.record.Subsector = selectedTabla5.aplicacion;
             $scope.record.Alternativa = selectedTabla5.alternativas[0];

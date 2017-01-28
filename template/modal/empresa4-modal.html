@@ -18,7 +18,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Nombre del taller:</label>
-                        <input  class="form-control" type="text" placeholder="Nombre" data-ng-model="record.nombreTaller"/>
+                        <input  class="form-control" type="text" placeholder="Nombre" data-ng-model="record.nombreTaller"   data-ng-class="{'control-error':error.show&&error.tipo=='taller'}"/>
 
                     </div>
                     <div class="form-group">
