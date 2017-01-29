@@ -18,22 +18,15 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <!--<label>Subsector/aplicación:</label>-->
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="Tabla5R"-->
-                                <!--data-ng-change="ShowTabla5()"-->
-                                <!--data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla5"-->
-                        <!--&gt;-->
-                        <!--</select>-->
                         <label>Subsector/aplicación:</label>
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    id="sq"
                                    on-select="ShowTabla5($item,$model)"
-                                   data-ng-model="record.Aplicacion">
+                                   data-ng-model="record.Subsector">
                             <ui-select-match placeholder="Subsector/aplicación:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in  SAO.Tabla5">
+                            <ui-select-choices repeat="item  in  SAO.Tabla5 track by $index">
                                 <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
@@ -46,18 +39,6 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Alternativa</label>
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="record.Alternativa"-->
-                                <!--data-ng-options="item as item.nombre for item in Tabla5R.alternativas"-->
-                        <!-->
-
-                        <!--</select>-->
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--       data-ng-model="record.Alternativa"-->
-                                <!--      data-ng-change= "record.otrosAlternativa='';"-->
-                                <!--       data-ng-options="item as item.nombre for item in Tabla5R.alternativas"-->
-                                <!--&gt;-->
-                        <!--</select>-->
 
                         <ui-select style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
@@ -65,7 +46,7 @@
                                    on-select="record.otrosAlternativa='';"
                                    data-ng-model="record.Alternativa">
                             <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in Tabla5R.alternativas">
+                            <ui-select-choices repeat="item  in Tabla5R.alternativas track by $index">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>

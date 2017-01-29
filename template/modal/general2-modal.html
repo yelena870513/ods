@@ -25,7 +25,7 @@
                                    data-ng-model="record.Alternativa"
                                    on-select="ShowTabla22($item,$model)">
                             <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in SAO.Tabla22">
+                            <ui-select-choices repeat="item  in SAO.Tabla22 track by $index">
                                 <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
@@ -44,7 +44,7 @@
                                    data-ng-model="record.Tipo"
                                    on-select="record.otrosAlternativa='';">
                             <ui-select-match placeholder="Clasificación:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in Tabla22R.alternativas">
+                            <ui-select-choices repeat="item  in Tabla22R.alternativas track by $index">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
@@ -67,7 +67,7 @@
                                        data-ng-model="record.ra"
                                        on-select="record.otrosAlternativa='';">
                                 <ui-select-match placeholder="Clasificación:">{{$select.selected.nombre}}</ui-select-match>
-                                <ui-select-choices repeat="item  in SAO.RA">
+                                <ui-select-choices repeat="item  in SAO.RA track by $index">
                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
@@ -82,7 +82,7 @@
                                    theme="bootstrap"
                                    data-ng-model="record.Sector"  >
                             <ui-select-match placeholder="Sector:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in Tabla22R.uso2">
+                            <ui-select-choices repeat="item  in Tabla22R.uso2 track by $index">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>

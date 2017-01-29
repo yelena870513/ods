@@ -2225,6 +2225,8 @@ angular.module('app.sao')
                     return us.anno;
                 });
 
+                $scope.record.Uso= angular.copy(record.Uso);
+
         };
         $scope.ConsumoRecuperacion = function(re2,amount){
             if(amount==undefined){
@@ -2324,7 +2326,7 @@ angular.module('app.sao')
             // $scope.record.uso2 = selectedTabla2.uso2;
         };
         $scope.ShowTabla22 = function($item,$model){
-            $scope.Tabla22R = _.find(SAO.Tabla22R,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
+            $scope.Tabla22R = _.find(SAO.Tabla22,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla22 = $scope.Tabla22R;
             $scope.record.Alternativa = selectedTabla22.aplicacion;
             $scope.record.Tipo = selectedTabla22.alternativas[0];
