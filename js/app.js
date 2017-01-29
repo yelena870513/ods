@@ -84,6 +84,13 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             controller:'chartController'
         }).
 
+        ///Nomencladores
+    state('nomenclatures',{
+        url:'/nomenclatures',
+        templateUrl:'template/nomenclatures.html',
+        controller:'nomenclatureController'
+    }).
+
         ////Login
         state('login',
         {
@@ -168,7 +175,7 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
 }).controller('mainController',function ($scope,$location) {
 
     //Manejador global de la interfaz de usuario
-    var hashes = ['general','charts','users','list'];
+    var hashes = ['general','charts','users','list','nomenclatures'];
     $scope.navigation = {};
     $scope.isActive=function (path) {
         var hash = $location.path();

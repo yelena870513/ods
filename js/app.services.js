@@ -957,6 +957,7 @@ angular.module('app.sao')
         var validator = {};
         var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
         var username = /^[a-z][a-z0-9\.]{3,15}$/i;
+        var nomenclature = /^[A-Z][a-z\s]{3,20}$/i;
 
         validator.isValidUser = function(user){
 
@@ -976,6 +977,10 @@ angular.module('app.sao')
                 errors.push('username');
             }
             return errors;
+        };
+
+        validator.isValidNomenclature = function (str) {
+            return nomenclature.test(str.nombre);
         };
 
         return validator;

@@ -188,8 +188,8 @@ angular.module('app.sao')
             "unidades":"",
             "explotacion":"",
             "Uso":[],//{ano:"---",tons:""},
-            "tipo":"refri",
-            "clasificacion":""
+            "tipo":"refri"
+
         };
 
         //EMPRESA
@@ -2667,6 +2667,212 @@ angular.module('app.sao')
         }
 
         init();
-    });
+    })
+    .controller('nomenclatureController',function ($scope, Manager, $uibModal, $timeout, $localStorage,ModelValidator,$location) {
+
+        /**
+         * UI Configuration
+         * alert = { show: true|false, message:'string', type:'' }
+         */
+        $scope.alert =
+        {
+            show:false,
+            message:'',
+            type:'success'
+        };
+
+        $scope.nomenclatures = [];
+        $scope.ntype = '';
+        $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
+
+        $scope.Nomenclature = function (nomenclature,size) {
+            var instance = $uibModal.open({
+                animation: true,
+                templateUrl: "template/modal/nomenclature-modal.html",
+                controller: function ($scope,Manager,nomenclature,ntype,$uibModalInstance) {
+                    $scope.alert =
+                    {
+                        show:false,
+                        message:'',
+                        type:'success'
+                    };
+
+                    $scope.nomenclature = angular.copy(nomenclature);
+                    $scope.ntype = ntype;
+
+                    $scope.Save= function (nomenclature)
+                    {
+                        if (ModelValidator.isValidNomenclature(nomenclature))
+                        {
+                            nomenclature.tipo = $scope.ntype;
+                            Manager.create(nomenclature).
+                            then(function (e)
+                            {
+                                $scope.alert.show = true;
+                                $scope.alert.message = 'Nomenclador agregado correctamente';
+                                $scope.alert.type = 'success';
+                                $timeout(function () {
+                                    $scope.alert.show = false;
+                                    Finish(nomenclature.tipo);
+                                },3000);
+                            }).
+                            catch(function (reason) {
+                                $scope.alert.show = true;
+                                $scope.alert.message = reason;
+                                $scope.alert.type = 'danger';
+                                $timeout(function () {
+                                    $scope.alert.show = false;
+                                },3000);
+                            })
+                            ;
+                        }
+                        else
+                        {
+                            $scope.alert.show = true;
+                            $scope.alert.message = 'Datos incorrectos';
+                            $scope.alert.type = 'danger';
+                            $timeout(function () {
+                                $scope.alert.show = false;
+                            },3000);
+                        }
+                    };
+
+                    $scope.Close = function () {
+                        Close();
+                    };
+
+                    function Close() {
+                        $uibModalInstance.dismiss('cancel');
+                    }
+
+                    function Finish(data) {
+                        $uibModalInstance.close(data==undefined?'close':data);
+                    }
+
+                },
+                size: size,
+                resolve: {
+                    nomenclature:function () {
+                        return nomenclature;
+                    },
+                    ntype:function () {
+                        return $scope.ntype;
+                    }
+                }
+            });
+
+            instance.result.then(function(data) {
+                List(data);
+            }, function(reason) {
+                $scope.alert.show = true;
+                $scope.alert.message = reason;
+                $scope.alert.type = 'danger';
+                $timeout(function () {
+                    $scope.alert.show = false;
+                },3000);
+            });
+        };
+
+        $scope.Delete = function(nomenclature, size) {
+            var instance = $uibModal.open({
+                animation: true,
+                templateUrl: "template/modal/delete-modal.html",
+                controller: function ($scope,nomenclature,$uibModalInstance) {
+                    $scope.record = nomenclature;
+                    $scope.Close = function () {
+                        Close();
+                    };
+
+                    $scope.Delete = function (nomenclature) {
+                        Finish(nomenclature.tipo);
+                    };
+
+                    function Close() {
+                        $uibModalInstance.dismiss('cancel');
+                    }
+
+                    function Finish(data) {
+                        $uibModalInstance.close(data==undefined?'close':data);
+                    }
+                },
+                size: size,
+                resolve: {
+                    nomenclature: function() {
+                        return record;
+                    }
+                }
+            });
+
+            instance.result.then(function(data) {
+              Delete(nomenclature).finally(function () {
+                  List(data);
+              }) ;
+            });
+        };
+
+        $scope.List = function (type) {
+            $scope.ntype = type;
+            List(type);
+        };
+
+        $scope.isActive = function (nstype) {
+            return nstype == $scope.nstype;
+        };
+
+        function Delete(nomenclador)
+        {
+           return Manager.delete(nomenclador).
+            then(function (e)
+            {
+                $scope.alert.show = true;
+                $scope.alert.message = 'Nomenclador elimindo correctamente';
+                $scope.alert.type = 'success';
+                $timeout(function () {
+                    $scope.alert.show = false;
+                },3000);
+            }).
+            catch(function (reason) {
+                $scope.alert.show = true;
+                $scope.alert.message = reason;
+                $scope.alert.type = 'danger';
+                $timeout(function () {
+                    $scope.alert.show = false;
+                },3000);
+            })
+        }
+
+
+        function List(type)
+        {
+           return Manager.record(type).then(function (data) {
+                $scope.nomenclatures = data.rows.map(function (el) {
+                    return el.doc;
+                });
+            });
+        }
+
+        function init()
+        {
+            $scope.user = $localStorage.user;
+
+            $timeout(function () {
+                if($scope.user==undefined)
+                {
+                    $location.path('/login');
+                }
+                else
+                    {
+                     $scope.ntype = $scope.ntypes[0];
+                     List($scope.ntypes[0]);
+                }
+            },500);
+        }
+
+        init();
+
+
+
+    })
+;
 
 

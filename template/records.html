@@ -24,7 +24,6 @@
                     <li role="menuitem"><a data-ng-click="SelectModal('general2')">Resumen de su uso en todos los sectores para cada año entre 2011-2015</a></li>
                 </ul>
             </div>
-
             <div class="btn-group" uib-dropdown is-open="status2.isopen">
                 <button id="single-button-espuma" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('espuma')}">
                     Espuma <span class="caret"></span>
@@ -56,7 +55,6 @@
 
                 </ul>
             </div>
-
             <div class="btn-group" uib-dropdown is-open="status5.isopen">
                 <button id="single-button-consumo" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
                     Aerosoles <span class="caret"></span>
@@ -99,7 +97,7 @@
         </div>
         <div data-ng-show="table.columns.length>0">
             <h4 >{{table.title  }}</h4>
-            <table class="table table-bordered table table-striped table-hover">
+            <table class="table table-bordered table table-striped table-hover table-responsive">
                 <thead>
                 <tr >
                     <th data-ng-repeat="col in table.columns">{{col  }}</th>
