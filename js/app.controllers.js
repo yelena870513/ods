@@ -46,13 +46,28 @@ angular.module('app.sao')
 
         //Tipo de objetos
         $scope.general = {
-            "provincia": SAO.Provincias[1],
-            "ministerio": SAO.Ministerio[1],
+            "provincia": {},
+            "ministerio": {},
             //"osde": SAO.OSDE[1],
-            "osde": "",
-            "empresa": "",
+            "osde": {},
+            "empresa": {},
             "tipo": "general"
         };
+
+        Manager.record('provincia').then(function(data){
+            $scope.general.provincia = data.rows.map(function(m){return m.doc;})[0];
+
+        });
+        Manager.record('ministerio').then(function(data){
+            $scope.general.ministerio = data.rows.map(function(m){return m.doc;})[0];
+        });
+        Manager.record('empresa').then(function(data){
+            $scope.general.empresa = data.rows.map(function(m){return m.doc;})[0];
+        });
+        Manager.record('osde').then(function(data){
+            $scope.general.osde = data.rows.map(function(m){return m.doc;})[0];
+        });
+
         // Uso general alternativas a las SAO en la actualidad
 
         $scope.Sectores = SAO.Sectores.map(function(el) {
@@ -1684,7 +1699,7 @@ angular.module('app.sao')
 
 
     })
-    .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents,action,$timeout) {
+    .controller("modalController", function($scope, SAO, Manager, $uibModalInstance, record, general, Util, documents,action,$timeout,ModelValidator) {
 
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.action = action;
@@ -1699,6 +1714,16 @@ angular.module('app.sao')
         $scope.SAO = SAO;
         $scope.general = general;
         $scope.documents = documents;
+        $scope.municipios = [];
+        $scope.provincias = [];
+        $scope.ministerios = [];
+        $scope.empresas =[];
+        $scope.osdes = [];
+        Manager.record('municipio').then(function(data){$scope.municipios = data.rows.map(function(m){return m.doc;})});
+        Manager.record('provincia').then(function(data){$scope.provincias = data.rows.map(function(m){return m.doc;})});
+        Manager.record('ministerio').then(function(data){$scope.ministerios = data.rows.map(function(m){return m.doc;})});
+        Manager.record('empresa').then(function(data){$scope.empresas = data.rows.map(function(m){return m.doc;})});
+        Manager.record('osde').then(function(data){$scope.osdes = data.rows.map(function(m){return m.doc;})});
         // $scope.alternativa = 'AlternativaHFC';
 
         //Configuracion para el modal de general2
@@ -1762,6 +1787,7 @@ angular.module('app.sao')
         }
 
         function Add(element) {
+            var error = [];
             switch (element.tipo) {
                 case 'general1':
                     element.sectores = element.sectores.concat($scope.SAO.Sectores.filter(function(el) {
@@ -1786,12 +1812,13 @@ angular.module('app.sao')
                     }
                     break;
                 case 'empresa4':
-                    if(element.nombreTaller==''){
-                        $scope.error.tipo='taller';
-                        throw 'Introduzca el nombre del taller';
-                    }
-                    if(element.municipio==''){
-                        throw 'Introduzca el nombre del municipio';
+                     error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw 'Introduzca el valor de  ' +  e;
+                        });
                     }
                     if(element.sustanciasR==undefined){
                         element.sustanciasR=0;
@@ -1801,13 +1828,14 @@ angular.module('app.sao')
                     }
                     break;
                 case 'general':
-                    if(element.osde==''){
-                        throw 'Introduzca el nombre de la OSDE';
+                     error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw 'Introduzca el valor de  ' +  e;
+                        });
                     }
-                    if(element.empresa==''){
-                        throw 'Introduzca el nombre de la empresa';
-                    }
-
                  break;
 
                 case 'aire3':
@@ -1825,6 +1853,7 @@ angular.module('app.sao')
                         element.Alternativas={nombre:element.otrosAlternativa}
                     }
                     break;
+
                 default:
 
                     break;
@@ -1957,9 +1986,13 @@ angular.module('app.sao')
                if(Object.prototype.toString.call( err ) === '[object Object]'){
                    $scope.error.message = err.message;
                }
+               else if(err.message!=undefined){
+                   $scope.error.message = err.message;
+               }
                else {
                    $scope.error.message = err;
                }
+               $scope.error.show = true;
                $scope.error.show = true;
 
            }
@@ -2724,7 +2757,7 @@ angular.module('app.sao')
                                 $timeout(function () {
                                     $scope.alert.show = false;
                                     Finish(nomenclature.tipo);
-                                },3000);
+                                },500);
                             }).
                             catch(function (reason) {
                                 $scope.alert.show = true;
@@ -2808,7 +2841,7 @@ angular.module('app.sao')
                 size: size,
                 resolve: {
                     nomenclature: function() {
-                        return record;
+                        return nomenclature;
                     }
                 }
             });

@@ -957,7 +957,9 @@ angular.module('app.sao')
         var validator = {};
         var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
         var username = /^[a-z][a-z0-9\.]{3,15}$/i;
-        var nomenclature = /^[A-Z][a-z\s]{3,20}$/i;
+        var str = /^[a-z][a-z0-9\.]{3,15}$/i;
+        //var nomenclature = /^[A-Z][a-z\s][(A-Z)]{3,20}$/i;
+        var nomenclature = /^[\w() -]{3,100}$/;
 
         validator.isValidUser = function(user){
 
@@ -981,6 +983,36 @@ angular.module('app.sao')
 
         validator.isValidNomenclature = function (str) {
             return nomenclature.test(str.nombre);
+        };
+
+        validator.RecordError = function (record) {
+            var errors = [];
+            switch (record.tipo){
+                case 'empresa4':
+                    if(!str.test(record.nombreTaller)){
+
+                        errors.push('taller');
+                    }
+                    if(!str.test(record.municipio)){
+                        errors.push('municipio');
+                    }
+                    break;
+                case 'general':
+
+                    if(!str.test(record.osde)){
+                        errors.push('osde');
+                    }
+                    if(!str.test(record.empresa)){
+                        errors.push('empresa');
+                    }
+                    break;
+
+                default:
+                    break;
+
+            }
+
+            return errors;
         };
 
         return validator;
