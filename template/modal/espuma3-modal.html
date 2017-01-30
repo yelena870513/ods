@@ -62,12 +62,23 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="year">Año:</label>
-                        <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="year"
-                                data-ng-change="amount=0"
-                                data-ng-class="{'control-error':error.show}"
-                                data-ng-options="item as item for item in [2011,2012,2013,2014,2015]"></select>
+                        <!--<label for="year">Año:</label>-->
+                        <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="year"-->
+                                <!--data-ng-change="amount=0"-->
+                                <!--data-ng-class="{'control-error':error.show}"-->
+                                <!--data-ng-options="item as item for item in [2011,2012,2013,2014,2015]"></select>-->
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   data-ng-class="{'control-error':error.show}"
+                                   ng-model="year"
+                                   on-select="onSelect($item,$model)">
+                            <ui-select-match placeholder="Year:">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in [2011,2012,2013,2014,2015]">
+                                <div data-ng-class="{'control-error':error.show}" ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
                         </div>
                     <div class="form-group">
                     <label >Consumo en toneladas métricas:</label>

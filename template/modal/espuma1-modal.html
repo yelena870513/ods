@@ -26,11 +26,23 @@
         </div>
         <div class="form-group">
             <label >Año:</label>
-            <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                    data-ng-model="year"
-                    data-ng-change="amount=0"
-                    data-ng-class="{'control-error':error.show}"
-                    data-ng-options="item as item for item in [2010,2015,2020,2025,2030]"></select>
+            <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                    <!--data-ng-model="year"-->
+                    <!--data-ng-change="amount=0"-->
+                    <!--data-ng-class="{'control-error':error.show}"-->
+                    <!--data-ng-options="item as item for item in [2010,2015,2020,2025,2030]"></select>-->
+
+            <ui-select style="width: 100%;" tabindex="-1"
+                       aria-hidden="true"
+                       theme="bootstrap"
+                       data-ng-class="{'control-error':error.show}"
+                       data-ng-model="year"
+                       on-select="amount=0">
+                <ui-select-match placeholder="Year:">{{$select.selected}}</ui-select-match>
+                <ui-select-choices repeat="item  in [2010,2015,2020,2025,2030]">
+                    <div ng-bind-html="item | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
             </div>
         <div class="form-group" >
 

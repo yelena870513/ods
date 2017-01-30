@@ -2210,13 +2210,21 @@ angular.module('app.sao')
 
 
         //Modal de consumo
+
+        $scope.onSelect=function ($item,$model) {
+            $scope.year = $item;
+            $scope.amount=0;
+        };
         $scope.ConsumoYear = function(year,amount){
 
                 if(amount==undefined){
                    amount=0;
                 }
 
-                record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
+
+                record.Uso = _.reject(record.Uso,function (el) {return el.anno==year;}).concat([{"anno":year,"tons":amount,"nombre": +year+":"+amount}]);
+
+                // record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
                 record.Uso =  _.uniq(record.Uso,false,function (el) {
                     return el.anno;
                 });
