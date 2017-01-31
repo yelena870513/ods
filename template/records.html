@@ -24,6 +24,7 @@
                     <li role="menuitem"><a data-ng-click="SelectModal('general2')">Resumen de su uso en todos los sectores para cada año entre 2011-2015</a></li>
                 </ul>
             </div>
+
             <div class="btn-group" uib-dropdown is-open="status2.isopen">
                 <button id="single-button-espuma" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('espuma')}">
                     Espuma <span class="caret"></span>
@@ -55,13 +56,22 @@
 
                 </ul>
             </div>
+
             <div class="btn-group" uib-dropdown is-open="status5.isopen">
-                <button id="single-button-consumo" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
+                <button id="single-button-aerosoles" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
                     Aerosoles <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li role="menuitem"><a  data-ng-click="SelectModal('aerosoles')">Uso de alternativas de SAO en el sector de aerosoles </a></li>
 
+                </ul>
+            </div>
+            <div class="btn-group" uib-dropdown is-open="status8.isopen">
+                <button id="single-button-solventes" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('solventes')}">
+                    Solventes <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem"><a data-ng-click="SelectModal('empresa3')">Sector de solventes</a></li>
                 </ul>
             </div>
             <div class="btn-group" uib-dropdown is-open="status6.isopen">
@@ -80,7 +90,6 @@
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li role="menuitem"><a data-ng-click="SelectModal('empresa1')" >Aire Acondicionado Automotriz</a></li>
                     <li role="menuitem"><a data-ng-click="SelectModal('empresa2')">Refrigeración Móvil</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectModal('empresa3')">Sector de solventes</a></li>
                     <li role="menuitem"><a data-ng-click="SelectModal('empresa4')">Taller de servicios</a></li>
                 </ul>
             </div>
@@ -96,8 +105,9 @@
             {{error.message}}
         </div>
         <div data-ng-show="table.columns.length>0">
+
             <h4 >{{table.title  }}</h4>
-            <table class="table table-bordered table table-striped table-hover table-responsive">
+            <table class="table table-bordered t"tle table-striped table-hover">
                 <thead>
                 <tr >
                     <th data-ng-repeat="col in table.columns">{{col  }}</th>

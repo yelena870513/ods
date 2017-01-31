@@ -19,14 +19,25 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Alternativa:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="sq"
+                                   on-select="ShowTabla23($item,$model)"
+                                   data-ng-model="record.Alternativa">
+                            <ui-select-match placeholder="Alternativa">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  SAO.Tabla23 track by $index">
+                                <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="Tabla23R"
-                                data-ng-change="ShowTabla23()"
-                                data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla23"
-                        >
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="Tabla23R"-->
+                                <!--data-ng-change="ShowTabla23()"-->
+                                <!--data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla23"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                        </div>
                 </div>
@@ -35,13 +46,23 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Clasificación:</label>
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   on-select="record.otrosAlternativa='';"
+                                   data-ng-model="record.Tipo">
+                            <ui-select-match placeholder="Alternativa">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in Tabla23R.alternativas track by $index">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.Tipo"
-                                data-ng-options="item as item.nombre for item in Tabla23R.alternativas"
-                        >
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.Tipo"-->
+                                <!--data-ng-options="item as item.nombre for item in Tabla23R.alternativas"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
                     </div>
                     <div class="form-group" >
                         <label >Otros (especificar):</label>
@@ -55,7 +76,7 @@
     </form>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            Agregar
+            Aceptar
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

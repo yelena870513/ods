@@ -59,6 +59,12 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             controller:'reportController'
         })
         .
+        state('list.solventes',{
+            url:'/solventes',
+            templateUrl:'template/data-table/solventes-table.html',
+            controller:'reportController'
+        })
+        .
         state('list.importaciones',{
             url:'/importaciones',
             templateUrl:'template/data-table/importaciones-table.html',
@@ -83,6 +89,12 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             templateUrl:'template/charts.html',
             controller:'chartController'
         }).
+    ///Nomencladores
+    state('nomenclatures',{
+        url:'/nomenclatures',
+        templateUrl:'template/nomenclatures.html',
+        controller:'nomenclatureController'
+    }).
 
         ///Nomencladores
     state('nomenclatures',{

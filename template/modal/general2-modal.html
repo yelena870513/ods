@@ -18,14 +18,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <h5>Alternativa:</h5>
+                        <label>Alternativa:</label>
                         <ui-select style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    theme="bootstrap"
                                    data-ng-model="record.Alternativa"
                                    on-select="ShowTabla22($item,$model)">
-                            <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in SAO.Tabla22 track by $index">
+                            <ui-select-match placeholder="Alternativa:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.Tabla22 track by $index">
                                 <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
@@ -37,14 +37,13 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Clasificación:</label>
-                        <h5>Clasificación</h5>
                         <ui-select style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    theme="bootstrap"
                                    data-ng-model="record.Tipo"
                                    on-select="record.otrosAlternativa='';">
                             <ui-select-match placeholder="Clasificación:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in Tabla22R.alternativas track by $index">
+                            <ui-select-choices repeat="item in Tabla22R.alternativas track by $index">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
@@ -60,23 +59,25 @@
             <div class="row">
                 <div class="col-md-12">
                         <div class="form-group">
-                            <h5>Refrigeracion y Aire Acondicionado:</h5>
+                            <label>Refrigeracion y Aire Acondicionado:</label>
                             <ui-select style="width: 100%;" tabindex="-1"
                                        aria-hidden="true"
                                        theme="bootstrap"
                                        data-ng-model="record.ra"
                                        on-select="record.otrosAlternativa='';">
-                                <ui-select-match placeholder="Clasificación:">{{$select.selected.nombre}}</ui-select-match>
-                                <ui-select-choices repeat="item  in SAO.RA track by $index">
+                                <ui-select-match placeholder="Refrigeracion y Aire Acondicionado:">{{$select.selected.nombre}}</ui-select-match>
+                                <ui-select-choices repeat="item in SAO.RA track by $index">
                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
                         </div>
 
                 </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <h5>Sector:</h5>
+                        <div class="form-group">
+                        <label>Sector:</label>
                         <ui-select style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    theme="bootstrap"
@@ -87,13 +88,14 @@
                             </ui-select-choices>
                         </ui-select>
                     </div>
+                   </div>
                 </div>
             </div>
         </div>
     </form>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
-               <span data-ng-if="action=='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

@@ -34,11 +34,20 @@
             </div>
 
             <div class="btn-group" uib-dropdown is-open="status5.isopen">
-                <button id="single-button-consumo" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
+                <button id="single-button-aerosoles" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
                     Aerosoles <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li role="menuitem"><a  data-ng-click="SelectChart('aerosoles')">Uso de alternativas de SAO en el sector de aerosoles </a></li>
+
+                </ul>
+            </div>
+            <div class="btn-group" uib-dropdown is-open="status8.isopen">
+                <button id="single-button-solventes" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('solventes')}">
+                    Solventes <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem"><a  data-ng-click="SelectChart('empresa3')">Sector de solventes </a></li>
 
                 </ul>
             </div>
@@ -70,7 +79,7 @@
                   <h4>  <em>Usuario</em><span> {{user.username }} </span></h4>
                 </div>
             </div>
-            <div class="row" data-ng-show="bar.show">
+            <div class="row" data-ng-show="bar.show" style="width: 50%">
                 <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPdf()"><i class="fa fa-file-pdf-o"></i></button></div>
                 <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPrint()"><i class="fa fa-print"></i></button></div>
                 <div class="col-md-10"></div>
@@ -78,7 +87,7 @@
         </section>
         <section class="content">
             <div class="row">
-                <div class="col-md-12 barra" data-ng-show="bar.show" >
+                <div class="col-md-12 barra" data-ng-show="bar.show" style="width: 70%">
                     <canvas id="bar" class="chart chart-bar"  data-chart-data="bar.data" data-chart-labels="bar.labels" data-chart-series="bar.series" data-chart-options="bar.options"></canvas>
                 </div>
 
@@ -105,7 +114,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" data-ng-show="pie.show">
+                <div class="col-md-12" data-ng-show="pie.show" style="width: 50%">
                     <canvas id="pie" class="chart chart-pie"   data-chart-data="pie.data" data-chart-labels="pie.labels" data-chart-options="pie.options">
                     </canvas>
                 </div>

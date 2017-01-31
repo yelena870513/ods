@@ -48,9 +48,9 @@ angular.module('app.sao')
         $scope.general = {
             "provincia": {},
             "ministerio": {},
-            //"osde": SAO.OSDE[1],
             "osde": {},
             "empresa": {},
+
             "tipo": "general"
         };
 
@@ -70,7 +70,7 @@ angular.module('app.sao')
 
         // Uso general alternativas a las SAO en la actualidad
 
-        $scope.Sectores = SAO.Sectores.map(function(el) {
+        $scope.Sector = SAO.Sector.map(function(el) {
             el.value = false;
             return el;
         });
@@ -78,7 +78,7 @@ angular.module('app.sao')
 
         $scope.general1 = {
             "sustancia": SAO.Sustancias[0],
-            "sectores": [],
+            "sector": [],
             "tipo": "general1"
         };
         //    Resumen de su uso en todos los sectores para cada año entre 2011-2015
@@ -113,7 +113,7 @@ angular.module('app.sao')
 
         $scope.espuma1 = {
             "Sustancia": SAO.SustanciasTabla3[0],
-            "Uso":[],//{ano:"---",tons:""},
+            "Uso5":[],//{ano:"---",tons:""},
             "tipo": "espuma1"
         };
         $scope.espuma2 = {
@@ -147,11 +147,12 @@ angular.module('app.sao')
         $scope.aire3 = {
             "Aplicaciones":SAO.Tabla11A[0].aplicacion,
             "Capacidad":SAO.Tabla11A[0].carga,
-            "Alternativas":SAO.Tabla11A[0].alternativas[0],
+            "Sustancias":SAO.Tabla11A[0].alternativas[0],
             "Estado":SAO.Estado[0],
             // "clasificacion":SAO.Clasificacion[0],
             "otrosAlternativa":"",
             "unidades":"",
+            "explotacion":"",
             "Uso":[],//{ano:"---",tons:""},
             "clasificacion":SAO.Clasificacion[1],
             "tipo":"aire3"
@@ -201,7 +202,7 @@ angular.module('app.sao')
             "Estado":SAO.EstadoRefri[0],
             "otrosAlternativa":"",
             "unidades":"",
-            "explotacion":"",
+            // "explotacion":"",
             "Uso":[],//{ano:"---",tons:""},
             "tipo":"refri"
 
@@ -244,8 +245,8 @@ angular.module('app.sao')
             "municipio":"",
             "sustanciasR":"",
             "sustanciasRL":"",
-            "ingenieros":"",
-            "tecnicos":"",
+            // "ingenieros":"",
+            // "tecnicos":"",
             "experiencias":"",
             "Recuperacion":[],
             "Recuperado":[],
@@ -306,7 +307,7 @@ angular.module('app.sao')
 
             switch (element.tipo) {
                 case 'general1':
-                    element.sectores = element.sectores.concat($scope.Sectores.filter(function(el) {
+                    element.sector = element.sector.concat($scope.Sector.filter(function(el) {
                         return el.value == true;
                     }));
                     break;
@@ -1724,6 +1725,7 @@ angular.module('app.sao')
         Manager.record('ministerio').then(function(data){$scope.ministerios = data.rows.map(function(m){return m.doc;})});
         Manager.record('empresa').then(function(data){$scope.empresas = data.rows.map(function(m){return m.doc;})});
         Manager.record('osde').then(function(data){$scope.osdes = data.rows.map(function(m){return m.doc;})});
+
         // $scope.alternativa = 'AlternativaHFC';
 
         //Configuracion para el modal de general2
@@ -1790,10 +1792,10 @@ angular.module('app.sao')
             var error = [];
             switch (element.tipo) {
                 case 'general1':
-                    element.sectores = element.sectores.concat($scope.SAO.Sectores.filter(function(el) {
+                    element.sector = element.sector.concat($scope.SAO.Sector.filter(function(el) {
                         return el.value == true;
                     }));
-                    if (element.sectores.length==0){throw 'Seleccione al menos un sector';}
+                    if (element.sector.length==0){throw 'Seleccione al menos un sector';}
                     break;
                 // case 'general2':
                 //     element.sectoresAnexo = element.sectoresAnexo.concat($scope.SAO.SectoresAnexo.filter(function(el) {
@@ -1821,10 +1823,12 @@ angular.module('app.sao')
                         });
                     }
                     if(element.sustanciasR==undefined){
-                        element.sustanciasR=0;
+                        $scope.error.tipo='sustanciasR';
+                        throw 'Introduzca la sustancia R-141b';
                     }
                     if(element.sustanciasRL==undefined){
-                        element.sustanciasRL=0;
+                        $scope.error.tipo='sustanciasRL';
+                        throw 'Introduzca la sustancia RL-95';
                     }
                     break;
                 case 'general':
@@ -1853,7 +1857,6 @@ angular.module('app.sao')
                         element.Alternativas={nombre:element.otrosAlternativa}
                     }
                     break;
-
                 default:
 
                     break;
@@ -1861,52 +1864,83 @@ angular.module('app.sao')
 
             //todo validar datos
             element = Util.collect($scope.general, element);
+            if(element.Uso5!=undefined)
+            {
+                if(element.Uso5.length<5)
+                {
+                    $scope.error.tipo='anno1';
+                    throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                }
+            }
             if(element.Uso!=undefined)
             {
-                if(element.Uso.length<5)
+                if(element.Uso.length<6)
                 {
+                  $scope.error.tipo='anno';
                   throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                }
+            }
+
+            if(element.Uso7!=undefined)
+            {
+                if(element.Uso7.length<7)
+                {
+                    $scope.error.tipo='anno';
+                    throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
                 }
             }
             if(element.CantRefriRefri!=undefined)
             {
                 if(element.CantRefriRefri.length<3)
                 {
-                    throw 'Introduzca cantidad de refrigerante consumido para refrigeraci\u00F3n ';
+                    $scope.error.tipo='CantRefriRefri';
+                    throw 'Faltan por introducir cantidad de refrigerante consumido para refrigeraci\u00F3n ';
                 }
             }
             if(element.CantRefriAire!=undefined)
             {
                 if(element.CantRefriAire.length<3)
                 {
-                    throw 'Introduzca cantidad de refrigerante consumido para aire acondicionado ';
+                    $scope.error.tipo='CantRefriAire';
+                    throw 'Faltan por introducir cantidad de refrigerante consumido para aire acondicionado ';
                 }
             }
             if(element.Recuperacion!=undefined)
             {
                 if(element.Recuperacion.length<5)
                 {
-                    throw 'Introduzca cantidad de equipos de recuperaci\u00F3n ';
+                    $scope.error.tipo='Recuperacion';
+                    throw 'Faltan por introducir cantidad de equipos de recuperaci\u00F3n ';
                 }
             }
             if(element.Recuperado!=undefined)
             {
                 if(element.Recuperado.length<4)
                 {
-                    throw 'Introduzca cantidad recuperada ';
+                    $scope.error.tipo='Recuperado';
+                    throw 'Faltan por introducir cantidad recuperada ';
+                }
+            }
+            if(element.Total!=undefined)
+            {
+                if(element.Total.length<4)
+                {
+                    $scope.error.tipo='Total';
+                    throw 'Faltan por introducir personal productivo';
                 }
             }
             if(element.unidades=='')
             {
 
-                    throw 'Introduzca el # de unidades';
+                    $scope.error.tipo='unidades';
+                    throw 'Introduzca el No. de unidades';
             }
-            if(element.explotacion=='')
-            {
-
-                throw 'Introduzca los a\u00F1os de explotaci\u00F3n';
-
-            }
+            // if(element.explotacion=='')
+            // {
+            //
+            //     throw 'Introduzca los a\u00F1os de explotaci\u00F3n';
+            //
+            // }
 
 
 
@@ -2034,7 +2068,7 @@ angular.module('app.sao')
                         break;
                     case 'general1':
                         // $scope.record.sectores = SAO.Sectores[1];
-                        $scope.record.sustancia = SAO.Sustancias[1];
+                        $scope.record.sustancia = SAO.Sustancias[0];
 
                         break;
 
@@ -2072,7 +2106,7 @@ angular.module('app.sao')
 
                         break;
                     case 'aire3':
-                        $scope.record.Alternativas = SAO.Tabla11A[0].alternativas[0];
+                        $scope.record.Sustancias = SAO.Tabla11A[0].alternativas[0];
                         $scope.record.clasificacion = SAO.Clasificacion[0];
                         $scope.record.Estado = SAO.Estado[0];
                         $scope.year = 2010;
@@ -2101,7 +2135,8 @@ angular.module('app.sao')
 
                         break;
                     case 'importaciones2':
-                        $scope.year = 2011;
+                        $scope.record.Tipo = SAO.Tabla23[0].alternativas[0];
+                        $scope.year = 2010;
 
                         break;
                     case 'empresa1':
@@ -2170,14 +2205,18 @@ angular.module('app.sao')
                         break;
                     case 'espuma1':
                     case 'espuma2':
+                        $scope.year = 2010;
+                        break;
                     case 'aire3':
                         $scope.Tabla11AR = _.find(SAO.Tabla11A,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
-                        var alts = _.find($scope.Tabla11AR.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
-                        if (alts==undefined)
+                        var aire3 = _.find($scope.Tabla11AR.alternativas,function(a){return a.nombre == $scope.record.Sustancias.nombre; });
+                        if (aire3==undefined)
                         {
-                           $scope.Tabla11AR.alternativas =$scope.Tabla11AR.alternativas.concat($scope.record.Alternativas);
+                           $scope.Tabla11AR.alternativas =$scope.Tabla11AR.alternativas.concat($scope.record.Sustancias);
                         }
                         selectedTabla11A = $scope.Tabla11AR;
+                        $scope.year = 2010;
+                        break;
                     case 'refri':
                     case 'importaciones1':
                         $scope.year = 2010;
@@ -2213,9 +2252,18 @@ angular.module('app.sao')
                         selectedConsumo = $scope.consumoR;
                         $scope.year = 2011;
                         break;
-
-                    case 'aerosoles':
                     case 'importaciones2':
+                        $scope.Tabla23R = _.find(SAO.Tabla23,function(o){return o.aplicacion.nombre==$scope.record.Alternativa.nombre;});
+                        var importaciones2 = _.find($scope.Tabla23R.alternativas,function(a){return a.nombre == $scope.record.Tipo.nombre; });
+                        if (importaciones2==undefined)
+                        {
+                            $scope.Tabla23R.alternativas =$scope.Tabla23R.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedTabla23 = $scope.Tabla23R;
+                        $scope.year = 2011;
+                        break;
+                    case 'aerosoles':
+                        break;
                     case 'empresa1':
                     case 'empresa3':
                         $scope.year = 2011;
@@ -2261,10 +2309,9 @@ angular.module('app.sao')
                    amount=0;
                 }
 
-
-                record.Uso = _.reject(record.Uso,function (el) {return el.anno==year;}).concat([{"anno":year,"tons":amount,"nombre": +year+":"+amount}]);
-
                 // record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
+                record.Uso = _.reject(record.Uso,function (el) { return el.anno==year;
+                }).concat([{"anno":year,"tons":amount,"nombre": +year+":"+amount}]);
                 record.Uso =  _.uniq(record.Uso,false,function (el) {
                     return el.anno;
                 });
@@ -2272,19 +2319,17 @@ angular.module('app.sao')
                 record.Uso = _.sortBy( record.Uso,function (us) {
                     return us.anno;
                 });
-
-                $scope.record.Uso= angular.copy(record.Uso);
+                $scope.record.Uso = angular.copy(record.Uso)
 
         };
-
-
         $scope.ConsumoRecuperacion = function(re2,amount){
             if(amount==undefined){
                 amount=0;
             }
 
-            record.Uso = _.reject(record.Recuperacion,function (el) {return el.re2==re2;}).concat([({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount})]);
             // record.Recuperacion.push({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount});
+            record.Recuperacion = _.reject(record.Recuperacion,function (el) { return el.anno==year;
+            }).concat([{"re2":re2,"cant2":amount,"nombre": +re2+":"+amount}]);
             record.Recuperacion =  _.uniq(record.Recuperacion,false,function (el) {
                 return el.re2;
             });
@@ -2322,7 +2367,7 @@ angular.module('app.sao')
             }
             record.Total = _.reject(record.Total,function (el) {return el.re4==re4;}).concat([{"re4":re4,"cant4":amount,"nombre": +re4+":"+amount}]);
 
-            // record.Total.push({"re4":re4,"cant4":amount,"nombre": +re4+":"+amount});
+            record.Total.push({"re4":re4,"cant4":amount,"nombre": +re4+":"+amount});
             record.Total =  _.uniq(record.Total,false,function (el) {
                 return el.re4;
             });
@@ -2339,8 +2384,9 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            record.CantRefriRefri = _.reject(record.CantRefriRefri,function (el) {return el.re==re;}).concat([{"re":re,"cant":amount,"nombre": +re+":"+amount}]);
-            //record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
+            // record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
+            record.CantRefriRefri = _.reject(record.CantRefriRefri,function (el) { return el.anno==year;
+            }).concat([{"re":re,"cant":amount,"nombre": +re+":"+amount}]);
             record.CantRefriRefri =  _.uniq(record.CantRefriRefri,false,function (el) {
                 return el.re;
             });
@@ -2348,8 +2394,7 @@ angular.module('app.sao')
             record.CantRefriRefri = _.sortBy( record.CantRefriRefri,function (us) {
                 return us.re;
             });
-
-            $scope.record.CantRefriRefri= angular.copy(record.CantRefriRefri);
+            $scope.record.CantRefriRefri = angular.copy(record.CantRefriRefri)
 
         };
         $scope.ConsumoCantRefriAire = function(re1,amount){
@@ -2358,8 +2403,9 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            record.CantRefriAire = _.reject(record.CantRefriAire,function (el) {return el.re1==re1;}).concat([{"re1":re1,"cant1":amount,"nombre": +re1+":"+amount}]);
             // record.CantRefriAire.push({"re1":re1,"cant1":amount,"nombre": +re1+":"+amount});
+            record.CantRefriAire = _.reject(record.CantRefriAire,function (el) { return el.anno==year;
+            }).concat([{"re1":re1,"cant1":amount,"nombre": +re1+":"+amount}]);
             record.CantRefriAire =  _.uniq(record.CantRefriAire,false,function (el) {
                 return el.re1;
             });
@@ -2367,11 +2413,15 @@ angular.module('app.sao')
             record.CantRefriAire = _.sortBy( record.CantRefriAire,function (us) {
                 return us.re1;
             });
-            $scope.record.CantRefriAire= angular.copy(record.CantRefriAire);
+            $scope.record.CantRefriAire = angular.copy(record.CantRefriAire)
 
         };
+        $scope.Explotacion = function(unidades,carga){
+            $scope.explot = (element.explotacion.max*element.unidades)/1000;
+        };
 
-        $scope.ShowConsumo = function(){
+        $scope.ShowConsumo = function($item,$model){
+           $scope.consumoR = _.find(SAO.Aplicaciones8,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
            selectedConsumo = $scope.consumoR;
            $scope.record.carga = selectedConsumo.carga;
            $scope.record.Aplicaciones = selectedConsumo.aplicacion;
@@ -2397,7 +2447,8 @@ angular.module('app.sao')
             $scope.record.ra = SAO.RA[0];
             // $scope.record.uso2 = selectedTabla2.uso2;
         };
-            $scope.ShowTabla23 = function(){
+            $scope.ShowTabla23 = function($item,$model){
+            $scope.Tabla23R = _.find(SAO.Tabla23,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla23 = $scope.Tabla23R;
             $scope.record.Alternativa = selectedTabla2.aplicacion;
             $scope.record.Tipo = selectedTabla23.alternativas[0];
@@ -2415,7 +2466,8 @@ angular.module('app.sao')
 
         //Modal Tabla 9
 
-        $scope.ShowTabla9 = function(){
+        $scope.ShowTabla9 = function($item,$model){
+            $scope.Tabla9R = _.find(SAO.Tabla9,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla9 = $scope.Tabla9R;
             $scope.record.Carga = selectedTabla9.carga;
             $scope.record.Aplicaciones = selectedTabla9.aplicacion;
@@ -2425,7 +2477,8 @@ angular.module('app.sao')
 
         //Modal Tabla12
 
-        $scope.ShowTabla12 = function(){
+        $scope.ShowTabla12 = function($item,$model){
+            $scope.Tabla12R = _.find(SAO.Tabla12,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla12 = $scope.Tabla12R;
             $scope.record.Aplicaciones = selectedTabla12.aplicacion;
             $scope.record.Alternativas = selectedTabla12.alternativas[0];
@@ -2433,39 +2486,45 @@ angular.module('app.sao')
 
         // tabla3 anexo2
 
-        $scope.ShowTabla3Anexo2 = function(){
+        $scope.ShowTabla3Anexo2 = function($item,$model){
+            $scope.Tabla3Anexo2R = _.find(SAO.Tabla3Anexo2,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla3Anexo2 = $scope.Tabla3Anexo2R;
             $scope.record.aplicacion = selectedTabla3Anexo2.aplicacion;
         };
 
         // Tabla11A
 
-        $scope.ShowTabla11A = function(){
+        $scope.ShowTabla11A = function($item,$model){
+            $scope.Tabla11AR = _.find(SAO.Tabla11A,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla11A = $scope.Tabla11AR;
             $scope.record.Capacidad = selectedTabla11A.carga;
             $scope.record.Aplicaciones = selectedTabla11A.aplicacion;
             $scope.record.Alternativas = selectedTabla11A.alternativas[0];
             $scope.record.clasificacion = SAO.Clasificacion[1];
         };
-        $scope.ShowTabla11B = function(){
+        $scope.ShowTabla11B = function($item,$model){
+            $scope.Tabla11BR = _.find(SAO.Tabla11B,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla11B = $scope.Tabla11BR;
             $scope.record.Capacidad = selectedTabla11B.carga;
             $scope.record.Aplicaciones = selectedTabla11B.aplicacion;
             $scope.record.Alternativas = selectedTabla11B.alternativas[0];
         };
 
-        $scope.ShowTabla10A = function(){
+        $scope.ShowTabla10A = function($item,$model){
+            $scope.Tabla10AR = _.find(SAO.Tabla10A,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla10A = $scope.Tabla10AR;
             $scope.record.Carga = selectedTabla10A.carga;
             $scope.record.Aplicaciones = selectedTabla10A.aplicacion;
             $scope.record.Alternativas = selectedTabla10A.alternativas[0];
         };
-        $scope.ShowTabla10B = function(){
+        $scope.ShowTabla10B = function($item,$model){
+            $scope.Tabla10BR = _.find(SAO.Tabla10B,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla10B = $scope.Tabla10BR;
             $scope.record.Aplicaciones = selectedTabla10B.aplicacion;
             $scope.record.Alternativas = selectedTabla10B.alternativas[0];
         };
-        $scope.ShowTabla13 = function(){
+        $scope.ShowTabla13 = function($item,$model){
+            $scope.Tabla13R = _.find(SAO.Tabla13,function(o){return o.aplicacion.nombre==$model.aplicacion.nombre;});
             selectedTabla13 = $scope.Tabla13R;
             $scope.record.Aplicaciones = selectedTabla13.aplicacion;
             $scope.record.Alternativas = selectedTabla13.alternativas[0];
@@ -2614,7 +2673,7 @@ angular.module('app.sao')
                             password:
                             {
                                 show:false,
-                                message:"Una clave segura cuenta con blah blah."
+                                message:"Una clave no segura."
                             },
                             username:
                             {
@@ -2735,209 +2794,205 @@ angular.module('app.sao')
     })
     .controller('nomenclatureController',function ($scope, Manager, $uibModal, $timeout, $localStorage,ModelValidator,$location) {
 
-        /**
-         * UI Configuration
-         * alert = { show: true|false, message:'string', type:'' }
-         */
-        $scope.alert =
-        {
-            show:false,
-            message:'',
-            type:'success'
-        };
+    /**
+     * UI Configuration
+     * alert = { show: true|false, message:'string', type:'' }
+     */
+    $scope.alert =
+    {
+        show:false,
+        message:'',
+        type:'success'
+    };
 
-        $scope.nomenclatures = [];
-        $scope.ntype = '';
-        $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
+    $scope.nomenclatures = [];
+    $scope.ntype = '';
+    $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
 
-        $scope.Nomenclature = function (nomenclature,size) {
-            var instance = $uibModal.open({
-                animation: true,
-                templateUrl: "template/modal/nomenclature-modal.html",
-                controller: function ($scope,Manager,nomenclature,ntype,$uibModalInstance) {
-                    $scope.alert =
+    $scope.Nomenclature = function (nomenclature,size) {
+        var instance = $uibModal.open({
+            animation: true,
+            templateUrl: "template/modal/nomenclature-modal.html",
+            controller: function ($scope,Manager,nomenclature,ntype,$uibModalInstance) {
+                $scope.alert =
+                {
+                    show:false,
+                    message:'',
+                    type:'success'
+                };
+
+                $scope.nomenclature = angular.copy(nomenclature);
+                $scope.ntype = ntype;
+
+                $scope.Save= function (nomenclature)
+                {
+                    if (ModelValidator.isValidNomenclature(nomenclature))
                     {
-                        show:false,
-                        message:'',
-                        type:'success'
-                    };
-
-                    $scope.nomenclature = angular.copy(nomenclature);
-                    $scope.ntype = ntype;
-
-                    $scope.Save= function (nomenclature)
-                    {
-                        if (ModelValidator.isValidNomenclature(nomenclature))
-                        {
-                            nomenclature.tipo = $scope.ntype;
-                            Manager.create(nomenclature).
-                            then(function (e)
-                            {
-                                $scope.alert.show = true;
-                                $scope.alert.message = 'Nomenclador agregado correctamente';
-                                $scope.alert.type = 'success';
-                                $timeout(function () {
-                                    $scope.alert.show = false;
-                                    Finish(nomenclature.tipo);
-                                },500);
-                            }).
-                            catch(function (reason) {
-                                $scope.alert.show = true;
-                                $scope.alert.message = reason;
-                                $scope.alert.type = 'danger';
-                                $timeout(function () {
-                                    $scope.alert.show = false;
-                                },3000);
-                            })
-                            ;
-                        }
-                        else
+                        nomenclature.tipo = $scope.ntype;
+                        Manager.create(nomenclature).
+                        then(function (e)
                         {
                             $scope.alert.show = true;
-                            $scope.alert.message = 'Datos incorrectos';
+                            $scope.alert.message = 'Nomenclador agregado correctamente';
+                            $scope.alert.type = 'success';
+                            $timeout(function () {
+                                $scope.alert.show = false;
+                                Finish(nomenclature.tipo);
+                            },3000);
+                        }).
+                        catch(function (reason) {
+                            $scope.alert.show = true;
+                            $scope.alert.message = reason;
                             $scope.alert.type = 'danger';
                             $timeout(function () {
                                 $scope.alert.show = false;
                             },3000);
-                        }
-                    };
-
-                    $scope.Close = function () {
-                        Close();
-                    };
-
-                    function Close() {
-                        $uibModalInstance.dismiss('cancel');
+                        })
+                        ;
                     }
-
-                    function Finish(data) {
-                        $uibModalInstance.close(data==undefined?'close':data);
-                    }
-
-                },
-                size: size,
-                resolve: {
-                    nomenclature:function () {
-                        return nomenclature;
-                    },
-                    ntype:function () {
-                        return $scope.ntype;
-                    }
-                }
-            });
-
-            instance.result.then(function(data) {
-                List(data);
-            }, function(reason) {
-                $scope.alert.show = true;
-                $scope.alert.message = reason;
-                $scope.alert.type = 'danger';
-                $timeout(function () {
-                    $scope.alert.show = false;
-                },3000);
-            });
-        };
-
-        $scope.Delete = function(nomenclature, size) {
-            var instance = $uibModal.open({
-                animation: true,
-                templateUrl: "template/modal/delete-modal.html",
-                controller: function ($scope,nomenclature,$uibModalInstance) {
-                    $scope.record = nomenclature;
-                    $scope.Close = function () {
-                        Close();
-                    };
-
-                    $scope.Delete = function (nomenclature) {
-                        Finish(nomenclature.tipo);
-                    };
-
-                    function Close() {
-                        $uibModalInstance.dismiss('cancel');
-                    }
-
-                    function Finish(data) {
-                        $uibModalInstance.close(data==undefined?'close':data);
-                    }
-                },
-                size: size,
-                resolve: {
-                    nomenclature: function() {
-                        return nomenclature;
-                    }
-                }
-            });
-
-            instance.result.then(function(data) {
-              Delete(nomenclature).finally(function () {
-                  List(data);
-              }) ;
-            });
-        };
-
-        $scope.List = function (type) {
-            $scope.ntype = type;
-            List(type);
-        };
-
-        $scope.isActive = function (nstype) {
-            return nstype == $scope.nstype;
-        };
-
-        function Delete(nomenclador)
-        {
-           return Manager.delete(nomenclador).
-            then(function (e)
-            {
-                $scope.alert.show = true;
-                $scope.alert.message = 'Nomenclador elimindo correctamente';
-                $scope.alert.type = 'success';
-                $timeout(function () {
-                    $scope.alert.show = false;
-                },3000);
-            }).
-            catch(function (reason) {
-                $scope.alert.show = true;
-                $scope.alert.message = reason;
-                $scope.alert.type = 'danger';
-                $timeout(function () {
-                    $scope.alert.show = false;
-                },3000);
-            })
-        }
-
-
-        function List(type)
-        {
-           return Manager.record(type).then(function (data) {
-                $scope.nomenclatures = data.rows.map(function (el) {
-                    return el.doc;
-                });
-            });
-        }
-
-        function init()
-        {
-            $scope.user = $localStorage.user;
-
-            $timeout(function () {
-                if($scope.user==undefined)
-                {
-                    $location.path('/login');
-                }
-                else
+                    else
                     {
-                     $scope.ntype = $scope.ntypes[0];
-                     List($scope.ntypes[0]);
+                        $scope.alert.show = true;
+                        $scope.alert.message = 'Nomenclador muy corto';
+                        $scope.alert.type = 'danger';
+                        $timeout(function () {
+                            $scope.alert.show = false;
+                        },3000);
+                    }
+                };
+
+                $scope.Close = function () {
+                    Close();
+                };
+
+                function Close() {
+                    $uibModalInstance.dismiss('cancel');
                 }
-            },500);
-        }
+
+                function Finish(data) {
+                    $uibModalInstance.close(data==undefined?'close':data);
+                }
+
+            },
+            size: size,
+            resolve: {
+                nomenclature:function () {
+                    return nomenclature;
+                },
+                ntype:function () {
+                    return $scope.ntype;
+                }
+            }
+        });
+
+        instance.result.then(function(data) {
+            List(data);
+        }, function(reason) {
+            $scope.alert.show = true;
+            $scope.alert.message = reason;
+            $scope.alert.type = 'danger';
+            $timeout(function () {
+                $scope.alert.show = false;
+            },3000);
+        });
+    };
+
+    $scope.Delete = function(nomenclature, size) {
+        var instance = $uibModal.open({
+            animation: true,
+            templateUrl: "template/modal/delete-modal.html",
+            controller: function ($scope,nomenclature,$uibModalInstance) {
+                $scope.record = nomenclature;
+                $scope.Close = function () {
+                    Close();
+                };
+
+                $scope.Delete = function (nomenclature) {
+                    Finish(nomenclature.tipo);
+                };
+
+                function Close() {
+                    $uibModalInstance.dismiss('cancel');
+                }
+
+                function Finish(data) {
+                    $uibModalInstance.close(data==undefined?'close':data);
+                }
+            },
+            size: size,
+            resolve: {
+                nomenclature: function () {
+                    return nomenclature;
+                }
+            }
+        });
+
+        instance.result.then(function(data) {
+            Delete(nomenclature).finally(function () {
+                List(data);
+            }) ;
+        });
+    };
+
+    $scope.List = function (type) {
+        $scope.ntype = type;
+        List(type);
+    };
+
+    $scope.isActive = function (nstype) {
+        return nstype == $scope.nstype;
+    };
+
+    function Delete(nomenclador)
+    {
+        return Manager.delete(nomenclador).
+        then(function (e)
+        {
+            $scope.alert.show = true;
+            $scope.alert.message = 'Nomenclador elimindo correctamente';
+            $scope.alert.type = 'success';
+            $timeout(function () {
+                $scope.alert.show = false;
+            },3000);
+        }).
+        catch(function (reason) {
+            $scope.alert.show = true;
+            $scope.alert.message = reason;
+            $scope.alert.type = 'danger';
+            $timeout(function () {
+                $scope.alert.show = false;
+            },3000);
+        })
+    }
+
+
+    function List(type)
+    {
+        return Manager.record(type).then(function (data) {
+            $scope.nomenclatures = data.rows.map(function (el) {
+                return el.doc;
+            });
+        });
+    }
+
+    function init()
+    {
+        $scope.user = $localStorage.user;
+
+        $timeout(function () {
+            if($scope.user==undefined)
+            {
+                $location.path('/login');
+            }
+            else
+            {
+                $scope.ntype = $scope.ntypes[0];
+                List($scope.ntypes[0]);
+            }
+        },500);
+    }
 
         init();
-
-
-
-    })
-;
+    });
 
 
