@@ -1,6 +1,8 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
         <span aria-hidden="true">×</span></button>
+
+
     <h4 class="modal-title"> Demanda de SAO y agentes soplantes en el sector de espuma</h4>
 </div>
 <div class="modal-body">
@@ -16,44 +18,49 @@
     <form role="form" name="actionForm" novalidate>
         <div class="form-group">
             <label for="t3">Sustancia:</label>
-            <select class="form-control select2 select2-hidden-accessible"
-                    style="width: 100%;" tabindex="-1"
-                    aria-hidden="true"
-                    id="t3"
-                    data-ng-model="record.Sustancia"
-                    data-ng-options="item as item.nombre for item in SAO.SustanciasTabla3">
-            </select>
+            <ui-select theme="bootstrap"
+                       style="width: 100%;" tabindex="-1"
+                       aria-hidden="true"
+                       id="t3"
+                       data-ng-model="record.Sustancia">
+                <ui-select-match placeholder="Sustancia:">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-choices repeat="item in SAO.SustanciasTabla3">
+                    <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
         </div>
         <div class="form-group">
             <label >Año:</label>
-            <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                    data-ng-model="year"
-                    data-ng-change="amount=0"
-                    data-ng-class="{'control-error':error.show}"
-                    data-ng-options="item as item for item in [2010,2015,2020,2025,2030]"></select>
+            <ui-select theme="bootstrap"
+                       style="width: 100%;" tabindex="-1"
+                       aria-hidden="true"
+                       id=""
+                       data-ng-class="{'control-error':error.show && error.tipo=='anno1'}"
+                       on-select="OnSelect($item,$model)"
+                       data-ng-model="year">
+                <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
+                <ui-select-choices repeat="item  in  [2010,2015,2020,2025,2030]">
+                    <div ng-bind-html="item | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
             </div>
         <div class="form-group" >
 
             <label >Consumo en toneladas métricas:</label>
-            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" data-ng-class="{'control-error':error.show}" />
-            </div>
-
-
-        <div class="form-group" >
-        <p><i  class="fa fa-plus mas"   data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i>  Agregar año</p>
+            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"  data-ng-class="{'control-error':error.show && error.tipo=='anno1'}"/>
             <ul class="list-group">
-                <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
-                   <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
+                <li class="list-group-item-success" data-ng-repeat="el in record.Uso5 track by $index">
+                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso5.splice($index,1)"></i>
                 </li>
             </ul>
-
-        </div>
+            <p> <i  class="fa fa-plus mas"   data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
+            </div>
 
     </form>
     <div class="modal-footer">
 
         <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
-               <span data-ng-if="action=='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
 
     </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
             Cerrar

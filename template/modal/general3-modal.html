@@ -17,40 +17,45 @@
 
             <div class="row">
                 <div class="col-md-12">
-                        <h3>Sector:</h3>
+                    <div class="form-group">
+                        <label>Sector:</label>
                         <ui-select style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    id="tabla2"
                                    theme="bootstrap"
                                    data-ng-model="record.Sector"
                                    on-select="ShowTabla2($item,$model)">
-                            <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in SAO.Tabla2">
+                            <ui-select-match placeholder="Sector:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.Tabla2">
                                 <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
 
                 </div>
+                    </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Subsector:</h3>
+                    <div class="form-group">
+                    <label>Subsector:</label>
                         <ui-select style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    theme="bootstrap"
                                    id="sq"
                                    data-ng-model="record.Subsector">
                             <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in Tabla2R.alternativas">
+                            <ui-select-choices repeat="item in Tabla2R.alternativas">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
 
                 </div>
+                    </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Alternativa:</h3>
+                    <div class="form-group">
+                    <label>Alternativa:</label>
                     <ui-select  style="width: 100%;" tabindex="-1"
                                aria-hidden="true"
                                id="sq1"
@@ -63,13 +68,14 @@
                     </ui-select>
                 </div>
             </div>
+                </div>
 
 
         </div>
     </form>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
-               <span data-ng-if="action=='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

@@ -32,12 +32,22 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Organización de la producción:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.Organizacion"
-                                data-ng-options="item as item.nombre for item in SAO.OrgProduccion"
-                        >
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="sq"
+                                   data-ng-model="record.sustancia">
+                            <ui-select-match placeholder="Organización de la producción">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.OrgProduccion">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.Organizacion"-->
+                                <!--data-ng-options="item as item.nombre for item in SAO.OrgProduccion"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                     </div>
                 </div>
@@ -49,53 +59,83 @@
                 </div>
                 <div class="form-group">
                     <label >R-141b (g)</label>
-                    <input  class="form-control" type="number" min="0" data-ng-class="{'control-error':error.show}" placeholder="Con un decimal" data-ng-model="record.sustanciasR"/>
+                    <input  class="form-control" type="number" min="0" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasR'}" placeholder="Con un decimal" data-ng-model="record.sustanciasR"/>
                 </div>
                 <div class="form-group">
                     <label >RL-95 (litros)</label>
-                    <input  class="form-control" type="number" min="0" placeholder="Con un decimal" data-ng-class="{'control-error':error.show}" data-ng-model="record.sustanciasRL"/>
+                    <input  class="form-control" type="number" min="0" placeholder="Con un decimal" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasRL'}" data-ng-model="record.sustanciasRL"/>
                 </div>
                     </div>
-
-
 
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Tipo de refrigeración que trabajan:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.TipoRefrigeracion"
-                                data-ng-options="item as item.nombre for item in SAO.TipoRefri"
-                        >
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="tr"
+                                   data-ng-model="record.TipoRefrigeracion">
+                            <ui-select-match placeholder="Tipo de refrigeración">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.TipoRefri">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.TipoRefrigeracion"-->
+                                <!--data-ng-options="item as item.nombre for item in SAO.TipoRefri"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                     </div>
                     <div class="form-group">
                         <label>Sustancias para refrigeración:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.SustanciaRefrigerante"
-                                data-ng-options="item as item.nombre for item in SAO.SustanciasRefrigerante"
-                        >
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="sr"
+                                   data-ng-model="record.SustanciaRefrigerante">
+                            <ui-select-match placeholder="Sustancias">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.SustanciasRefrigerante">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.SustanciaRefrigerante"-->
+                                <!--data-ng-options="item as item.nombre for item in SAO.SustanciasRefrigerante"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                     </div>
                     <div class="form-group">
                         <label>Refrigerante consumido para refrigeración:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="re"
-                                data-ng-class="{'control-error':error.show}"
-                                data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="re"
+                                   data-ng-class="{'control-error':error.show && error.tipo=='CantRefriRefri'}"
+                                   on-select="OnSelect($item,$model)"
+                                   data-ng-model="year">
+                            <ui-select-match placeholder="Refrigerante consumido">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  ['HCFC','HFC','Natural']">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="re"-->
+                                <!--data-ng-class="{'control-error':error.show}"-->
+                                <!--data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>-->
                     </div>
-                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show}" data-ng-model="cant"/>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='CantRefriRefri'}" data-ng-model="cant"/>
                     <ul class="list-group">
-                        <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriRefri">
-                            <span class="badge">{{el.re}} -- {{el.cant}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriRefri.splice(el,1)"></i>
+                        <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriRefri track by $index">
+                            <span class="badge">{{el.re}} -- {{el.cant}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriRefri.splice($index,1)"></i>
                         </li>
                     </ul>
-                    <i  class="fa fa-plus"  data-ng-click="ConsumoCantRefriRefri(re,cant)" title="Adicionar"> </i>
+                   <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoCantRefriRefri(re,cant)" title="Agregar"> </i> Agregar</p>
 
                 </div>
 
@@ -105,38 +145,71 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Tipo de aire acondicionado que trabajan:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.TipoAire"
-                                data-ng-options="item as item.nombre for item in SAO.TipoAire"
-                        >
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="ta"
+                                   data-ng-model="record.TipoAire">
+                            <ui-select-match placeholder="Tipo de aire acondicionado">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.TipoAire">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.TipoAire"-->
+                                <!--data-ng-options="item as item.nombre for item in SAO.TipoAire"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                     </div>
                     <div class="form-group">
                         <label>Sustancias para aire acondicionado:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.SustanciaAire"
-                                data-ng-options="item as item.nombre for item in SAO.SustanciasAire"
-                        >
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="sa"
+                                   data-ng-model="record.SustaciaAire">
+                            <ui-select-match placeholder="Sustancia">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.SustanciasAire">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.SustanciaAire"-->
+                                <!--data-ng-options="item as item.nombre for item in SAO.SustanciasAire"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                     </div>
                     <div class="form-group">
                         <label>Refrigerante consumido para aire acondicionado:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="re1"
-                                data-ng-class="{'control-error':error.show}"
-                                data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="re1"
+                                   data-ng-class="{'control-error':error.show && error.tipo=='CantRefriAire'}"
+                                   on-select="OnSelect($item,$model)"
+                                   data-ng-model="year">
+                            <ui-select-match placeholder="Refrigerante consumido">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  ['HCFC','HFC','Natural']">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="re1"-->
+                                <!--data-ng-class="{'control-error':error.show}"-->
+                                <!--data-ng-options="item as item for item in ['HCFC','HFC','Natural']"></select>-->
                     </div>
-                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show}" data-ng-model="cant1"/>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='CantRefriAire'}" data-ng-model="cant1"/>
                     <ul class="list-group">
-                        <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriAire">
-                            <span class="badge">{{el.re1}} -- {{el.cant1}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriAire.splice(el,1)"></i>
+                        <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriAire track by $index">
+                            <span class="badge">{{el.re1}} -- {{el.cant1}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriAire.splice($index,1)"></i>
                         </li>
                     </ul>
-                   <p></p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoCantRefriAire(re1,cant1)" title="Agregar"> </i> Agregar</div>
+                   <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoCantRefriAire(re1,cant1)" title="Agregar"> </i> Agregar</p></div>
 
                     </select>
 
@@ -148,16 +221,28 @@
                     <div class="form-group">
 
                         <label>Equipos de Recuperación (Cantidad):</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="re2"
-                                data-ng-class="{'control-error':error.show}"
-                                data-ng-options="item as item for item in ['AR500','CR500','Criolla','Otras','Ninguna']"></select>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="re2"
+                                   data-ng-class="{'control-error':error.show && error.tipo=='Recuperacion'}"
+                                   on-select="OnSelect($item,$model)"
+                                   data-ng-model="year">
+                            <ui-select-match placeholder="Equipos de Recuperación">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  ['AR500','CR500','Criolla','Otras','Ninguna']">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="re2"-->
+                                <!--data-ng-class="{'control-error':error.show}"-->
+                                <!--data-ng-options="item as item for item in ['AR500','CR500','Criolla','Otras','Ninguna']"></select>-->
                         </div>
                         <div class="form-group">
-                        <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show}" data-ng-model="cant2"/>
+                        <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='Recuperacion'}" data-ng-model="cant2"/>
                         <ul class="list-group">
-                            <li class="list-group-item-success" data-ng-repeat="el in record.Recuperacion">
-                                <span class="badge">{{el.re2}} -- {{el.cant2}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperacion.splice(el,1)"></i>
+                            <li class="list-group-item-success" data-ng-repeat="el in record.Recuperacion track by $index">
+                                <span class="badge">{{el.re2}} -- {{el.cant2}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperacion.splice($index,1)"></i>
                             </li>
                         </ul>
                        <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoRecuperacion(re2,cant2)" title="Agregar"> </i> Agregar</p>
@@ -166,15 +251,27 @@
                     </div>
                     <div class="form-group">
                         <label>Cantidad recuperada:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="re3"
-                                data-ng-class="{'control-error':error.show}"
-                                data-ng-options="item as item for item in ['R134a','R22','R404A','R410A','Otros']"></select>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="re3"
+                                   data-ng-class="{'control-error':error.show && error.tipo=='Recuperado'}"
+                                   on-select="OnSelect($item,$model)"
+                                   data-ng-model="year">
+                            <ui-select-match placeholder="Cantidad recuperada">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  ['R134a','R22','R404A','R410A','Otros']">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="re3"-->
+                                <!--data-ng-class="{'control-error':error.show}"-->
+                                <!--data-ng-options="item as item for item in ['R134a','R22','R404A','R410A','Otros']"></select>-->
                     </div>
-                        <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show}" data-ng-model="cant3"/>
+                        <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='Recuperado'}" data-ng-model="cant3"/>
                         <ul class="list-group">
-                            <li class="list-group-item-success" data-ng-repeat="el in record.Recuperado">
-                                <span class="badge">{{el.re3}} -- {{el.cant3}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperado.splice(el,1)"></i>
+                            <li class="list-group-item-success" data-ng-repeat="el in record.Recuperado track by $index">
+                                <span class="badge">{{el.re3}} -- {{el.cant3}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperado.splice($index,1)"></i>
                             </li>
                         </ul>
                         <p><i  class="fa fa-plus mas"  data-ng-click="ConsumoRecuperado(re3,cant3)" title="Agregar"> </i> Agregar</p>
@@ -189,16 +286,28 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label >Personal productivo:</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                        data-ng-model="re4"
-                        data-ng-class="{'control-error':error.show}"
-                        data-ng-options="item as item for item in ['Ingenieros','T\u00E9cnicos','Mec\u00E1nicos','CCBP']"></select>
+                <ui-select theme="bootstrap"
+                           style="width: 100%;" tabindex="-1"
+                           aria-hidden="true"
+                           id="re4"
+                           data-ng-class="{'control-error':error.show && error.tipo=='Total'}"
+                           on-select="OnSelect($item,$model)"
+                           data-ng-model="year">
+                    <ui-select-match placeholder="Personal productivo">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="item  in  ['Ingenieros','T\u00E9cnicos','Mec\u00E1nicos','CCBP']">
+                        <div ng-bind-html="item | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                        <!--data-ng-model="re4"-->
+                        <!--data-ng-class="{'control-error':error.show}"-->
+                        <!--data-ng-options="item as item for item in ['Ingenieros','T\u00E9cnicos','Mec\u00E1nicos','CCBP']"></select>-->
             </div>
             <p class="form-group">
-                <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show}" data-ng-model="cant4"/>
+                <input  class="form-control" type="number" min="0" placeholder="Cantidad"  data-ng-class="{'control-error':error.show && error.tipo=='Total'}" data-ng-model="cant4"/>
                 <ul class="list-group">
-                    <li class="list-group-item-success" data-ng-repeat="el in record.Total">
-                        <span class="badge">{{el.re4}} -- {{el.cant4}}</span><i class="fa fa-trash-o" data-ng-click="record.Total.splice(el,1)"></i>
+                    <li class="list-group-item-success" data-ng-repeat="el in record.Total track by $index">
+                        <span class="badge">{{el.re4}} -- {{el.cant4}}</span><i class="fa fa-trash-o" data-ng-click="record.Total.splice($index,1)"></i>
                     </li>
                 </ul>
                <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoTotal(re4,cant4)" title="Agregar"> </i> Agregar</p>
@@ -213,8 +322,8 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            Agregar
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

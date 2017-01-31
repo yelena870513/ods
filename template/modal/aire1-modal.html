@@ -15,20 +15,30 @@
     <form role="form" name="actionForm" novalidate>
         <div class="form-group">
             <label for="t3">Subsector:</label>
-            <select class="form-control select2 select2-hidden-accessible"
-                    style="width: 100%;" tabindex="-1"
-                    aria-hidden="true"
-                    id="t3"
-                    data-ng-model="record.Sustancia"
-                    data-ng-options="item as item.nombre for item in SAO.SustanciasTabla3">
-            </select>
+            <!--<select class="form-control select2 select2-hidden-accessible"-->
+                    <!--style="width: 100%;" tabindex="-1"-->
+                    <!--aria-hidden="true"-->
+                    <!--id="t3"-->
+                    <!--data-ng-model="record.Sustancia"-->
+                    <!--data-ng-options="item as item.nombre for item in SAO.SustanciasTabla3">-->
+            <!--</select>-->
+            <ui-select theme="bootstrap"
+                       style="width: 100%;" tabindex="-1"
+                       aria-hidden="true"
+                       id="sq"
+                       data-ng-model="record.Sustancia">
+                <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-choices repeat="item in SAO.SustanciasTabla3">
+                    <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
         </div>
         <div class="form-group">
             <label >Año:</label>
             <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
                     data-ng-model="year"
                     data-ng-class="{'control-error':error.show}"
-                    data-ng-options="item as item for item in [2010,2015,2020,2030]"></select>
+                    data-ng-options="item as item for item in [2010,2015,2020,2025,2030]"></select>
             </div>
         <div class="form-group">
 

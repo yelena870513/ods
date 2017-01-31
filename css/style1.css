@@ -172,7 +172,7 @@ i.mas{
 }
 
 /*error en modals*/
-.control-error{
+.control-error,.control-error .form-control{
     box-shadow: inset;
     border-color: #dd4b39;
     border-radius: 0.2em;
@@ -193,4 +193,16 @@ max-height: 100%;
 }
 .main-header .navbar{
     margin-left: 0px;
+}
+.btn-default {
+    background-color: #fff;
+}
+.btn-default:focus {
+    background-color: #ccc;
+}
+.form-control:hover {
+    border-color: #ccc;
+}
+.dropdown-menu>li>a {
+    cursor: hand;
 }

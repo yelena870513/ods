@@ -1,0 +1,37 @@
+<div class="box" data-ng-show="user">
+    <div class="box-header">
+        <h4 style="color: #fff">Nomencladores</h4>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                <li data-ng-class="{'active':isActive(nstype)}" data-ng-repeat="nstype in ntypes">
+                    <button class="btn btn-primary" data-ng-click="List(nstype)">
+                        <span class="text-capitalize">{{nstype}}</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="box-body" >
+        <h4 class="header"> Nomenclador: {{ntype}} </h4>
+        <table class="table table-bordered table-hover table-responsive">
+            <thead>
+            <tr >
+                <th><span class="text-capitalize">{{ntype}}</span></th>
+                <th>Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="nomenclature in nomenclatures track by $index">
+                <td>{{nomenclature.nombre}}</td>
+                <td>
+                    <i title="Editar" class="fa fa-edit" data-ng-click="Nomenclature(nomenclature)"></i>
+                    <i title="Eliminar" class="fa fa-trash-o" data-ng-click="Delete(nomenclature)"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer">
+        <button class="btn btn-primary" data-ng-click="Nomenclature()">Agregar</button>
+    </div>
+</div>

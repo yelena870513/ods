@@ -1,7 +1,7 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
         <span aria-hidden="true">×</span></button>
-    <h4 class="modal-title">Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración</h4>
+    <h4 class="modal-title">Recolección de datos sobre el uso de alternativas de SAO en la fabricación de equipos de refrigeración</h4>
 </div>
 <div class="modal-body">
     <div class="row-fluid">
@@ -19,13 +19,24 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Aplicación:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="Tabla11BR"
-                                data-ng-change="ShowTabla11B()"
-                                data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla11B"
-                        >
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="sq"
+                                   on-select="ShowTabla11B($item,$model)"
+                                   data-ng-model="record.Aplicaciones">
+                            <ui-select-match placeholder="Aplicación">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  SAO.Tabla11B track by $index">
+                                <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="Tabla11BR"-->
+                                <!--data-ng-change="ShowTabla11B()"-->
+                                <!--data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla11B"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                     </div>
                 </div>
@@ -40,12 +51,23 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Sustancia:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.Alternativas"
-                                data-ng-options="item as item.nombre for item in Tabla11BR.alternativas"
-                        >
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   on-select="record.otrosAlternativa='';"
+                                   data-ng-model="record.Alternativas">
+                            <ui-select-match placeholder="Sustancia">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in Tabla11BR.alternativas track by $index">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
-                        </select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.Alternativas"-->
+                                <!--data-ng-options="item as item.nombre for item in Tabla11BR.alternativas"-->
+                        <!--&gt;-->
+
+                        <!--</select>-->
 
                     </div>
                     <div class="form-group">
@@ -54,20 +76,39 @@
                     </div>
                     <div class="form-group">
                         <label >No. De unidades:</label>
-                        <input  class="form-control" type="number" min="0"  placeholder="Unidades" data-ng-model="record.unidades"/>
+                        <input  class="form-control" type="number" min="0"  placeholder="Unidades" data-ng-model="record.unidades" data-ng-class="{'control-error':error.show && error.tipo=='unidades'}"/>
                     </div>
                     <div class="form-group">
-                        <label >Años de explotación:</label>
-                        <input  class="form-control" type="number" min="0" placeholder="Años" data-ng-model="record.explotacion"/>
+                        <label >Estado técnico:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="etr"
+                                   data-ng-model="record.EstadoRefri">
+                            <ui-select-match placeholder="Estado técnico">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.EstadoRefri">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
                     </div>
                     <div class="form-group">
                         <label>Clasificaciones:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.clasificacion"
-                                data-ng-options="item as item.nombre for item in SAO.ClasificacionRefri"
-                        >
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="clr"
+                                   data-ng-model="record.clasificacion">
+                            <ui-select-match placeholder="Clasificaciones">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.ClasificacionRefri">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.clasificacion"-->
+                                <!--data-ng-options="item as item.nombre for item in SAO.ClasificacionRefri"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                     </div>
                 </div>
@@ -76,20 +117,32 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="year">Consumo anual por mantenimiento:</label>
-                        <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="year"
-                                data-ng-options="item as item for item in [2010,2011,2012,2013,2014,2015]"></select>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id=""
+                                   data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
+                                   on-select="OnSelect($item,$model)"
+                                   data-ng-model="year">
+                            <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  [2010,2011,2012,2013,2014,2015,2016]">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="year"-->
+                                <!--data-ng-options="item as item for item in [2010,2011,2012,2013,2014,2015]"></select>-->
                         </div>
 
                         <div class="form-group">
                             <label >Toneladas métricas:</label>
-                            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"/>
+                            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" data-ng-class="{'control-error':error.show && error.tipo=='anno'}"/>
                         </div>
                         <div class="form-group">
                           <p>  <i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
                             <ul class="list-group">
-                                <li class="list-group-item-success" data-ng-repeat="el in record.Uso">
-                                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice(el,1)"></i>
+                                <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
+                                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
                                 </li>
                             </ul>
 
@@ -103,7 +156,7 @@
     </form>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            Agregar
+            Aceptar
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

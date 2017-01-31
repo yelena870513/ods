@@ -8,36 +8,77 @@
 <div class="modal-body">
     <div class="row-fluid">
 
-            <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
-                <button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>
-                {{error.message}}
-            </div>
+        <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+            <button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>
+            {{error.message}}
+        </div>
 
         <div class="col-md-6">
             <div class="form-group">
-                <label>Provincia:</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                        data-ng-model="general.provincia"
-                        data-ng-options="item as item.nombre for item in SAO.Provincias">
-                </select>
-                </br>
-                <label>Ministerio:</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                        data-ng-model="general.ministerio"
-                        data-ng-options="item as item.nombre for item in SAO.Ministerio">
-                </select>
+               <div class="row">
+                   <div class="col-sm-12">
+                       <label>Provincia:</label>
+                       <ui-select theme="bootstrap" style="width: 100%;"
+                           tabindex="-1"aria-hidden="true"id="pr" data-ng-model="general.provincia">
+                           <ui-select-match placeholder="Provincia">{{$select.selected.nombre}}</ui-select-match>
+                           <ui-select-choices repeat="item in provincias">
+                           <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                           </ui-select-choices>
+                       </ui-select>
+                   </div>
+               </div>
+                </div>
             </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                        <label>Ministerio:</label>
+                        <ui-select theme="bootstrap" style="width: 100%;"
+                            tabindex="-1"aria-hidden="true"id="mi"
+                            data-ng-model="general.ministerio">
+                            <ui-select-match placeholder="Ministerio">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in ministerios">
+                            <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                        </div>
+                </div>
+                    </div>
+
+
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label>OSDE:</label>
+                <ui-select theme="bootstrap"
+                           style="width: 100%;" tabindex="-1"
+                          aria-hidden="true"
+                           id="os"
+                           data-ng-model="general.osde">
+                       <ui-select-match placeholder="OSDE">{{$select.selected.nombre}}</ui-select-match>
+                       <ui-select-choices repeat="item in osdes">
+                           <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                       </ui-select-choices>
+                </ui-select>
 
-                <input id="exampleInputEmail2" class="form-control" type="text" placeholder="OSDE" data-ng-class="{'control-error':error.show && error.tipo=='osde'}" data-ng-model="general.osde">
+                <!--<input id="exampleInputEmail2" class="form-control" type="text" placeholder="OSDE" data-ng-class="{'control-error':error.show && error.tipo=='osde'}" data-ng-model="general.osde">-->
 
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Empresa:</label>
-                <input id="exampleInputEmail1" class="form-control" type="text" placeholder="Empresa" data-ng-class="{'control-error':error.show && error.tipo=='empresa'}" data-ng-model="general.empresa">
+                <label for="em">Empresa:</label>
+                <ui-select theme="bootstrap"
+                          style="width: 100%;" tabindex="-1"
+                          aria-hidden="true"
+                           id="em"
+                           data-ng-model="general.empresa">
+                       <ui-select-match placeholder="Empresa">{{$select.selected.nombre}}</ui-select-match>
+                       <ui-select-choices repeat="item in empresas">
+                           <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                       </ui-select-choices>
+                </ui-select>
+                <!--<input id="exampleInputEmail1" class="form-control" type="text" placeholder="Empresa" data-ng-class="{'control-error':error.show && error.tipo=='empresa'}" data-ng-model="general.empresa">-->
             </div>
         </div>
     </div>
