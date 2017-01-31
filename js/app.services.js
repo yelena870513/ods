@@ -527,6 +527,22 @@ angular.module('app.sao')
             "id": "2",
             "nombre": 'Servicio'
         }],
+        "Sector": [{
+            "id": "1",
+            "nombre": 'RAC '
+        }, {
+            "id": "2",
+            "nombre": 'Espumas'
+        }, {
+            "id": "3",
+            "nombre": 'Aerosoles '
+        }, {
+            "id": "4",
+            "nombre": 'Solventes'
+        }, {
+            "id": "5",
+            "nombre": 'Extintores '
+        }],
         "SectoresAnexo": [{
             "id": "1",
             "nombre": 'Espuma: poliuretano '

@@ -89,12 +89,7 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             templateUrl:'template/charts.html',
             controller:'chartController'
         }).
-    ///Nomencladores
-    state('nomenclatures',{
-        url:'/nomenclatures',
-        templateUrl:'template/nomenclatures.html',
-        controller:'nomenclatureController'
-    }).
+
 
         ///Nomencladores
     state('nomenclatures',{
