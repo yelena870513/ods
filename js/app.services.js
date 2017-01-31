@@ -998,6 +998,11 @@ angular.module('app.sao')
             return errors;
         };
 
+
+        validator.isValidNomenclature = function (str) {
+            return nomenclature.test(str.nombre);
+        };
+
         validator.RecordError = function (record) {
         var errors = [];
         switch (record.tipo){
