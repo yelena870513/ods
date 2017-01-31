@@ -2244,8 +2244,15 @@ angular.module('app.sao')
 
         //Modal de consumo
 
-        $scope.onSelect=function ($item,$model) {
-            $scope.year = $item;
+        $scope.onSelect=function ($item,$model,prop) {
+            var type = prop==undefined?'year':prop;
+            $scope[type] = $item;
+            $scope.amount=0;
+        };
+
+        $scope.OnSelect=function ($item,$model,prop) {
+            var type = prop==undefined?'year':prop;
+            $scope[type] = $item;
             $scope.amount=0;
         };
         $scope.ConsumoYear = function(year,amount){
@@ -2269,12 +2276,15 @@ angular.module('app.sao')
                 $scope.record.Uso= angular.copy(record.Uso);
 
         };
+
+
         $scope.ConsumoRecuperacion = function(re2,amount){
             if(amount==undefined){
                 amount=0;
             }
 
-            record.Recuperacion.push({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount});
+            record.Uso = _.reject(record.Recuperacion,function (el) {return el.re2==re2;}).concat([({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount})]);
+            // record.Recuperacion.push({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount});
             record.Recuperacion =  _.uniq(record.Recuperacion,false,function (el) {
                 return el.re2;
             });
@@ -2283,6 +2293,8 @@ angular.module('app.sao')
                 return us.re2;
             });
 
+            $scope.record.Recuperacion= angular.copy(record.Recuperacion);
+
         };
         $scope.ConsumoRecuperado = function(re3,amount){
 
@@ -2290,7 +2302,8 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            record.Recuperado.push({"re3":re3,"cant3":amount,"nombre": re3+":"+amount});
+            record.Recuperado = _.reject(record.Recuperado,function (el) {return el.re3==re3;}).concat([{"re3":re3,"cant3":amount,"nombre": re3+":"+amount}]);
+            // record.Recuperado.push({"re3":re3,"cant3":amount,"nombre": re3+":"+amount});
             record.Recuperado =  _.uniq(record.Recuperado,false,function (el) {
                 return el.re3;
             });
@@ -2299,14 +2312,17 @@ angular.module('app.sao')
                 return us.re3;
             });
 
+            $scope.record.Recuperado= angular.copy(record.Recuperado);
+
         };
         $scope.ConsumoTotal = function(re4,amount){
 
             if(amount==undefined){
                 amount=0;
             }
+            record.Total = _.reject(record.Total,function (el) {return el.re4==re4;}).concat([{"re4":re4,"cant4":amount,"nombre": +re4+":"+amount}]);
 
-            record.Total.push({"re4":re4,"cant4":amount,"nombre": +re4+":"+amount});
+            // record.Total.push({"re4":re4,"cant4":amount,"nombre": +re4+":"+amount});
             record.Total =  _.uniq(record.Total,false,function (el) {
                 return el.re4;
             });
@@ -2314,6 +2330,7 @@ angular.module('app.sao')
             record.Total = _.sortBy( record.Total,function (us) {
                 return us.re4;
             });
+            $scope.record.Total= angular.copy(record.Total);
 
         };
         $scope.ConsumoCantRefriRefri = function(re,amount){
@@ -2322,7 +2339,8 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
+            record.CantRefriRefri = _.reject(record.CantRefriRefri,function (el) {return el.re==re;}).concat([{"re":re,"cant":amount,"nombre": +re+":"+amount}]);
+            //record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
             record.CantRefriRefri =  _.uniq(record.CantRefriRefri,false,function (el) {
                 return el.re;
             });
@@ -2331,6 +2349,8 @@ angular.module('app.sao')
                 return us.re;
             });
 
+            $scope.record.CantRefriRefri= angular.copy(record.CantRefriRefri);
+
         };
         $scope.ConsumoCantRefriAire = function(re1,amount){
 
@@ -2338,7 +2358,8 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            record.CantRefriAire.push({"re1":re1,"cant1":amount,"nombre": +re1+":"+amount});
+            record.CantRefriAire = _.reject(record.CantRefriAire,function (el) {return el.re1==re1;}).concat([{"re1":re1,"cant1":amount,"nombre": +re1+":"+amount}]);
+            // record.CantRefriAire.push({"re1":re1,"cant1":amount,"nombre": +re1+":"+amount});
             record.CantRefriAire =  _.uniq(record.CantRefriAire,false,function (el) {
                 return el.re1;
             });
@@ -2346,6 +2367,7 @@ angular.module('app.sao')
             record.CantRefriAire = _.sortBy( record.CantRefriAire,function (us) {
                 return us.re1;
             });
+            $scope.record.CantRefriAire= angular.copy(record.CantRefriAire);
 
         };
 

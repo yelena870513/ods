@@ -117,7 +117,7 @@
                                    aria-hidden="true"
                                    id="re"
                                    data-ng-class="{'control-error':error.show && error.tipo=='CantRefriRefri'}"
-                                   on-select="OnSelect($item,$model)"
+                                   on-select="OnSelect($item,$model,'re')"
                                    data-ng-model="year">
                             <ui-select-match placeholder="Refrigerante consumido">{{$select.selected}}</ui-select-match>
                             <ui-select-choices repeat="item  in  ['HCFC','HFC','Natural']">
@@ -190,7 +190,7 @@
                                aria-hidden="true"
                                id="re1"
                                data-ng-class="{'control-error':error.show && error.tipo=='CantRefriAire'}"
-                               on-select="OnSelect($item,$model)"
+                               on-select="OnSelect($item,$model,'re1')"
                                data-ng-model="year">
                         <ui-select-match placeholder="Refrigerante consumido">{{$select.selected}}</ui-select-match>
                         <ui-select-choices repeat="item  in  ['HCFC','HFC','Natural']">
@@ -226,7 +226,7 @@
                                aria-hidden="true"
                                id="re2"
                                data-ng-class="{'control-error':error.show && error.tipo=='Recuperacion'}"
-                               on-select="OnSelect($item,$model)"
+                               on-select="OnSelect($item,$model,'re2')"
                                data-ng-model="year">
                         <ui-select-match placeholder="Equipos de Recuperación">{{$select.selected}}</ui-select-match>
                         <ui-select-choices repeat="item  in  ['AR500','CR500','Criolla','Otras','Ninguna']">
@@ -256,7 +256,7 @@
                                aria-hidden="true"
                                id="re3"
                                data-ng-class="{'control-error':error.show && error.tipo=='Recuperado'}"
-                               on-select="OnSelect($item,$model)"
+                               on-select="OnSelect($item,$model,'re3')"
                                data-ng-model="year">
                         <ui-select-match placeholder="Cantidad recuperada">{{$select.selected}}</ui-select-match>
                         <ui-select-choices repeat="item  in  ['R134a','R22','R404A','R410A','Otros']">
@@ -291,7 +291,7 @@
                            aria-hidden="true"
                            id="re4"
                            data-ng-class="{'control-error':error.show && error.tipo=='Total'}"
-                           on-select="OnSelect($item,$model)"
+                           on-select="OnSelect($item,$model,'re4')"
                            data-ng-model="year">
                     <ui-select-match placeholder="Personal productivo">{{$select.selected}}</ui-select-match>
                     <ui-select-choices repeat="item  in  ['Ingenieros','T\u00E9cnicos','Mec\u00E1nicos','CCBP']">
