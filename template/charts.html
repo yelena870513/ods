@@ -93,32 +93,15 @@
 
             </div>
         </section>
-        <section class="content" data-ng-show="bar.show" >
-            <div class="row" data-ng-hide="isPrinting">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label style="color: #000" for="pie-select">Seleccione Año a mostrar</label>
-                        <select id="pie-select"
-                                class="form-control select2 select2-hidden-accessible"
-                                style="width: 100%;"
-                                tabindex="-1"
-                                aria-hidden="true"
-                                data-ng-model="selectedYear"
-                                data-ng-change="ShowSelectedPie()"
-                                data-ng-options="item as item for item in years"
-                        >  </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12" data-ng-show="pie.show" style="width: 50%">
-                    <canvas id="pie" class="chart chart-pie"   data-chart-data="pie.data" data-chart-labels="pie.labels" data-chart-options="pie.options">
+        <section class="content" data-ng-show="bar.show&&pies.length>0" >
+            <div class="row" data-ng-repeat="pie in pies">
+                <div class="col-sm-12" data-ng-show="pie.show" style="width: 50%">
+                    <div class="chart-legend" model="{{pie.options.title.text}}" id="pieLegend{{pie.options.title.text}}"></div>
+                    <canvas id="{{pie.options.title.text}}" class="chart chart-pie"   data-chart-data="pie.data" data-chart-labels="pie.labels" data-chart-options="pie.options">
                     </canvas>
                 </div>
             </div>
+
         </section>
     </div>
 </div>

@@ -160,7 +160,7 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
 
     ;
 
-}).run(function (Manager,SHA256) {
+}).run(function (Manager,SHA256,SAO) {
 
     //Creando al usuario sino existe
     Manager.record('usuario').then(function (data) {
@@ -177,6 +177,44 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
                 "password":SHA256("sao").toString(),
                 "tipo":"usuario"
             });
+        }
+    });
+
+    //Creando por defecto las provincias municipios y ministerios
+    Manager.record('provincia').then(function(provincias){
+        if (provincias.rows.length==0) {
+
+            var provinces = _(SAO.Provincias).map(function (pr) {
+                pr["tipo"]="provincia";
+                return pr;
+            });
+            Manager.update(provinces).then(function(){
+                var municipios = [];
+                SAO.Provincias.forEach(function(e){
+                    e.municipios.forEach(function(m,index){
+                        municipios.push(
+                            {
+                            "nombre":m,
+                            "id":index+1,
+                            "provincia": e.id,
+                            "tipo":"municipio"
+                            });
+                    });
+                });
+
+
+            });
+        }
+    });
+
+    Manager.record('ministerio').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.Ministerio).map(function(min){
+                min["tipo"]="ministerio";
+                return min;
+            });
+            Manager.update(ministeries);
         }
     });
 }).controller('mainController',function ($scope,$location) {

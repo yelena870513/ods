@@ -49,8 +49,8 @@
             <label >Consumo en toneladas métricas:</label>
             <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount"  data-ng-class="{'control-error':error.show && error.tipo=='anno1'}"/>
             <ul class="list-group">
-                <li class="list-group-item-success" data-ng-repeat="el in record.Uso5 track by $index">
-                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso5.splice($index,1)"></i>
+                <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
+                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
                 </li>
             </ul>
             <p> <i  class="fa fa-plus mas"   data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>

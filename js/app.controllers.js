@@ -245,9 +245,11 @@ angular.module('app.sao')
             "municipio":"",
             "sustanciasR":"",
             "sustanciasRL":"",
+            "unidades":0,
+            "explotacion":0,
             // "ingenieros":"",
             // "tecnicos":"",
-            "experiencias":"",
+            "experiencias":0,
             "Recuperacion":[],
             "Recuperado":[],
             "tipo":"empresa4"
@@ -941,7 +943,7 @@ angular.module('app.sao')
         $scope.user = undefined;
         $scope.isPrinting = false;
         $scope.records= [];
-        $scope.years = [2010,2015];
+       var years = [2010,2015,2016];
         $scope.selectedYear = 2010;
         $scope.bar = {
             "labels":[],
@@ -950,26 +952,7 @@ angular.module('app.sao')
             "show":false
         };
 
-        $scope.pie = {
-            "labels":['2010', '2015', '2020', '2025','2030'],
-            "data": [],
-            "options":{},
-            "show":false
-
-        };
-
-
-
-        // $scope.pie = {
-        //     "labels":["SAO 1", "SAO 2", "SAO 3"],
-        //     "data": [  300, 500, 100 ],
-        //     "options":{},
-        //     "show":false
-        //
-        // }
-
-
-
+        $scope.pies = [];
 
         $scope.SelectChart= function (chart) {
             charting = chart;
@@ -982,7 +965,16 @@ angular.module('app.sao')
                     break;
                 }
             }
-            FetchRecords(chart);
+            FetchRecords(chart).then(function(){
+                years.forEach(function(y){
+                    var graph = ShowPieCharts(y);
+                    if (graph!=undefined)
+                    {
+                        $scope.pies.push(graph);
+                    }
+
+                });
+            });
         };
 
         $scope.isActive=function(path){
@@ -1611,7 +1603,8 @@ angular.module('app.sao')
         }
         function ShowPieCharts(year) {
 
-           var labels = $scope.records.map(function (l) {
+          var chart = {};
+           var pieLabels = $scope.records.map(function (l) {
                if (l.Sustancia!=undefined) {
                    return l.Sustancia.nombre;
                }
@@ -1640,11 +1633,11 @@ angular.module('app.sao')
 
            });
 
-            labels.filter(function (lbl) {
+            pieLabels.filter(function (lbl) {
                 return lbl!=undefined;
             });
 
-            var tableData = $scope.records.map(function (lb)
+            var pieTableData = $scope.records.map(function (lb)
             {
                   var a = lb.Uso.filter(function (fu) {
                       return fu.anno ==year;
@@ -1660,23 +1653,60 @@ angular.module('app.sao')
                 return val;
             });
 
-            $scope.pie =
-            {
-                "labels":labels,
-                "data": tableData,
-                "options":{
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    },
-                    title: {
-                        display: true,
-                        text:'A\u00F1o '+year
-                    }
-                },
-                "show":true
+            pieTableData = _(pieTableData).reject(function(t){return t==0;});
 
+            if (pieTableData.length>0)
+            {
+                chart =
+                {
+                    "labels":pieLabels,
+                    "data": pieTableData,
+                    tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>%",
+                    "options":{
+                        legendCallback: function(chart) {
+                            var text = [];
+                            text.push('<ul class="' + chart.id + '-legend">');
+
+                            var data = chart.data;
+                            var datasets = data.datasets;
+                            var labels = data.labels;
+
+                            if (datasets.length) {
+                                for (var i = 0; i < datasets[0].data.length; ++i) {
+                                    text.push('<li><span style="background-color:' + datasets[0].backgroundColor[i] + '"></span>');
+                                    if (labels[i]) {
+                                        text.push(labels[i]);
+                                        text.push("<em class='legen-value'>"+datasets[0].data[i]+"<em>");
+                                        console.log(datasets[0].data[i]);
+
+                                    }
+                                    text.push('</li>');
+                                }
+                            }
+
+                            text.push('</ul>');
+                            return text.join('');
+                        },
+                        legend: {
+                            display: false,
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text:'A\u00F1o '+year
+                        }
+                    },
+                    "show":true
+
+                };
             }
+            else{
+                chart = undefined;
+            }
+
+
+
+            return chart;
         }
 
         function init() {
@@ -1830,6 +1860,7 @@ angular.module('app.sao')
                         $scope.error.tipo='sustanciasRL';
                         throw 'Introduzca la sustancia RL-95';
                     }
+                    element.explotacion = element.experiencias * element.unidades;
                     break;
                 case 'general':
                      error = ModelValidator.RecordError(element);
