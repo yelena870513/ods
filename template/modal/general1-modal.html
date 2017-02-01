@@ -10,28 +10,31 @@
             {{error.message}}
         </div>
     </div>
-        <h5>Sustancia Química:</h5>
+        <label>Sustancia Química:</label>
+    <div class="form-group">
         <ui-select theme="bootstrap"
                     style="width: 100%;" tabindex="-1"
                     aria-hidden="true"
                     id="sq"
                     data-ng-model="record.sustancia">
-                <ui-select-match placeholder="Sustancia Química:">{{$select.selected.nombre}}</ui-select-match>
-                <ui-select-choices repeat="item  in SAO.Sustancias">
+                <ui-select-match placeholder="Sustancia Química">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-choices repeat="item in SAO.Sustancias">
                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
-
-            <h5>Sectores</h5>
-            <ui-select multiple ng-model="record.sectores" theme="bootstrap"  close-on-select="false" title="Sectores">
-                <ui-select-match placeholder="Sectores">{{$item.nombre}}</ui-select-match>
-                <ui-select-choices repeat="item in SAO.Sectores">
+        </div>
+    <div class="form-group">
+            <label>Sector:</label>
+            <ui-select multiple ng-model="record.sector" theme="bootstrap"  close-on-select="false" title="Sector">
+                <ui-select-match placeholder="Sector">{{$item.nombre}}</ui-select-match>
+                <ui-select-choices repeat="item in SAO.Sector">
                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
+        </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
-               <span data-ng-if="action=='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

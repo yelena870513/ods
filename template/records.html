@@ -58,7 +58,7 @@
             </div>
 
             <div class="btn-group" uib-dropdown is-open="status5.isopen">
-                <button id="single-button-consumo" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
+                <button id="single-button-aerosoles" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
                     Aerosoles <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -66,9 +66,17 @@
 
                 </ul>
             </div>
+            <div class="btn-group" uib-dropdown is-open="status9.isopen">
+                <button id="single-button-solventes" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('empresa3')}">
+                    Solventes <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem"><a data-ng-click="SelectModal('empresa3')">Sector de solventes</a></li>
+                </ul>
+            </div>
             <div class="btn-group" uib-dropdown is-open="status6.isopen">
                 <button id="single-button-importaciones" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('importaciones')}">
-                    Importaciones <span class="caret"></span>
+                    Importadores <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li role="menuitem"><a data-ng-click="SelectModal('importaciones1')" >Demanda de SAO y refrigerantes...</a></li>
@@ -82,7 +90,6 @@
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li role="menuitem"><a data-ng-click="SelectModal('empresa1')" >Aire Acondicionado Automotriz</a></li>
                     <li role="menuitem"><a data-ng-click="SelectModal('empresa2')">Refrigeración Móvil</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectModal('empresa3')">Sector de solventes</a></li>
                     <li role="menuitem"><a data-ng-click="SelectModal('empresa4')">Taller de servicios</a></li>
                 </ul>
             </div>
@@ -98,8 +105,9 @@
             {{error.message}}
         </div>
         <div data-ng-show="table.columns.length>0">
+
             <h4 >{{table.title  }}</h4>
-            <table class="table table-bordered table table-striped table-hover">
+            <table class="table table-bordered t"tle table-striped table-hover">
                 <thead>
                 <tr >
                     <th data-ng-repeat="col in table.columns">{{col  }}</th>
@@ -121,8 +129,8 @@
         </div>
 
     </div>
-    <div class="box-footer">
-        <button class="btn btn-primary" data-ng-click="OpenModal()">Adicionar</button>
+    <div class="box-footer" data-ng-show="table.columns.length>0">
+        <button class="btn btn-primary" data-ng-click="OpenModal()">Agregar</button>
     </div>
 </div>
 

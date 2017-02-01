@@ -59,6 +59,12 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             controller:'reportController'
         })
         .
+        state('list.solventes',{
+            url:'/solventes',
+            templateUrl:'template/data-table/solventes-table.html',
+            controller:'reportController'
+        })
+        .
         state('list.importaciones',{
             url:'/importaciones',
             templateUrl:'template/data-table/importaciones-table.html',
@@ -83,6 +89,14 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             templateUrl:'template/charts.html',
             controller:'chartController'
         }).
+
+
+        ///Nomencladores
+    state('nomenclatures',{
+        url:'/nomenclatures',
+        templateUrl:'template/nomenclatures.html',
+        controller:'nomenclatureController'
+    }).
 
         ////Login
         state('login',
@@ -148,27 +162,47 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
 
 }).run(function (Manager,SHA256) {
 
-    //Creando al usuario sino existe
-    Manager.record('usuario').then(function (data) {
-        var users = data.rows.map(function (el) {
-            return el.doc;
-        });
+    //Creando por defecto las provincias municipios y ministerios
+    Manager.record('provincia').then(function(provincias){
+        if (provincias.rows.length==0) {
 
-        var result =  _.find(users,{"username":"sao"});
-        if(result==undefined)
-        {
-
-            Manager.create({
-                "username":"sao",
-                "password":SHA256("sao").toString(),
-                "tipo":"usuario"
+            var provinces = _(SAO.Provincias).map(function (pr) {
+                pr["tipo"]="provincia";
+                return pr;
             });
+            Manager.update(provinces).then(function(){
+                var municipios = [];
+                SAO.Provincias.forEach(function(e){
+                    e.municipios.forEach(function(m,index){
+                        municipios.push(
+                            {
+                                "nombre":m,
+                                "id":index+1,
+                                "provincia": e.id,
+                                "tipo":"municipio"
+                            });
+                    });
+                });
+
+
+            });
+        }
+    });
+
+    Manager.record('ministerio').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.Ministerio).map(function(min){
+                min["tipo"]="ministerio";
+                return min;
+            });
+            Manager.update(ministeries);
         }
     });
 }).controller('mainController',function ($scope,$location) {
 
     //Manejador global de la interfaz de usuario
-    var hashes = ['general','charts','users','list'];
+    var hashes = ['general','charts','users','list','nomenclatures'];
     $scope.navigation = {};
     $scope.isActive=function (path) {
         var hash = $location.path();

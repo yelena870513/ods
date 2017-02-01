@@ -19,13 +19,24 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Aplicaciones:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="Tabla11AR"
-                                data-ng-change="ShowTabla11A()"
-                                data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla11A"
-                        >
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="Tabla11AR"-->
+                                <!--data-ng-change="ShowTabla11A()"-->
+                                <!--data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla11A"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="sq"
+                                   on-select="ShowTabla11A($item,$model)"
+                                   data-ng-model="record.Aplicaciones">
+                            <ui-select-match placeholder="Aplicaciones">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  SAO.Tabla11A track by $index">
+                                <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
                     </div>
                 </div>
@@ -40,12 +51,22 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Sustancias:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.Alternativas"
-                                data-ng-options="item as item.nombre for item in Tabla11AR.alternativas"
-                        >
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.Alternativas"-->
+                                <!--data-ng-options="item as item.nombre for item in Tabla11AR.alternativas"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   on-select="record.otrosAlternativa='';"
+                                   data-ng-model="record.Sustancias">
+                            <ui-select-match placeholder="Sustancias">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in Tabla11AR.alternativas track by $index">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
                     </div>
                     <div class="form-group">
@@ -53,27 +74,48 @@
                         <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa"/>
                     </div>
                     <div class="form-group">
-                        <label >No. De unidades:</label>
-                        <input  class="form-control" type="number" min="0" placeholder="Unidades" data-ng-model="record.unidades"/>
+                        <label >No. de unidades:</label>
+                        <input  class="form-control" type="number" min="0" placeholder="Unidades" data-ng-model="record.unidades" data-ng-class="{'control-error':error.show && error.tipo=='unidades'}"/>
                     </div>
                     <div class="form-group">
-                        <label >Años de explotación:</label>
+                        <label >Estado técnico:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="et"
+                                   data-ng-model="record.Estado">
+                            <ui-select-match placeholder="Estado técnico">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.Estado">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
                         <!--<input  class="form-control" type="number" min="0" placeholder="Años" data-ng-model="record.explotacion"/>-->
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.Estado"
-                                data-ng-options="item as item.nombre for item in SAO.Estado"
-                                >
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.Estado"-->
+                                <!--data-ng-options="item as item.nombre for item in SAO.Estado"-->
+                                <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
                     </div>
+
                     <div class="form-group">
                         <label>Clasificaciones:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.clasificacion"
-                                data-ng-options="item as item.nombre for item in SAO.Clasificacion"
-                        >
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="cl"
+                                   data-ng-model="record.clasificacion">
+                            <ui-select-match placeholder="Clasificaciones">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.Clasificacion">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.clasificacion"-->
+                                <!--data-ng-options="item as item.nombre for item in SAO.Clasificacion"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
 
                     </div>
 
@@ -83,18 +125,30 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="year">Consumo anual por mantenimiento:</label>
-                        <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="year"
-                                data-ng-change="amount=0"
-                                data-ng-class="{'control-error':error.show}"
-                                data-ng-options="item as item for item in [2010,2011,2012,2013,2014,2015]"></select>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id=""
+                                   data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
+                                   on-select="OnSelect($item,$model)"
+                                   data-ng-model="year">
+                            <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  [2010,2011,2012,2013,2014,2015,2016]">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="year"-->
+                                <!--data-ng-change="amount=0"-->
+                                <!--data-ng-class="{'control-error':error.show}"-->
+                                <!--data-ng-options="item as item for item in [2010,2011,2012,2013,2014,2015]"></select>-->
                         </div>
                     <div class="form-group">
 
                         <label >Toneladas métricas:</label>
                         <!--Aqui te fijas como se utiliza el ng/class para el caso de los errores-->
                         <input  class="form-control"
-                                data-ng-class="{'control-error':error.show}"
+                                data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
                                 type="number"
                                 min="0"
                                 placeholder="Tons"
@@ -117,7 +171,7 @@
     </form>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
-               <span data-ng-if="action=='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>

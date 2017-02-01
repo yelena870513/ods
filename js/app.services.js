@@ -235,50 +235,81 @@ angular.module('app.sao')
     return {
         "Provincias": [{
             "id": "1",
-            "nombre": 'Pinar del Río'
+            "nombre": 'Pinar del Río',
+            "municipios":["Consolación del Sur", "Guane", "La Palma", "Los Palacios", "Mantua", "Minas de Matahambre", "Pinar del Río", "San Juan y Martínez", "San Luis", "Sandino", "Viñales"]
         }, {
             "id": "2",
-            "nombre": 'Artemisa'
+            "nombre": 'Artemisa',
+            "municipios":[
+                "Alquízar", "Artemisa", "Bauta", "Caimito", "Guanajay", "Güira de Melena", "Mariel", "San Antonio de los Baños", "Bahía Honda", "San Cristóbal", "Candelaria"]
         }, {
             "id": "3",
-            "nombre": 'Mayabeque'
+            "nombre": 'Mayabeque',
+            "municipios":["Batabanó", "Bejucal", "Güines", "Jaruco", "Madruga", "Melena del Sur", "Nueva Paz", "Quivicán", "San José de las Lajas", "San Nicolás de Bari", "Santa Cruz del Norte"]
         }, {
             "id": "4",
-            "nombre": 'La Habana'
+            "nombre": 'La Habana',
+            "municipios":[
+                "Arroyo Naranjo", "Boyeros", "Centro Habana", "Cerro", "Cotorro", "Diez de Octubre", "Guanabacoa", "Habana del Este", "Habana Vieja", "La Lisa", "Marianao", "Playa", "Plaza", "Regla", "San Miguel del Padrón"]
         }, {
             "id": "5",
-            "nombre": 'Matanzas'
+            "nombre": 'Matanzas',
+            "municipios":["Calimete", "Cárdenas", "Ciénaga de Zapata", "Colón", "Jagüey Grande", "Jovellanos", "Limonar", "Los Arabos", "Martí", "Matanzas", "Pedro Betancourt", "Perico", "Unión de Reyes"]
         }, {
             "id": "6",
-            "nombre": 'Cienfuegos'
+            "nombre": 'Cienfuegos',
+            "municipios":["Abreus", "Aguada de Pasajeros", "Cienfuegos", "Cruces", "Cumanayagua", "Palmira", "Rodas", "Santa Isabel de las Lajas"]
+
         }, {
             "id": "7",
-            "nombre": 'Villa Clara'
+            "nombre": 'Villa Clara',
+
+            "municipios":["Caibarién", "Camajuaní", "Cifuentes", "Corralillo", "Encrucijada", "Manicaragua", "Placetas", "Quemado de Güines", "Ranchuelo", "Remedios", "Sagua la Grande", "Santa Clara", "Santo Domingo"]
         }, {
             "id": "8",
-            "nombre": 'Sancti Spíritus'
+            "nombre": 'Sancti Spíritus',
+            "municipios":[
+                "Cabaigúan", "Fomento", "Jatibonico", "La Sierpe", "Sancti Spíritus", "Taguasco", "Trinidad", "Yaguajay"]
         }, {
             "id": "9",
-            "nombre": 'Ciego de Ávila'
+            "nombre": 'Ciego de Ávila',
+            "municipio":["Ciro Redondo", "Baraguá", "Bolivia", "Chambas", "Ciego de Ávila", "Florencia", "Majagua", "Morón", "Primero de Enero", "Venezuela"]
         }, {
             "id": "10",
-            "nombre": 'Camagüey'
+            "nombre": 'Camagüey',
+            "municipios":[ "Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guaimaro", "Jimagüayú", "Minas", "Najasa", "Nuevitas", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas", "Vertientes"]
         }, {
             "id": "11",
-            "nombre": 'Las Tunas'
+            "nombre": 'Las Tunas',
+            "municipios":[
+                "Amancio Rodríguez", "Colombia", "Jesús Menéndez", "Jobabo", "Las Tunas", "Majibacoa", "Manatí", "Puerto Padre"]
         }, {
             "id": "12",
-            "nombre": 'Holguín'
+            "nombre": 'Holguín',
+            "municipios":[
+                "Antilla", "Báguanos", "Banes", "Cacocum", "Calixto García", "Cueto", "Frank País", "Gibara", "Holguín", "Mayarí", "Moa", "Rafael Freyre", "Sagua de Tánamo", "Urbano Noris"]
         }, {
             "id": "13",
-            "nombre": 'Santiago de Cuba'
+            "nombre": 'Santiago de Cuba',
+            "municipios":[
+                "Contramaestre", "Guamá", "Julio Antonio Mella", "Palma Soriano", "San Luis", "Santiago de Cuba", "Segundo Frente", "Songo la Maya", "Tercer Frente"]
         }, {
             "id": "14",
-            "nombre": 'Guantánamo'
+            "nombre": 'Guantánamo',
+            "municipios":[
+                "Baracoa", "Caimanera", "El Salvador", "Guantánamo", "Imías", "Maisí", "Manuel Tames", "Niceto Pérez", "San Antonio del Sur", "Yateras"]
         }, {
             "id": "15",
-            "nombre": 'Isla de la Juventud'
-        }],
+            "nombre": 'Isla de la Juventud',
+            "municipios":[]
+        },
+            {
+                "id":"16",
+                "nombre":"Granma",
+                "municipios":["Bartolomé Masó", "Bayamo", "Buey Arriba", "Campechuela", "Cauto Cristo", "Guisa", "Jiguaní", "Manzanillo", "Media Luna", "Niquero", "Pilón", "Río Cauto", "Yara"]
+            }
+            ],
+
 
         "OSDE": [{
             "id": "1",
@@ -527,6 +558,22 @@ angular.module('app.sao')
             "id": "2",
             "nombre": 'Servicio'
         }],
+        "Sector": [{
+            "id": "1",
+            "nombre": 'RAC '
+        }, {
+            "id": "2",
+            "nombre": 'Espumas'
+        }, {
+            "id": "3",
+            "nombre": 'Aerosoles '
+        }, {
+            "id": "4",
+            "nombre": 'Solventes'
+        }, {
+            "id": "5",
+            "nombre": 'Extintores '
+        }],
         "SectoresAnexo": [{
             "id": "1",
             "nombre": 'Espuma: poliuretano '
@@ -689,7 +736,7 @@ angular.module('app.sao')
         ],
         // "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
         "SustanciasTabla3":[{"id":"1","nombre":'HCFC-141b '},{"id":"2","nombre":'HCFC-142b '}, {"id":"3","nombre":'HCFC-22 '},{"id":"4","nombre":'HCFC-245a '},{"id":"5","nombre":'HFC-365mfc/HFC-227ea '},{"id":"6","nombre":'HFC-134a/HFC-152a '},{"id":"7","nombre":'HFO/HCFO '},{"id":"8","nombre":'Hidrocarburos'},{"id":"9","nombre":'Otros'}],
-        "SubsectorTabla4":[{"id":"1","nombre":'Aislamiento de Refrigeración Doméstica'}, {"id":"2","nombre":'Aislamiento en otra aplicación'}, {"id":"3","nombre":'HCContenedores Refrigerados'},{"id":"4","nombre":'Tableros'},{"id":"5","nombre":'Panel Continuo'},{"id":"6","nombre":'Panel Discontinuo'},{"id":"7","nombre":'Espuma en espray'},{"id":"8","nombre":'Tubería en tubería'},{"id":"9","nombre":'Bloques '},{"id":"10","nombre":'Bloques de Poliuretano'},{"id":"11","nombre":'Espuma: polietileno extruido '}],
+        "SubsectorTabla4":[{"id":"1","nombre":'Aislamiento de Refrigeración Doméstica'}, {"id":"2","nombre":'Aislamiento en otra aplicación'}, {"id":"3","nombre":'Contenedores Refrigerados'},{"id":"4","nombre":'Tableros'},{"id":"5","nombre":'Panel Continuo'},{"id":"6","nombre":'Panel Discontinuo'},{"id":"7","nombre":'Espuma en espray'},{"id":"8","nombre":'Tubería en tubería'},{"id":"9","nombre":'Bloques '},{"id":"10","nombre":'Bloques de Poliuretano'},{"id":"11","nombre":'Espuma: polietileno extruido '}],
         "Tabla5":[
             {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rígida de poliuretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 "}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 "},{"id":6,"nombre":"Supercrítico CO2"}]},
@@ -701,8 +748,8 @@ angular.module('app.sao')
             {"id":1,"aplicacion":{"id":1,"nombre":"Aire acondicionado de Habitaciones (incluidos pequeños aire acondicionado split)"}, "carga":{"nombre":"0.2-3"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"HFC-32 "},{"id":4,"nombre":"HC-290"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Otros Aires Acondicionados (incluyendo splits, multi-splits y sistemas de flujo de refrigerante variable, conductos y paquetes de azotea) "}, "carga":{"nombre":"3-100 "},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"HC-290 "},{"id":5,"nombre":"CO2"}]},
             {"id":3,"aplicacion":{"id":1,"nombre":"Chillers (pequeños, medianos y grandes enfriados por agua)"}, "carga":{"nombre":"500-13,000"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HC-290 "},{"id":4,"nombre":"HC-1270 "},{"id":5,"nombre":"HFC-134a  "},{"id":6,"nombre":"HFC-32 "},{"id":7,"nombre":"R-717 "}]},
-            {"id":4,"aplicacion":{"id":1,"nombre":"Bombas de Calor (calefacción de locales por bombas de calor (aire-agua) y bomba de calor domestica de agua caliente enfriada por aire"}, "carga":{"nombre":"3-6"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-744 "},{"id":3,"nombre":"HFC-134a "}]},
-            {"id":5,"aplicacion":{"id":1,"nombre":"Gran sistema de calefacción urbana"}, "carga":{"nombre":"250-7,000 "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"R-717 "}]}
+            // {"id":4,"aplicacion":{"id":1,"nombre":"Bombas de Calor (calefacción de locales por bombas de calor (aire-agua) y bomba de calor domestica de agua caliente enfriada por aire"}, "carga":{"nombre":"3-6"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-744 "},{"id":3,"nombre":"HFC-134a "}]},
+            // {"id":5,"aplicacion":{"id":1,"nombre":"Gran sistema de calefacción urbana"}, "carga":{"nombre":"250-7,000 "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"R-717 "}]}
         ],
         // "Tabla12":[
         //     {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 "}]},
@@ -723,7 +770,7 @@ angular.module('app.sao')
         ],
         "Tabla11A":[
             {"id":1,"aplicacion":{"id":1,"nombre":"Pequeño autónomo (AAV)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":7},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
-            {"id":2,"aplicacion":{"id":1,"nombre":"Pequeño autónomo (Portatil)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
+            {"id":2,"aplicacion":{"id":1,"nombre":"Pequeño autónomo (Portátil)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
             {"id":3,"aplicacion":{"id":1,"nombre":"Pequeño autónomo (Deshumidificadores)"}, "carga":{"nombre":"2-7/1.32-4.63","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C"},{"id":3,"nombre":"HFC-32"},{"id":4,"nombre":"HC-290"}]},
             {"id":4,"aplicacion":{"id":1,"nombre":"Mini Split (Cassete)"}, "carga":{"nombre":"2-12/1.32-7.94","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
             {"id":5,"aplicacion":{"id":1,"nombre":"Mini Split (Ocultos)"}, "carga":{"nombre":"2-12/1.32-7.94","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-410A"},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"R-290"}]},
@@ -742,9 +789,9 @@ angular.module('app.sao')
             {"id":18,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (OMNIBUS)"}, "carga":{"nombre":"10-30/6.62-19.86","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
             {"id":19,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (MINIOMNIBUS)"}, "carga":{"nombre":"10-30/6.62-19.86","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
             {"id":20,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en Grandes vehículos (TRENES)"}, "carga":{"nombre":"10-30/6.62-19.86","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
-            {"id":21,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
-            {"id":22,"aplicacion":{"id":1,"nombre":"Refrigeradores freezer"}, "carga":{"nombre":"0.1-0.5/0.06-0.33","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
-            {"id":23,"aplicacion":{"id":1,"nombre":"Los equipos autónomos de refrigeración comercial"}, "carga":{"nombre":"0.1-1,000/0.06-662.25","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"HC-290 "}]},
+            // {"id":21,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            // {"id":22,"aplicacion":{"id":1,"nombre":"Refrigeradores freezer"}, "carga":{"nombre":"0.1-0.5/0.06-0.33","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
+            // {"id":23,"aplicacion":{"id":1,"nombre":"Los equipos autónomos de refrigeración comercial"}, "carga":{"nombre":"0.1-1,000/0.06-662.25","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"HC-290 "}]},
             ],
         "Tabla11B":[
             {"id":1,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
@@ -787,8 +834,9 @@ angular.module('app.sao')
             "aire":["aire1","aire2","aire3"],
             "refri":["refri","consumo"],
             "aerosoles":["aerosoles"],
+            "solventes":["empresa3"],
             "importaciones":["importaciones1","importaciones1","importaciones1"],
-            "empresa":["empresa1","empresa2","empresa3"]
+            "empresa":["empresa1","empresa2"]
         };
     })
 //.factory('SType',function () {
@@ -806,10 +854,10 @@ angular.module('app.sao')
     return        [
         // "general":["provincia","ministerio","osde","empresa"],
 
-        {"fields":["sustancia", "sectores"],"nombre":"Uso general de alternativas a las SAO en la actualidad","tipo":"general1"},
+        {"fields":["sustancia", "sector"],"nombre":"Uso general de alternativas a las SAO en la actualidad","tipo":"general1"},
         {"fields":["Alternativa", "Tipo", "Sector", "ra"],"nombre":"Resumen de su uso en todos los sectores para cada año entre 2011-2015", "tipo":"general2"},
-        {"fields":["Alternativa", "Tipo"],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
-        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agentes soplantes en el sector de espuma","tipo":"espuma1"},
+        {"fields":["Alternativa", "Tipo", "Importaciones"],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
+        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agentes espumante en el sector de espuma","tipo":"espuma1"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma","tipo":"espuma2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO","tipo":"importaciones1"},
         {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido", "tipo":"espuma3"},
@@ -821,8 +869,8 @@ angular.module('app.sao')
         {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados", "tipo":"aire2"},
         {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) y sus alternativas en el subsector de manufactura", "tipo":"consumo"},
         {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz", "tipo":"empresa1"},
-        {"fields":["Aplicaciones", "Capacidad", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración", "tipo":"refri"},
-        {"fields":["Aplicaciones", "Capacidad", "Alternativas","Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado", "tipo":"aire3"},
+        {"fields":["Aplicaciones", "Sustancias", "unidades","Capacidad", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración", "tipo":"refri"},
+        {"fields":["Aplicaciones", "Sustancias", "unidades", "Capacidad", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado", "tipo":"aire3"},
         {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente", "tipo":"general3"},
         {"fields":["Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", 'SustanciaAire','TipoAire','nombreTaller'],"nombre":"Taller de servicios", "tipo":"empresa4"}
 
@@ -957,6 +1005,9 @@ angular.module('app.sao')
         var validator = {};
         var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
         var username = /^[a-z][a-z0-9\.]{3,15}$/i;
+        var str = /^[a-z][a-z0-9\.]{3,15}$/i;
+        //var nomenclature = /^[A-Z][a-z\s][(A-Z)]{3,20}$/i;
+        var nomenclature = /^[\w() -]{3,100}$/;
 
         validator.isValidUser = function(user){
 
@@ -977,6 +1028,51 @@ angular.module('app.sao')
             }
             return errors;
         };
+
+
+        validator.isValidNomenclature = function (str) {
+            return nomenclature.test(str.nombre);
+        };
+
+        validator.RecordError = function (record) {
+        var errors = [];
+        switch (record.tipo){
+            case 'empresa4':
+                if(!str.test(record.nombreTaller)){
+
+                    errors.push('taller');
+                }
+                if(Object.prototype.toString.call( record.municipio ) === '[object Object]'){
+                    if(!str.test(record.municipio.nombre)){
+                        errors.push('municipio');
+                    }
+                }
+                else
+                    {
+
+                    if(!str.test(record.municipio)){
+                        errors.push('municipio');
+                    }
+                }
+
+                break;
+            case 'general':
+
+                if(!str.test(record.osde)){
+                    errors.push('osde');
+                }
+                if(!str.test(record.empresa)){
+                    errors.push('empresa');
+                }
+                break;
+
+            default:
+                break;
+
+        }
+
+        return errors;
+    };
 
         return validator;
     })

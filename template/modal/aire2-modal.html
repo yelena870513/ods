@@ -18,13 +18,25 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Aplicación:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="Tabla9R"
-                                data-ng-change="ShowTabla9()"
-                                data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla9"
-                        >
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="Tabla9R"-->
+                                <!--data-ng-change="ShowTabla9()"-->
+                                <!--data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla9"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="sq"
+                                   on-select="ShowTabla9($item,$model)"
+                                   data-ng-model="record.Aplicaciones">
+                            <ui-select-match placeholder="Aplicación">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  SAO.Tabla9 track by $index">
+                                <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
 
                     </div>
                 </div>
@@ -38,13 +50,23 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Alternativa:</label>
-                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="record.Alternativas"
-                                data-ng-change= "record.otrosAlternativa='';"
-                                data-ng-options="item as item.nombre for item in Tabla9R.alternativas"
-                        >
+                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="record.Alternativas"-->
+                                <!--data-ng-change= "record.otrosAlternativa='';"-->
+                                <!--data-ng-options="item as item.nombre for item in Tabla9R.alternativas"-->
+                        <!--&gt;-->
 
-                        </select>
+                        <!--</select>-->
+                        <ui-select style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   theme="bootstrap"
+                                   on-select="record.otrosAlternativa='';"
+                                   data-ng-model="record.Alternativas">
+                            <ui-select-match placeholder="Alternativa">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in Tabla9R.alternativas track by $index">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
 
                     </div>
                     <div class="form-group">
@@ -57,16 +79,28 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="year">Año:</label>
-                        <select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                                data-ng-model="year"
-                                data-ng-change="amount=0"
-                                data-ng-class="{'control-error':error.show}"
-                                data-ng-options="item as item for item in [2011,2012,2013,2014,2015]"></select>
+                        <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
+                                <!--data-ng-model="year"-->
+                                <!--data-ng-change="amount=0"-->
+                                <!--data-ng-class="{'control-error':error.show}"-->
+                                <!--data-ng-options="item as item for item in [2011,2012,2013,2014,2015,2016]"></select>-->
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="year"
+                                   data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
+                                   on-select="OnSelect($item,$model)"
+                                   data-ng-model="year">
+                            <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  [2011,2012,2013,2014,2015,2016]">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
                         </div>
                     <div class="form-group">
 
                         <label for="amount">Consumo en toneladas métricas:</label>
-                        <input id="amount" class="form-control" type="number" min="0" placeholder="Tons" data-ng-class="{'control-error':error.show}" data-ng-model="amount"/>
+                        <input id="amount" class="form-control" type="number" min="0" placeholder="Tons" data-ng-class="{'control-error':error.show && error.tipo=='anno'}" data-ng-model="amount"/>
                         <ul class="list-group">
                             <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
                               <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
@@ -83,7 +117,7 @@
     </form>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
-               <span data-ng-if="action=='edit'">Agregar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>
