@@ -31,7 +31,7 @@
                                    id="sq"
                                    on-select="ShowTabla9($item,$model)"
                                    data-ng-model="record.Aplicaciones">
-                            <ui-select-match placeholder="Aplicación:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-match placeholder="Aplicación">{{$select.selected.nombre}}</ui-select-match>
                             <ui-select-choices repeat="item  in  SAO.Tabla9 track by $index">
                                 <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
@@ -62,7 +62,7 @@
                                    theme="bootstrap"
                                    on-select="record.otrosAlternativa='';"
                                    data-ng-model="record.Alternativas">
-                            <ui-select-match placeholder="Alternativa:">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-match placeholder="Alternativa">{{$select.selected.nombre}}</ui-select-match>
                             <ui-select-choices repeat="item in Tabla9R.alternativas track by $index">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
@@ -87,7 +87,7 @@
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
-                                   id=""
+                                   id="year"
                                    data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
                                    on-select="OnSelect($item,$model)"
                                    data-ng-model="year">

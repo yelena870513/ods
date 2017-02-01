@@ -81,7 +81,7 @@ angular.module('app.sao')
             "sector": [],
             "tipo": "general1"
         };
-        //    Resumen de su uso en todos los sectores para cada año entre 2011-2015
+        //    Resumen de su uso en todos los sectores para cada aï¿½o entre 2011-2015
 
         $scope.AlternativaHFC = SAO.AlternativaHFC;
         $scope.AlternativaHFCMezclas = SAO.AlternativaHFCMezclas;
@@ -113,7 +113,7 @@ angular.module('app.sao')
 
         $scope.espuma1 = {
             "Sustancia": SAO.SustanciasTabla3[0],
-            "Uso5":[],//{ano:"---",tons:""},
+            "Uso":[],//{ano:"---",tons:""},
             "tipo": "espuma1"
         };
         $scope.espuma2 = {
@@ -181,6 +181,7 @@ angular.module('app.sao')
             "Alternativa":SAO.Tabla23[0].aplicacion,
             "Tipo":SAO.Tabla23[0].alternativas[0],
             "otrosAlternativa":"",
+            "Importaciones":[],
             "tipo":"importaciones2"
         };
 
@@ -245,11 +246,9 @@ angular.module('app.sao')
             "municipio":"",
             "sustanciasR":"",
             "sustanciasRL":"",
-            "unidades":0,
-            "explotacion":0,
             // "ingenieros":"",
             // "tecnicos":"",
-            "experiencias":0,
+            "experiencias":"",
             "Recuperacion":[],
             "Recuperado":[],
             "tipo":"empresa4"
@@ -952,7 +951,26 @@ angular.module('app.sao')
             "show":false
         };
 
-        $scope.pies = [];
+        $scope.pie = {
+            "labels":['2010', '2015', '2020', '2025','2030'],
+            "data": [],
+            "options":{},
+            "show":false
+
+        };
+
+
+
+        // $scope.pie = {
+        //     "labels":["SAO 1", "SAO 2", "SAO 3"],
+        //     "data": [  300, 500, 100 ],
+        //     "options":{},
+        //     "show":false
+        //
+        // }
+
+
+
 
         $scope.SelectChart= function (chart) {
             charting = chart;
@@ -1827,18 +1845,50 @@ angular.module('app.sao')
                     }));
                     if (element.sector.length==0){throw 'Seleccione al menos un sector';}
                     break;
-                // case 'general2':
-                //     element.sectoresAnexo = element.sectoresAnexo.concat($scope.SAO.SectoresAnexo.filter(function(el) {
-                //         return el.value == true;
-                //     }));
-                //     break;
+                case 'espuma1':
+                case 'espuma2':
+                case 'importaciones1':
+
+                    if(element.Uso!=undefined)
+                    {
+                        if(element.Uso.length<5)
+                        {
+                            $scope.error.tipo='anno';
+                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                        }
+                    }
+
+                    break;
                 case 'espuma3':
                     if(element.otrosAlternativa!=''){
                         element.Alternativa={nombre:element.otrosAlternativa}
                     }
+                    if(element.Uso!=undefined)
+                    {
+                        if(element.Uso.length<6)
+                        {
+                            $scope.error.tipo='anno';
+                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                        }
+                    }
+                    break;
+                case 'aire2':
+                case 'consumo':
+                case 'aerosoles':
+                case 'empresa3':
+                    if(element.otrosAlternativa!=''){
+                        element.Alternativas={nombre:element.otrosAlternativa}
+                    }
+                    if(element.Uso!=undefined)
+                    {
+                        if(element.Uso.length<6)
+                        {
+                            $scope.error.tipo='anno';
+                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                        }
+                    }
                     break;
                 case 'general2':
-                case 'importaciones2':
                     if(element.otrosAlternativa!=''){
                         element.Tipo={nombre:element.otrosAlternativa}
                     }
@@ -1871,19 +1921,37 @@ angular.module('app.sao')
                             throw 'Introduzca el valor de  ' +  e;
                         });
                     }
+                    if(element.empresa==''){
+                        throw 'Introduzca el nombre de la empresa';
+                    }
+
                  break;
+                case 'importaciones2':
+                    if(element.otrosAlternativa!=''){
+                        element.Tipo={nombre:element.otrosAlternativa}
+                    }
+                    if(element.Importaciones!=undefined)
+                    {
+                        if(element.Importaciones.length<6)
+                        {
+                            $scope.error.tipo='anno';
+                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                        }
+                    }
+
+                    break;
+
 
                 case 'aire3':
 
                 case 'refri':
                     // element.Uso = [{anno:2011, tons: 0, "nombre": 2011+":"+0},{anno:2012, tons: 0,"nombre": 2012+":"+0},{anno:2013, tons: 0,"nombre": 2013+":"+0},{anno:2014, tons: 0,"nombre": 2014+":"+0},{anno:2015, tons: (element.Capacidad.max*element.unidades)/1000,"nombre": 2015+":"+(element.Capacidad.max*element.unidades)/1000}];
 
-                case 'aire2':
-                case 'consumo':
-                case 'aerosoles':
+
+
+
                 case 'empresa1':
                 case 'empresa2':
-                case 'empresa3':
                     if(element.otrosAlternativa!=''){
                         element.Alternativas={nombre:element.otrosAlternativa}
                     }
@@ -1895,31 +1963,7 @@ angular.module('app.sao')
 
             //todo validar datos
             element = Util.collect($scope.general, element);
-            if(element.Uso5!=undefined)
-            {
-                if(element.Uso5.length<5)
-                {
-                    $scope.error.tipo='anno1';
-                    throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
-                }
-            }
-            if(element.Uso!=undefined)
-            {
-                if(element.Uso.length<6)
-                {
-                  $scope.error.tipo='anno';
-                  throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
-                }
-            }
 
-            if(element.Uso7!=undefined)
-            {
-                if(element.Uso7.length<7)
-                {
-                    $scope.error.tipo='anno';
-                    throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
-                }
-            }
             if(element.CantRefriRefri!=undefined)
             {
                 if(element.CantRefriRefri.length<3)
@@ -2167,7 +2211,7 @@ angular.module('app.sao')
                         break;
                     case 'importaciones2':
                         $scope.record.Tipo = SAO.Tabla23[0].alternativas[0];
-                        $scope.year = 2010;
+                        $scope.year = 2011;
 
                         break;
                     case 'empresa1':
@@ -2283,6 +2327,8 @@ angular.module('app.sao')
                         selectedConsumo = $scope.consumoR;
                         $scope.year = 2011;
                         break;
+
+                    case 'aerosoles':
                     case 'importaciones2':
                         $scope.Tabla23R = _.find(SAO.Tabla23,function(o){return o.aplicacion.nombre==$scope.record.Alternativa.nombre;});
                         var importaciones2 = _.find($scope.Tabla23R.alternativas,function(a){return a.nombre == $scope.record.Tipo.nombre; });
@@ -2351,6 +2397,25 @@ angular.module('app.sao')
                     return us.anno;
                 });
                 $scope.record.Uso = angular.copy(record.Uso)
+
+        };
+        $scope.ConsumoImportaciones = function(year1,amount){
+
+            if(amount==undefined){
+                amount=0;
+            }
+
+            // record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
+            record.Importaciones = _.reject(record.Importaciones,function (el) { return el.anno==year1;
+            }).concat([{"anno":year1,"tons":amount,"nombre": +year1+":"+amount}]);
+            record.Importaciones =  _.uniq(record.Importaciones,false,function (el) {
+                return el.anno;
+            });
+
+            record.Importaciones = _.sortBy( record.Importaciones,function (us) {
+                return us.anno;
+            });
+            $scope.record.Importaciones = angular.copy(record.Importaciones)
 
         };
         $scope.ConsumoRecuperacion = function(re2,amount){

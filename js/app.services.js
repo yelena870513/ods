@@ -277,8 +277,7 @@ angular.module('app.sao')
         }, {
             "id": "10",
             "nombre": 'Camagüey',
-            "municipios":[
-                "Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guaimaro", "Jimagüayú", "Minas", "Najasa", "Nuevitas", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas", "Vertientes"]
+            "municipios":[ "Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guaimaro", "Jimagüayú", "Minas", "Najasa", "Nuevitas", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas", "Vertientes"]
         }, {
             "id": "11",
             "nombre": 'Las Tunas',
@@ -856,8 +855,8 @@ angular.module('app.sao')
 
         {"fields":["sustancia", "sector"],"nombre":"Uso general de alternativas a las SAO en la actualidad","tipo":"general1"},
         {"fields":["Alternativa", "Tipo", "Sector", "ra"],"nombre":"Resumen de su uso en todos los sectores para cada año entre 2011-2015", "tipo":"general2"},
-        {"fields":["Alternativa", "Tipo"],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
-        {"fields":["Sustancia", "Uso5"],"nombre":"Demanda de SAO y agentes espumante en el sector de espuma","tipo":"espuma1"},
+        {"fields":["Alternativa", "Tipo", "Importaciones"],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
+        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agentes espumante en el sector de espuma","tipo":"espuma1"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma","tipo":"espuma2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO","tipo":"importaciones1"},
         {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido", "tipo":"espuma3"},

@@ -162,20 +162,29 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
 
 }).run(function (Manager,SHA256,SAO) {
 
-    //Creando al usuario sino existe
-    Manager.record('usuario').then(function (data) {
-        var users = data.rows.map(function (el) {
-            return el.doc;
-        });
+    //Creando por defecto las provincias municipios y ministerios
+    Manager.record('provincia').then(function(provincias){
+        if (provincias.rows.length==0) {
 
-        var result =  _.find(users,{"username":"sao"});
-        if(result==undefined)
-        {
+            var provinces = _(SAO.Provincias).map(function (pr) {
+                pr["tipo"]="provincia";
+                return pr;
+            });
+            Manager.update(provinces).then(function(){
+                var municipios = [];
+                SAO.Provincias.forEach(function(e){
+                    e.municipios.forEach(function(m,index){
+                        municipios.push(
+                            {
+                                "nombre":m,
+                                "id":index+1,
+                                "provincia": e.id,
+                                "tipo":"municipio"
+                            });
+                    });
+                });
 
-            Manager.create({
-                "username":"sao",
-                "password":SHA256("sao").toString(),
-                "tipo":"usuario"
+
             });
         }
     });

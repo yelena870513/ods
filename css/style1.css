@@ -206,3 +206,12 @@ max-height: 100%;
 .dropdown-menu>li>a {
     cursor: hand;
 }
+.btn-primary {
+    background-color: #ccc;
+    border-color: #eee;
+}
+@media (min-width: 992px) {
+    .col-md-6 {
+        width: 100%;
+    }
+}

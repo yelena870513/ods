@@ -20,7 +20,7 @@
                        aria-hidden="true"
                        id="t3"
                        data-ng-model="record.Subsector">
-                <ui-select-match placeholder="Subsector:">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-match placeholder="Subsector">{{$select.selected.nombre}}</ui-select-match>
                 <ui-select-choices repeat="item in SAO.SubsectorTabla4">
                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
@@ -28,16 +28,12 @@
         </div>
         <div class="form-group">
             <label >Año:</label>
-            <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                    <!--data-ng-model="year"-->
-                    <!--data-ng-change="amount=0"-->
-                    <!--data-ng-class="{'control-error':error.show}"-->
-                    <!--data-ng-options="item as item for item in [2010,2015,2020,2025,2030]"></select>-->
+
             <ui-select theme="bootstrap"
                        style="width: 100%;" tabindex="-1"
                        aria-hidden="true"
                        id=""
-                       data-ng-class="{'control-error':error.show}"
+                       data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
                        on-select="OnSelect($item,$model)"
                        data-ng-model="year">
                 <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
@@ -49,7 +45,7 @@
 
         <div class="form-group">
             <label >Consumo en toneladas métricas:</label>
-            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" data-ng-class="{'control-error':error.show}"/>
+            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" data-ng-class="{'control-error':error.show && error.tipo=='anno'}"/>
             <ul class="list-group">
                 <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
                     <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>

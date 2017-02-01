@@ -82,7 +82,7 @@
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
-                                   id=""
+                                   id="year"
                                    data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
                                    on-select="OnSelect($item,$model)"
                                    data-ng-model="year">
@@ -91,14 +91,11 @@
                                 <div ng-bind-html="item | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="year"-->
-                                <!--data-ng-class="{'control-error':error.show}"-->
-                                <!--data-ng-options="item as item for item in [2011,2012,2013,2014,2015]"></select>-->
+
                         </div>
                     <div class="form-group">
                         <label >Toneladas métricas:</label>
-                        <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-class="{'control-error':error.show}" data-ng-model="amount"/>
+                        <input  class="form-control" type="number" min="0" placeholder="Tons"  data-ng-class="{'control-error':error.show && error.tipo=='anno'}" data-ng-model="amount"/>
                     </div>
                     <div class="form-group">
                        <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
@@ -116,8 +113,8 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  data-ng-click="Save()">
-            Aceptar
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Aceptar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
     </button>
