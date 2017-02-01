@@ -11,7 +11,18 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1300, height: 768, fullscreen: false,icon:"logo.ico"})  ;
+  mainWindow = new BrowserWindow(
+      {
+        width: 1300,
+        height: 768,
+        fullscreen: false,
+        icon:"logo.ico",
+        'min-width': 500,
+        'min-height': 200,
+        'accept-first-mouse': true,
+        'title-bar-style':'hidden'
+      }
+      )  ;
 
   //mainWindow.maximize()
 

@@ -23,8 +23,30 @@
                     </div>
                     <div class="form-group">
                         <label >Municipio:</label>
-                        <input  class="form-control" type="text" placeholder="Municipio" data-ng-model="record.municipio" data-ng-class="{'control-error':error.show&&error.tipo=='municipio'}"/>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   data-ng-class="{'control-error':error.show&&error.tipo=='municipio'}"
+                                   id="mun"
+                                   data-ng-model="record.municipio">
+                            <ui-select-match placeholder="Municipio">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in municipios">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
                     </div>
+                    <!--<div class="form-group">-->
+                        <!--<label >Año:</label>-->
+                        <!--<ui-select theme="bootstrap"-->
+                                   <!--style="width: 100%;" tabindex="-1"-->
+                                   <!--aria-hidden="true"-->
+                                   <!--data-ng-class="{'control-error':error.show&&error.tipo=='municipio'}"-->
+                                   <!--id="year"-->
+                                   <!--data-ng-model="record.municipio">-->
+                            <!--<ui-select-match placeholder="Municipio">{{$select.selected.nombre}}</ui-select-match>-->
+                            <!--<ui-select-choices repeat="item in [2010,2011]">-->
+                                <!--<div ng-bind-html="item.nombre | highlight: $select.search"></div>-->
+                            <!--</ui-select-choices>-->
+                    <!--</div>-->
                 </div>
             </div>
 

@@ -960,15 +960,15 @@ angular.module('app.sao')
 
 
 
-        $scope.pie = {
-            "labels":["SAO 1", "SAO 2", "SAO 3"],
-            "data": [  300, 500, 100 ],
-            "options":{},
-            "show":false
+        // $scope.pie = {
+        //     "labels":["SAO 1", "SAO 2", "SAO 3"],
+        //     "data": [  300, 500, 100 ],
+        //     "options":{},
+        //     "show":false
+        //
+        // }
 
-        }
 
-        ;
 
 
         $scope.SelectChart= function (chart) {
@@ -2328,7 +2328,7 @@ angular.module('app.sao')
             }
 
             // record.Recuperacion.push({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount});
-            record.Recuperacion = _.reject(record.Recuperacion,function (el) { return el.anno==year;
+            record.Recuperacion = _.reject(record.Recuperacion,function (el) { return el.anno==re2;
             }).concat([{"re2":re2,"cant2":amount,"nombre": +re2+":"+amount}]);
             record.Recuperacion =  _.uniq(record.Recuperacion,false,function (el) {
                 return el.re2;
@@ -2385,7 +2385,7 @@ angular.module('app.sao')
             }
 
             // record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
-            record.CantRefriRefri = _.reject(record.CantRefriRefri,function (el) { return el.anno==year;
+            record.CantRefriRefri = _.reject(record.CantRefriRefri,function (el) { return el.anno==re;
             }).concat([{"re":re,"cant":amount,"nombre": +re+":"+amount}]);
             record.CantRefriRefri =  _.uniq(record.CantRefriRefri,false,function (el) {
                 return el.re;
@@ -2404,7 +2404,7 @@ angular.module('app.sao')
             }
 
             // record.CantRefriAire.push({"re1":re1,"cant1":amount,"nombre": +re1+":"+amount});
-            record.CantRefriAire = _.reject(record.CantRefriAire,function (el) { return el.anno==year;
+            record.CantRefriAire = _.reject(record.CantRefriAire,function (el) { return el.anno==re1;
             }).concat([{"re1":re1,"cant1":amount,"nombre": +re1+":"+amount}]);
             record.CantRefriAire =  _.uniq(record.CantRefriAire,false,function (el) {
                 return el.re1;

@@ -1011,9 +1011,19 @@ angular.module('app.sao')
 
                     errors.push('taller');
                 }
-                if(!str.test(record.municipio)){
-                    errors.push('municipio');
+                if(Object.prototype.toString.call( record.municipio ) === '[object Object]'){
+                    if(!str.test(record.municipio.nombre)){
+                        errors.push('municipio');
+                    }
                 }
+                else
+                    {
+
+                    if(!str.test(record.municipio)){
+                        errors.push('municipio');
+                    }
+                }
+
                 break;
             case 'general':
 
