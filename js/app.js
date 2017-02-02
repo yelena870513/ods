@@ -162,33 +162,23 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
 
 }).run(function (Manager,SHA256,SAO) {
 
-    //Creando por defecto las provincias municipios y ministerios
-    Manager.record('provincia').then(function(provincias){
-        if (provincias.rows.length==0) {
+    //Creando al usuario sino existe
+    Manager.record('usuario').then(function (data) {
+        var users = data.rows.map(function (el) {
+            return el.doc;
+        });
 
-            var provinces = _(SAO.Provincias).map(function (pr) {
-                pr["tipo"]="provincia";
-                return pr;
-            });
-            Manager.update(provinces).then(function(){
-                var municipios = [];
-                SAO.Provincias.forEach(function(e){
-                    e.municipios.forEach(function(m,index){
-                        municipios.push(
-                            {
-                                "nombre":m,
-                                "id":index+1,
-                                "provincia": e.id,
-                                "tipo":"municipio"
-                            });
-                    });
-                });
+        var result =  _.find(users,{"username":"sao"});
+        if(result==undefined)
+        {
 
-
+            Manager.create({
+                "username":"sao",
+                "password":SHA256("sao").toString(),
+                "tipo":"usuario"
             });
         }
     });
-
     //Creando por defecto las provincias municipios y ministerios
     Manager.record('provincia').then(function(provincias){
         if (provincias.rows.length==0) {
@@ -197,19 +187,30 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
                 pr["tipo"]="provincia";
                 return pr;
             });
+
+            var municipios = [];
             Manager.update(provinces).then(function(){
-                var municipios = [];
-                SAO.Provincias.forEach(function(e){
-                    e.municipios.forEach(function(m,index){
-                        municipios.push(
-                            {
-                            "nombre":m,
-                            "id":index+1,
-                            "provincia": e.id,
-                            "tipo":"municipio"
-                            });
-                    });
+
+                provinces.forEach(function(e){
+                   if(e!=undefined)
+                   {
+                       if(e.municipios !=undefined)
+                       {
+                           e.municipios.forEach(function(m,index)
+                           {
+                               municipios.push(
+                                   {
+                                       "nombre":m,
+                                       "id":index+1,
+                                       "provincia": e.id,
+                                       "tipo":"municipio"
+                                   });
+                           });
+                       }
+                   }
                 });
+
+                Manager.update(municipios);
 
 
             });

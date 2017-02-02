@@ -1739,6 +1739,13 @@ angular.module('app.sao')
             else{
                 $scope.user  = user;
             }
+
+            $scope.pies = [];
+            // var els = document.getElementsByTagName('canvas');
+            // els.forEach(function (el) {
+            //     el.parent.removeChild(el);
+            // })
+
         }
 
         init();
