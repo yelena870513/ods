@@ -204,6 +204,11 @@ Leyenda en los graficos
     cursor: hand;
 }
 
+.titlebar {
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
 /*PDF*/
 /*#table-data{*/
     /*transform: scale(2, 2);*/

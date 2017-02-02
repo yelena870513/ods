@@ -20,7 +20,8 @@ function createWindow () {
         'min-width': 500,
         'min-height': 200,
         'accept-first-mouse': true,
-        'title-bar-style':'hidden'
+        'titleBarStyle':'hidden'
+          //frame: false
       }
       )  ;
 
