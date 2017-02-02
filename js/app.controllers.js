@@ -935,7 +935,7 @@ angular.module('app.sao')
 
         init();
     })
-    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$location,$timeout,$localStorage,SType,currentWebContents) {
+    .controller("chartController", function ($scope, SAO, Manager, $uibModal,$location,$timeout,$localStorage,SType,currentWebContents,ChartJs) {
         //Controlador para los charts
         var charting = '';
         var active = '';
@@ -951,28 +951,9 @@ angular.module('app.sao')
             "show":false
         };
        $scope.pies = [];
-        // $scope.pie = {
-        //     "labels":['2010', '2015', '2020', '2025','2030'],
-        //     "data": [],
-        //     "options":{},
-        //     "show":false
-        //
-        // };
-
-
-
-        // $scope.pie = {
-        //     "labels":["SAO 1", "SAO 2", "SAO 3"],
-        //     "data": [  300, 500, 100 ],
-        //     "options":{},
-        //     "show":false
-        //
-        // }
-
-
-
 
         $scope.SelectChart= function (chart) {
+            $scope.pies=[];
             charting = chart;
             for (var i in SType)
             {
@@ -1726,6 +1707,44 @@ angular.module('app.sao')
             return chart;
         }
 
+        function clearChart(elementId)
+        {
+            if (document.getElementById(elementId))
+            {
+                var charts = ChartJs.Chart.instances; // Get all chart instances
+                for (var key in charts){ // loop looking for the chart you want to remove
+                    if (!charts.hasOwnProperty(key)){
+                        continue;
+                    }
+                    var chartAux = ChartJs.Chart.instances[key];
+                    if (chartAux.chart.ctx.canvas.id === elementId){
+                        // Remove chart-legend before destroying the chart
+                        var parent = chartAux.chart.ctx.canvas.parentElement;
+                        var legend = chartAux.chart.ctx.canvas.nextElementSibling;
+                        parent.removeChild(legend);
+                        // Compare id with elementId passed by and if it is the one
+                        // you want to remove just call the destroy function
+                        ChartJs.Chart.instances[key].destroy();
+                    }
+                }
+            }
+        }
+
+        function clearAllChart() {
+            var charts = ChartJs.Chart.instances; // Get all chart instances
+            for (var key in charts){ // loop looking for the chart you want to remove
+                if (!charts.hasOwnProperty(key)){
+                    continue;
+                }
+                var chartAux = ChartJs.Chart.instances[key];
+                var parent = chartAux.chart.ctx.canvas.parentElement;
+                var legend = chartAux.chart.ctx.canvas.nextElementSibling;
+                parent.removeChild(legend);
+                ChartJs.Chart.instances[key].destroy();
+
+            }
+        }
+
         function init() {
             // var user = $cookies.get('user');
             var user = $localStorage.user;
@@ -1741,10 +1760,8 @@ angular.module('app.sao')
             }
 
             $scope.pies = [];
-            // var els = document.getElementsByTagName('canvas');
-            // els.forEach(function (el) {
-            //     el.parent.removeChild(el);
-            // })
+            clearAllChart();
+
 
         }
 
