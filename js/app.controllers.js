@@ -2909,7 +2909,7 @@ angular.module('app.sao')
 
     $scope.nomenclatures = [];
     $scope.ntype = '';
-    $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
+    $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde',"sector","subsector","alternativa"];
 
     $scope.Nomenclature = function (nomenclature,size) {
         var instance = $uibModal.open({
