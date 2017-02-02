@@ -178,6 +178,32 @@ i.mas{
     border-radius: 0.2em;
 }
 
+/*
+Leyenda en los graficos
+*/
+.legend{
+    width: 10em;
+    border:1px solid gainsboro;
+}
+
+.legend em, .legend strong{
+    margin: 0.2em;
+}
+
+.legend span{
+    margin-right: 0.1em;
+    width: 1em;
+}
+
+.list-le{
+    padding-left: 0;
+}
+
+.list-le li{
+    margin-bottom: 1em;
+    cursor: hand;
+}
+
 /*PDF*/
 /*#table-data{*/
     /*transform: scale(2, 2);*/

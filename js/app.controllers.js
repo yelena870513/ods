@@ -1664,7 +1664,7 @@ angular.module('app.sao')
                     "options":{
                         legendCallback: function(chart) {
                             var text = [];
-                            text.push('<ul class="' + chart.id + '-legend">');
+                            text.push('<ul class="' + chart.id + '-legend list-le">');
 
                             var data = chart.data;
                             var datasets = data.datasets;
@@ -1672,10 +1672,11 @@ angular.module('app.sao')
 
                             if (datasets.length) {
                                 for (var i = 0; i < datasets[0].data.length; ++i) {
-                                    text.push('<li><span style="background-color:' + datasets[0].backgroundColor[i] + '"></span>');
+                                    text.push('<li>');
                                     if (labels[i]) {
+                                        text.push('<span style="background-color:' + datasets[0].backgroundColor[i] + '">&nbsp;&nbsp;</span>');
                                         text.push(labels[i]);
-                                        text.push("<em class='legen-value'>"+datasets[0].data[i]+"<em>");
+                                        text.push('<strong>'+datasets[0].data[i]+'</strong>');
 
                                     }
                                     text.push('</li>');
