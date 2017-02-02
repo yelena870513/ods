@@ -107,10 +107,10 @@
         <div data-ng-show="table.columns.length>0">
 
             <h4 >{{table.title  }}</h4>
-            <table class="table table-bordered t"tle table-striped table-hover">
+            <table class="table table-bordered table table-striped table-hover">
                 <thead>
                 <tr >
-                    <th data-ng-repeat="col in table.columns">{{col  }}</th>
+                    <th data-ng-repeat="col in table.columns">{{col | showName  }}</th>
                     <th>Opciones</th>
                 </tr>
                 </thead>

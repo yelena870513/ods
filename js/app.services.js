@@ -871,7 +871,7 @@ angular.module('app.sao')
         {"fields":["Aplicaciones", "Sustancias", "unidades","Capacidad", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración", "tipo":"refri"},
         {"fields":["Aplicaciones", "Sustancias", "unidades", "Capacidad", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado", "tipo":"aire3"},
         {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente", "tipo":"general3"},
-        {"fields":["Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", 'SustanciaAire','TipoAire','nombreTaller'],"nombre":"Taller de servicios", "tipo":"empresa4"}
+        {"fields":["Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", 'SustanciaAire','TipoAire','nombreTaller','year','explotacion'],"nombre":"Taller de servicios", "tipo":"empresa4"}
 
     ];
 })

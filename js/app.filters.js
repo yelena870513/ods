@@ -25,9 +25,10 @@ angular.module('app.sao').filter('mainString',function () {
 })
     //Este filtro se encarga de transformar la clave alias por el titulo de la columna en cuestion
     .filter('showName',function(){
-        return function(data,columns){
+        return function(data){
             if (data!=undefined) {
-                return columns[data].nombre;
+
+               return data=="year"?"'A\u00F1o":data;
             }
         }
     })

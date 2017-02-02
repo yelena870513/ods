@@ -950,14 +950,14 @@ angular.module('app.sao')
             "data": [],
             "show":false
         };
-
-        $scope.pie = {
-            "labels":['2010', '2015', '2020', '2025','2030'],
-            "data": [],
-            "options":{},
-            "show":false
-
-        };
+       $scope.pies = [];
+        // $scope.pie = {
+        //     "labels":['2010', '2015', '2020', '2025','2030'],
+        //     "data": [],
+        //     "options":{},
+        //     "show":false
+        //
+        // };
 
 
 
@@ -1695,7 +1695,6 @@ angular.module('app.sao')
                                     if (labels[i]) {
                                         text.push(labels[i]);
                                         text.push("<em class='legen-value'>"+datasets[0].data[i]+"<em>");
-                                        console.log(datasets[0].data[i]);
 
                                     }
                                     text.push('</li>');
