@@ -7,7 +7,7 @@ angular.module('app.sao').filter('mainString',function () {
            if( Object.prototype.toString.call( data ) === '[object Array]' )
            {
                return data.map(function (doc) {
-                   return doc.nombre;
+                   return doc.nombre.trim();
                }).join(',');
            }
            else if(Object.prototype.toString.call( data ) === '[object Object]' )
@@ -28,7 +28,13 @@ angular.module('app.sao').filter('mainString',function () {
         return function(data){
             if (data!=undefined) {
 
-               return data=="year"?"'A\u00F1o":data;
+                switch (data){
+                    case "year":return "A\u00F1o";
+                    case "Organizacion":return "Organizaci\u00F1o";
+                    default: return data;
+                }
+
+
             }
         }
     })

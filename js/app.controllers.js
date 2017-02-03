@@ -246,6 +246,7 @@ angular.module('app.sao')
             "municipio":"",
             "sustanciasR":"",
             "sustanciasRL":"",
+            "year":0,
             // "ingenieros":"",
             // "tecnicos":"",
             "experiencias":"",
@@ -942,7 +943,7 @@ angular.module('app.sao')
         $scope.user = undefined;
         $scope.isPrinting = false;
         $scope.records= [];
-       var years = [2010,2015,2016];
+       var years = [2011,2015,2016];
         $scope.selectedYear = 2010;
         $scope.bar = {
             "labels":[],
@@ -1206,12 +1207,12 @@ angular.module('app.sao')
                         data:[]
                     };
                     table.names = SAO.Tabla5.map(function (el) {
-                        return el.nombre;
+                        return el.aplicacion.nombre;
                     });
 
                     table.names.forEach(function (el) {
                         var rec = $scope.records.filter(function (r) {
-                            return r.Sustancia.nombre==el;
+                            return r.Subsector.nombre==el;
                         })[0];
 
                         if (rec!=undefined)
@@ -1228,10 +1229,10 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2010,2015];
+                    $scope.years = [2011,2015,2016];
 
                     $scope.bar = {
-                        "labels":['2011', '2012','2013','2014','2015'],
+                        "labels":['2011', '2012','2013','2014','2015','2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1674,8 +1675,8 @@ angular.module('app.sao')
                                 for (var i = 0; i < datasets[0].data.length; ++i) {
                                     text.push('<li>');
                                     if (labels[i]) {
-                                        text.push('<span style="background-color:' + datasets[0].backgroundColor[i] + '">&nbsp;&nbsp;</span>');
-                                        text.push(labels[i]);
+                                        text.push('<span style="background-color:' + datasets[0].backgroundColor[i] + ';border-radius: 1px;">&nbsp;&nbsp;</span>');
+                                        text.push(labels[i]+"-");
                                         text.push('<strong>'+datasets[0].data[i]+'</strong>');
 
                                     }
@@ -2927,7 +2928,7 @@ angular.module('app.sao')
 
     $scope.nomenclatures = [];
     $scope.ntype = '';
-    $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde',"sector","subsector","alternativa"];
+    $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
 
     $scope.Nomenclature = function (nomenclature,size) {
         var instance = $uibModal.open({
