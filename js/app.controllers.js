@@ -1913,9 +1913,15 @@ angular.module('app.sao')
                     }
                     break;
                 case 'general2':
-                    if(element.otrosAlternativa!=''){
-                        element.Tipo={nombre:element.otrosAlternativa}
+                    error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw 'Introduzca el valor de ' + e;
+                        });
                     }
+
                     break;
                 case 'empresa4':
                      error = ModelValidator.RecordError(element);

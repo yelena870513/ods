@@ -1030,6 +1030,23 @@ angular.module('app.sao')
 
         validator.isValidNomenclature = function (str) {
             return nomenclature.test(str.nombre);
+
+        };
+
+        var alternativa = /^[a-z][a-z0-9\.]{3,70}$/i;
+        validator.isValidAlternativa = function(alt){
+
+            return alternativa.test(alt.alternativa);
+        };
+
+        validator.AlternativaError = function (alt) {
+            var errors = [];
+
+            if (!alternativa.test(alt.alternativa))
+            {
+                errors.push('alternativa');
+            }
+            return errors;
         };
 
         validator.RecordError = function (record) {
@@ -1061,6 +1078,15 @@ angular.module('app.sao')
                 }
                 if(!str.test(record.empresa)){
                     errors.push('empresa');
+                }
+                break;
+            case 'general2':
+                if(record.otrosAlternativa!=undefined)
+                {
+                    if(!alternativa.test(record.otrosAlternativa)){
+                        errors.push('alternativa');
+                    }
+
                 }
                 break;
 
