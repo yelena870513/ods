@@ -204,6 +204,7 @@ angular.module('app.sao')
             "otrosAlternativa":"",
             "unidades":"",
             "explotacion":"",
+            "year":2010,
             "Uso":[],//{ano:"---",tons:""},
             "tipo":"refri"
 
