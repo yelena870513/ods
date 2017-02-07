@@ -152,7 +152,7 @@ angular.module('app.sao')
             // "clasificacion":SAO.Clasificacion[0],
             "otrosAlternativa":"",
             "unidades":"",
-            //"explotacion":"",
+            "explotacion":"",
             "Uso":[],//{ano:"---",tons:""},
             "clasificacion":SAO.Clasificacion[1],
             "tipo":"aire3"
@@ -952,6 +952,26 @@ angular.module('app.sao')
             "show":false
         };
        $scope.pies = [];
+        // $scope.pie = {
+        //     "labels":['2010', '2015', '2020', '2025','2030'],
+        //     "data": [],
+        //     "options":{},
+        //     "show":false
+        //
+        // };
+
+
+
+        // $scope.pie = {
+        //     "labels":["SAO 1", "SAO 2", "SAO 3"],
+        //     "data": [  300, 500, 100 ],
+        //     "options":{},
+        //     "show":false
+        //
+        // }
+
+
+
 
         $scope.SelectChart= function (chart) {
             $scope.pies=[];
@@ -1466,7 +1486,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2016,2014,2015,2016];
+                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1895,7 +1915,8 @@ angular.module('app.sao')
                     {
                         error.forEach(function(e){
                             $scope.error.tipo = e;
-                            throw 'Nombre de alternativa incorrecto. Debe contener m\u00E1s de tres car\u00E1cteres. ';
+                            throw msg[e];
+
                         });
                     }
                     if(element.otrosAlternativa!=''){
@@ -1921,7 +1942,8 @@ angular.module('app.sao')
                     {
                         error.forEach(function(e){
                             $scope.error.tipo = e;
-                            throw 'Nombre de alternativa incorrecto. Debe contener m\u00E1s de tres car\u00E1cteres. ';
+                            throw msg[e];
+
                         });
                     }
                     if(element.otrosAlternativa!=''){
@@ -1942,10 +1964,10 @@ angular.module('app.sao')
                     {
                         error.forEach(function(e){
                             $scope.error.tipo = e;
-                            throw 'Nombre de alternativa incorrecto. Debe contener m\u00E1s de tres car\u00E1cteres. ';
+                            throw msg[e];
+
                         });
                     }
-
                     if(element.otrosAlternativa!=''){
                         element.Tipo={nombre:element.otrosAlternativa}
                     }
@@ -1989,7 +2011,8 @@ angular.module('app.sao')
                     {
                         error.forEach(function(e){
                             $scope.error.tipo = e;
-                            throw 'Nombre de alternativa incorrecto. Debe contener m\u00E1s de tres car\u00E1cteres. ';
+                            throw msg[e];
+
                         });
                     }
                     if(element.otrosAlternativa!=''){
@@ -2315,7 +2338,8 @@ angular.module('app.sao')
 
                         break;
                     case 'empresa4':
-                        $scope.record.Organizacion = SAO.OrgProduccion[0];
+                        $scope.record.sustancia = SAO.OrgProduccion[0];
+                        //$scope.record.municipio = SAO.Provincias.municipios[0];
                         $scope.record.TipoAire = SAO.TipoAire[0];
                         $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
                         $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[1];

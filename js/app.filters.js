@@ -39,10 +39,18 @@ angular.module('app.sao').filter('mainString',function () {
                     case "experiencias":return "a\u00F1os de experiencia";
                     case "Estado":return "Estado t\u00E9nico";
                     case "explotacion":return "Consumo (Toneladas m\u00E9tricas)";
-                    case "SustaciaAire":return "Sustacia Aire";
-                    case "SustanciaRefrigerante":return "Sustancia Refrigerante";
-                    case "TipoRefrigeracion":return "Tipo Refrigeraci\u00F3n";
+                    case "SustaciaAire":return "Aire";
+                    case "SustaciaAire":return "Aire";
+                    case "SustanciaRefrigerante":return "Refrigerante";
+                    case "TipoRefrigeracion":return "Tipo refrigeraci\u00F3n";
                     case "TipoAire":return "Tipo Aire";
+                    case "CantRefriAire":return "Refrigerante aire ";
+                    case "CantRefriRefri":return "Refrigerante refrigeraci\u00F3n";
+                    case "sustanciasR":return "R-141b (g)";
+                    case "sustanciasRL":return "RL-95 (litros)";
+                    case "Recuperacion":return "Equipos recuperaci\u00F3n";
+                    case "Recuperado":return "Cantidad recuperado";
+                    case "Total":return "Personal productivo";
                     default: return data;
                 }
 

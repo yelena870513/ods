@@ -871,7 +871,7 @@ angular.module('app.sao')
         {"fields":["Aplicaciones", "Alternativas", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración.", "tipo":"refri"},
         {"fields":["Aplicaciones", "Sustancias", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado.", "tipo":"aire3"},
         {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente.", "tipo":"general3"},
-        {"fields":["Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", 'SustanciaAire','TipoAire','nombreTaller','year','explotacion'],"nombre":"Taller de servicios.", "tipo":"empresa4"}
+        {"fields":['nombreTaller','municipio','sustanciasR','sustanciasRL',"Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", "CantRefriRefri",'SustanciaAire','TipoAire','CantRefriAire','Recuperacion','Recuperado','Total'],"nombre":"Taller de servicios.", "tipo":"empresa4"}
 
     ];
 })
@@ -1014,7 +1014,6 @@ angular.module('app.sao')
             return pass.test(user.password) && username.test(user.username);
         };
 
-
         validator.UserError = function (user) {
             var errors = [];
             if (!pass.test(user.password))
@@ -1028,7 +1027,6 @@ angular.module('app.sao')
             }
             return errors;
         };
-
 
 
         validator.isValidNomenclature = function (str) {
@@ -1104,7 +1102,6 @@ angular.module('app.sao')
 
 
                 break;
-
 
             default:
                 break;
