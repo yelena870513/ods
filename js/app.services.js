@@ -725,13 +725,13 @@ angular.module('app.sao')
         "Tabla2":[
             {"id":1,"aplicacion":{"id":1,"nombre":"Aerosol"},"alternativas":[{"id":1,"nombre":"Propelente"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Espuma: poliuretano "}, "alternativas":[{"id":1,"nombre":"Aislamiento de Refrigeración Doméstica"},{"id":2,"nombre":"Propelente"},{"id":3,"nombre":"Contenedores Refrigerados"},{"id":4,"nombre":"Tableros"},{"id":5,"nombre":"Panel Continuo "},{"id":6,"nombre":"Panel Discontinuo"},{"id":7,"nombre":"Espuma en Espray "},{"id":8,"nombre":"Tubería en Tubería "},{"id":9,"nombre":"Bloques"},{"id":10,"nombre":"Bloques de poliuretano "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
-            {"id":3,"aplicacion":{"id":1,"nombre":"Espuma: polietileno extruido"}, "alternativas":[{"id":1,"nombre":"-"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":3,"aplicacion":{"id":1,"nombre":"Espuma: polietileno extruido"}, "alternativas":[{"id":1,"nombre":"Ninguno"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":4,"aplicacion":{"id":1,"nombre":"Extintores"}, "alternativas":[{"id":1,"nombre":"Ninguno"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":5,"aplicacion":{"id":1,"nombre":"Refrigeración"}, "alternativas":[{"id":1,"nombre":"Refrigeradores domésticos y Freezers/ Otras aplicaciones"},{"id":2,"nombre":"Refrigeración Comercial"},{"id":3,"nombre":"Equipos Autónomos"},{"id":4,"nombre":"Unidades Condensadoras"},{"id":5,"nombre":"Sistemas Centralizados"},{"id":6,"nombre":"Transporte"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":6,"aplicacion":{"id":1,"nombre":"Refrigeración: Aire Acondicionado automotriz"}, "alternativas":[{"id":1,"nombre":"Automóviles, Transporte Público"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":7,"aplicacion":{"id":1,"nombre":"Refrigeración: chillers "}, "alternativas":[{"id":1,"nombre":"Desplazamiento Positivo"},{"id":2,"nombre":"Centrífugo"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":8,"aplicacion":{"id":1,"nombre":"Acondicionadores de Aire"}, "alternativas":[{"id":1,"nombre":"Pequeño Autónomo"},{"id":2,"nombre":"Mini-split "},{"id":3,"nombre":"Multi-split "},{"id":4,"nombre":"Split comercial con conductos"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
-            {"id":9,"aplicacion":{"id":1,"nombre":"Solventes"}, "alternativas":[{"id":1,"nombre":"- "}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
+            {"id":9,"aplicacion":{"id":1,"nombre":"Solventes"}, "alternativas":[{"id":1,"nombre":"Ninguno"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
         ],
         // "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
         "SustanciasTabla3":[{"id":"1","nombre":'HCFC-141b '},{"id":"2","nombre":'HCFC-142b '}, {"id":"3","nombre":'HCFC-22 '},{"id":"4","nombre":'HCFC-245a '},{"id":"5","nombre":'HFC-365mfc/HFC-227ea '},{"id":"6","nombre":'HFC-134a/HFC-152a '},{"id":"7","nombre":'HFO/HCFO '},{"id":"8","nombre":'Hidrocarburos'},{"id":"9","nombre":'Otros'}],
@@ -853,25 +853,25 @@ angular.module('app.sao')
     return        [
         // "general":["provincia","ministerio","osde","empresa"],
 
-        {"fields":["sustancia", "sector"],"nombre":"Uso general de alternativas a las SAO en la actualidad","tipo":"general1"},
-        {"fields":["Alternativa", "Tipo", "Sector", "ra"],"nombre":"Resumen de su uso en todos los sectores para cada año entre 2011-2015", "tipo":"general2"},
-        {"fields":["Alternativa", "Tipo", "Importaciones"],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
-        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agentes espumante en el sector de espuma","tipo":"espuma1"},
-        {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma","tipo":"espuma2"},
-        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO","tipo":"importaciones1"},
-        {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido", "tipo":"espuma3"},
+        {"fields":["sustancia", "sector"],"nombre":"Uso general de alternativas a las SAO en la actualidad.","tipo":"general1"},
+        {"fields":["Alternativa", "Tipo", "Sector", "ra"],"nombre":"Resumen de su uso en todos los sectores para cada año entre 2011-2016.", "tipo":"general2"},
+        {"fields":["Alternativa", "Tipo", "Importaciones"],"nombre":"Cantidad de importaciones de alternativas de ODS.", "tipo":"importaciones2"},
+        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agentes espumante en el sector de espuma.","tipo":"espuma1"},
+        {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma.","tipo":"espuma2"},
+        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
+        {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido.", "tipo":"espuma3"},
         // {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
-        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles ", "tipo":"aerosoles"},
-        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Refrigeracion Móvil ", "tipo":"empresa2"},
-        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes", "tipo":"empresa3"},
-        {"fields":["Subsector", "Uso"],"nombre":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado","tipo":"aire1"},
-        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados", "tipo":"aire2"},
-        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) y sus alternativas en el subsector de manufactura", "tipo":"consumo"},
-        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz", "tipo":"empresa1"},
-        {"fields":["Aplicaciones", "Sustancias", "unidades","Capacidad", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración", "tipo":"refri"},
-        {"fields":["Aplicaciones", "Sustancias", "unidades", "Capacidad", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado", "tipo":"aire3"},
-        {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente", "tipo":"general3"},
-        {"fields":["Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", 'SustanciaAire','TipoAire','nombreTaller','year','explotacion'],"nombre":"Taller de servicios", "tipo":"empresa4"}
+        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles. ", "tipo":"aerosoles"},
+        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Refrigeracion Móvil. ", "tipo":"empresa2"},
+        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes.", "tipo":"empresa3"},
+        {"fields":["Subsector", "Uso"],"nombre":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado.","tipo":"aire1"},
+        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados.", "tipo":"aire2"},
+        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) y sus alternativas en el subsector de manufactura.", "tipo":"consumo"},
+        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz.", "tipo":"empresa1"},
+        {"fields":["Aplicaciones", "Alternativas", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración.", "tipo":"refri"},
+        {"fields":["Aplicaciones", "Sustancias", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado.", "tipo":"aire3"},
+        {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente.", "tipo":"general3"},
+        {"fields":['nombreTaller','municipio','sustanciasR','sustanciasRL',"Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", "CantRefriRefri",'SustanciaAire','TipoAire','CantRefriAire','Recuperacion','Recuperado','Total'],"nombre":"Taller de servicios.", "tipo":"empresa4"}
 
     ];
 })
@@ -1004,6 +1004,7 @@ angular.module('app.sao')
         var validator = {};
         var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
         var username = /^[a-z][a-z0-9\.]{3,15}$/i;
+        var alternativa = /^[\w()/ -]{3,50}$/;
         var str = /^[\w() -]{3,100}$/;
         var nomenclature = /^[\w() -]{3,100}$/;
 
@@ -1062,6 +1063,48 @@ angular.module('app.sao')
                 if(!str.test(record.empresa)){
                     errors.push('empresa');
                 }
+                break;
+            case 'general2':
+            case 'espuma3':
+            case 'aire2':
+            case 'consumo':
+            case 'aerosoles':
+            case 'empresa3':
+            case 'importaciones2':
+                if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
+                {
+                    if(!alternativa.test(record.otrosAlternativa)){
+                        errors.push('alternativa');
+                    }
+
+                }
+
+                    break;
+            case 'refri':
+            case 'aire3':
+                if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
+                {
+                    if(!alternativa.test(record.otrosAlternativa)){
+                        errors.push('alternativa');
+                    }
+
+                }
+
+                if(record.experiencias==undefined)
+                {
+
+                    errors.push('experiencias');
+
+                }
+                if(record.unidades==undefined)
+                {
+
+                    errors.push('unidades');
+
+                }
+
+
+
                 break;
 
             default:

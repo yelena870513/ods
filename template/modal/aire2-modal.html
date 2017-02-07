@@ -18,13 +18,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Aplicación:</label>
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="Tabla9R"-->
-                                <!--data-ng-change="ShowTabla9()"-->
-                                <!--data-ng-options="item as item.aplicacion.nombre for item in SAO.Tabla9"-->
-                        <!--&gt;-->
 
-                        <!--</select>-->
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
@@ -50,13 +44,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Alternativa:</label>
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="record.Alternativas"-->
-                                <!--data-ng-change= "record.otrosAlternativa='';"-->
-                                <!--data-ng-options="item as item.nombre for item in Tabla9R.alternativas"-->
-                        <!--&gt;-->
 
-                        <!--</select>-->
                         <ui-select style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    theme="bootstrap"
@@ -71,7 +59,7 @@
                     </div>
                     <div class="form-group">
                         <label >Otros (especificar):</label>
-                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa"/>
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa" data-ng-class="{'control-error':error.show && error.tipo=='alternativa'}"/>
                     </div>
                 </div>
             </div>
@@ -79,17 +67,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="year">Año:</label>
-                        <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="year"-->
-                                <!--data-ng-change="amount=0"-->
-                                <!--data-ng-class="{'control-error':error.show}"-->
-                                <!--data-ng-options="item as item for item in [2011,2012,2013,2014,2015,2016]"></select>-->
+
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    id="year"
                                    data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
-                                   on-select="OnSelect($item,$model)"
+                                   on-select="OnSelect($item,$model,'amount','year')"
                                    data-ng-model="year">
                             <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
                             <ui-select-choices repeat="item  in  [2011,2012,2013,2014,2015,2016]">
@@ -116,7 +100,7 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Aceptar</span>
                <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar

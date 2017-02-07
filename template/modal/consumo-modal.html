@@ -61,17 +61,10 @@
                             </ui-select-choices>
                         </ui-select>
 
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="record.Alternativas"-->
-                                <!--data-ng-options="item as item.nombre for item in consumoR.alternativas"-->
-                        <!--&gt;-->
-
-                        <!--</select>-->
-
                     </div>
                     <div class="form-group">
                         <label >Otros (especificar):</label>
-                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa"/>
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa" data-ng-class="{'control-error':error.show && error.tipo=='alternativa'}"/>
                     </div>
                 </div>
             </div>
@@ -84,7 +77,7 @@
                                    aria-hidden="true"
                                    id="year"
                                    data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
-                                   on-select="OnSelect($item,$model)"
+                                   on-select="OnSelect($item,$model,'amount','year')"
                                    data-ng-model="year">
                             <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
                             <ui-select-choices repeat="item  in  [2011,2012,2013,2014,2015,2016]">

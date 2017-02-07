@@ -247,13 +247,55 @@ max-height: 100%;
 }
 .dropdown-menu>li>a {
     cursor: hand;
+    font-size: 17px;
 }
 .btn-primary {
     background-color: #ccc;
     border-color: #eee;
+    font-size: 17px;
 }
 @media (min-width: 992px) {
     .col-md-6 {
         width: 100%;
     }
+}
+.nav{
+
+    font-size: 17px;
+}
+.btn-group>.btn:first-child {
+
+     font-size: 17px;
+ }
+.table {
+
+    font-size: 17px;
+}
+.modal-footer .btn+.btn {
+
+    font-size: 17px;
+}
+label {
+
+    font-size: 17px;
+}
+.ui-select-bootstrap .ui-select-match-text span {
+
+    font-size: 17px;
+}
+.form-control:focus {
+
+    font-size: 17px;
+}
+.form-control {
+
+    font-size: 17px;
+}
+p {
+
+    font-size: 17px;
+}
+.ui-select-bootstrap .ui-select-choices-row>span {
+
+    font-size: 17px;
 }

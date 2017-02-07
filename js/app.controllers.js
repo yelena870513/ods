@@ -203,7 +203,8 @@ angular.module('app.sao')
             "Estado":SAO.EstadoRefri[0],
             "otrosAlternativa":"",
             "unidades":"",
-            // "explotacion":"",
+            "explotacion":"",
+            "year":2010,
             "Uso":[],//{ano:"---",tons:""},
             "tipo":"refri"
 
@@ -247,7 +248,7 @@ angular.module('app.sao')
             "sustanciasR":"",
             "sustanciasRL":"",
             "year":0,
-            // "ingenieros":"",
+             "explotacion":"",
             // "tecnicos":"",
             "experiencias":"",
             "Recuperacion":[],
@@ -952,6 +953,26 @@ angular.module('app.sao')
             "show":false
         };
        $scope.pies = [];
+        // $scope.pie = {
+        //     "labels":['2010', '2015', '2020', '2025','2030'],
+        //     "data": [],
+        //     "options":{},
+        //     "show":false
+        //
+        // };
+
+
+
+        // $scope.pie = {
+        //     "labels":["SAO 1", "SAO 2", "SAO 3"],
+        //     "data": [  300, 500, 100 ],
+        //     "options":{},
+        //     "show":false
+        //
+        // }
+
+
+
 
         $scope.SelectChart= function (chart) {
             $scope.pies=[];
@@ -1105,7 +1126,7 @@ angular.module('app.sao')
 
                     $scope.bar =
                     {
-                        "labels":['2010', '2015', '2020', '2025','2030'],
+                        "labels":['2010', '2015'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1229,7 +1250,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2011,2015,2016];
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
 
                     $scope.bar = {
                         "labels":['2011', '2012','2013','2014','2015','2016'],
@@ -1363,10 +1384,10 @@ angular.module('app.sao')
 
 
                     });
-                    $scope.years = [2010,2015];
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
 
                     $scope.bar = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1415,10 +1436,10 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2010,2015];
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
 
                     $scope.bar = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
+                        "labels":['2011', '2012', '2013', '2014','2015', '2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1469,7 +1490,7 @@ angular.module('app.sao')
                     $scope.years = [2010,2015];
 
                     $scope.bar = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1517,10 +1538,10 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2010,2015];
+                    $scope.years = [2011,2012,2016,2014,2015,2016];
 
                     $scope.bar = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1567,10 +1588,10 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2010,2015];
+                    $scope.years = [2011,2012,2016,2014,2015,2016];
 
                     $scope.bar = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1587,7 +1608,7 @@ angular.module('app.sao')
                     break;
                 default:
                     $scope.bar = {
-                        "labels":['2011', '2012', '2013', '2014','2015'],
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":false,
@@ -1863,6 +1884,11 @@ angular.module('app.sao')
 
         function Add(element) {
             var error = [];
+            var msg = {
+                experiencias:'Introduzca los a\u00F1os de experiencia.',
+                alternativa:'Nombre de alternativa incorrecto. \n Debe contener m\u00E1s de tres car\u00E1cteres y/o no se acepta car\u00E1teres extra\u00F1os. ',
+                unidades:'Introduzca el No. unidades.'
+            };
             switch (element.tipo) {
                 case 'general1':
                     element.sector = element.sector.concat($scope.SAO.Sector.filter(function(el) {
@@ -1879,12 +1905,21 @@ angular.module('app.sao')
                         if(element.Uso.length<5)
                         {
                             $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
                         }
                     }
 
                     break;
                 case 'espuma3':
+                    error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw msg[e];
+
+                        });
+                    }
                     if(element.otrosAlternativa!=''){
                         element.Alternativa={nombre:element.otrosAlternativa}
                     }
@@ -1893,7 +1928,7 @@ angular.module('app.sao')
                         if(element.Uso.length<6)
                         {
                             $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
                         }
                     }
                     break;
@@ -1901,6 +1936,17 @@ angular.module('app.sao')
                 case 'consumo':
                 case 'aerosoles':
                 case 'empresa3':
+                case 'empresa1':
+                case 'empresa2':
+                    error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw msg[e];
+
+                        });
+                    }
                     if(element.otrosAlternativa!=''){
                         element.Alternativas={nombre:element.otrosAlternativa}
                     }
@@ -1909,17 +1955,26 @@ angular.module('app.sao')
                         if(element.Uso.length<6)
                         {
                             $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
                         }
                     }
                     break;
                 case 'general2':
+                    error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw msg[e];
+
+                        });
+                    }
                     if(element.otrosAlternativa!=''){
                         element.Tipo={nombre:element.otrosAlternativa}
                     }
                     break;
                 case 'empresa4':
-                     error = ModelValidator.RecordError(element);
+                    error = ModelValidator.RecordError(element);
                     if (error.length>0)
                     {
                         error.forEach(function(e){
@@ -1943,15 +1998,24 @@ angular.module('app.sao')
                     {
                         error.forEach(function(e){
                             $scope.error.tipo = e;
-                            throw 'Introduzca el valor de  ' +  e;
+                            throw 'Introduzca el valor de  ' +  e + '.';
                         });
                     }
                     if(element.empresa==''){
-                        throw 'Introduzca el nombre de la empresa';
+                        throw 'Introduzca el nombre de la empresa.';
                     }
 
                  break;
                 case 'importaciones2':
+                    error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw msg[e];
+
+                        });
+                    }
                     if(element.otrosAlternativa!=''){
                         element.Tipo={nombre:element.otrosAlternativa}
                     }
@@ -1960,7 +2024,7 @@ angular.module('app.sao')
                         if(element.Importaciones.length<6)
                         {
                             $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
                         }
                     }
 
@@ -1968,18 +2032,35 @@ angular.module('app.sao')
 
 
                 case 'aire3':
+                    error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw msg[e];
 
+                        });
+                    }
+                    if(element.otrosAlternativa!=''){
+                        element.Sustancias={nombre:element.otrosAlternativa}
+                    }
+
+                    element.explotacion = element.experiencias * element.unidades;
+                    break;
                 case 'refri':
-                    // element.Uso = [{anno:2011, tons: 0, "nombre": 2011+":"+0},{anno:2012, tons: 0,"nombre": 2012+":"+0},{anno:2013, tons: 0,"nombre": 2013+":"+0},{anno:2014, tons: 0,"nombre": 2014+":"+0},{anno:2015, tons: (element.Capacidad.max*element.unidades)/1000,"nombre": 2015+":"+(element.Capacidad.max*element.unidades)/1000}];
-
-
-
-
-                case 'empresa1':
-                case 'empresa2':
+                    error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw msg[e];
+                        });
+                    }
                     if(element.otrosAlternativa!=''){
                         element.Alternativas={nombre:element.otrosAlternativa}
                     }
+
+                    element.explotacion = element.experiencias * element.unidades;
                     break;
                 default:
 
@@ -1994,7 +2075,7 @@ angular.module('app.sao')
                 if(element.CantRefriRefri.length<3)
                 {
                     $scope.error.tipo='CantRefriRefri';
-                    throw 'Faltan por introducir cantidad de refrigerante consumido para refrigeraci\u00F3n ';
+                    throw 'Quedan cantidad de refrigerante consumido para refrigeraci\u00F3n sin valor. ';
                 }
             }
             if(element.CantRefriAire!=undefined)
@@ -2002,7 +2083,7 @@ angular.module('app.sao')
                 if(element.CantRefriAire.length<3)
                 {
                     $scope.error.tipo='CantRefriAire';
-                    throw 'Faltan por introducir cantidad de refrigerante consumido para aire acondicionado ';
+                    throw 'Quedan cantidad de refrigerante consumido para aire acondicionado sin valor. ';
                 }
             }
             if(element.Recuperacion!=undefined)
@@ -2010,7 +2091,7 @@ angular.module('app.sao')
                 if(element.Recuperacion.length<5)
                 {
                     $scope.error.tipo='Recuperacion';
-                    throw 'Faltan por introducir cantidad de equipos de recuperaci\u00F3n ';
+                    throw 'Quedan cantidad de equipos de recuperaci\u00F3n sin valor. ';
                 }
             }
             if(element.Recuperado!=undefined)
@@ -2018,7 +2099,7 @@ angular.module('app.sao')
                 if(element.Recuperado.length<4)
                 {
                     $scope.error.tipo='Recuperado';
-                    throw 'Faltan por introducir cantidad recuperada ';
+                    throw 'Quedan cantidad recuperada sin valor . ';
                 }
             }
             if(element.Total!=undefined)
@@ -2026,7 +2107,7 @@ angular.module('app.sao')
                 if(element.Total.length<4)
                 {
                     $scope.error.tipo='Total';
-                    throw 'Faltan por introducir personal productivo';
+                    throw 'Quedan personal productivo sin valor';
                 }
             }
             if(element.unidades=='')
@@ -2209,7 +2290,9 @@ angular.module('app.sao')
                         $scope.record.Sustancias = SAO.Tabla11A[0].alternativas[0];
                         $scope.record.clasificacion = SAO.Clasificacion[0];
                         $scope.record.Estado = SAO.Estado[0];
+                        $scope.record.year = 2010;
                         $scope.year = 2010;
+
 
                         break;
                     case 'consumo':
@@ -2221,6 +2304,7 @@ angular.module('app.sao')
                         $scope.record.Alternativas = SAO.Tabla11B[0].alternativas[0];
                         $scope.record.clasificacion = SAO.ClasificacionRefri[0];
                         $scope.record.EstadoRefri = SAO.EstadoRefri[0];
+                        $scope.record.year = 2010;
                         $scope.year = 2010;
 
                         break;
@@ -2255,7 +2339,8 @@ angular.module('app.sao')
 
                         break;
                     case 'empresa4':
-                        $scope.record.Organizacion = SAO.OrgProduccion[0];
+                        $scope.record.sustancia = SAO.OrgProduccion[0];
+                        //$scope.record.municipio = SAO.Provincias.municipios[0];
                         $scope.record.TipoAire = SAO.TipoAire[0];
                         $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
                         $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[1];
@@ -2354,20 +2439,54 @@ angular.module('app.sao')
                         break;
 
                     case 'aerosoles':
+                        $scope.Tabla12R = _.find(SAO.Tabla12,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        var aerosoles = _.find($scope.Tabla23R.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (aerosoles==undefined)
+                        {
+                            $scope.Tabla23R.alternativas =$scope.Tabla23R.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedTabla12 = $scope.Tabla12R;
+                        $scope.year = 2011;
+                        break;
                     case 'importaciones2':
                         $scope.Tabla23R = _.find(SAO.Tabla23,function(o){return o.aplicacion.nombre==$scope.record.Alternativa.nombre;});
                         var importaciones2 = _.find($scope.Tabla23R.alternativas,function(a){return a.nombre == $scope.record.Tipo.nombre; });
                         if (importaciones2==undefined)
                         {
-                            $scope.Tabla23R.alternativas =$scope.Tabla23R.alternativas.concat($scope.record.Alternativas);
+                            $scope.Tabla23R.alternativas =$scope.Tabla23R.alternativas.concat($scope.record.Alternativa);
                         }
                         selectedTabla23 = $scope.Tabla23R;
                         $scope.year = 2011;
                         break;
-                    case 'aerosoles':
+
+                    case 'empresa3':
+                        $scope.Tabla13R = _.find(SAO.Tabla13,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        var empresa3 = _.find($scope.Tabla13R.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (empresa3==undefined)
+                        {
+                            $scope.Tabla13R.alternativas =$scope.Tabla13R.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedTabla13 = $scope.Tabla13R;
+                        $scope.year = 2011;
                         break;
                     case 'empresa1':
-                    case 'empresa3':
+                        $scope.Tabla10AR = _.find(SAO.Tabla10A,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        var empresa1 = _.find($scope.Tabla10AR.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (empresa1==undefined)
+                        {
+                            $scope.Tabla10AR.alternativas =$scope.Tabla10AR.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedTabla10A = $scope.Tabla10AR;
+                        $scope.year = 2011;
+                        break;
+                    case 'empresa2':
+                        $scope.Tabla10BR = _.find(SAO.Tabla10B,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
+                        var empresa2 = _.find($scope.Tabla10BR.alternativas,function(a){return a.nombre == $scope.record.Alternativas.nombre; });
+                        if (empresa2==undefined)
+                        {
+                            $scope.Tabla10BR.alternativas =$scope.Tabla10BR.alternativas.concat($scope.record.Alternativas);
+                        }
+                        selectedTabla10B = $scope.Tabla10BR;
                         $scope.year = 2011;
                         break;
                     default:
@@ -2394,17 +2513,12 @@ angular.module('app.sao')
 
         //Modal de consumo
 
-        $scope.onSelect=function ($item,$model,prop) {
+        $scope.OnSelect=function ($item,$model,prop) {
             var type = prop==undefined?'year':prop;
-            $scope[type] = $item;
+            $scope[type] = 0;
             $scope.amount=0;
         };
 
-        $scope.OnSelect=function ($item,$model,prop) {
-            var type = prop==undefined?'year':prop;
-            $scope[type] = $item;
-            $scope.amount=0;
-        };
         $scope.ConsumoYear = function(year,amount){
 
                 if(amount==undefined){
