@@ -71,7 +71,7 @@
                     </div>
                     <div class="form-group">
                         <label >Otros (especificar):</label>
-                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa"/>
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa" data-ng-class="{'control-error':error.show && error.tipo=='alternativa'}"/>
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Aceptar</span>
                <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar

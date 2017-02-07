@@ -56,7 +56,7 @@
                                    theme="bootstrap"
                                    on-select="record.otrosAlternativa='';"
                                    data-ng-model="record.Alternativas">
-                            <ui-select-match placeholder="Sustancia">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-match placeholder="Alternativa">{{$select.selected.nombre}}</ui-select-match>
                             <ui-select-choices repeat="item  in Tabla11BR.alternativas track by $index">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
@@ -75,8 +75,25 @@
                         <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa"/>
                     </div>
                     <div class="form-group">
+                        <label >Año:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   data-ng-class="{'control-error':error.show&&error.tipo=='year'}"
+                                   id="year"
+                                   data-ng-model="record.year">
+                            <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item in [2010,2011,2012,2013,2014,2015,2016]">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                    </div>
+                    <div class="form-group">
                         <label >No. De unidades:</label>
                         <input  class="form-control" type="number" min="0"  placeholder="Unidades" data-ng-model="record.unidades" data-ng-class="{'control-error':error.show && error.tipo=='unidades'}"/>
+                    </div>
+                    <div class="form-group">
+                        <label >Años de experiencia:</label>
+                        <input  class="form-control" type="number" min="0" placeholder="Experiencias" data-ng-model="record.experiencias" data-ng-class="{'control-error':error.show && error.tipo=='experiencias'}"/>
                     </div>
                     <div class="form-group">
                         <label >Estado técnico:</label>
@@ -113,43 +130,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="year">Consumo anual por mantenimiento:</label>
-                        <ui-select theme="bootstrap"
-                                   style="width: 100%;" tabindex="-1"
-                                   aria-hidden="true"
-                                   id=""
-                                   data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
-                                   on-select="OnSelect($item,$model)"
-                                   data-ng-model="year">
-                            <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
-                            <ui-select-choices repeat="item  in  [2010,2011,2012,2013,2014,2015,2016]">
-                                <div ng-bind-html="item | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                        <!--<select id="year" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="year"-->
-                                <!--data-ng-options="item as item for item in [2010,2011,2012,2013,2014,2015]"></select>-->
-                        </div>
-
-                        <div class="form-group">
-                            <label >Toneladas métricas:</label>
-                            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" data-ng-class="{'control-error':error.show && error.tipo=='anno'}"/>
-                        </div>
-                        <div class="form-group">
-                          <p>  <i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
-                            <ul class="list-group">
-                                <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
-                                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
-                                </li>
-                            </ul>
-
-                        </div>
-                        </div>
-
-                </div>
             </div>
 
 
