@@ -9,6 +9,10 @@
             <button type="button" class="close" ng-click="error.show = false;Close();" aria-hidden="true">×</button>
             {{error.message}}
         </div>
+        <div class="alert alert-info alert-dismissable" data-ng-show="error.alt.alternativa.show">
+            <button type="button" class="close" ng-click="error.alt.alternativa.show = false;" aria-hidden="true">×</button>
+            {{error.alt.alternativa.message}}
+        </div>
     </div>
     <!-- /.box-header -->
     <!-- form start -->
@@ -51,7 +55,7 @@
                     </div>
                     <div class="form-group" >
                         <label >Otros (especificar):</label>
-                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa">
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa" data-ng-class="{'control-error':error.show && error.tipo=='alternativa'}">
                     </div>
                 </div>
             </div>
@@ -94,7 +98,7 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Agregar</span>
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Aceptar</span>
                <span data-ng-if="action=='edit'">Aceptar</span>
         </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
         Cerrar
