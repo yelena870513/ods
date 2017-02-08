@@ -184,6 +184,8 @@ Leyenda en los graficos
 .legend{
     width: 100%;
     border:1px solid gainsboro;
+    margin-bottom: 0;
+    margin-top: 10px;
 }
 
 .legend em, .legend strong{
@@ -196,7 +198,7 @@ Leyenda en los graficos
 }
 
 .list-le{
-    padding-left: 0;
+    padding-left: 5px;
 }
 
 .list-le li{

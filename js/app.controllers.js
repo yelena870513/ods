@@ -944,7 +944,7 @@ angular.module('app.sao')
         $scope.user = undefined;
         $scope.isPrinting = false;
         $scope.records= [];
-       var years = [2011,2015,2016];
+       var years = [2010,2011,2012,2013,2014,2015,2016];
         $scope.selectedYear = 2010;
         $scope.bar = {
             "labels":[],
@@ -1354,7 +1354,9 @@ angular.module('app.sao')
                     break;
                 case 'consumo':
 
-                     names = [];
+
+
+                    names = [];
                      table  = {
                         names:[],
                         data:[]
@@ -1556,7 +1558,6 @@ angular.module('app.sao')
 
                     break;
                 case 'importaciones2':
-
                      names = [];
                      table  = {
                         names:[],
@@ -1588,7 +1589,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2016,2014,2015,2016];
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1606,6 +1607,57 @@ angular.module('app.sao')
 
 
                     break;
+                case 'aire3':
+                case 'refri':
+                    names = [];
+                    table  = {
+                        names:[],
+                        data:[]
+                    };
+                    table.names = $scope.records.map(function (el)
+                    {
+                        return el.Aplicaciones.nombre;
+                    });
+
+                    table.names.forEach(function (el) {
+                        var rec = $scope.records.filter(function (r) {
+                            return r.Aplicaciones.nombre==el;
+                        })[0];
+
+                        if (rec!=undefined)
+                        {
+
+                            // var uso  = rec.Uso.map(function (m) {
+                            //     return m.tons;
+                            // });
+
+                            table.data.push(rec.explotacion);
+                            names.push(el);
+                            table.names = names;
+                        }
+
+
+
+                    });
+
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
+                    $scope.bar = {
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                        "series":table.names,
+                        "data": table.data,
+                        "show":true,
+                        options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+
+                        }
+                    };
+                    break;
+
+
                 default:
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -2513,9 +2565,10 @@ angular.module('app.sao')
 
         //Modal de consumo
 
-        $scope.OnSelect=function ($item,$model,prop) {
+        $scope.OnSelect=function ($item,$model,prop,update) {
             var type = prop==undefined?'year':prop;
             $scope[type] = 0;
+            $scope[update] = $model;
             $scope.amount=0;
         };
 

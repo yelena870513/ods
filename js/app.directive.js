@@ -63,16 +63,7 @@ return {
         var helpers = Chart.helpers;
         var legendHolder = document.createElement('div');
         legendHolder.innerHTML = chart.generateLegend();
-// Include a html legend template after the module doughnut itself
-//        helpers.each(legendHolder.firstChild.childNodes, function(legendNode, index){
-//            helpers.addEvent(legendNode, 'mouseover', function(){
-//                var activeSegment = chart.segments[index];
-//                activeSegment.save();
-//                activeSegment.fillColor = activeSegment.highlightColor;
-//                chart.showTooltip([activeSegment]);
-//                activeSegment.restore();
-//            });
-//        });
+
         helpers.addEvent(legendHolder.firstChild, 'mouseout', function(){
             chart.draw();
         });
