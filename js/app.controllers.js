@@ -2513,15 +2513,17 @@ angular.module('app.sao')
 
         //Modal de consumo
 
-        $scope.onSelect=function ($item,$model,prop) {
+        $scope.OnSelect=function ($item,$model,prop,update) {
             var type = prop==undefined?'year':prop;
-            $scope[type] = $item;
+            $scope[type] = 0;
+            $scope[update] = $model;
             $scope.amount=0;
         };
 
-        $scope.OnSelect=function ($item,$model,prop) {
+        $scope.OnSelect=function ($item,$model,prop,update) {
             var type = prop==undefined?'year':prop;
-            $scope[type] = $item;
+            $scope[type] = 0;
+            $scope[update] = $model;
             $scope.amount=0;
         };
         $scope.ConsumoYear = function(year,amount){
