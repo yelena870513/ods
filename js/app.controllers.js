@@ -1122,7 +1122,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2010,2015];
+
 
                     $scope.bar =
                     {
@@ -1183,7 +1183,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2010,2015];
+
 
                     $scope.bar = {
                         "labels":['2010', '2015'],
@@ -1250,7 +1250,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012','2013','2014','2015','2016'],
@@ -1316,7 +1316,6 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2010', '2015'],
@@ -1386,7 +1385,7 @@ angular.module('app.sao')
 
 
                     });
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1438,7 +1437,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015', '2016'],
@@ -1489,7 +1488,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2010,2015];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1540,7 +1539,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2016,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1589,7 +1588,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1630,8 +1629,10 @@ angular.module('app.sao')
                             // var uso  = rec.Uso.map(function (m) {
                             //     return m.tons;
                             // });
-
-                            table.data.push(rec.explotacion);
+                            var tr = [0,0,0,0,0,0];
+                            var index = years.indexOf(rec.year);
+                            tr[index]=rec.explotacion;
+                            table.data.push(tr);
                             names.push(el);
                             table.names = names;
                         }
@@ -1640,7 +1641,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1678,6 +1679,14 @@ angular.module('app.sao')
 
           var chart = {};
            var pieLabels = $scope.records.map(function (l) {
+              switch (l.tipo){
+                  case'aire3':
+                  case'refri':
+                      return l.Aplicaciones.nombre;
+                  default:
+                      break;
+              }
+
                if (l.Sustancia!=undefined) {
                    return l.Sustancia.nombre;
                }
@@ -1701,6 +1710,10 @@ angular.module('app.sao')
                    return l.sustancia.nombre;
                }
 
+               if (l.Aplicaciones!=undefined) {
+                   return l.Aplicaciones.nombre;
+               }
+
 
                return undefined;
 
@@ -1710,23 +1723,57 @@ angular.module('app.sao')
                 return lbl!=undefined;
             });
 
-            var pieTableData = $scope.records.map(function (lb)
-            {
-                  var a = lb.Uso.filter(function (fu) {
-                      return fu.anno ==year;
-                  })[0];
-                if (a!=undefined) {
-                    return a.tons;
-                }
-                return 0;
-            }).map(function (val) {
-                if (val==undefined) {
-                    return 0;
-                }
-                return val;
-            });
+            var pieTableData = [];
 
-            pieTableData = _(pieTableData).reject(function(t){return t==0;});
+            if (charting=='aire3'|| charting=='refri')
+            {
+                pieTableData = $scope.records.map(function (lb)
+                {
+                    if (lb.year==year) {
+                        return lb.explotacion;
+                    }
+                    return 0;
+                });
+
+                var temp=[];
+
+                temp = _(pieTableData).reject(function(t){return t==0;});
+                if (temp.length==0) {
+                    pieTableData = temp;
+                }
+
+
+            }
+            else
+                {
+
+                    pieTableData = $scope.records.map(function (lb)
+                    {
+                        var a = lb.Uso.filter(function (fu) {
+                            return fu.anno ==year;
+                        })[0];
+                        if (a!=undefined) {
+                            return a.tons;
+                        }
+                        return 0;
+                    }).map(function (val) {
+                        if (val==undefined) {
+                            return 0;
+                        }
+                        return val;
+                    });
+
+                    pieTableData = _(pieTableData).reject(function(t){return t==0;});
+            }
+
+
+
+
+
+
+
+
+
 
             if (pieTableData.length>0)
             {
