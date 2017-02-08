@@ -25,13 +25,7 @@
                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
-            <!--<select class="form-control select2 select2-hidden-accessible"-->
-                    <!--style="width: 100%;" tabindex="-1"-->
-                    <!--aria-hidden="true"-->
-                    <!--id="t3"-->
-                    <!--data-ng-model="record.Sustancia"-->
-                    <!--data-ng-options="item as item.nombre for item in SAO.SustanciasTabla6">-->
-            <!--</select>-->
+
         </div>
         <div class="form-group">
             <label >Año:</label>
@@ -40,16 +34,14 @@
                        aria-hidden="true"
                        id="year"
                        data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
-                       on-select="OnSelect($item,$model)"
+                       on-select="OnSelect($item,$model,'amount','year')"
                        data-ng-model="year">
                 <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
                 <ui-select-choices repeat="item  in  [2010,2015,2020,2025,2030]">
                     <div ng-bind-html="item | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
-            <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                    <!--data-ng-model="year"-->
-                    <!--data-ng-options="item as item for item in [2010,2015,2020,2025,2030]"></select>-->
+
             </div>
         <div class="form-group">
 

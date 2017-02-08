@@ -1067,6 +1067,10 @@ angular.module('app.sao')
             case 'general2':
             case 'espuma3':
             case 'aire2':
+            case 'consumo':
+            case 'aerosoles':
+            case 'empresa3':
+            case 'importaciones2':
                 if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
                 {
                     if(!alternativa.test(record.otrosAlternativa)){

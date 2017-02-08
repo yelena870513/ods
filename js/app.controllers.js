@@ -944,7 +944,7 @@ angular.module('app.sao')
         $scope.user = undefined;
         $scope.isPrinting = false;
         $scope.records= [];
-       var years = [2011,2015,2016];
+       var years = [2010,2011,2012,2013,2014,2015,2016];
         $scope.selectedYear = 2010;
         $scope.bar = {
             "labels":[],
@@ -1122,7 +1122,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2010,2015];
+
 
                     $scope.bar =
                     {
@@ -1183,7 +1183,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2010,2015];
+
 
                     $scope.bar = {
                         "labels":['2010', '2015'],
@@ -1250,7 +1250,7 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012','2013','2014','2015','2016'],
@@ -1316,7 +1316,6 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2010,2015];
 
                     $scope.bar = {
                         "labels":['2010', '2015'],
@@ -1354,7 +1353,9 @@ angular.module('app.sao')
                     break;
                 case 'consumo':
 
-                     names = [];
+
+
+                    names = [];
                      table  = {
                         names:[],
                         data:[]
@@ -1384,7 +1385,7 @@ angular.module('app.sao')
 
 
                     });
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1436,7 +1437,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015', '2016'],
@@ -1487,7 +1488,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2010,2015];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1538,7 +1539,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2016,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1556,7 +1557,6 @@ angular.module('app.sao')
 
                     break;
                 case 'importaciones2':
-
                      names = [];
                      table  = {
                         names:[],
@@ -1588,7 +1588,7 @@ angular.module('app.sao')
 
                     });
 
-                    $scope.years = [2011,2012,2016,2014,2015,2016];
+
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1606,6 +1606,59 @@ angular.module('app.sao')
 
 
                     break;
+                case 'aire3':
+                case 'refri':
+                    names = [];
+                    table  = {
+                        names:[],
+                        data:[]
+                    };
+                    table.names = $scope.records.map(function (el)
+                    {
+                        return el.Aplicaciones.nombre;
+                    });
+
+                    table.names.forEach(function (el) {
+                        var rec = $scope.records.filter(function (r) {
+                            return r.Aplicaciones.nombre==el;
+                        })[0];
+
+                        if (rec!=undefined)
+                        {
+
+                            // var uso  = rec.Uso.map(function (m) {
+                            //     return m.tons;
+                            // });
+                            var tr = [0,0,0,0,0,0];
+                            var index = years.indexOf(rec.year);
+                            tr[index]=rec.explotacion;
+                            table.data.push(tr);
+                            names.push(el);
+                            table.names = names;
+                        }
+
+
+
+                    });
+
+
+
+                    $scope.bar = {
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                        "series":table.names,
+                        "data": table.data,
+                        "show":true,
+                        options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+
+                        }
+                    };
+                    break;
+
+
                 default:
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1626,6 +1679,14 @@ angular.module('app.sao')
 
           var chart = {};
            var pieLabels = $scope.records.map(function (l) {
+              switch (l.tipo){
+                  case'aire3':
+                  case'refri':
+                      return l.Aplicaciones.nombre;
+                  default:
+                      break;
+              }
+
                if (l.Sustancia!=undefined) {
                    return l.Sustancia.nombre;
                }
@@ -1649,6 +1710,10 @@ angular.module('app.sao')
                    return l.sustancia.nombre;
                }
 
+               if (l.Aplicaciones!=undefined) {
+                   return l.Aplicaciones.nombre;
+               }
+
 
                return undefined;
 
@@ -1658,23 +1723,57 @@ angular.module('app.sao')
                 return lbl!=undefined;
             });
 
-            var pieTableData = $scope.records.map(function (lb)
-            {
-                  var a = lb.Uso.filter(function (fu) {
-                      return fu.anno ==year;
-                  })[0];
-                if (a!=undefined) {
-                    return a.tons;
-                }
-                return 0;
-            }).map(function (val) {
-                if (val==undefined) {
-                    return 0;
-                }
-                return val;
-            });
+            var pieTableData = [];
 
-            pieTableData = _(pieTableData).reject(function(t){return t==0;});
+            if (charting=='aire3'|| charting=='refri')
+            {
+                pieTableData = $scope.records.map(function (lb)
+                {
+                    if (lb.year==year) {
+                        return lb.explotacion;
+                    }
+                    return 0;
+                });
+
+                var temp=[];
+
+                temp = _(pieTableData).reject(function(t){return t==0;});
+                if (temp.length==0) {
+                    pieTableData = temp;
+                }
+
+
+            }
+            else
+                {
+
+                    pieTableData = $scope.records.map(function (lb)
+                    {
+                        var a = lb.Uso.filter(function (fu) {
+                            return fu.anno ==year;
+                        })[0];
+                        if (a!=undefined) {
+                            return a.tons;
+                        }
+                        return 0;
+                    }).map(function (val) {
+                        if (val==undefined) {
+                            return 0;
+                        }
+                        return val;
+                    });
+
+                    pieTableData = _(pieTableData).reject(function(t){return t==0;});
+            }
+
+
+
+
+
+
+
+
+
 
             if (pieTableData.length>0)
             {
@@ -1886,7 +1985,7 @@ angular.module('app.sao')
             var error = [];
             var msg = {
                 experiencias:'Introduzca los a\u00F1os de experiencia.',
-                alternativa:'Nombre de alternativa incorrecto. Debe contener m\u00E1s de tres car\u00E1cteres. ',
+                alternativa:'Nombre de alternativa incorrecto. \n Debe contener m\u00E1s de tres car\u00E1cteres y/o no se acepta car\u00E1teres extra\u00F1os. ',
                 unidades:'Introduzca el No. unidades.'
             };
             switch (element.tipo) {
@@ -1905,7 +2004,7 @@ angular.module('app.sao')
                         if(element.Uso.length<5)
                         {
                             $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas ';
+                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
                         }
                     }
 
@@ -1928,7 +2027,7 @@ angular.module('app.sao')
                         if(element.Uso.length<6)
                         {
                             $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas. ';
+                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
                         }
                     }
                     break;
@@ -1955,7 +2054,7 @@ angular.module('app.sao')
                         if(element.Uso.length<6)
                         {
                             $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas. ';
+                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
                         }
                     }
                     break;
@@ -2024,7 +2123,7 @@ angular.module('app.sao')
                         if(element.Importaciones.length<6)
                         {
                             $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar las toneladas m\u00E9tricas. ';
+                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
                         }
                     }
 
@@ -2453,7 +2552,7 @@ angular.module('app.sao')
                         var importaciones2 = _.find($scope.Tabla23R.alternativas,function(a){return a.nombre == $scope.record.Tipo.nombre; });
                         if (importaciones2==undefined)
                         {
-                            $scope.Tabla23R.alternativas =$scope.Tabla23R.alternativas.concat($scope.record.Alternativas);
+                            $scope.Tabla23R.alternativas =$scope.Tabla23R.alternativas.concat($scope.record.Alternativa);
                         }
                         selectedTabla23 = $scope.Tabla23R;
                         $scope.year = 2011;
@@ -2520,12 +2619,6 @@ angular.module('app.sao')
             $scope.amount=0;
         };
 
-        $scope.OnSelect=function ($item,$model,prop,update) {
-            var type = prop==undefined?'year':prop;
-            $scope[type] = 0;
-            $scope[update] = $model;
-            $scope.amount=0;
-        };
         $scope.ConsumoYear = function(year,amount){
 
                 if(amount==undefined){

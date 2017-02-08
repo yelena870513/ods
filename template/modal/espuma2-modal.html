@@ -34,7 +34,7 @@
                        aria-hidden="true"
                        id=""
                        data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
-                       on-select="OnSelect($item,$model)"
+                       on-select="OnSelect($item,$model,'amount','year')"
                        data-ng-model="year">
                 <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
                 <ui-select-choices repeat="item  in  [2010,2015,2020,2025,2030]">

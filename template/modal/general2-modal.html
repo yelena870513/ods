@@ -27,7 +27,7 @@
                                    aria-hidden="true"
                                    theme="bootstrap"
                                    data-ng-model="record.Alternativa"
-                                   on-select="ShowTabla22($item,$model)">
+                                   on-select="ShowTabla22($item,$model,'amount','year')">
                             <ui-select-match placeholder="Alternativa">{{$select.selected.nombre}}</ui-select-match>
                             <ui-select-choices repeat="item in SAO.Tabla22 track by $index">
                                 <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>

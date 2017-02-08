@@ -24,7 +24,7 @@
                                    id="tabla2"
                                    theme="bootstrap"
                                    data-ng-model="record.Sector"
-                                   on-select="ShowTabla2($item,$model)">
+                                   on-select="ShowTabla2($item,$model,'amount','year')">
                             <ui-select-match placeholder="Sector">{{$select.selected.nombre}}</ui-select-match>
                             <ui-select-choices repeat="item in SAO.Tabla2">
                                 <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>

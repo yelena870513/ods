@@ -182,8 +182,10 @@ i.mas{
 Leyenda en los graficos
 */
 .legend{
-    width: 10em;
+    width: 100%;
     border:1px solid gainsboro;
+    margin-bottom: 0;
+    margin-top: 10px;
 }
 
 .legend em, .legend strong{
@@ -196,12 +198,23 @@ Leyenda en los graficos
 }
 
 .list-le{
-    padding-left: 0;
+    padding-left: 5px;
 }
 
 .list-le li{
     margin-bottom: 1em;
     cursor: hand;
+    font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+    color: #555;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+canvas{
+    font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+    color: #555;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .titlebar {
@@ -236,13 +249,55 @@ max-height: 100%;
 }
 .dropdown-menu>li>a {
     cursor: hand;
+    font-size: 17px;
 }
 .btn-primary {
     background-color: #ccc;
     border-color: #eee;
+    font-size: 17px;
 }
 @media (min-width: 992px) {
     .col-md-6 {
         width: 100%;
     }
+}
+.nav{
+
+    font-size: 17px;
+}
+.btn-group>.btn:first-child {
+
+     font-size: 17px;
+ }
+.table {
+
+    font-size: 17px;
+}
+.modal-footer .btn+.btn {
+
+    font-size: 17px;
+}
+label {
+
+    font-size: 17px;
+}
+.ui-select-bootstrap .ui-select-match-text span {
+
+    font-size: 17px;
+}
+.form-control:focus {
+
+    font-size: 17px;
+}
+.form-control {
+
+    font-size: 17px;
+}
+p {
+
+    font-size: 17px;
+}
+.ui-select-bootstrap .ui-select-choices-row>span {
+
+    font-size: 17px;
 }

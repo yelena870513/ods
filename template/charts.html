@@ -94,11 +94,12 @@
             </div>
         </section>
         <section class="content" data-ng-show="bar.show&&pies.length>0" >
-            <div class="row" data-ng-repeat="pie in pies">
-                <div class="col-sm-12" data-ng-show="pie.show" style="width: 50%">
-                    <div class="chart-legend legend" model="{{pie.options.title.text}}" id="pieLegend{{pie.options.title.text}}"></div>
+
+            <div class="row" >
+                <div class="col-sm-2" data-ng-show="pie.show" style="width: 30%" data-ng-repeat="pie in pies">
                     <canvas id="{{pie.options.title.text}}" class="chart chart-pie"   data-chart-data="pie.data" data-chart-labels="pie.labels" data-chart-options="pie.options">
                     </canvas>
+                    <div class="chart-legend legend" model="{{pie.options.title.text}}" id="pieLegend{{pie.options.title.text}}"></div>
                 </div>
             </div>
 

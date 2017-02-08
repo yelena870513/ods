@@ -72,7 +72,20 @@
                     </div>
                     <div class="form-group">
                         <label >Otros (especificar):</label>
-                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa"/>
+                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa" data-ng-class="{'control-error':error.show && error.tipo=='alternativa'}"/>
+                    </div>
+                    <div class="form-group">
+                        <label >Año:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   data-ng-class="{'control-error':error.show&&error.tipo=='year'}"
+                                   id="year"
+                                   data-ng-model="record.year">
+                            <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item in [2010,2011,2012,2013,2014,2015,2016]">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
                     </div>
                     <div class="form-group">
                         <label >Año:</label>
