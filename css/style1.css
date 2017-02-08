@@ -301,3 +301,13 @@ p {
 
     font-size: 17px;
 }
+
+/**
+Para las tablas
+**/
+.div-table
+{
+
+    width:100%;
+    overflow-x: scroll;
+}

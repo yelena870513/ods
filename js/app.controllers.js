@@ -13,6 +13,7 @@ angular.module('app.sao')
             show:false,
             message:'Error.'
         };
+        var municipios = [];
         var active = '';
         //DB en memoria
         $scope.documents = [];
@@ -67,6 +68,8 @@ angular.module('app.sao')
         Manager.record('osde').then(function(data){
             $scope.general.osde = data.rows.map(function(m){return m.doc;})[0];
         });
+
+
 
         // Uso general alternativas a las SAO en la actualidad
 
@@ -255,6 +258,11 @@ angular.module('app.sao')
             "Recuperado":[],
             "tipo":"empresa4"
         };
+
+        Manager.record('municipio').then(function(data){
+            municipios = data.rows.map(function(m){return m.doc;});
+            $scope.empresa4.municipio=municipios[7];
+        });
 
         ////LOCAL MEMBERS
         function init() {
@@ -2619,6 +2627,12 @@ angular.module('app.sao')
             $scope.amount=0;
         };
 
+
+        $scope.SelectMunicipio=function ($item,$model) {
+
+            $scope.municipios = _($scope.municipios).where({"provincia":$item.id});
+        };
+
         $scope.ConsumoYear = function(year,amount){
 
                 if(amount==undefined){
@@ -2644,10 +2658,10 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            // record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
+// record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
             record.Importaciones = _.reject(record.Importaciones,function (el) { return el.anno==year1;
-            }).concat([{"anno":year1,"tons":amount,"nombre": +year1+":"+amount}]);
-            record.Importaciones =  _.uniq(record.Importaciones,false,function (el) {
+            }).concat([{"anno":year1,"tons":amount,"nombre": +year1+":"+amount.toString()}]);
+            record.Importaciones = _.uniq(record.Importaciones,false,function (el) {
                 return el.anno;
             });
 
@@ -2662,10 +2676,10 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            // record.Recuperacion.push({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount});
+// record.Recuperacion.push({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount});
             record.Recuperacion = _.reject(record.Recuperacion,function (el) { return el.anno==re2;
-            }).concat([{"re2":re2,"cant2":amount,"nombre": +re2+":"+amount}]);
-            record.Recuperacion =  _.uniq(record.Recuperacion,false,function (el) {
+            }).concat([{"re2":re2,"cant2":amount,"nombre": +re2+":"+amount.toString()}]);
+            record.Recuperacion = _.uniq(record.Recuperacion,false,function (el) {
                 return el.re2;
             });
 
@@ -2682,9 +2696,9 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            record.Recuperado = _.reject(record.Recuperado,function (el) {return el.re3==re3;}).concat([{"re3":re3,"cant3":amount,"nombre": re3+":"+amount}]);
-            // record.Recuperado.push({"re3":re3,"cant3":amount,"nombre": re3+":"+amount});
-            record.Recuperado =  _.uniq(record.Recuperado,false,function (el) {
+            record.Recuperado = _.reject(record.Recuperado,function (el) {return el.re3==re3;}).concat([{"re3":re3,"cant3":amount,"nombre": re3+":"+amount.toString()}]);
+// record.Recuperado.push({"re3":re3,"cant3":amount,"nombre": re3+":"+amount});
+            record.Recuperado = _.uniq(record.Recuperado,false,function (el) {
                 return el.re3;
             });
 
@@ -2700,10 +2714,10 @@ angular.module('app.sao')
             if(amount==undefined){
                 amount=0;
             }
-            record.Total = _.reject(record.Total,function (el) {return el.re4==re4;}).concat([{"re4":re4,"cant4":amount,"nombre": +re4+":"+amount}]);
+            record.Total = _.reject(record.Total,function (el) {return el.re4==re4;}).concat([{"re4":re4,"cant4":amount,"nombre": +re4+":"+amount.toString()}]);
 
             record.Total.push({"re4":re4,"cant4":amount,"nombre": +re4+":"+amount});
-            record.Total =  _.uniq(record.Total,false,function (el) {
+            record.Total = _.uniq(record.Total,false,function (el) {
                 return el.re4;
             });
 
@@ -2719,10 +2733,10 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            // record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
+// record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
             record.CantRefriRefri = _.reject(record.CantRefriRefri,function (el) { return el.anno==re;
-            }).concat([{"re":re,"cant":amount,"nombre": +re+":"+amount}]);
-            record.CantRefriRefri =  _.uniq(record.CantRefriRefri,false,function (el) {
+            }).concat([{"re":re,"cant":amount,"nombre": re+":"+amount.toString()}]);
+            record.CantRefriRefri = _.uniq(record.CantRefriRefri,false,function (el) {
                 return el.re;
             });
 
@@ -2738,10 +2752,10 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            // record.CantRefriAire.push({"re1":re1,"cant1":amount,"nombre": +re1+":"+amount});
+// record.CantRefriAire.push({"re1":re1,"cant1":amount,"nombre": +re1+":"+amount});
             record.CantRefriAire = _.reject(record.CantRefriAire,function (el) { return el.anno==re1;
-            }).concat([{"re1":re1,"cant1":amount,"nombre": +re1+":"+amount}]);
-            record.CantRefriAire =  _.uniq(record.CantRefriAire,false,function (el) {
+            }).concat([{"re1":re1,"cant1":amount,"nombre": +re1+":"+amount.toString()}]);
+            record.CantRefriAire = _.uniq(record.CantRefriAire,false,function (el) {
                 return el.re1;
             });
 
