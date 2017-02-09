@@ -3092,9 +3092,6 @@ angular.module('app.sao')
                             $scope.alert.show = true;
                             $scope.alert.message = reason;
                             $scope.alert.type = 'danger';
-                            $timeout(function () {
-                                $scope.alert.show = false;
-                            },3000);
                         })
                         ;
                     }
@@ -3103,9 +3100,7 @@ angular.module('app.sao')
                         $scope.alert.show = true;
                         $scope.alert.message = 'Nomenclador incorrecto. Debe contener m\u00E1s de tres car\u00E1cteres y/o no se acepta car\u00E1teres extra\u00F1os.' ;
                         $scope.alert.type = 'danger';
-                        $timeout(function () {
-                            $scope.alert.show = false;
-                        },3000);
+
                     }
                 };
 
@@ -3213,15 +3208,17 @@ angular.module('app.sao')
         }
         else
         {
-            var reject = _($scope.nomenclatures).reject(function(nm){return nm.selected==false;});
+            var tipo = find.tipo;
+            var reject = _($scope.nomenclatures).filter(function(nm){return nm.selected==true;});
             Manager.delete(reject.map(function(re){re._deleted=true;return re;})).then(function (e)
             {
                 $scope.alert.show = true;
-                $scope.alert.message = 'Nomencladores elimindos correctamente';
+                $scope.alert.message = 'Nomencladores eliminados correctamente';
                 $scope.alert.type = 'success';
                 $timeout(function () {
                     $scope.alert.show = false;
-                },3000);
+                    List(tipo);
+                },500);
             }).
             catch(function (reason) {
                 $scope.alert.show = true;
@@ -3261,7 +3258,7 @@ angular.module('app.sao')
             $scope.alert.type = 'success';
             $timeout(function () {
                 $scope.alert.show = false;
-            },3000);
+            },500);
         }).
         catch(function (reason) {
             $scope.alert.show = true;

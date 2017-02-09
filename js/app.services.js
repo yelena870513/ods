@@ -1006,7 +1006,7 @@ angular.module('app.sao')
         var username = /^[a-z][a-z0-9\.]{3,15}$/i;
         var alternativa = /^[\w()/ -]{3,50}$/;
         var str = /^[\w() -]{3,100}$/;
-        var nomenclature = /^[\w() -]{3,100}$/;
+        var nomenclature = /^[\w()áéíóúÁÉÍÓÚüÜñÑ -]{3,100}$/;
 
         validator.isValidUser = function(user){
 
