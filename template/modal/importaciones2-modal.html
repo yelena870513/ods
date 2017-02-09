@@ -85,10 +85,10 @@
                         <input  class="form-control" type="number" min="0" placeholder="Tons"  data-ng-class="{'control-error':error.show && error.tipo=='anno'}" data-ng-model="amount"/>
                     </div>
                     <div class="form-group">
-                        <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoImportaciones(year,amount)" title="Agregar"> </i> Agregar año</p>
+                        <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
                         <ul class="list-group">
-                            <li class="list-group-item-success" data-ng-repeat="el in record.Importaciones track by $index">
-                                <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Importaciones.splice($index,1)"></i>
+                            <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
+                                <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
                             </li>
                         </ul>
 

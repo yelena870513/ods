@@ -855,7 +855,7 @@ angular.module('app.sao')
 
         {"fields":["sustancia", "sector"],"nombre":"Uso general de alternativas a las SAO en la actualidad.","tipo":"general1"},
         {"fields":["Alternativa", "Tipo", "Sector", "ra"],"nombre":"Resumen de su uso en todos los sectores para cada año entre 2011-2016.", "tipo":"general2"},
-        {"fields":["Alternativa", "Tipo", "Importaciones"],"nombre":"Cantidad de importaciones de alternativas de ODS.", "tipo":"importaciones2"},
+        {"fields":["Alternativa", "Tipo", "Uso"],"nombre":"Cantidad de importaciones de alternativas de ODS.", "tipo":"importaciones2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agentes espumante en el sector de espuma.","tipo":"espuma1"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma.","tipo":"espuma2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
@@ -871,7 +871,7 @@ angular.module('app.sao')
         {"fields":["Aplicaciones", "Alternativas", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración.", "tipo":"refri"},
         {"fields":["Aplicaciones", "Sustancias", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado.", "tipo":"aire3"},
         {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente.", "tipo":"general3"},
-        {"fields":['nombreTaller','municipio','sustanciasR','sustanciasRL',"Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", "CantRefriRefri",'SustanciaAire','TipoAire','CantRefriAire','Recuperacion','Recuperado','Total'],"nombre":"Taller de servicios.", "tipo":"empresa4"}
+        {"fields":['nombreTaller','municipio','sustanciasR','sustanciasRL',"Organizacion", "SustanciaRefrigerante", "TipoRefrigeracion", "CantRefriRefri",'SustaciaAire','TipoAire','CantRefriAire','Recuperacion','Recuperado','Total'],"nombre":"Taller de servicios.", "tipo":"empresa4"}
 
     ];
 })
@@ -1041,18 +1041,6 @@ angular.module('app.sao')
 
                     errors.push('taller');
                 }
-                if(Object.prototype.toString.call( record.municipio ) === '[object Object]'){
-                    if(!str.test(record.municipio.nombre)){
-                        errors.push('municipio');
-                    }
-                }
-                else
-                    {
-
-                    if(!str.test(record.municipio)){
-                        errors.push('municipio');
-                    }
-                }
 
                 break;
             case 'general':
@@ -1070,6 +1058,8 @@ angular.module('app.sao')
             case 'consumo':
             case 'aerosoles':
             case 'empresa3':
+            case 'empresa2':
+            case 'empresa1':
             case 'importaciones2':
                 if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
                 {

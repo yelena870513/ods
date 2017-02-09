@@ -36,10 +36,9 @@ angular.module('app.sao').filter('mainString',function () {
                     case "Aplicaciones":return "Aplicaci\u00F3n";
                     case "Capacidad":return "Capacidad frigor\u00EDfica";
                     case "unidades":return "No. unidades";
-                    case "experiencias":return "a\u00F1os de experiencia";
+                    case "experiencias":return "Carga (Kg)";
                     case "Estado":return "Estado t\u00E9nico";
                     case "explotacion":return "Consumo (Toneladas m\u00E9tricas)";
-                    case "SustaciaAire":return "Aire";
                     case "SustaciaAire":return "Aire";
                     case "SustanciaRefrigerante":return "Refrigerante";
                     case "TipoRefrigeracion":return "Tipo refrigeraci\u00F3n";

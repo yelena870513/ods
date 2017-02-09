@@ -88,8 +88,8 @@
                     Empresa <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectModal('empresa1')" >Aire Acondicionado Automotriz</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectModal('empresa2')">Refrigeración Móvil</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectModal('empresa1')" >Aire acondicionado automotriz</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectModal('empresa2')">Refrigeración móvil</a></li>
                     <li role="menuitem"><a data-ng-click="SelectModal('empresa4')">Taller de servicios</a></li>
                 </ul>
             </div>
@@ -104,7 +104,7 @@
             <button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>
             {{error.message}}
         </div>
-        <div data-ng-show="table.columns.length>0" class="pre-scrollable">
+        <div class="pre-scrollable" data-ng-show="table.columns.length>0">
 
             <h4 >{{table.title  }}</h4>
             <table class="table table-bordered table table-striped table-hover">

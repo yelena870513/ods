@@ -12,20 +12,27 @@
         </div>
     </div>
     <div class="box-body" >
-        <h4 class="header"> Nomenclador: {{ntype}} </h4>
+        <div class="alert alert-{{alert.type}} alert-dismissable" data-ng-show="alert.show">
+            <button type="button" class="close" ng-click="alert.show = false;" aria-hidden="true">×</button>
+            {{alert.message}}
+        </div>
+
+        <h4 class="header"> {{ntype}} </h4>
         <table class="table table-bordered table-hover table-responsive">
             <thead>
             <tr >
+                <th><label><input type="checkbox" data-ng-model="selected" data-ng-change="Mark()"/></label></th>
                 <th><span class="text-capitalize">{{ntype}}</span></th>
                 <th>Opciones</th>
             </tr>
             </thead>
             <tbody>
             <tr data-ng-repeat="nomenclature in nomenclatures track by $index">
+                <td><label><input type="checkbox" data-ng-model="nomenclature.selected"/></label></td>
                 <td>{{nomenclature.nombre}}</td>
                 <td>
-                    <i title="Editar" class="fa fa-edit" data-ng-click="Nomenclature(nomenclature)"></i>
-                    <i title="Eliminar" class="fa fa-trash-o" data-ng-click="Delete(nomenclature)"></i>
+                    <a class="btn btn-edict"><i title="Editar" class="fa fa-edit" data-ng-click="Nomenclature(nomenclature)"></i></a>
+                    <a class="btn btn-edict"><i title="Eliminar" class="fa fa-trash-o" data-ng-click="Delete(nomenclature)"></i></a>
                 </td>
             </tr>
             </tbody>
@@ -33,5 +40,6 @@
     </div>
     <div class="box-footer">
         <button class="btn btn-primary" data-ng-click="Nomenclature()">Agregar</button>
+        <button class="btn btn-danger" data-ng-click="DeleteSelected()">Eliminar</button>
     </div>
 </div>

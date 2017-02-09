@@ -311,3 +311,7 @@ Para las tablas
     width:100%;
     overflow-x: scroll;
 }
+
+.table.table-bordered.table-hover.table-responsive input[type=checkbox], input[type=radio] {
+    margin: 15px 0 0;
+}

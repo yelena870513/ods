@@ -17,7 +17,6 @@
                     Aire Acondicionado <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectChart('aire1')" >Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado</a></li>
                     <li role="menuitem"><a data-ng-click="SelectChart('aire2')">Fabricantes de aires acondicionados</a></li>
                     <li role="menuitem"><a data-ng-click="SelectChart('aire3')">Uso de alternativas de SAO en aires acondicionados</a></li>
                 </ul>
@@ -65,9 +64,9 @@
                     Empresa <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectChart('empresa1')" >Aire Acondicionado Automotriz</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('empresa2')">Refrigeración Móvil</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('empresa3')">Sector de solventes</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectChart('empresa1')" >Aire acondicionado automotriz</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectChart('empresa2')">Refrigeración móvil</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectChart('empresa3')">Taller de servicios</a></li>
                 </ul>
             </div>
         </div>
@@ -96,7 +95,7 @@
         <section class="content" data-ng-show="bar.show&&pies.length>0" >
 
             <div class="row" >
-                <div class="col-sm-2" data-ng-show="pie.show" style="width: 30%" data-ng-repeat="pie in pies">
+                <div class="col-md-12 col-lg-offset-1" data-ng-show="pie.show" style="width: 20%" data-ng-repeat="pie in pies">
                     <canvas id="{{pie.options.title.text}}" class="chart chart-pie"   data-chart-data="pie.data" data-chart-labels="pie.labels" data-chart-options="pie.options">
                     </canvas>
                     <div class="chart-legend legend" model="{{pie.options.title.text}}" id="pieLegend{{pie.options.title.text}}"></div>
