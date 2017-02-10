@@ -18,6 +18,10 @@
         </div>
 
         <h4 class="header"> {{ntype}} </h4>
+        <div class="input-group">
+            <input type="text" id="searchP" class="searchP form-control" data-ng-model="searchCriteria"/>
+            <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
+        </div>
         <table class="table table-bordered table-hover table-responsive">
             <thead>
             <tr >
@@ -27,7 +31,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr data-ng-repeat="nomenclature in nomenclatures track by $index">
+            <!--<tr data-ng-repeat="nomenclature in nomenclatures | SearchCriteria:searchCriteria track by $index">-->
+            <tr data-dir-paginate="nomenclature in nomenclatures |itemsPerPage: 5 | SearchCriteria:searchCriteria track by $index" data-pagination-id="same">
                 <td><label><input type="checkbox" data-ng-model="nomenclature.selected"/></label></td>
                 <td>{{nomenclature.nombre}}</td>
                 <td>
@@ -37,9 +42,16 @@
             </tr>
             </tbody>
         </table>
+
     </div>
     <div class="box-footer">
-        <button class="btn btn-primary" data-ng-click="Nomenclature()">Agregar</button>
-        <button class="btn btn-danger" data-ng-click="DeleteSelected()">Eliminar</button>
+        <dir-pagination-controls
+                direction-links="true"
+                template-url="template/directive/dirPagination.tpl.html"
+                data-pagination-id="same">
+        </dir-pagination-controls>
+
     </div>
+    <div><button class="btn btn-primary" data-ng-click="Nomenclature()">Agregar</button>
+        <button class="btn btn-danger" data-ng-click="DeleteSelected()">Eliminar todos</button></div>
 </div>

@@ -557,6 +557,7 @@ angular.module('app.sao')
         $scope.tables = [];
         $scope.isPrinting = false;
         $scope.records = [];
+        var years = [2010,2011,2012,2013,2014,2015,2016];
         $scope.columns = Columns;
         $scope.labels = Object.keys(SType);
         var Clasif = SAO.Clasificacion.map(function (cl) {
@@ -667,8 +668,8 @@ angular.module('app.sao')
                     rows = ReduceItems(data,"Subsector");
                     break;
                 case 'aire2':
-                case 'aire3':
-                case 'refri':
+                //case 'aire3':
+                //case 'refri':
                 case 'consumo':
                 case 'aerosoles':
                 case 'empresa1':
@@ -764,12 +765,23 @@ angular.module('app.sao')
                                 return j.anno;
                             }));
 
+                            keys = years;
+
                             var rows = tableData.records.map(function (m) {
                                 keys.forEach(function (k)
                                 {
                                     m[k] = m.Uso.filter(function (a) {
                                         return a.anno==k;
-                                    })[0].tons;
+                                    });
+
+                                    if (m[k]!=undefined && m[k].length>0)
+                                    {
+                                        m[k]=m[k][0].tons;
+                                    }
+                                    else
+                                    {
+                                        m[k]=0;
+                                    }
                                 });
                                 delete m.Uso;
                                 return m;
@@ -809,8 +821,25 @@ angular.module('app.sao')
 
                     if(matches.length>0)
                     {
+
                         for (var i =0;i<matches.length;i++)
                         {
+
+                            matches[i].Uso = [];
+
+                            years.forEach(function(yt,idz){
+                                matches[i].Uso.push({
+                                    anno:yt,
+                                    tons:0
+                                });
+                                if (matches[i].year==yt)
+                                {
+                                    matches[i].Uso[idz].tons=matches[i].explotacion;
+                                }
+                            });
+
+
+
                             if(matches[i]!=undefined)
                             {
                                 for (var k = 0;k< matches[i].Uso.length;k++)
@@ -864,6 +893,22 @@ angular.module('app.sao')
                     {
                         for (var i =0;i<matches.length;i++)
                         {
+
+                            matches[i].Uso = [];
+                            var mkeys = Object.keys(matches[i]);
+                            var inty = mkeys.filter(function(n) {
+                                return years.indexOf(n) !== -1;
+                            })[0];
+                            years.forEach(function(yt,idz){
+                                matches[i].Uso.push({
+                                    anno:yt,
+                                    tons:0
+                                });
+                                if (yt==inty)
+                                {
+                                    matches[i].Uso[idz].tons=matches[yt];
+                                }
+                            });
                             if(matches[i]!=undefined)
                             {
                                 for (var k = 0;k< matches[i].Uso.length;k++)
@@ -1881,7 +1926,7 @@ angular.module('app.sao')
         function Add(element) {
             var error = [];
             var msg = {
-                experiencias:'Introduzca los a\u00F1os de experiencia.',
+                experiencias:'Introduzca la carga.',
                 alternativa:'Nombre de alternativa incorrecto. \n Debe contener m\u00E1s de tres car\u00E1cteres y/o no se acepta car\u00E1teres extra\u00F1os. ',
                 unidades:'Introduzca el No. unidades.'
             };
@@ -2907,36 +2952,45 @@ angular.module('app.sao')
             message:'Ha ocurrido un error'
 
         };
-        $scope.User = function (user,size) {
+        $scope.User = function (user,size,action) {
             var instance = $uibModal.open({
                 animation: true,
                 templateUrl: "template/modal/user-modal.html",
-                controller: function ($scope,Manager,user,$uibModalInstance,SHA256) {
+                controller: function ($scope,Manager,user,$uibModalInstance,SHA256,action) {
                     $scope.user = user;
+                    $scope.action = action;
+                    var msg =
+                    {
+                        password:"Una clave no segura.",
+                        username:"Usuario incorrecto. Contiene menos de tres car\u00E1cteres y/o car\u00E1teres extra\u00F1os."
+                    };
                     $scope.error ={
                         show:false,
-                        message:'Ha ocurrido un error.',
-                        user:{
-                            password:
-                            {
-                                show:false,
-                                message:"Una clave no segura."
-                            },
-                            username:
-                            {
-                                show:false,
-                                message:"Una nombre de usuario correcto cuenta con blah blah."
-                            }
-                        }
-
-
+                        message:'Ha ocurrido un error.'
                     };
                     $scope.Save= function (user)
                     {
-                        user.tipo = "usuario";
-                        if (ModelValidator.isValidUser(user))
+                        if (user==undefined) {
+                            user = {
+                                username:'',
+                                password:''
+                            };
+                        }
+                          user.tipo = "usuario";
+                        if (ModelValidator.isValidUser(user,action))
                         {
-                            user.password = SHA256(user.password).toString();
+
+                           if((action=='edit' && user.password!=user.repassword && user.repassword!=''))
+                           {
+                               user.password = SHA256(user.repassword).toString();
+                           }
+
+                            if (action==undefined)
+                            {
+                                user.password = SHA256(user.password).toString();
+
+                            }
+
                             Manager.create(user).then(function(result) {
                                 //todo on success
                                 console.info(JSON.stringify(result));
@@ -2950,17 +3004,10 @@ angular.module('app.sao')
                         }
                         else
                         {
-                            var fields = ModelValidator.UserError(user);
-                            if (fields.indexOf('password')!=-1)
-                            {
-                                $scope.error.user.password.show=true;
-                            }
-                            if (fields.indexOf('username')!=-1)
-                            {
-                                $scope.error.user.username.show=true;
-                            }
+                            var fields = ModelValidator.UserError(user,action)[0];
+                            $scope.error.message = msg[fields];
                             $scope.error.show = true;
-                            $scope.error.message = "Verifique la seguridad de las credenciales.";
+
                         }
 
 
@@ -2984,6 +3031,9 @@ angular.module('app.sao')
                 resolve: {
                     user:function () {
                         return user;
+                    },
+                    action:function () {
+                        return action;
                     }
                 }
             });
@@ -2995,10 +3045,45 @@ angular.module('app.sao')
             });
         };
 
-        $scope.Delete = function (el) {
-            DeleteElement(el).finally(function () {
-                Refresh();
-                // Finish();
+        // $scope.Delete = function (el) {
+        //     DeleteElement(el).finally(function () {
+        //         Refresh();
+        //         // Finish();
+        //     });
+        // };
+        $scope.Delete = function(user, size) {
+            var instance = $uibModal.open({
+                animation: true,
+                templateUrl: "template/modal/delete-modal.html",
+                controller: function ($scope,user,$uibModalInstance) {
+                    $scope.Close = function () {
+                        Close();
+                    };
+
+                    $scope.Delete = function () {
+                        Finish();
+                    };
+
+                    function Close() {
+                        $uibModalInstance.dismiss('cancel');
+                    }
+
+                    function Finish() {
+                        $uibModalInstance.close(user);
+                    }
+                },
+                size: size,
+                resolve: {
+                    user: function () {
+                        return user;
+                    }
+                }
+            });
+
+            instance.result.then(function(user) {
+                DeleteElement(user).finally(function () {
+                    Refresh();
+                }) ;
             });
         };
 

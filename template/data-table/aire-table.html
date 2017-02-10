@@ -8,7 +8,7 @@
                     <table class="table table-bordered table table-striped table-hover">
                         <thead>
                         <tr >
-                            <th data-ng-repeat="col in table.columns track by $index">{{col }}</th>
+                            <th data-ng-repeat="col in table.columns track by $index">{{col| showName }}</th>
                         </tr>
                         </thead>
                         <tbody>

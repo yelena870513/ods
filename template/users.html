@@ -13,7 +13,7 @@
                 <tr data-ng-repeat="user in users track by $index">
                     <td>{{user.username}}</td>
                     <td>
-                        <i title="Editar" class="fa fa-edit" data-ng-click="User(user)"></i>
+                        <i title="Editar" class="fa fa-edit" data-ng-click="User(user,undefined,'edit')"></i>
                         <i title="Eliminar" class="fa fa-trash-o" data-ng-click="Delete(user)"></i>
                     </td>
                 </tr>

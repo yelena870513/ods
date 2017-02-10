@@ -5,19 +5,12 @@
 </div>
 <div class="modal-body">
     <div class="row-fluid">
-        <!--<div class="alert alert-danger alert-dismissable" data-ng-show="error.show">-->
-            <!--<button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>-->
-            <!--{{error.message}}-->
-        <!--</div>-->
-        <div class="alert alert-danger alert-dismissable" data-ng-show="error.user.password.show">
-            <button type="button" class="close" ng-click="error.user.password.show = false;" aria-hidden="true">×</button>
-            {{error.user.password.message}}
+        <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+            <button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>
+            {{error.message}}
         </div>
 
-        <div class="alert alert-info alert-dismissable" data-ng-show="error.user.username.show">
-            <button type="button" class="close" ng-click="error.user.username.show = false;" aria-hidden="true">×</button>
-            {{error.user.username.message}}
-        </div>
+
 
     </div>
     <div class="row-fluid">
@@ -40,6 +33,11 @@
                 <input id="password" class="form-control" type="password" placeholder="Contraseña" data-ng-model="user.password">
 
             </div>
+                <div class="form-group" ng-show="action=='edit'">
+                    <label for="repassword">Contraseña Nueva:</label>
+                    <input id="repassword" class="form-control" type="password" placeholder="Contraseña" data-ng-model="user.repassword">
+
+                </div>
                 </form>
         </div>
 

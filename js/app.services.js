@@ -834,21 +834,11 @@ angular.module('app.sao')
             "refri":["refri","consumo"],
             "aerosoles":["aerosoles"],
             "solventes":["empresa3"],
-            "importaciones":["importaciones1","importaciones1","importaciones1"],
+            "importaciones":["importaciones1","importaciones2","importaciones3"],
             "empresa":["empresa1","empresa2"]
         };
     })
-//.factory('SType',function () {
-//        return {
-//            "general":["general1","general2","general3"],
-//            "espuma":["espuma1","espuma2","espuma3"],
-//            "aire":["aire1","aire2","aire3"],
-//            "refri":["refri1","consumo"],
-//            "aerosoles":["aerosoles"],
-//            "importaciones":["importaciones1","importaciones1","importaciones1"],
-//            "empresa":["empresa1","empresa2","empresa3"]
-//        };
-//    })
+
 .factory('Columns',function () {
     return        [
         // "general":["provincia","ministerio","osde","empresa"],
@@ -1008,23 +998,32 @@ angular.module('app.sao')
         var str = /^[\w() -]{3,100}$/;
         var nomenclature = /^[\w()áéíóúÁÉÍÓÚüÜñÑ -]{3,100}$/;
 
-        validator.isValidUser = function(user){
+        validator.isValidUser = function(user,action){
 
+            if (action==undefined)
+            {
+                return pass.test(user.password) && username.test(user.username);
+            }
 
-            return pass.test(user.password) && username.test(user.username);
+            return  username.test(user.username);
         };
 
-        validator.UserError = function (user) {
+        validator.UserError = function (user,action) {
             var errors = [];
-            if (!pass.test(user.password))
-            {
-                errors.push('password');
-            }
 
             if (!username.test(user.username))
             {
                 errors.push('username');
             }
+            if (action==undefined)
+            {
+                if (!pass.test(user.password))
+                {
+                    errors.push('password');
+                }
+            }
+
+
             return errors;
         };
 

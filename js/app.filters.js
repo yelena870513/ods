@@ -62,4 +62,57 @@ angular.module('app.sao').filter('mainString',function () {
             return angular.toJson(json, true);
         }
     })
+    .filter('SearchCriteria',function () {
+        return function (data, criteria)
+        {
+            if (criteria!=undefined && criteria!='')
+            {
+                return data.filter(function (el) {
+                    var validate=[];
+                    for (var i in el)
+                    {
+                        if (i!="tipo")
+                        {
+                            if(Object.prototype.toString.call( el[i] ) === '[object Object]')
+                            {
+                                if (indexOfIn(criteria,el[i].nombre))
+                                {
+                                    validate.push(i);
+                                }
+                            }
+                            else {
+                                if (indexOfIn(criteria,el[i])) {
+                                    validate.push(i);
+                                }
+                            }
+                        }
+
+                    }
+
+                    return validate.length>0;
+                });
+            }
+            else{
+
+                return data;
+            }
+        }
+
+    })
 ;
+
+
+/**
+ * Case no sense
+ * @param needle
+ * @param haystack
+ * @returns {boolean}
+ */
+function indexOfIn(needle,haystack){
+    if (needle!=undefined&&haystack!=undefined) {
+        needle = needle.toString().toLowerCase();
+        haystack = haystack.toString().toLowerCase();
+        return haystack.indexOf(needle)!=-1;
+    }
+    return false;
+}

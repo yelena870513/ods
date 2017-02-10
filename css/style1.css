@@ -315,3 +315,34 @@ Para las tablas
 .table.table-bordered.table-hover.table-responsive input[type=checkbox], input[type=radio] {
     margin: 15px 0 0;
 }
+
+.form-control.searchP{
+    height: 28px;
+    width: 200px;
+    float: right;
+
+}
+.btn-default {
+
+    height: 38px;
+}
+.btn {
+
+    font-size: 17px;
+}
+/*.modal-content1 {*/
+
+    /*width: 900px;*/
+/*}*/
+/*.form-control1 {*/
+    /*display: block;*/
+    /*width: 41%;*/
+    /*height: 34px;*/
+    /*padding: 6px 12px;*/
+    /*line-height: 1.42857143;*/
+    /*color: #555;*/
+    /*background-color: #fff;*/
+    /*background-image: none;*/
+    /*border: 1px solid #ccc;*/
+    /*transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
+/*}*/

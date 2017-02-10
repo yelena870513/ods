@@ -105,6 +105,10 @@
             {{error.message}}
         </div>
         <div class="pre-scrollable" data-ng-show="table.columns.length>0">
+            <div class="input-group">
+                <input type="text" id="searchP" class="searchP form-control" data-ng-model="searchCriteria"/>
+                <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
+            </div>
 
             <h4 >{{table.title  }}</h4>
             <table class="table table-bordered table table-striped table-hover">
@@ -115,8 +119,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-ng-repeat="record in table.records track by $index">
-                    <td data-ng-repeat="col in table.columns">{{record[col] | mainString }}</td>
+                <tr data-dir-paginate="record in table.records |itemsPerPage: 5 | SearchCriteria:searchCriteria track by $index" data-pagination-id="same">
+                    <td data-ng-repeat="col in table.columns ">{{record[col] | mainString }}</td>
                     <td>
                         <!--Llamada de los eliminar y los editar-->
                         <a class="btn btn-edict" data-ng-click="OpenModal(record,undefined,'edit')"><i class="fa fa-edit" title="Editar"></i></a>
@@ -130,8 +134,14 @@
 
     </div>
     <div class="box-footer" data-ng-show="table.columns.length>0">
-        <button class="btn btn-primary" data-ng-click="OpenModal()">Agregar</button>
+        <dir-pagination-controls
+                direction-links="true"
+                template-url="template/directive/dirPagination.tpl.html"
+                data-pagination-id="same">
+        </dir-pagination-controls>
+
     </div>
+    <div><button class="btn btn-primary" data-ng-click="OpenModal()">Agregar</button></div>
 </div>
 
 

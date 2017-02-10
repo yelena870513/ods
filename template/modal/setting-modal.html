@@ -21,12 +21,6 @@
                         <ui-select theme="bootstrap" style="width: 100%;" tabindex="-1"aria-hidden="true"id="pr" data-ng-model="general.provincia" on-select="SelectMunicipio($item,$model)"><ui-select-match placeholder="Provincia">{{$select.selected.nombre}}</ui-select-match><ui-select-choices repeat="item in provincias"><div ng-bind-html="item.nombre | highlight: $select.search"></div></ui-select-choices></ui-select>
                     </div>
                 </div>
-                <!--<div class="row">-->
-                <!--<div class="col-sm-12">-->
-                <!--<label>Ministerio:</label>-->
-                <!--<ui-select theme="bootstrap" style="width: 100%;" tabindex="-1"aria-hidden="true"id="mi"data-ng-model="general.ministerio"><ui-select-match placeholder="Ministerio">{{$select.selected.nombre}}</ui-select-match><ui-select-choices repeat="item in ministerios"><div ng-bind-html="item.nombre | highlight: $select.search"></div></ui-select-choices> </ui-select>-->
-                <!--</div>-->
-                <!--</div>-->
 
             </div>
         </div>

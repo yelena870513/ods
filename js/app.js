@@ -18,7 +18,7 @@ var MemoryStream = require('memorystream');
 PouchDB.plugin(replicationStream.plugin);
 PouchDB.adapter('writableStream', replicationStream.adapters.writableStream);
 
-angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFileUpload','ngStorage','angular-electron','ui.select','ngSanitize']).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFileUpload','ngStorage','angular-electron','ui.select','ngSanitize','angularUtils.directives.dirPagination']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/general');
 //Las principales rutas de la aplicacion
     $stateProvider.
