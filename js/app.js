@@ -5,14 +5,16 @@ var domtoimage = require('dom-to-image');
 // console.log(electron.getPath('documents'));
 var fs = require('fs');
 var os = require('os');
-fs.exists(os.homedir()+'/.sao/data',function (exists) {
+var ws = {};
+fs.exists(os.tmpdir()+'/.sao/data',function (exists) {
     if (!exists) {
-        fs.mkdir(os.homedir()+'/.sao');
-        fs.mkdir(os.homedir()+'/.sao/data');
+        fs.mkdir(os.tmpdir()+'/.sao');
+        fs.mkdir(os.tmpdir()+'/.sao/data');
     }
+    ws = fs.createWriteStream(os.tmpdir()+'/.sao/data/sao.json');
 });
 
-var ws = fs.createWriteStream(os.homedir()+'/.sao/data/sao.json');
+
 var replicationStream = require('pouchdb-replication-stream');
 var MemoryStream = require('memorystream');
 PouchDB.plugin(replicationStream.plugin);

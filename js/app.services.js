@@ -140,7 +140,7 @@ angular.module('app.sao')
                 console.log(res);
 
                 d.resolve(res);
-            },function (err) {
+            }).catch(function (err) {
                 d.reject(err);
             });
         }).
@@ -150,8 +150,9 @@ angular.module('app.sao')
             console.log(err);
             d.reject(err);
         }
-        ).finally(function () {
+        ).finally(function (err) {
             ws.close();
+            d.resolve('ok');
         });
 
         return d.promise;
@@ -195,6 +196,27 @@ angular.module('app.sao')
 
         return d.promise;
 
+    };
+
+    manager.saveAll = function () {
+        var de = $q.defer();
+        this.dataString().then(function (data) {
+
+            fs.writeFile(os.tmpdir()+'/.sao/data/sao.json',data,function (err)
+            {
+                if (err)
+                {
+                   de.reject(err);
+                }
+
+                de.resolve('ok');
+            })
+        }).
+        catch (function (reason) {
+            de.reject(reason);
+        });
+
+        return de.promise;
     };
 
     /**

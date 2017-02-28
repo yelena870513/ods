@@ -531,12 +531,13 @@ angular.module('app.sao')
 
         $scope.Save = function()
         {
-            Manager.flush().then(function (e) {
+            Manager.saveAll().then(function (data) {
                 $scope.alerts.show = true;
                 $scope.alerts.message = 'Datos salvados correctamente.';
                 $timeout(function () {
                     $scope.alerts.show = false;
                 },3000);
+
             }).catch(function (reason) {
                 $scope.error.show = true;
                 $scope.error.message = 'Error salvando los datos.';
@@ -546,7 +547,9 @@ angular.module('app.sao')
                     $scope.error.message = 'Error!.';
                 },3000);
             });
+
         };
+
         $scope.SelectModal = function (tipo) {
             $scope.table.name = tipo;
             for (var i in SType)
@@ -666,14 +669,14 @@ angular.module('app.sao')
             }, function(error,data)
             {
                 if (error) throw error;
-                fs.writeFile(os.homedir()+'/.sao/data/'+ current+'.pdf', data, function(error)
+                fs.writeFile(os.tmpdir()+'/.sao/data/'+ current+'.pdf', data, function(error)
                 {
                     if (error) throw error;
                     console.log('Write PDF successfully.');
                     $scope.isPrinting = false;
                     $timeout(function(){
 
-                        var buffer = fs.readFileSync(os.homedir()+'/.sao/data/'+ current+'.pdf');
+                        var buffer = fs.readFileSync(os.tmpdir()+'/.sao/data/'+ current+'.pdf');
                         var blob = new Blob([buffer]);
                         saveAs(blob,current+'.pdf');
                     },300);
