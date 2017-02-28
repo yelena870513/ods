@@ -161,11 +161,12 @@ background-image: url("../img/fondo_contenido.png");
 }
 
 img.logos{
-    width: 12%;
+    width: 15%;
 }
 
 img.logos1{
-    width: 25%;
+    width: 32%;
+    padding-left: 11px;
 }
 i.mas{
     color: red;
@@ -231,6 +232,7 @@ canvas{
     margin-left: 0px;
     transition: transform 0.3s ease-in-out 0s, margin 0.3s ease-in-out 0s;
     z-index: 820;
+
 }
 .main-header {
 max-height: 100%;
@@ -329,6 +331,43 @@ Para las tablas
 .btn {
 
     font-size: 17px;
+
+
+}
+.btn.btn-primary.b{
+
+    font-size: 17px;
+    margin-left: 12px;
+    background-color: #eee;
+    color: black;
+    border-color: #ccc;
+}
+.btn.btn-primary.b:hover{
+
+    font-size: 17px;
+    margin-left: 12px;
+    background-color: #336699;
+}
+/*.pre-scrollable {*/
+
+    /*padding-left: 15px;*/
+/*}*/
+/*.box-body {*/
+
+    /*padding-left: 37px;*/
+/*}*/
+.input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group {
+
+    height: 28px;
+}
+.footer{
+    display: block;
+    background: #fff;
+    height: 100px;
+    width: 100%;
+    /*position: absolute;*/
+    bottom: 0;
+    left: 0;
 }
 /*.modal-content1 {*/
 
@@ -346,3 +385,17 @@ Para las tablas
     /*border: 1px solid #ccc;*/
     /*transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
 /*}*/
+
+.input-group.filter{
+    width: 220px;
+    margin-bottom: 1em;
+}
+input[type=checkbox], input[type=radio] {
+    margin: 0;
+}
+.table-bordered {
+    border: 1px solid #999;
+}
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
+    border: 1px solid #999;
+}

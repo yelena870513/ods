@@ -5,7 +5,7 @@
             <ul class="nav navbar-nav">
                 <li data-ng-class="{'active':isActive(nstype)}" data-ng-repeat="nstype in ntypes">
                     <button class="btn btn-primary" data-ng-click="List(nstype)">
-                        <span class="text-capitalize">{{nstype}}</span>
+                        <span class="text-capitalize">{{nstype | fancy}}</span>
                     </button>
                 </li>
             </ul>
@@ -17,22 +17,23 @@
             {{alert.message}}
         </div>
 
-        <h4 class="header"> {{ntype}} </h4>
-        <div class="input-group">
+        <h4 class="header text-capitalize"> {{ntype | fancy}} </h4>
+        <div class="input-group pull-left filter">
             <input type="text" id="searchP" class="searchP form-control" data-ng-model="searchCriteria"/>
-            <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
+            <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-filter"></i></button></span>
         </div>
-        <table class="table table-bordered table-hover table-responsive">
+        <table class="table table-bordered table-hover table-responsive table-striped">
             <thead>
             <tr >
                 <th><label><input type="checkbox" data-ng-model="selected" data-ng-change="Mark()"/></label></th>
-                <th><span class="text-capitalize">{{ntype}}</span></th>
+                <th><span class="text-capitalize">{{ntype | fancy}}</span></th>
                 <th>Opciones</th>
             </tr>
             </thead>
             <tbody>
             <!--<tr data-ng-repeat="nomenclature in nomenclatures | SearchCriteria:searchCriteria track by $index">-->
-            <tr data-dir-paginate="nomenclature in nomenclatures |itemsPerPage: 5 | SearchCriteria:searchCriteria track by $index" data-pagination-id="same">
+            <!--<tr data-dir-paginate="nomenclature in nomenclatures |itemsPerPage: 5 | SearchCriteria:searchCriteria track by $index" data-pagination-id="same">-->
+            <tr data-dir-paginate="nomenclature in nomenclatures |itemsPerPage: 5 | NameCriteria:searchCriteria:nomenclaturesCache track by $index" data-pagination-id="same">
                 <td><label><input type="checkbox" data-ng-model="nomenclature.selected"/></label></td>
                 <td>{{nomenclature.nombre}}</td>
                 <td>

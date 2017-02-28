@@ -13,14 +13,14 @@
                 <tr data-ng-repeat="user in users track by $index">
                     <td>{{user.username}}</td>
                     <td>
-                        <i title="Editar" class="fa fa-edit" data-ng-click="User(user,undefined,'edit')"></i>
-                        <i title="Eliminar" class="fa fa-trash-o" data-ng-click="Delete(user)"></i>
+                        <a class="btn btn-edict"> <i title="Editar" class="fa fa-edit" data-ng-click="User(user,undefined,'edit')"></i></a>
+                        <a class="btn btn-edict"><i title="Eliminar" class="fa fa-trash-o" data-ng-click="Delete(user)"></i></a>
                     </td>
                 </tr>
                 </tbody>
             </table>
     </div>
     <div class="box-footer">
-        <button class="btn btn-primary" data-ng-click="User()">Adicionar</button>
+        <button class="btn btn-primary b" data-ng-click="User()">Agregar</button>
     </div>
 </div>

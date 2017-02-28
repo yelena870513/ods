@@ -56,7 +56,6 @@
 
                 </ul>
             </div>
-
             <div class="btn-group" uib-dropdown is-open="status5.isopen">
                 <button id="single-button-aerosoles" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
                     Aerosoles <span class="caret"></span>
@@ -104,22 +103,30 @@
             <button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>
             {{error.message}}
         </div>
+
+        <div class="alert alert-{{alert.type}} alert-dismissable" data-ng-show="alert.show">
+            <button type="button" class="close" ng-click="alert.show = false;" aria-hidden="true">×</button>
+            {{alert.message}}
+        </div>
         <div class="pre-scrollable" data-ng-show="table.columns.length>0">
-            <div class="input-group">
+            <h4 >{{table.title  }}</h4>
+            <div class="input-group filter">
                 <input type="text" id="searchP" class="searchP form-control" data-ng-model="searchCriteria"/>
-                <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
+                <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-filter"></i></button></span>
             </div>
 
-            <h4 >{{table.title  }}</h4>
+
             <table class="table table-bordered table table-striped table-hover">
                 <thead>
                 <tr >
+                    <th><label><input type="checkbox" data-ng-model="selected" data-ng-change="Mark()"/></label></th>
                     <th data-ng-repeat="col in table.columns">{{col | showName  }}</th>
                     <th>Opciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr data-dir-paginate="record in table.records |itemsPerPage: 5 | SearchCriteria:searchCriteria track by $index" data-pagination-id="same">
+                    <td><label><input type="checkbox" data-ng-model="record.selected"/></label></td>
                     <td data-ng-repeat="col in table.columns ">{{record[col] | mainString }}</td>
                     <td>
                         <!--Llamada de los eliminar y los editar-->
@@ -141,7 +148,10 @@
         </dir-pagination-controls>
 
     </div>
-    <div><button class="btn btn-primary" data-ng-click="OpenModal()">Agregar</button></div>
+    <div>
+        <button class="btn btn-primary b" data-ng-click="OpenModal()">Agregar</button>
+        <button class="btn btn-danger" data-ng-click="DeleteSelected()">Eliminar todos</button></div>
+    </div>
 </div>
 
 

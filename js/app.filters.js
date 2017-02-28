@@ -63,10 +63,37 @@ angular.module('app.sao').filter('mainString',function () {
         }
     })
     .filter('SearchCriteria',function () {
-        return function (data, criteria)
+        return function (data, criteria,cacheData)
         {
             if (criteria!=undefined && criteria!='')
             {
+                if (cacheData!=undefined)
+                {
+                    return cacheData.filter(function (el) {
+                        var validate=[];
+                        for (var i in el)
+                        {
+                            if (i!="tipo")
+                            {
+                                if(Object.prototype.toString.call( el[i] ) === '[object Object]')
+                                {
+                                    if (indexOfIn(criteria,el[i].nombre))
+                                    {
+                                        validate.push(i);
+                                    }
+                                }
+                                else {
+                                    if (indexOfIn(criteria,el[i])) {
+                                        validate.push(i);
+                                    }
+                                }
+                            }
+
+                        }
+
+                        return validate.length>0;
+                    });
+                }
                 return data.filter(function (el) {
                     var validate=[];
                     for (var i in el)
@@ -98,6 +125,53 @@ angular.module('app.sao').filter('mainString',function () {
             }
         }
 
+    })
+    .filter('NameCriteria',function () {
+
+        return function (data, criteria,cacheData)
+        {
+            if (criteria!=undefined && criteria!='')
+            {
+                if (cacheData!=undefined)
+                {
+                    return cacheData.filter(function (el) {
+                        var validate=[];
+                        if (indexOfIn(criteria,el.nombre))
+                        {
+                            validate.push(el);
+                        }
+
+                        return validate.length>0;
+                    });
+                }
+                return data.filter(function (el) {
+                    var validate=[];
+                    if (indexOfIn(criteria,el.nombre))
+                    {
+                        validate.push(el);
+                    }
+
+
+                    return validate.length>0;
+                });
+            }
+            else{
+
+                return data;
+            }
+        }
+
+    })
+
+    .filter('capitalize', function() {
+    return function(input) {
+        return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+    }
+})
+    .filter('fancy', function () {
+        return function (input){
+            return (input.toLowerCase()=='osde') ? input.toUpperCase() : input;
+        }
     })
 ;
 

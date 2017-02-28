@@ -66,7 +66,7 @@
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li role="menuitem"><a data-ng-click="SelectChart('empresa1')" >Aire acondicionado automotriz</a></li>
                     <li role="menuitem"><a data-ng-click="SelectChart('empresa2')">Refrigeración móvil</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('empresa3')">Taller de servicios</a></li>
+                    <!--<li role="menuitem"><a data-ng-click="SelectChart('empresa3')">Taller de servicios</a></li>-->
                 </ul>
             </div>
         </div>
@@ -78,6 +78,7 @@
                   <h4>  <em>Usuario</em><span> {{user.username }} </span></h4>
                 </div>
             </div>
+
             <div class="row" data-ng-show="bar.show" style="width: 50%">
                 <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPdf()"><i class="fa fa-file-pdf-o"></i></button></div>
                 <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPrint()"><i class="fa fa-print"></i></button></div>

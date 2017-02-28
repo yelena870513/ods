@@ -2,7 +2,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
         <span aria-hidden="true">×</span></button>
 
-    <h4 class="modal-title">Nomenclador : {{ntype}}</h4>
+    <h4 class="modal-title text-capitalize">Nomenclador : {{ntype| fancy}}</h4>
 
 </div>
 <div class="modal-body">
@@ -15,8 +15,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="nomenclature" class="col-sm-2 control-label">Nomenclador</label>
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     <input id="nomenclature" data-ng-model="nomenclature.nombre" class="form-control"/>
                 </div>
 

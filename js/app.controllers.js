@@ -8,6 +8,13 @@ angular.module('app.sao')
             message:''
         };
 
+        $scope.alert =
+        {
+            show:false,
+            message:'',
+            type:'success'
+        };
+
         $scope.error=
         {
             show:false,
@@ -310,6 +317,70 @@ angular.module('app.sao')
                 console.warn(JSON.stringify(reason));
             })
         }
+
+        function checkAll()
+        {
+            $scope.table.records = $scope.table.records.map(function (nm) {
+                nm.selected = true;
+                return nm;
+            });
+        };
+
+        function uncheckAll()
+        {
+            $scope.table.records = $scope.table.records.map(function (nm) {
+                nm.selected = false;
+                return nm;
+            });
+        };
+
+        $scope.Mark = function(){
+            if ($scope.selected)
+            {
+                checkAll();
+            }
+            else{
+                uncheckAll();
+            }
+        };
+
+        $scope.DeleteSelected = function(){
+            var find = _($scope.table.records).find(function(nm){
+                return nm.selected==true;
+            });
+            if (find==undefined)
+            {
+                $scope.alert.show = true;
+                $scope.alert.message = "Seleccione al menos un elemento";
+                $scope.alert.type = 'danger';
+            }
+            else
+            {
+                var tipo = find.tipo;
+                var reject = _($scope.table.records).filter(function(nm){return nm.selected==true;});
+                Manager.delete(reject.map(function(re){re._deleted=true;return re;})).then(function (e)
+                {
+                    $scope.alert.show = true;
+                    $scope.alert.message = 'Registros eliminados correctamente';
+                    $scope.alert.type = 'success';
+                    $timeout(function () {
+                        $scope.alert.show = false;
+                        $scope.selected = false;
+                        FetchRecords($scope.table.name);
+
+                    },500);
+                }).
+                catch(function (reason) {
+                    $scope.alert.show = true;
+                    $scope.alert.message = reason.message;
+                    $scope.alert.type = 'danger';
+                    $timeout(function () {
+                        $scope.alert.show = false;
+                    },3000);
+                });
+
+            }
+        };
         ///SCOPE MEMBERS
         $scope.Add = function(element) {
             //todo validar datos
@@ -458,23 +529,24 @@ angular.module('app.sao')
         };
 
 
-        $scope.Save = function() {
+        $scope.Save = function()
+        {
             Manager.flush().then(function (e) {
                 $scope.alerts.show = true;
                 $scope.alerts.message = 'Datos salvados correctamente.';
                 $timeout(function () {
                     $scope.alerts.show = false;
                 },3000);
-            },function (reason) {
+            }).catch(function (reason) {
                 $scope.error.show = true;
                 $scope.error.message = 'Error salvando los datos.';
+                $scope.error.message = reason.message;
                 $timeout(function () {
                     $scope.error.show = false;
                     $scope.error.message = 'Error!.';
                 },3000);
             });
         };
-
         $scope.SelectModal = function (tipo) {
             $scope.table.name = tipo;
             for (var i in SType)
@@ -589,7 +661,7 @@ angular.module('app.sao')
                 marginsType: 0,
                 printBackground: false,
                 printSelectionOnly: false,
-                pageSize:'Legal',
+                pageSize:'A3',
                 landscape: true
             }, function(error,data)
             {
@@ -1080,6 +1152,7 @@ angular.module('app.sao')
                 marginsType: 0,
                 printBackground: false,
                 printSelectionOnly: false,
+                pageSize:'A3',
                 landscape: true
             }, function(error,data)
             {
@@ -1170,7 +1243,7 @@ angular.module('app.sao')
                             },
                             title: {
                                 display: true,
-                                text: 'Espuma 1'
+                                text: 'Demanda de SAO y agente espumante en el sector de espuma.'
                             }
 
                         }
@@ -1226,7 +1299,7 @@ angular.module('app.sao')
                         options: {
                             title:{
                                 display:true,
-                                text:"Espuma 2"
+                                text:"Distribución de ODS y alternativas en subsector de espuma."
                             },
                             tooltips: {
                                 mode: 'index',
@@ -1293,7 +1366,7 @@ angular.module('app.sao')
                         options: {
                             title:{
                                 display:true,
-                                text:"Espuma 3"
+                                text:"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido."
                             },
                             legend: {
                                 display: true,
@@ -1360,7 +1433,7 @@ angular.module('app.sao')
                             title:{
                                 display:true,
                                 //text:"Importaciones"
-                                text:""
+                                text:"Demanda de SAO y refrigerantes alternativos de SAO."
                             },
                             legend: {
                                 display: true,
@@ -1387,9 +1460,221 @@ angular.module('app.sao')
 
                     break;
                 case 'consumo':
+                    names = [];
+                    table  = {
+                        names:[],
+                        data:[]
+                    };
+                    table.names = $scope.records.map(function (el)
+                    {
+                        return el.Aplicaciones.nombre;
+                    });
+
+                    table.names.forEach(function (el) {
+                        var rec = $scope.records.filter(function (r) {
+                            return r.Aplicaciones.nombre;
+                        })[0];
+
+                        if (rec!=undefined)
+                        {
+
+                            var uso  = rec.Uso.map(function (m) {
+                                return m.tons;
+                            });
+
+                            table.data.push(uso);
+                            names.push(el);
+                            table.names = names;
+                        }
+
+
+
+                    });
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
+                    $scope.bar = {
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                        "series":table.names,
+                        "data": table.data,
+                        "show":true,
+                        options: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"Consumo  de SAO (Refrigerantes) y sus alternativas en el subsector de manufactura."
+                            }
+
+                        }
+                    };
+
+
+                    break;
                 case 'aerosoles':
+                    names = [];
+                    table  = {
+                        names:[],
+                        data:[]
+                    };
+                    table.names = $scope.records.map(function (el)
+                    {
+                        return el.Aplicaciones.nombre;
+                    });
+
+                    table.names.forEach(function (el) {
+                        var rec = $scope.records.filter(function (r) {
+                            return r.Aplicaciones.nombre;
+                        })[0];
+
+                        if (rec!=undefined)
+                        {
+
+                            var uso  = rec.Uso.map(function (m) {
+                                return m.tons;
+                            });
+
+                            table.data.push(uso);
+                            names.push(el);
+                            table.names = names;
+                        }
+
+
+
+                    });
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
+                    $scope.bar = {
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                        "series":table.names,
+                        "data": table.data,
+                        "show":true,
+                        options: {
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles."
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+
+                        }
+                    };
+
+
+                    break;
                 case 'empresa3':
+                    names = [];
+                    table  = {
+                        names:[],
+                        data:[]
+                    };
+                    table.names = $scope.records.map(function (el)
+                    {
+                        return el.Aplicaciones.nombre;
+                    });
+
+                    table.names.forEach(function (el) {
+                        var rec = $scope.records.filter(function (r) {
+                            return r.Aplicaciones.nombre;
+                        })[0];
+
+                        if (rec!=undefined)
+                        {
+
+                            var uso  = rec.Uso.map(function (m) {
+                                return m.tons;
+                            });
+
+                            table.data.push(uso);
+                            names.push(el);
+                            table.names = names;
+                        }
+
+
+
+                    });
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
+                    $scope.bar = {
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                        "series":table.names,
+                        "data": table.data,
+                        "show":true,
+                        options: {
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes."
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+
+                        }
+                    };
+
+
+                    break;
                 case 'empresa2':
+                    names = [];
+                    table  = {
+                        names:[],
+                        data:[]
+                    };
+                    table.names = $scope.records.map(function (el)
+                    {
+                        return el.Aplicaciones.nombre;
+                    });
+
+                    table.names.forEach(function (el) {
+                        var rec = $scope.records.filter(function (r) {
+                            return r.Aplicaciones.nombre;
+                        })[0];
+
+                        if (rec!=undefined)
+                        {
+
+                            var uso  = rec.Uso.map(function (m) {
+                                return m.tons;
+                            });
+
+                            table.data.push(uso);
+                            names.push(el);
+                            table.names = names;
+                        }
+
+
+
+                    });
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
+
+                    $scope.bar = {
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                        "series":table.names,
+                        "data": table.data,
+                        "show":true,
+                        options: {
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"Recolección de datos en el uso de alternativas de SAO en Refrigeración Móvil."
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+
+                        }
+                    };
+
+
+                    break;
                 case 'empresa1':
 
                     names = [];
@@ -1430,6 +1715,11 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz."
+                            },
                             legend: {
                                 display: true,
                                 position: 'top'
@@ -1482,6 +1772,11 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados."
+                            },
                             legend: {
                                 display: true,
                                 position: 'top'
@@ -1533,6 +1828,11 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"Cantidad de importaciones de alternativas de ODS."
+                            },
                             legend: {
                                 display: true,
                                 position: 'top'
@@ -1545,6 +1845,54 @@ angular.module('app.sao')
                     break;
 
                 case 'aire3':
+                    names = [];
+                    table  = {
+                        names:[],
+                        data:[]
+                    };
+                    table.names = $scope.records.map(function (el)
+                    {
+                        return el.Aplicaciones.nombre;
+                    });
+
+                    table.names.forEach(function (el) {
+                        var rec = $scope.records.filter(function (r) {
+                            return r.Aplicaciones.nombre==el;
+                        })[0];
+
+                        if (rec!=undefined)
+                        {
+
+                            var tr = [0,0,0,0,0,0];
+                            var index = years.indexOf(rec.year);
+                            tr[index]=rec.explotacion;
+                            table.data.push(tr);
+                            names.push(el);
+                            table.names = names;
+                        }
+
+
+
+                    });
+                    $scope.bar = {
+                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                        "series":table.names,
+                        "data": table.data,
+                        "show":true,
+                        options: {
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado."
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+
+                        }
+                    };
+                    break;
                 case 'refri':
                     names = [];
                     table  = {
@@ -1581,6 +1929,11 @@ angular.module('app.sao')
                         "data": table.data,
                         "show":true,
                         options: {
+                            title:{
+                                display:true,
+                                //text:"Importaciones"
+                                text:"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración."
+                            },
                             legend: {
                                 display: true,
                                 position: 'top'
@@ -1927,7 +2280,7 @@ angular.module('app.sao')
             var error = [];
             var msg = {
                 experiencias:'Introduzca la carga.',
-                alternativa:'Nombre de alternativa incorrecto. \n Debe contener m\u00E1s de tres car\u00E1cteres y/o no se acepta car\u00E1teres extra\u00F1os. ',
+                alternativa:'Nombre de alternativa incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
                 unidades:'Introduzca el No. unidades.'
             };
             switch (element.tipo) {
@@ -2062,9 +2415,9 @@ angular.module('app.sao')
                     if(element.otrosAlternativa!=''){
                         element.Tipo={nombre:element.otrosAlternativa}
                     }
-                    if(element.Importaciones!=undefined)
+                    if(element.Uso!=undefined)
                     {
-                        if(element.Importaciones.length<6)
+                        if(element.Uso.length<6)
                         {
                             $scope.error.tipo='anno';
                             throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
@@ -2961,8 +3314,8 @@ angular.module('app.sao')
                     $scope.action = action;
                     var msg =
                     {
-                        password:"Una clave no segura.",
-                        username:"Usuario incorrecto. Contiene menos de tres car\u00E1cteres y/o car\u00E1teres extra\u00F1os."
+                        password:"Clave no segura. Debe contener al menos 8 caracteres, may\u00FAsculas, n\u00FAmeros y caracteres especiales.",
+                        username:"Usuario incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os."
                     };
                     $scope.error ={
                         show:false,
@@ -3042,6 +3395,8 @@ angular.module('app.sao')
                 Refresh();
             }, function(reason) {
                 console.warn(JSON.stringify(reason));
+            }).finally(function () {
+                Refresh();
             });
         };
 
@@ -3124,265 +3479,583 @@ angular.module('app.sao')
 
         init();
     })
+    //.controller('nomenclatureController',function ($scope, Manager, $uibModal, $timeout, $localStorage,ModelValidator,$location) {
+    //
+    ///**
+    // * UI Configuration
+    // * alert = { show: true|false, message:'string', type:'' }
+    // */
+    //$scope.alert =
+    //{
+    //    show:false,
+    //    message:'',
+    //    type:'success'
+    //};
+    //
+    //$scope.nomenclatures = [];
+    //$scope.selected=false;
+    //$scope.ntype = '';
+    //$scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
+    //
+    //$scope.Nomenclature = function (nomenclature,size) {
+    //    var instance = $uibModal.open({
+    //        animation: true,
+    //        templateUrl: "template/modal/nomenclature-modal.html",
+    //        controller: function ($scope,Manager,nomenclature,ntype,$uibModalInstance) {
+    //            $scope.alert =
+    //            {
+    //                show:false,
+    //                message:'',
+    //                type:'success'
+    //            };
+    //
+    //            $scope.nomenclature = angular.copy(nomenclature);
+    //            $scope.ntype = ntype;
+    //
+    //            $scope.Save= function (nomenclature)
+    //            {
+    //                if (ModelValidator.isValidNomenclature(nomenclature))
+    //                {
+    //                    nomenclature.tipo = $scope.ntype;
+    //
+    //                    Manager.record(nomenclature.tipo).then(function (data) {
+    //                       var allData = data.rows.map(function (el) {
+    //                           return el.doc;
+    //                       }) ;
+    //
+    //                      var unique = _(allData).find(function (nm) {
+    //                          return nm.nombre==nomenclature.nombre;
+    //                      })  ;
+    //                        if(unique==undefined)
+    //                        {
+    //                            Manager.create(nomenclature).
+    //                            then(function (e)
+    //                            {
+    //                                $scope.alert.show = true;
+    //                                $scope.alert.message = 'Nomenclador agregado correctamente';
+    //                                $scope.alert.type = 'success';
+    //                                $timeout(function () {
+    //                                    $scope.alert.show = false;
+    //                                    Finish(nomenclature.tipo);
+    //                                },1000);
+    //                            }).
+    //                            catch(function (reason) {
+    //                                $scope.alert.show = true;
+    //                                $scope.alert.message = reason;
+    //                                $scope.alert.type = 'danger';
+    //                            })
+    //                            ;
+    //
+    //                        }
+    //                        else{
+    //                            $scope.alert.show = true;
+    //                            $scope.alert.message = 'Nomenclador incorrecto. Ya existe uno con ese nombre.' ;
+    //                            $scope.alert.type = 'danger';
+    //
+    //                        }
+    //
+    //
+    //                    });
+    //
+    //                }
+    //                else
+    //                {
+    //                    $scope.alert.show = true;
+    //                    $scope.alert.message = 'Nomenclador incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os.' ;
+    //                    $scope.alert.type = 'danger';
+    //
+    //                }
+    //            };
+    //
+    //            $scope.Close = function () {
+    //                Close();
+    //            };
+    //
+    //            function Close() {
+    //                $uibModalInstance.dismiss('cancel');
+    //            }
+    //
+    //            function Finish(data) {
+    //                $uibModalInstance.close(data==undefined?'close':data);
+    //            }
+    //
+    //        },
+    //        size: size,
+    //        resolve: {
+    //            nomenclature:function () {
+    //                return nomenclature;
+    //            },
+    //            ntype:function () {
+    //                return $scope.ntype;
+    //            }
+    //        }
+    //    });
+    //
+    //    instance.result.then(function(data) {
+    //        List(data);
+    //    }, function(reason) {
+    //        $scope.alert.show = true;
+    //        $scope.alert.message = reason;
+    //        $scope.alert.type = 'danger';
+    //        $timeout(function () {
+    //            $scope.alert.show = false;
+    //        },3000);
+    //    });
+    //};
+    //
+    //$scope.Delete = function(nomenclature, size) {
+    //    var instance = $uibModal.open({
+    //        animation: true,
+    //        templateUrl: "template/modal/delete-modal.html",
+    //        controller: function ($scope,nomenclature,$uibModalInstance) {
+    //            $scope.record = nomenclature;
+    //            $scope.Close = function () {
+    //                Close();
+    //            };
+    //
+    //            $scope.Delete = function (nomenclature) {
+    //                Finish(nomenclature.tipo);
+    //            };
+    //
+    //            function Close() {
+    //                $uibModalInstance.dismiss('cancel');
+    //            }
+    //
+    //            function Finish(data) {
+    //                $uibModalInstance.close(data==undefined?'close':data);
+    //            }
+    //        },
+    //        size: size,
+    //        resolve: {
+    //            nomenclature: function () {
+    //                return nomenclature;
+    //            }
+    //        }
+    //    });
+    //
+    //    instance.result.then(function(data) {
+    //        Delete(nomenclature).finally(function () {
+    //            List(data);
+    //        }) ;
+    //    });
+    //};
+    //
+    //$scope.List = function (type) {
+    //    $scope.ntype = type;
+    //    List(type);
+    //};
+    //
+    //$scope.isActive = function (nstype) {
+    //    return nstype == $scope.nstype;
+    //};
+    //
+    //$scope.Mark = function(){
+    //    if ($scope.selected)
+    //    {
+    //        checkAll();
+    //    }
+    //    else{
+    //        uncheckAll();
+    //    }
+    //};
+    //
+    //$scope.DeleteSelected = function(){
+    //    var find = _($scope.nomenclatures).find(function(nm){
+    //        return nm.selected==true;
+    //    });
+    //    if (find==undefined)
+    //    {
+    //        $scope.alert.show = true;
+    //        $scope.alert.message = "Seleccione al menos un elemento";
+    //        $scope.alert.type = 'danger';
+    //    }
+    //    else
+    //    {
+    //        var tipo = find.tipo;
+    //        var reject = _($scope.nomenclatures).filter(function(nm){return nm.selected==true;});
+    //        Manager.delete(reject.map(function(re){re._deleted=true;return re;})).then(function (e)
+    //        {
+    //            $scope.alert.show = true;
+    //            $scope.alert.message = 'Nomencladores eliminados correctamente';
+    //            $scope.alert.type = 'success';
+    //            $timeout(function () {
+    //                $scope.alert.show = false;
+    //                List(tipo);
+    //            },500);
+    //        }).
+    //        catch(function (reason) {
+    //            $scope.alert.show = true;
+    //            $scope.alert.message = reason.message;
+    //            $scope.alert.type = 'danger';
+    //            $timeout(function () {
+    //                $scope.alert.show = false;
+    //            },3000);
+    //        });
+    //
+    //    }
+    //};
+    //
+    //function checkAll()
+    //{
+    //   $scope.nomenclatures = $scope.nomenclatures.map(function (nm) {
+    //       nm.selected = true;
+    //       return nm;
+    //   });
+    //};
+    //
+    //function uncheckAll()
+    //{
+    //    $scope.nomenclatures = $scope.nomenclatures.map(function (nm) {
+    //        nm.selected = false;
+    //        return nm;
+    //    });
+    //};
+    //
+    //function Delete(nomenclador)
+    //{
+    //    return Manager.delete(nomenclador).
+    //    then(function (e)
+    //    {
+    //        $scope.alert.show = true;
+    //        $scope.alert.message = 'Nomenclador elimindo correctamente';
+    //        $scope.alert.type = 'success';
+    //        $timeout(function () {
+    //            $scope.alert.show = false;
+    //        },500);
+    //    }).
+    //    catch(function (reason) {
+    //        $scope.alert.show = true;
+    //        $scope.alert.message = reason;
+    //        $scope.alert.type = 'danger';
+    //        $timeout(function () {
+    //            $scope.alert.show = false;
+    //        },3000);
+    //    })
+    //}
+    //
+    //
+    ////function List(type)
+    ////{
+    ////    return Manager.record(type).then(function (data) {
+    ////        $scope.nomenclatures = data.rows.map(function (el) {
+    ////            return el.doc;
+    ////        });
+    ////    });
+    ////}
+    //    function List(type)
+    //    {
+    //        return Manager.record(type).then(function (data) {
+    //            $scope.nomenclatures = _.sortBy(data.rows.map(function (el) {
+    //                return el.doc;
+    //            }),function(el){return el.nombre;});
+    //        });
+    //    }
+    //
+    //function init()
+    //{
+    //    $scope.user = $localStorage.user;
+    //
+    //    $timeout(function () {
+    //        if($scope.user==undefined)
+    //        {
+    //            $location.path('/login');
+    //        }
+    //        else
+    //        {
+    //            $scope.ntype = $scope.ntypes[0];
+    //            List($scope.ntypes[0]);
+    //        }
+    //    },500);
+    //}
+    //
+    //    init();
+    //});
     .controller('nomenclatureController',function ($scope, Manager, $uibModal, $timeout, $localStorage,ModelValidator,$location) {
 
-    /**
-     * UI Configuration
-     * alert = { show: true|false, message:'string', type:'' }
-     */
-    $scope.alert =
-    {
-        show:false,
-        message:'',
-        type:'success'
-    };
+        /**
+         * UI Configuration
+         * alert = { show: true|false, message:'string', type:'' }
+         */
+        $scope.alert =
+        {
+            show:false,
+            message:'',
+            type:'success'
+        };
 
-    $scope.nomenclatures = [];
-    $scope.selected=false;
-    $scope.ntype = '';
-    $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
+        $scope.nomenclatures = [];
+        $scope.nomenclaturesCache  = [];
+        $scope.selected=false;
+        $scope.ntype = '';
+        $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
 
-    $scope.Nomenclature = function (nomenclature,size) {
-        var instance = $uibModal.open({
-            animation: true,
-            templateUrl: "template/modal/nomenclature-modal.html",
-            controller: function ($scope,Manager,nomenclature,ntype,$uibModalInstance) {
-                $scope.alert =
-                {
-                    show:false,
-                    message:'',
-                    type:'success'
-                };
-
-                $scope.nomenclature = angular.copy(nomenclature);
-                $scope.ntype = ntype;
-
-                $scope.Save= function (nomenclature)
-                {
-                    if (ModelValidator.isValidNomenclature(nomenclature))
+        $scope.Nomenclature = function (nomenclature,size) {
+            var instance = $uibModal.open({
+                animation: true,
+                templateUrl: "template/modal/nomenclature-modal.html",
+                controller: function ($scope,Manager,nomenclature,ntype,$uibModalInstance) {
+                    $scope.alert =
                     {
-                        nomenclature.tipo = $scope.ntype;
-                        Manager.create(nomenclature).
-                        then(function (e)
+                        show:false,
+                        message:'',
+                        type:'success'
+                    };
+
+                    $scope.nomenclature = angular.copy(nomenclature);
+                    $scope.ntype = ntype;
+
+                    $scope.Save= function (nomenclature)
+                    {
+                        if (ModelValidator.isValidNomenclature(nomenclature))
+                        {
+                            nomenclature.tipo = $scope.ntype;
+
+                            Manager.record(nomenclature.tipo).then(function (data) {
+                                var allData = data.rows.map(function (el) {
+                                    return el.doc;
+                                }) ;
+
+                                var unique = _(allData).find(function (nm) {
+                                    return nm.nombre==nomenclature.nombre;
+                                })  ;
+                                if(unique==undefined)
+                                {
+                                    Manager.create(nomenclature).
+                                        then(function (e)
+                                        {
+                                            $scope.alert.show = true;
+                                            $scope.alert.message = 'Nomenclador agregado correctamente';
+                                            $scope.alert.type = 'success';
+                                            $timeout(function () {
+                                                $scope.alert.show = false;
+                                                Finish(nomenclature.tipo);
+                                            },1000);
+                                        }).
+                                        catch(function (reason) {
+                                            $scope.alert.show = true;
+                                            $scope.alert.message = reason;
+                                            $scope.alert.type = 'danger';
+                                        })
+                                    ;
+
+                                }
+                                else{
+                                    $scope.alert.show = true;
+                                    $scope.alert.message = 'Nomenclador incorrecto. Ya existe uno con ese nombre.' ;
+                                    $scope.alert.type = 'danger';
+
+                                }
+
+
+                            });
+
+                        }
+                        else
                         {
                             $scope.alert.show = true;
-                            $scope.alert.message = 'Nomenclador agregado correctamente';
-                            $scope.alert.type = 'success';
-                            $timeout(function () {
-                                $scope.alert.show = false;
-                                Finish(nomenclature.tipo);
-                            },3000);
-                        }).
-                        catch(function (reason) {
-                            $scope.alert.show = true;
-                            $scope.alert.message = reason;
+                            $scope.alert.message = 'Nomenclador incorrecto. Contiene menos de tres caracteres y/o no se acepta caracteres extra\u00F1os.' ;
                             $scope.alert.type = 'danger';
-                        })
-                        ;
+
+                        }
+                    };
+
+                    $scope.Close = function () {
+                        Close();
+                    };
+
+                    function Close() {
+                        $uibModalInstance.dismiss('cancel');
                     }
-                    else
-                    {
-                        $scope.alert.show = true;
-                        $scope.alert.message = 'Nomenclador incorrecto. Debe contener m\u00E1s de tres car\u00E1cteres y/o no se acepta car\u00E1teres extra\u00F1os.' ;
-                        $scope.alert.type = 'danger';
 
+                    function Finish(data) {
+                        $uibModalInstance.close(data==undefined?'close':data);
                     }
-                };
 
-                $scope.Close = function () {
-                    Close();
-                };
-
-                function Close() {
-                    $uibModalInstance.dismiss('cancel');
-                }
-
-                function Finish(data) {
-                    $uibModalInstance.close(data==undefined?'close':data);
-                }
-
-            },
-            size: size,
-            resolve: {
-                nomenclature:function () {
-                    return nomenclature;
                 },
-                ntype:function () {
-                    return $scope.ntype;
+                size: size,
+                resolve: {
+                    nomenclature:function () {
+                        return nomenclature;
+                    },
+                    ntype:function () {
+                        return $scope.ntype;
+                    }
                 }
-            }
-        });
+            });
 
-        instance.result.then(function(data) {
-            List(data);
-        }, function(reason) {
-            $scope.alert.show = true;
-            $scope.alert.message = reason;
-            $scope.alert.type = 'danger';
-            $timeout(function () {
-                $scope.alert.show = false;
-            },3000);
-        });
-    };
-
-    $scope.Delete = function(nomenclature, size) {
-        var instance = $uibModal.open({
-            animation: true,
-            templateUrl: "template/modal/delete-modal.html",
-            controller: function ($scope,nomenclature,$uibModalInstance) {
-                $scope.record = nomenclature;
-                $scope.Close = function () {
-                    Close();
-                };
-
-                $scope.Delete = function (nomenclature) {
-                    Finish(nomenclature.tipo);
-                };
-
-                function Close() {
-                    $uibModalInstance.dismiss('cancel');
-                }
-
-                function Finish(data) {
-                    $uibModalInstance.close(data==undefined?'close':data);
-                }
-            },
-            size: size,
-            resolve: {
-                nomenclature: function () {
-                    return nomenclature;
-                }
-            }
-        });
-
-        instance.result.then(function(data) {
-            Delete(nomenclature).finally(function () {
+            instance.result.then(function(data) {
                 List(data);
-            }) ;
-        });
-    };
-
-    $scope.List = function (type) {
-        $scope.ntype = type;
-        List(type);
-    };
-
-    $scope.isActive = function (nstype) {
-        return nstype == $scope.nstype;
-    };
-
-    $scope.Mark = function(){
-        if ($scope.selected)
-        {
-            checkAll();
-        }
-        else{
-            uncheckAll();
-        }
-    };
-
-    $scope.DeleteSelected = function(){
-        var find = _($scope.nomenclatures).find(function(nm){
-            return nm.selected==true;
-        });
-        if (find==undefined)
-        {
-            $scope.alert.show = true;
-            $scope.alert.message = "Seleccione al menos un elemento";
-            $scope.alert.type = 'danger';
-        }
-        else
-        {
-            var tipo = find.tipo;
-            var reject = _($scope.nomenclatures).filter(function(nm){return nm.selected==true;});
-            Manager.delete(reject.map(function(re){re._deleted=true;return re;})).then(function (e)
-            {
+            }, function(reason) {
                 $scope.alert.show = true;
-                $scope.alert.message = 'Nomencladores eliminados correctamente';
-                $scope.alert.type = 'success';
-                $timeout(function () {
-                    $scope.alert.show = false;
-                    List(tipo);
-                },500);
-            }).
-            catch(function (reason) {
-                $scope.alert.show = true;
-                $scope.alert.message = reason.message;
+                $scope.alert.message = reason;
                 $scope.alert.type = 'danger';
                 $timeout(function () {
                     $scope.alert.show = false;
                 },3000);
             });
+        };
 
-        }
-    };
+        $scope.Delete = function(nomenclature, size) {
+            var instance = $uibModal.open({
+                animation: true,
+                templateUrl: "template/modal/delete-modal.html",
+                controller: function ($scope,nomenclature,$uibModalInstance) {
+                    $scope.record = nomenclature;
+                    $scope.Close = function () {
+                        Close();
+                    };
 
-    function checkAll()
-    {
-       $scope.nomenclatures = $scope.nomenclatures.map(function (nm) {
-           nm.selected = true;
-           return nm;
-       });
-    };
+                    $scope.Delete = function (nomenclature) {
+                        Finish(nomenclature.tipo);
+                    };
 
-    function uncheckAll()
-    {
-        $scope.nomenclatures = $scope.nomenclatures.map(function (nm) {
-            nm.selected = false;
-            return nm;
-        });
-    };
+                    function Close() {
+                        $uibModalInstance.dismiss('cancel');
+                    }
 
-    function Delete(nomenclador)
-    {
-        return Manager.delete(nomenclador).
-        then(function (e)
-        {
-            $scope.alert.show = true;
-            $scope.alert.message = 'Nomenclador elimindo correctamente';
-            $scope.alert.type = 'success';
-            $timeout(function () {
-                $scope.alert.show = false;
-            },500);
-        }).
-        catch(function (reason) {
-            $scope.alert.show = true;
-            $scope.alert.message = reason;
-            $scope.alert.type = 'danger';
-            $timeout(function () {
-                $scope.alert.show = false;
-            },3000);
-        })
-    }
-
-
-    function List(type)
-    {
-        return Manager.record(type).then(function (data) {
-            $scope.nomenclatures = data.rows.map(function (el) {
-                return el.doc;
+                    function Finish(data) {
+                        $uibModalInstance.close(data==undefined?'close':data);
+                    }
+                },
+                size: size,
+                resolve: {
+                    nomenclature: function () {
+                        return nomenclature;
+                    }
+                }
             });
-        });
-    }
 
-    function init()
-    {
-        $scope.user = $localStorage.user;
+            instance.result.then(function(data) {
+                Delete(nomenclature).finally(function () {
+                    List(data);
+                }) ;
+            });
+        };
 
-        $timeout(function () {
-            if($scope.user==undefined)
+        $scope.List = function (type) {
+            $scope.ntype = type;
+            List(type);
+        };
+
+        $scope.isActive = function (nstype) {
+            return nstype == $scope.nstype;
+        };
+
+        $scope.Mark = function(){
+            if ($scope.selected)
             {
-                $location.path('/login');
+                checkAll();
+            }
+            else{
+                uncheckAll();
+            }
+        };
+
+        $scope.DeleteSelected = function(){
+            var find = _($scope.nomenclatures).find(function(nm){
+                return nm.selected==true;
+            });
+            if (find==undefined)
+            {
+                $scope.alert.show = true;
+                $scope.alert.message = "Seleccione al menos un elemento";
+                $scope.alert.type = 'danger';
             }
             else
             {
-                $scope.ntype = $scope.ntypes[0];
-                List($scope.ntypes[0]);
+                var tipo = find.tipo;
+                var reject = _($scope.nomenclatures).filter(function(nm){return nm.selected==true;});
+                Manager.delete(reject.map(function(re){re._deleted=true;return re;})).then(function (e)
+                {
+                    $scope.alert.show = true;
+                    $scope.alert.message = 'Nomencladores eliminados correctamente';
+                    $scope.alert.type = 'success';
+                    $timeout(function () {
+                        $scope.alert.show = false;
+                        List(tipo);
+                    },500);
+                }).
+                    catch(function (reason) {
+                        $scope.alert.show = true;
+                        $scope.alert.message = reason.message;
+                        $scope.alert.type = 'danger';
+                        $timeout(function () {
+                            $scope.alert.show = false;
+                        },3000);
+                    });
+
             }
-        },500);
-    }
+        };
+
+        function checkAll()
+        {
+            $scope.nomenclatures = $scope.nomenclatures.map(function (nm) {
+                nm.selected = true;
+                return nm;
+            });
+        };
+
+        function uncheckAll()
+        {
+            $scope.nomenclatures = $scope.nomenclatures.map(function (nm) {
+                nm.selected = false;
+                return nm;
+            });
+        };
+
+        function Delete(nomenclador)
+        {
+            return Manager.delete(nomenclador).
+                then(function (e)
+                {
+                    $scope.alert.show = true;
+                    $scope.alert.message = 'Nomenclador elimindo correctamente';
+                    $scope.alert.type = 'success';
+                    $timeout(function () {
+                        $scope.alert.show = false;
+                    },500);
+                }).
+                catch(function (reason) {
+                    $scope.alert.show = true;
+                    $scope.alert.message = reason;
+                    $scope.alert.type = 'danger';
+                    $timeout(function () {
+                        $scope.alert.show = false;
+                    },3000);
+                })
+        }
+
+
+        function List(type)
+        {
+            return Manager.record(type).then(function (data) {
+                $scope.nomenclatures = _.sortBy(data.rows.map(function (el) {
+                    return el.doc;
+                }),function(el){return el.nombre.toLocaleLowerCase();});
+
+                $scope.nomenclaturesCache = angular.copy($scope.nomenclatures);
+            });
+        }
+
+        function init()
+        {
+            $scope.user = $localStorage.user;
+
+            $timeout(function () {
+                if($scope.user==undefined)
+                {
+                    $location.path('/login');
+                }
+                else
+                {
+                    $scope.ntype = $scope.ntypes[0];
+                    List($scope.ntypes[0]);
+                }
+            },500);
+        }
 
         init();
     });
+
 
 

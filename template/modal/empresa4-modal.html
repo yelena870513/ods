@@ -18,7 +18,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Nombre del taller:</label>
-                        <input  class="form-control1" type="text" placeholder="Nombre" data-ng-model="record.nombreTaller"   data-ng-class="{'control-error':error.show&&error.tipo=='taller'}"/>
+                        <input  class="form-control" type="text" placeholder="Nombre" data-ng-model="record.nombreTaller"   data-ng-class="{'control-error':error.show&&error.tipo=='taller'}"/>
 
                     </div>
                     <div class="form-group">
@@ -75,11 +75,11 @@
                     </div>
                     <div class="form-group">
                         <label >R-141b (g)</label>
-                        <input  class="form-control1" type="number" min="0" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasR'}" placeholder="Con un decimal" data-ng-model="record.sustanciasR"/>
+                        <input  class="form-control" type="number" min="0" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasR'}" placeholder="Con un decimal" data-ng-model="record.sustanciasR"/>
                     </div>
                     <div class="form-group">
                         <label >RL-95 (litros)</label>
-                        <input  class="form-control1" type="number" min="0" placeholder="Con un decimal" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasRL'}" data-ng-model="record.sustanciasRL"/>
+                        <input  class="form-control" type="number" min="0" placeholder="Con un decimal" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasRL'}" data-ng-model="record.sustanciasRL"/>
                     </div>
                 </div>
 
@@ -132,7 +132,7 @@
                         </ui-select>
 
                     </div>
-                    <input  class="form-control1" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='CantRefriRefri'}" data-ng-model="cant"/>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='CantRefriRefri'}" data-ng-model="cant"/>
                     <ul class="list-group">
                         <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriRefri track by $index">
                             <span class="badge">{{el.re}} -- {{el.cant}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriRefri.splice($index,1)"></i>
@@ -192,7 +192,7 @@
 
 
                 </div>
-                <input  class="form-control1" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='CantRefriAire'}" data-ng-model="cant1"/>
+                <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='CantRefriAire'}" data-ng-model="cant1"/>
                 <ul class="list-group">
                     <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriAire track by $index">
                         <span class="badge">{{el.re1}} -- {{el.cant1}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriAire.splice($index,1)"></i>
@@ -225,7 +225,7 @@
 
                 </div>
                 <div class="form-group">
-                    <input  class="form-control1" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='Recuperacion'}" data-ng-model="cant2"/>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='Recuperacion'}" data-ng-model="cant2"/>
                     <ul class="list-group">
                         <li class="list-group-item-success" data-ng-repeat="el in record.Recuperacion track by $index">
                             <span class="badge">{{el.re2}} -- {{el.cant2}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperacion.splice($index,1)"></i>
@@ -251,7 +251,7 @@
                     </ui-select>
 
                 </div>
-                <input  class="form-control1" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='Recuperado'}" data-ng-model="cant3"/>
+                <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='Recuperado'}" data-ng-model="cant3"/>
                 <ul class="list-group">
                     <li class="list-group-item-success" data-ng-repeat="el in record.Recuperado track by $index">
                         <span class="badge">{{el.re3}} -- {{el.cant3}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperado.splice($index,1)"></i>
@@ -284,7 +284,7 @@
 
             </div>
             <p class="form-group">
-                <input  class="form-control1" type="number" min="0" placeholder="Cantidad"  data-ng-class="{'control-error':error.show && error.tipo=='Total'}" data-ng-model="cant4"/>
+                <input  class="form-control" type="number" min="0" placeholder="Cantidad"  data-ng-class="{'control-error':error.show && error.tipo=='Total'}" data-ng-model="cant4"/>
             <ul class="list-group">
                 <li class="list-group-item-success" data-ng-repeat="el in record.Total track by $index">
                     <span class="badge">{{el.re4}} -- {{el.cant4}}</span><i class="fa fa-trash-o" data-ng-click="record.Total.splice($index,1)"></i>

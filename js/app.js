@@ -227,6 +227,15 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             Manager.update(ministeries);
         }
     });
+    ['empresa','osde'].forEach(function(nm){
+        Manager.record(nm).then(function(nmr){
+            var nmc = [{id:1,nombre:nm.toUpperCase()+1,tipo:nm},{id:2,nombre:nm.toUpperCase()+2,tipo:nm}];
+            if (nmr.rows.length==0)
+            {
+                Manager.update(nmc);
+            }
+        });
+    });
 }).controller('mainController',function ($scope,$location) {
 
     //Manejador global de la interfaz de usuario
