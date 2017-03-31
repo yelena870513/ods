@@ -229,6 +229,57 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             Manager.update(ministeries);
         }
     });
+    Manager.record('aire').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.AplicacionAire).map(function(min){
+                min["tipo"]="aire";
+                return min;
+            });
+            Manager.update(ministeries);
+        }
+    }); 
+    Manager.record('Sustancia').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.Sustancia).map(function(min){
+                min["tipo"]="Sustancia";
+                return min;
+            });
+            Manager.update(ministeries);
+        }
+    }); 
+    Manager.record('Sustancia1').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.Sustancia1).map(function(min){
+                min["tipo"]="Sustancia1";
+                return min;
+            });
+            Manager.update(ministeries);
+        }
+    }); 
+    Manager.record('refrigConsumidos').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.SustanciasRefrigerante).map(function(min){
+                min["tipo"]="refrigConsumidos";
+                return min;
+            });
+            Manager.update(ministeries);
+        }
+    });
+    Manager.record('refrigeracion').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.AplicacionRefri).map(function(min){
+                min["tipo"]="refrigeracion";
+                return min;
+            });
+            Manager.update(ministeries);
+        }
+    });
+
     ['empresa','osde'].forEach(function(nm){
         Manager.record(nm).then(function(nmr){
             var nmc = [{id:1,nombre:nm.toUpperCase()+1,tipo:nm},{id:2,nombre:nm.toUpperCase()+2,tipo:nm}];

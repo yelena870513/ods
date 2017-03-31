@@ -52,6 +52,7 @@ angular.module('app.sao')
         $scope.Ministerio = SAO.Ministerio;
 
 
+
         //Tipo de objetos
         $scope.general = {
             "provincia": {},
@@ -74,6 +75,12 @@ angular.module('app.sao')
         });
         Manager.record('osde').then(function(data){
             $scope.general.osde = data.rows.map(function(m){return m.doc;})[0];
+        });
+
+        Manager.record('general').then(function(data){
+            if (data.rows.length>0) {
+                $scope.general = data.rows.map(function(m){return m.doc;})[0];
+            }
         });
 
 
@@ -180,17 +187,29 @@ angular.module('app.sao')
 
         //IMPORTACIONES
         $scope.importaciones1 = {
-            "Sustancia": SAO.SustanciasTabla6[0].nombre,
+            // "Sustancia": SAO.SustanciasTabla6[0].nombre,
+            "Sustancia": [],
+            "Sustancia1": [],
             "Uso":[],//{ano:"---",tons:""},
             "tipo": "importaciones1"
         };
 
         $scope.importaciones2 = {
 
-            "Alternativa":SAO.Tabla23[0].aplicacion,
-            "Tipo":SAO.Tabla23[0].alternativas[0],
-            "otrosAlternativa":"",
-            "Uso":[],
+            // "Alternativa":SAO.Tabla23[0].aplicacion,
+            // "Tipo":SAO.Tabla23[0].alternativas[0],
+            // "otrosAlternativa":"",
+            // "Uso":[],
+            "aplicacionAire": [],
+             "aplicacionRefri": [],
+             "personal": [],
+             "capacidad":"",
+             "curso":0,
+             "cantidadbp":0,
+             "inventario":"",
+             "servicio":"No",
+             "empresa":"empresa",
+             "experiencia":"",
             "tipo":"importaciones2"
         };
 
@@ -240,21 +259,22 @@ angular.module('app.sao')
             "Aplicaciones":SAO.Tabla13[0].aplicacion,
             "Alternativas":SAO.Tabla13[0].alternativas[0],
             "otrosAlternativa":"",
+            "limpieza":"",
             "Uso":[],//{ano:"---",tons:""},
             "tipo":"empresa3"
         };
         $scope.empresa4 = {
             "Organizacion":SAO.OrgProduccion[0],
-            "SustaciaAire":SAO.SustanciasAire[1],
-            "SustanciaRefrigerante":SAO.SustanciasRefrigerante[1],
+            "SustaciaAire":SAO.SustanciasAire[0],
+            "SustanciaRefrigerante":SAO.SustanciasRefrigerante[0],
             "TipoRefrigeracion":SAO.TipoRefri[0],
             "TipoAire":SAO.TipoAire[0],
-            "CantRefriAire":[],
-            "CantRefriRefri":[],
+            //"CantRefriAire":[],
+            //"CantRefriRefri":[],
             "Total":[],
             "nombreTaller":"",
             "municipio":"",
-            "sustanciasR":"",
+            "sustanciasR":0,
             "sustanciasRL":"",
             "year":0,
              "explotacion":"",
@@ -262,12 +282,22 @@ angular.module('app.sao')
             "experiencias":"",
             "Recuperacion":[],
             "Recuperado":[],
+             "aplicacionAire": [],
+              "aplicacionRefri": [],
+                "Limpieza": [],
+                "refrigConsumidos": [],
             "tipo":"empresa4"
         };
-        Manager.record('municipio').then(function(data){
-            municipios = data.rows.map(function(m){return m.doc;});
-            $scope.empresa4.municipio=municipios[0];
-        });
+        $scope.equipo = {
+           
+             
+             
+            "tipo":"equipo"
+        };
+        // Manager.record('municipio').then(function(data){
+        //     municipios = data.rows.map(function(m){return m.doc;});
+        //     $scope.empresa4.municipio=municipios[0];
+        // });
 
 
         ////LOCAL MEMBERS
@@ -1056,7 +1086,8 @@ angular.module('app.sao')
 
                 if(current!=undefined)
                 {
-                    FetchTable(current);
+
+                     FetchTable(current);
                 }
             }
 
@@ -1160,14 +1191,14 @@ angular.module('app.sao')
             }, function(error,data)
             {
                 if (error) throw error;
-                fs.writeFile(os.homedir()+'/.sao/data/'+ charting+'.pdf', data, function(error)
+                fs.writeFile(os.tmpdir()+'/.sao/data/'+ charting+'.pdf', data, function(error)
                 {
                     if (error) throw error;
                     console.log('Write PDF successfully.');
                     $scope.isPrinting = false;
                     $timeout(function(){
 
-                        var buffer = fs.readFileSync(os.homedir()+'/.sao/data/'+ charting+'.pdf');
+                        var buffer = fs.readFileSync(os.tmpdir()+'/.sao/data/'+ charting+'.pdf');
                         var blob = new Blob([buffer]);
                         saveAs(blob,charting+'.pdf');
                     },3000);
@@ -1986,8 +2017,8 @@ angular.module('app.sao')
                    case'general3':
                        return l.Sector.nombre;
                    case'espuma1':
-                   case'importaciones1':
-                       return l.Sustancia.nombre;
+                   /*case'importaciones1':
+                       return l.Sustancia.nombre;*/
                    case'espuma2':
                    case'espuma3':
                    case'aire1':
@@ -2186,6 +2217,13 @@ angular.module('app.sao')
         $scope.ministerios = [];
         $scope.empresas =[];
         $scope.osdes = [];
+        $scope.aires = [];
+        $scope.oace = [];
+        $scope.ueb = [];
+        $scope.refrigeracion = [];
+        $scope.refrigConsumidos = [];
+        $scope.Sustancia = [];
+        $scope.Sustancia1 = [];
         Manager.record('municipio').then(function(data){$scope.municipiosCache = data.rows.map(function(m){return m.doc;})});
         Manager.record('provincia').then(function(data){
             $scope.provincias = data.rows.map(function(m){return m.doc;});
@@ -2211,6 +2249,51 @@ angular.module('app.sao')
                 return el.nombre;
             });
         });
+
+        Manager.record('aire').then(function(data){
+            $scope.aires = data.rows.map(function(m){return m.doc;});
+            $scope.aires = _($scope.aires).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        Manager.record('oace').then(function(data){
+            $scope.oace = data.rows.map(function(m){return m.doc;});
+            $scope.oace = _($scope.oace).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        Manager.record('ueb').then(function(data){
+            $scope.ueb = data.rows.map(function(m){return m.doc;});
+            $scope.ueb = _($scope.ueb).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        Manager.record('refrigeracion').then(function(data){
+            $scope.refrigeracion = data.rows.map(function(m){return m.doc;});
+            $scope.refrigeracion = _($scope.refrigeracion).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        Manager.record('refrigConsumidos').then(function(data){
+            $scope.refrigConsumidos = data.rows.map(function(m){return m.doc;});
+            $scope.refrigConsumidos = _($scope.refrigConsumidos).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+         Manager.record('Sustancia').then(function(data){
+            $scope.Sustancia = data.rows.map(function(m){return m.doc;});
+            $scope.Sustancia = _($scope.Sustancia).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        Manager.record('Sustancia1').then(function(data){
+            $scope.Sustancia1 = data.rows.map(function(m){return m.doc;});
+            $scope.Sustancia1 = _($scope.Sustancia1).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+
+
 
         //$scope.SelectMunicipio=function ($item,$model) {
         //
@@ -2284,7 +2367,13 @@ angular.module('app.sao')
             var msg = {
                 experiencias:'Introduzca la carga.',
                 alternativa:'Nombre de alternativa incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
-                unidades:'Introduzca el No. unidades.'
+                unidades:'Introduzca el No. unidades.',
+                limpieza:'Introduzca las sustancias de limpieza.',
+                capacidad:'Introduzca la capacidad.',
+                inventario:'Introduzca el No. inventario.',
+                curso:'Introduzca la cantidad de personal que ha pasado el Curso Buenas Prácticas.',
+                experiencia:'Introduzca los años de experiencia.'
+                
             };
             switch (element.tipo) {
                 case 'general1':
@@ -2296,6 +2385,15 @@ angular.module('app.sao')
                 case 'espuma1':
                 case 'espuma2':
                 case 'importaciones1':
+                error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw msg[e];
+
+                        });
+                    }
 
                     if(element.Uso!=undefined)
                     {
@@ -2329,10 +2427,31 @@ angular.module('app.sao')
                         }
                     }
                     break;
+                case 'empresa3':
+                error = ModelValidator.RecordError(element);
+                    if (error.length>0)
+                    {
+                        error.forEach(function(e){
+                            $scope.error.tipo = e;
+                            throw msg[e];
+
+                        });
+                    }
+                    if(element.otrosAlternativa!=''){
+                        element.Alternativas={nombre:element.otrosAlternativa}
+                    }
+                    if(element.Uso!=undefined)
+                    {
+                        if(element.Uso.length<1)
+                        {
+                            $scope.error.tipo='anno';
+                            throw 'Agregar el consumo en toneladas m\u00E9tricas. ';
+                        }
+                    }
+                    break;
                 case 'aire2':
                 case 'consumo':
-                case 'aerosoles':
-                case 'empresa3':
+                case 'aerosoles':               
                 case 'empresa1':
                 case 'empresa2':
                     error = ModelValidator.RecordError(element);
@@ -2373,12 +2492,12 @@ angular.module('app.sao')
                 case 'empresa4':
                     if(element.sustanciasR==undefined){
                         $scope.error.tipo='sustanciasR';
-                        throw 'Introduzca la sustancia R-141b.';
+                        throw 'Introduzca la cantidad que hayan pasado el Curso Buenas Prácticas.';
                     }
-                    if(element.sustanciasRL==undefined){
+                    /*if(element.sustanciasRL==undefined){
                         $scope.error.tipo='sustanciasRL';
-                        throw 'Introduzca la sustancia RL-95.';
-                    }
+                        throw 'Introduzca la cantidad.';
+                    }*/
 
                     error = ModelValidator.RecordError(element);
                     if (error.length>0)
@@ -2390,6 +2509,14 @@ angular.module('app.sao')
                     }
 
                     element.explotacion = element.experiencias * element.unidades;
+                    element.aplicacionAire = element.aplicacionAire.concat($scope.aires.filter(function(el) {
+                        return el.value == true;
+                    }));
+                    if (element.aplicacionAire.length==0){throw 'Seleccione al menos una aplicacion de Aire Acondicionado';}
+                    element.aplicacionRefri = element.aplicacionRefri.concat($scope.refrigeracion.filter(function(el) {
+                        return el.value == true;
+                    }));
+                    if (element.aplicacionRefri.length==0){throw 'Seleccione al menos una aplicacion de Refrigeración';}
                     break;
                 case 'general':
                      error = ModelValidator.RecordError(element);
@@ -2415,17 +2542,33 @@ angular.module('app.sao')
 
                         });
                     }
-                    if(element.otrosAlternativa!=''){
-                        element.Tipo={nombre:element.otrosAlternativa}
+                    /*if(element.capacidad==undefined){
+                        $scope.error.tipo='capacidad';
+                        throw 'Introduzca la capacidad.';
+                    } 
+                    if(element.inventario==undefined){
+                        $scope.error.tipo='inventario';
+                        throw 'Introduzca el No. inventario.';
                     }
-                    if(element.Uso!=undefined)
-                    {
-                        if(element.Uso.length<6)
-                        {
-                            $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
-                        }
+                    if(element.experiencia==undefined){
+                        $scope.error.tipo='experiencia';
+                        throw 'Introduzca los años de experiencia.';
                     }
+                    if(element.curso==undefined){
+                        $scope.error.tipo='curso';
+                        throw 'Introduzca la cantidad de personal que ha pasado el Curso Buenas Prácticas.';
+                    }*/
+                    // if(element.otrosAlternativa!=''){
+                    //     element.Tipo={nombre:element.otrosAlternativa}
+                    // }
+                    // if(element.Uso!=undefined)
+                    // {
+                    //     if(element.Uso.length<6)
+                    //     {
+                    //         $scope.error.tipo='anno';
+                    //         throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
+                    //     }
+                    // }
 
                     break;
 
@@ -2469,13 +2612,68 @@ angular.module('app.sao')
             //todo validar datos
             element = Util.collect($scope.general, element);
 
+            if(element.refrigConsumidos!=undefined)
+            {
+
+                if (element.refrigConsumidos.length<$scope.refrigConsumidos.length)
+                {
+                    var not = $scope.refrigConsumidos.filter(function (reg) {
+                        var name1 = _.find(element.refrigConsumidos,function (elr) {
+                            return  elr.re6.nombre==reg.nombre;
+                        });
+
+                        return name1==undefined;
+                    }).map(function (rg) {
+                        return {
+                            re6:rg,
+                            cant6:0,
+                            nombre:rg.nombre+":0"
+
+                        };
+                    });
+                    element.refrigConsumidos = element.refrigConsumidos.concat(not);
+
+
+                }
+
+
+
+            }
+
+           if(element.Limpieza!=undefined)
+            {
+
+
+                if (element.Limpieza.length<['R-141b (g)','RL-95 (litros)'].length)
+                {
+
+                    element.Limpieza = element.Limpieza.concat(['R-141b (g)','RL-95 (litros)'].filter(function (reg) {
+                        var name1 = _.find(element.Limpieza,function (elr) {
+                            return  elr.re5==reg;
+                        });
+
+                        return name1==undefined;
+                    }).map(function (rg) {
+                        return {
+                            re5:rg,
+                            cant5:0,
+                            nombre:rg+":0"
+
+                        };
+                    }));
+
+
+                }
+            }
+
+            //todo ver quien es este en el modal
 
             if(element.CantRefriRefri!=undefined)
             {
                 if(element.CantRefriRefri.length<3)
                 {
                     $scope.error.tipo='CantRefriRefri';
-                    throw 'Quedan cantidad de refrigerante consumido para refrigeraci\u00F3n sin valor. ';
+                    throw 'Quedan refrigerante consumido para refrigeraci\u00F3n sin valor. ';
                 }
             }
             if(element.CantRefriAire!=undefined)
@@ -2483,31 +2681,80 @@ angular.module('app.sao')
                 if(element.CantRefriAire.length<3)
                 {
                     $scope.error.tipo='CantRefriAire';
-                    throw 'Quedan cantidad de refrigerante consumido para aire acondicionado sin valor. ';
+                    throw 'Quedan refrigerante consumido para aire acondicionado sin valor. ';
                 }
             }
             if(element.Recuperacion!=undefined)
             {
-                if(element.Recuperacion.length<5)
+
+
+                if (element.Recuperacion.length<['R-141b (g)','RL-95 (litros)'].length)
                 {
-                    $scope.error.tipo='Recuperacion';
-                    throw 'Quedan cantidad de equipos de recuperaci\u00F3n sin valor. ';
+
+                    element.Recuperacion = element.Recuperacion.concat(['AR500','CR500','Criolla','Otras'].filter(function (reg) {
+                        var name1 = _.find(element.Recuperacion,function (elr) {
+                            return  elr.re2==reg;
+                        });
+
+                        return name1==undefined;
+                    }).map(function (rg) {
+                        return {
+                            re2:rg,
+                            cant2:0,
+                            nombre:rg+":0"
+
+                        };
+                    }));
+
+
                 }
             }
             if(element.Recuperado!=undefined)
             {
-                if(element.Recuperado.length<4)
+
+                if (element.Recuperado.length<['R-141b (g)','RL-95 (litros)'].length)
                 {
-                    $scope.error.tipo='Recuperado';
-                    throw 'Quedan cantidad recuperada sin valor. ';
+
+                    element.Recuperado = element.Recuperado.concat(['R134a','R22','R404A','R410A','Otros'].filter(function (reg) {
+                        var name1 = _.find(element.Recuperado,function (elr) {
+                            return  elr.re3==reg;
+                        });
+
+                        return name1==undefined;
+                    }).map(function (rg) {
+                        return {
+                            re3:rg,
+                            cant3:0,
+                            nombre:rg+":0"
+
+                        };
+                    }));
+
+
                 }
             }
             if(element.Total!=undefined)
             {
-                if(element.Total.length<4)
+
+                if (element.Total.length<['R-141b (g)','RL-95 (litros)'].length)
                 {
-                    $scope.error.tipo='Total';
-                    throw 'Quedan personal productivo sin valor.';
+
+                    element.Total = element.Total.concat(['Ingenieros','T\u00E9cnicos','Mec\u00E1nicos'].filter(function (reg) {
+                        var name1 = _.find(element.Total,function (elr) {
+                            return  elr.re4==reg;
+                        });
+
+                        return name1==undefined;
+                    }).map(function (rg) {
+                        return {
+                            re4:rg,
+                            cant4:0,
+                            nombre:rg+":0"
+
+                        };
+                    }));
+
+
                 }
             }
             if(element.unidades=='')
@@ -2516,12 +2763,7 @@ angular.module('app.sao')
                     $scope.error.tipo='unidades';
                     throw 'Introduzca el No. de unidades.';
             }
-            // if(element.explotacion=='')
-            // {
-            //
-            //     throw 'Introduzca los a\u00F1os de explotaci\u00F3n';
-            //
-            // }
+
 
 
 
@@ -2627,6 +2869,16 @@ angular.module('app.sao')
         $scope.Check = function () {
             try{
                 ValidateSettings();
+                Manager.record('general').then(function (data) {
+                    if (data.rows.length==0) {
+                        Manager.create($scope.general);
+                    }
+                    else{
+                        Manager.update($scope.general);
+                    }
+
+                });
+
                 Finish();
             }
             catch (err){
@@ -2715,11 +2967,17 @@ angular.module('app.sao')
                         break;
                     case 'importaciones1':
                         $scope.record.Sustancia = SAO.SustanciasTabla6[0];
+                        $scope.record.Sustancia1 = SAO.SustanciasTabla6a[0];
                         $scope.year = 2010;
+                        
 
                         break;
                     case 'importaciones2':
-                        $scope.record.Tipo = SAO.Tabla23[0].alternativas[0];
+                        // $scope.record.Tipo = SAO.Tabla23[0].alternativas[0];
+                        $scope.record.aplicacionAire = SAO.AplicacionAire[0];
+                        $scope.record.aplicacionRefri = SAO.AplicacionRefri[0];
+                         $scope.record.habilitado=false;
+                        // $scope.record.personal = SAO.Personal[0];
                         $scope.year = 2011;
 
                         break;
@@ -2743,13 +3001,18 @@ angular.module('app.sao')
                         //$scope.record.municipio = SAO.Provincias.municipios[0];
                         $scope.record.TipoAire = SAO.TipoAire[0];
                         $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
-                        $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[1];
-                        $scope.record.SustanciaAire = SAO.SustanciasAire[1];
+                        $scope.record.SustanciaRefrigerante = SAO.SustanciasRefrigerante[0];
+                        $scope.record.SustanciaAire = SAO.SustanciasAire[0];
+                        $scope.record.aplicacionAire = [SAO.AplicacionAire[0]];
+                        $scope.record.aplicacionRefri = [SAO.AplicacionRefri[0]];
                         $scope.re2 = 'AR500';
                         $scope.re3 = 'R134a';
                         $scope.re4 = 'Ingenieros';
+                        $scope.re5 = 'R-141b (g)';
+                        $scope.re6 =  SAO.SustanciasRefrigerante[0];
                         $scope.re = 'HCFC';
                         $scope.re1 = 'HCFC';
+                        // $scope.record.habilitado=false;
 
 
                         break;
@@ -2848,16 +3111,16 @@ angular.module('app.sao')
                         selectedTabla12 = $scope.Tabla12R;
                         $scope.year = 2011;
                         break;
-                    case 'importaciones2':
-                        $scope.Tabla23R = _.find(SAO.Tabla23,function(o){return o.aplicacion.nombre==$scope.record.Alternativa.nombre;});
-                        var importaciones2 = _.find($scope.Tabla23R.alternativas,function(a){return a.nombre == $scope.record.Tipo.nombre; });
-                        if (importaciones2==undefined)
-                        {
-                            $scope.Tabla23R.alternativas =$scope.Tabla23R.alternativas.concat($scope.record.Alternativa);
-                        }
-                        selectedTabla23 = $scope.Tabla23R;
-                        $scope.year = 2011;
-                        break;
+                    // case 'importaciones2':
+                    //     $scope.Tabla23R = _.find(SAO.Tabla23,function(o){return o.aplicacion.nombre==$scope.record.Alternativa.nombre;});
+                    //     var importaciones2 = _.find($scope.Tabla23R.alternativas,function(a){return a.nombre == $scope.record.Tipo.nombre; });
+                    //     if (importaciones2==undefined)
+                    //     {
+                    //         $scope.Tabla23R.alternativas =$scope.Tabla23R.alternativas.concat($scope.record.Alternativa);
+                    //     }
+                    //     selectedTabla23 = $scope.Tabla23R;
+                    //     $scope.year = 2011;
+                    //     break;
 
                     case 'empresa3':
                         $scope.Tabla13R = _.find(SAO.Tabla13,function(o){return o.aplicacion.nombre==$scope.record.Aplicaciones.nombre;});
@@ -3024,6 +3287,44 @@ angular.module('app.sao')
                 return us.re4;
             });
             $scope.record.Total= angular.copy(record.Total);
+
+        };
+        $scope.ConsumoLimpieza = function(re5,amount){
+
+            if(amount==undefined){
+                amount=0;
+            }
+
+            // record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
+            record.Limpieza = _.reject(record.Limpieza,function (el) { return el.re5==re5;
+            }).concat([{"re5":re5,"cant5":amount,"nombre": re5+":"+amount.toString()}]);
+            record.Limpieza =  _.uniq(record.Limpieza,false,function (el) {
+                return el.re5;
+            });
+
+            record.Limpieza = _.sortBy( record.Limpieza,function (us) {
+                return us.re5;
+            });
+            $scope.record.Limpieza = angular.copy(record.Limpieza)
+
+        };
+        $scope.ConsumorefrigConsumidos = function(re6,amount){
+
+            if(amount==undefined){
+       amount=0;
+   }
+
+   // record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
+   record.refrigConsumidos = _.reject(record.refrigConsumidos,function (el) { return el.re6.nombre==re6.nombre;
+   }).concat([{"re6":re6,"cant6":amount,"nombre": re6.nombre+":"+amount.toString()}]);
+   record.refrigConsumidos = _.uniq(record.refrigConsumidos,false,function (el) {
+       return el.re6.nombre;
+   });
+
+   record.refrigConsumidos = _.sortBy( record.refrigConsumidos,function (us) {
+       return us.re6.nombre;
+   });
+   $scope.record.refrigConsumidos = angular.copy(record.refrigConsumidos)
 
         };
         $scope.ConsumoCantRefriRefri = function(re,amount){
@@ -3482,297 +3783,6 @@ angular.module('app.sao')
 
         init();
     })
-    //.controller('nomenclatureController',function ($scope, Manager, $uibModal, $timeout, $localStorage,ModelValidator,$location) {
-    //
-    ///**
-    // * UI Configuration
-    // * alert = { show: true|false, message:'string', type:'' }
-    // */
-    //$scope.alert =
-    //{
-    //    show:false,
-    //    message:'',
-    //    type:'success'
-    //};
-    //
-    //$scope.nomenclatures = [];
-    //$scope.selected=false;
-    //$scope.ntype = '';
-    //$scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
-    //
-    //$scope.Nomenclature = function (nomenclature,size) {
-    //    var instance = $uibModal.open({
-    //        animation: true,
-    //        templateUrl: "template/modal/nomenclature-modal.html",
-    //        controller: function ($scope,Manager,nomenclature,ntype,$uibModalInstance) {
-    //            $scope.alert =
-    //            {
-    //                show:false,
-    //                message:'',
-    //                type:'success'
-    //            };
-    //
-    //            $scope.nomenclature = angular.copy(nomenclature);
-    //            $scope.ntype = ntype;
-    //
-    //            $scope.Save= function (nomenclature)
-    //            {
-    //                if (ModelValidator.isValidNomenclature(nomenclature))
-    //                {
-    //                    nomenclature.tipo = $scope.ntype;
-    //
-    //                    Manager.record(nomenclature.tipo).then(function (data) {
-    //                       var allData = data.rows.map(function (el) {
-    //                           return el.doc;
-    //                       }) ;
-    //
-    //                      var unique = _(allData).find(function (nm) {
-    //                          return nm.nombre==nomenclature.nombre;
-    //                      })  ;
-    //                        if(unique==undefined)
-    //                        {
-    //                            Manager.create(nomenclature).
-    //                            then(function (e)
-    //                            {
-    //                                $scope.alert.show = true;
-    //                                $scope.alert.message = 'Nomenclador agregado correctamente';
-    //                                $scope.alert.type = 'success';
-    //                                $timeout(function () {
-    //                                    $scope.alert.show = false;
-    //                                    Finish(nomenclature.tipo);
-    //                                },1000);
-    //                            }).
-    //                            catch(function (reason) {
-    //                                $scope.alert.show = true;
-    //                                $scope.alert.message = reason;
-    //                                $scope.alert.type = 'danger';
-    //                            })
-    //                            ;
-    //
-    //                        }
-    //                        else{
-    //                            $scope.alert.show = true;
-    //                            $scope.alert.message = 'Nomenclador incorrecto. Ya existe uno con ese nombre.' ;
-    //                            $scope.alert.type = 'danger';
-    //
-    //                        }
-    //
-    //
-    //                    });
-    //
-    //                }
-    //                else
-    //                {
-    //                    $scope.alert.show = true;
-    //                    $scope.alert.message = 'Nomenclador incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os.' ;
-    //                    $scope.alert.type = 'danger';
-    //
-    //                }
-    //            };
-    //
-    //            $scope.Close = function () {
-    //                Close();
-    //            };
-    //
-    //            function Close() {
-    //                $uibModalInstance.dismiss('cancel');
-    //            }
-    //
-    //            function Finish(data) {
-    //                $uibModalInstance.close(data==undefined?'close':data);
-    //            }
-    //
-    //        },
-    //        size: size,
-    //        resolve: {
-    //            nomenclature:function () {
-    //                return nomenclature;
-    //            },
-    //            ntype:function () {
-    //                return $scope.ntype;
-    //            }
-    //        }
-    //    });
-    //
-    //    instance.result.then(function(data) {
-    //        List(data);
-    //    }, function(reason) {
-    //        $scope.alert.show = true;
-    //        $scope.alert.message = reason;
-    //        $scope.alert.type = 'danger';
-    //        $timeout(function () {
-    //            $scope.alert.show = false;
-    //        },3000);
-    //    });
-    //};
-    //
-    //$scope.Delete = function(nomenclature, size) {
-    //    var instance = $uibModal.open({
-    //        animation: true,
-    //        templateUrl: "template/modal/delete-modal.html",
-    //        controller: function ($scope,nomenclature,$uibModalInstance) {
-    //            $scope.record = nomenclature;
-    //            $scope.Close = function () {
-    //                Close();
-    //            };
-    //
-    //            $scope.Delete = function (nomenclature) {
-    //                Finish(nomenclature.tipo);
-    //            };
-    //
-    //            function Close() {
-    //                $uibModalInstance.dismiss('cancel');
-    //            }
-    //
-    //            function Finish(data) {
-    //                $uibModalInstance.close(data==undefined?'close':data);
-    //            }
-    //        },
-    //        size: size,
-    //        resolve: {
-    //            nomenclature: function () {
-    //                return nomenclature;
-    //            }
-    //        }
-    //    });
-    //
-    //    instance.result.then(function(data) {
-    //        Delete(nomenclature).finally(function () {
-    //            List(data);
-    //        }) ;
-    //    });
-    //};
-    //
-    //$scope.List = function (type) {
-    //    $scope.ntype = type;
-    //    List(type);
-    //};
-    //
-    //$scope.isActive = function (nstype) {
-    //    return nstype == $scope.nstype;
-    //};
-    //
-    //$scope.Mark = function(){
-    //    if ($scope.selected)
-    //    {
-    //        checkAll();
-    //    }
-    //    else{
-    //        uncheckAll();
-    //    }
-    //};
-    //
-    //$scope.DeleteSelected = function(){
-    //    var find = _($scope.nomenclatures).find(function(nm){
-    //        return nm.selected==true;
-    //    });
-    //    if (find==undefined)
-    //    {
-    //        $scope.alert.show = true;
-    //        $scope.alert.message = "Seleccione al menos un elemento";
-    //        $scope.alert.type = 'danger';
-    //    }
-    //    else
-    //    {
-    //        var tipo = find.tipo;
-    //        var reject = _($scope.nomenclatures).filter(function(nm){return nm.selected==true;});
-    //        Manager.delete(reject.map(function(re){re._deleted=true;return re;})).then(function (e)
-    //        {
-    //            $scope.alert.show = true;
-    //            $scope.alert.message = 'Nomencladores eliminados correctamente';
-    //            $scope.alert.type = 'success';
-    //            $timeout(function () {
-    //                $scope.alert.show = false;
-    //                List(tipo);
-    //            },500);
-    //        }).
-    //        catch(function (reason) {
-    //            $scope.alert.show = true;
-    //            $scope.alert.message = reason.message;
-    //            $scope.alert.type = 'danger';
-    //            $timeout(function () {
-    //                $scope.alert.show = false;
-    //            },3000);
-    //        });
-    //
-    //    }
-    //};
-    //
-    //function checkAll()
-    //{
-    //   $scope.nomenclatures = $scope.nomenclatures.map(function (nm) {
-    //       nm.selected = true;
-    //       return nm;
-    //   });
-    //};
-    //
-    //function uncheckAll()
-    //{
-    //    $scope.nomenclatures = $scope.nomenclatures.map(function (nm) {
-    //        nm.selected = false;
-    //        return nm;
-    //    });
-    //};
-    //
-    //function Delete(nomenclador)
-    //{
-    //    return Manager.delete(nomenclador).
-    //    then(function (e)
-    //    {
-    //        $scope.alert.show = true;
-    //        $scope.alert.message = 'Nomenclador elimindo correctamente';
-    //        $scope.alert.type = 'success';
-    //        $timeout(function () {
-    //            $scope.alert.show = false;
-    //        },500);
-    //    }).
-    //    catch(function (reason) {
-    //        $scope.alert.show = true;
-    //        $scope.alert.message = reason;
-    //        $scope.alert.type = 'danger';
-    //        $timeout(function () {
-    //            $scope.alert.show = false;
-    //        },3000);
-    //    })
-    //}
-    //
-    //
-    ////function List(type)
-    ////{
-    ////    return Manager.record(type).then(function (data) {
-    ////        $scope.nomenclatures = data.rows.map(function (el) {
-    ////            return el.doc;
-    ////        });
-    ////    });
-    ////}
-    //    function List(type)
-    //    {
-    //        return Manager.record(type).then(function (data) {
-    //            $scope.nomenclatures = _.sortBy(data.rows.map(function (el) {
-    //                return el.doc;
-    //            }),function(el){return el.nombre;});
-    //        });
-    //    }
-    //
-    //function init()
-    //{
-    //    $scope.user = $localStorage.user;
-    //
-    //    $timeout(function () {
-    //        if($scope.user==undefined)
-    //        {
-    //            $location.path('/login');
-    //        }
-    //        else
-    //        {
-    //            $scope.ntype = $scope.ntypes[0];
-    //            List($scope.ntypes[0]);
-    //        }
-    //    },500);
-    //}
-    //
-    //    init();
-    //});
     .controller('nomenclatureController',function ($scope, Manager, $uibModal, $timeout, $localStorage,ModelValidator,$location) {
 
         /**
@@ -3790,7 +3800,7 @@ angular.module('app.sao')
         $scope.nomenclaturesCache  = [];
         $scope.selected=false;
         $scope.ntype = '';
-        $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde'];
+        $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde','oace', 'ueb', 'aire','refrigeracion', 'refrigConsumidos','Sustancia','Sustancia1'];
 
         $scope.Nomenclature = function (nomenclature,size) {
             var instance = $uibModal.open({
@@ -3856,7 +3866,7 @@ angular.module('app.sao')
                         else
                         {
                             $scope.alert.show = true;
-                            $scope.alert.message = 'Nomenclador incorrecto. Contiene menos de tres caracteres y/o no se acepta caracteres extra\u00F1os.' ;
+                            $scope.alert.message = 'Nomenclador incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os.' ;
                             $scope.alert.type = 'danger';
 
                         }

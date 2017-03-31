@@ -1,7 +1,7 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
         <span aria-hidden="true">×</span></button>
-    <h4 class="modal-title">Cantidad de importaciones de alternativas de ODS</h4>
+    <h4 class="modal-title">Equipo de Clima y Refrigeración que presenta mi inventario</h4>
 </div>
 <div class="modal-body">
     <div class="row-fluid">
@@ -18,84 +18,88 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Alternativa:</label>
+                        <label>Aire Acondicionado:</label>
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
-                                   id="sq"
-                                   on-select="ShowTabla23($item,$model)"
-                                   data-ng-model="record.Alternativa">
-                            <ui-select-match placeholder="Alternativa">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in  SAO.Tabla23 track by $index">
-                                <div ng-bind-html="item.aplicacion.nombre | highlight: $select.search"></div>
+
+                                   data-ng-model="record.aplicacionAire">
+                            <ui-select-match placeholder="Aplicación">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in aires">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-
                        </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Clasificación:</label>
-                        <ui-select style="width: 100%;" tabindex="-1"
-                                   aria-hidden="true"
-                                   theme="bootstrap"
-                                   on-select="record.otrosAlternativa='';"
-                                   data-ng-model="record.Tipo">
-                            <ui-select-match placeholder="Alternativa">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item  in Tabla23R.alternativas track by $index">
-                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
+                        <label >Capacidad:</label>
+                        <input  class="form-control" type="number" min="0"  placeholder="Capacidad (tr)" data-ng-model="record.capacidad" data-ng-class="{'control-error':error.show && error.tipo=='capacidad'}"/>
 
-                        <!--<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"-->
-                                <!--data-ng-model="record.Tipo"-->
-                                <!--data-ng-options="item as item.nombre for item in Tabla23R.alternativas"-->
-                        <!--&gt;-->
-
-                        <!--</select>-->
                     </div>
                     <div class="form-group" >
-                        <label >Otros (especificar):</label>
-                        <input  class="form-control" type="text" placeholder="Otros" data-ng-model="record.otrosAlternativa" data-ng-class="{'control-error':error.show && error.tipo=='alternativa'}"/>
-                    </div>
+                        <label >No. de inventario:</label>
+                        <input  class="form-control" type="number" min="0"  placeholder="Número" data-ng-model="record.inventario" data-ng-class="{'control-error':error.show && error.tipo=='inventario'}"/>
+                        </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="year">Uso por Año:</label>
+                        <label >Estado técnico:</label>
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
-                                   id="year"
-                                   data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
-                                   on-select="OnSelect($item,$model,'amount','year')"
-                                   data-ng-model="year">
-                            <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
-                            <ui-select-choices repeat="item  in  [2011,2012,2013,2014,2015,2016]">
-                                <div ng-bind-html="item | highlight: $select.search"></div>
+                                   id="etr"
+                                   data-ng-model="record.EstadoRefri">
+                            <ui-select-match placeholder="Estado técnico">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.Estado">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
 
                     </div>
                     <div class="form-group">
-                        <label >Toneladas métricas:</label>
-                        <input  class="form-control" type="number" min="0" placeholder="Tons"  data-ng-class="{'control-error':error.show && error.tipo=='anno'}" data-ng-model="amount"/>
+                         <label >Años de experiencia:</label>
+                        <input  class="form-control" type="number" min="0"  placeholder="experiencia" data-ng-model="record.experiencia" data-ng-class="{'control-error':error.show && error.tipo=='experiencia'}"/>
+                        </div>
+                    <div class="form-group">
+                    <label >Poseo personal de refrigeración:</label>
+                <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="tr"
+                                   multiple
+                                   data-ng-model="record.personal">
+                            <ui-select-match placeholder="Personal">{{$item.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.Personal">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
                     </div>
                     <div class="form-group">
-                        <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
-                        <ul class="list-group">
-                            <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
-                                <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
-                            </li>
-                        </ul>
-
+                        <label >Han pasado el Curso Buenas Prácticas: </label>
+                        <input  class="form-control" type="number" min="0" data-ng-class="{'control-error':error.show && error.tipo=='curso'}" placeholder="Cantidad" data-ng-model="record.curso"/>
                     </div>
 
                 </div>
             </div>
+            <div class="row">
+        <div class="col-md-6">
+            <label>Recibo servicios de la empresa de Clima y Refrigeración:</label><br>
+            <label>Sí/No</label>
+            <div class="form-group">
+                <input type="checkbox" data-ng-model="record.servicio" data-ng-true-value="'Sí'" data-ng-false-value="'No'"/>
+            </div>
+
+        </div>
+        <div class="col-md-6" data-ng-show="record.servicio=='Sí'">
+            <label for="algo">Nombre de la Empresa</label>
+            <input id="algo" type="text" data-ng-model="record.empresa" />
+        </div>
+    </div>
 
         </div>
     </form>

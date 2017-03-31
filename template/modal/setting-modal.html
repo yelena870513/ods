@@ -94,6 +94,35 @@
                 </ui-select>
                 <!--<input id="exampleInputEmail1" class="form-control" type="text" placeholder="Empresa" data-ng-class="{'control-error':error.show && error.tipo=='empresa'}" data-ng-model="general.empresa">-->
             </div>
+            <div class="form-group">
+                <label for="oac">OAC:</label>
+                <ui-select theme="bootstrap"
+                           style="width: 100%;" tabindex="-1"
+                           aria-hidden="true"
+                           id="oac"
+                           data-ng-model="general.oac">
+                    <ui-select-match placeholder="OAC">{{$select.selected.nombre}}</ui-select-match>
+                    <ui-select-choices repeat="item in oace">
+                        <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                <!--<input id="exampleInputEmail1" class="form-control" type="text" placeholder="Empresa" data-ng-class="{'control-error':error.show && error.tipo=='empresa'}" data-ng-model="general.empresa">-->
+            </div>
+
+            <div class="form-group">
+                <label for="oac">UEB:</label>
+                <ui-select theme="bootstrap"
+                           style="width: 100%;" tabindex="-1"
+                           aria-hidden="true"
+                           id="ueb"
+                           data-ng-model="general.ueb">
+                    <ui-select-match placeholder="UEB">{{$select.selected.nombre}}</ui-select-match>
+                    <ui-select-choices repeat="item in ueb">
+                        <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                <!--<input id="exampleInputEmail1" class="form-control" type="text" placeholder="Empresa" data-ng-class="{'control-error':error.show && error.tipo=='empresa'}" data-ng-model="general.empresa">-->
+            </div>
         </div>
     </div>
     <div class="modal-footer">

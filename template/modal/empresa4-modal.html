@@ -1,7 +1,7 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
         <span aria-hidden="true">×</span></button>
-    <h4 class="modal-title">Taller de sevicios</h4>
+    <h4 class="modal-title">Empresa de servicios del Clima y Refrigeración</h4>
 </div>
 <div class="modal-body">
     <div class="row-fluid">
@@ -14,80 +14,11 @@
     <!-- form start -->
     <form role="form" name="actionForm" novalidate>
         <div class="box-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Nombre del taller:</label>
-                        <input  class="form-control" type="text" placeholder="Nombre" data-ng-model="record.nombreTaller"   data-ng-class="{'control-error':error.show&&error.tipo=='taller'}"/>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label>Provincia:</label>
-                                <ui-select theme="bootstrap" style="width: 100%;" tabindex="-1"aria-hidden="true"id="pr" data-ng-model="general.provincia" on-select="SelectMunicipio($item,$model)"><ui-select-match placeholder="Provincia">{{$select.selected.nombre}}</ui-select-match><ui-select-choices repeat="item in provincias"><div ng-bind-html="item.nombre | highlight: $select.search"></div></ui-select-choices></ui-select>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <label>Municipio:</label>
-                        <ui-select theme="bootstrap"
-                                   style="width: 100%;" tabindex="-1"
-                                   aria-hidden="true"
-                                   id="mu"
-                                   data-ng-model="general.municipio"
-
-                                >
-                            <ui-select-match placeholder="Municipio">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item in municipios">
-                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                    </div>
-
-                </div>
-            </div>
-
-
+            
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Organización de la producción:</label>
-                        <ui-select theme="bootstrap"
-                                   style="width: 100%;" tabindex="-1"
-                                   aria-hidden="true"
-                                   id="sq"
-                                   data-ng-model="record.sustancia">
-                            <ui-select-match placeholder="Organización de la producción">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item in SAO.OrgProduccion">
-                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label >Consumo de sustancias limpiadoras:</label>
-                    </div>
-                    <div class="form-group">
-                        <label >R-141b (g)</label>
-                        <input  class="form-control" type="number" min="0" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasR'}" placeholder="Con un decimal" data-ng-model="record.sustanciasR"/>
-                    </div>
-                    <div class="form-group">
-                        <label >RL-95 (litros)</label>
-                        <input  class="form-control" type="number" min="0" placeholder="Con un decimal" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasRL'}" data-ng-model="record.sustanciasRL"/>
-                    </div>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Tipo de refrigeración que trabajan:</label>
+                <div class="form-group">
+                        <label>Tipo de refrigeración donde trabajan:</label>
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
@@ -102,111 +33,84 @@
 
                     </div>
                     <div class="form-group">
-                        <label>Sustancias para refrigeración:</label>
-                        <ui-select theme="bootstrap"
+                      <label>Doy servicio a:</label><br>
+                      <label>- Aire Acondicionado:</label>
+                      <ui-select multiple ng-model="record.aplicacionAire" theme="bootstrap"  close-on-select="false" title="AplicacionAire">
+                      <ui-select-match placeholder="Aplicación">{{$item.nombre}}</ui-select-match>
+                       <ui-select-choices repeat="item in aires">
+                      <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                      </ui-select-choices>
+                    </ui-select>
+
+
+                    <label>- Refrigeración:</label>
+                      <ui-select multiple ng-model="record.aplicacionRefri" theme="bootstrap"  close-on-select="false" title="AplicacionRefri">
+                      <ui-select-match placeholder="Aplicación">{{$item.nombre}}</ui-select-match>
+                       <ui-select-choices repeat="item in refrigeracion">
+                      <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                      </ui-select-choices>
+                    </ui-select>
+                    </div>                    
+                    
+                    <div class="form-group">
+                        <label>Refrigerantes consumidos en 2016:</label>
+                                  <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
-                                   id="sr"
-                                   data-ng-model="record.SustanciaRefrigerante">
-                            <ui-select-match placeholder="Sustancias">{{$select.selected.nombre}}</ui-select-match>
-                            <ui-select-choices repeat="item in SAO.SustanciasRefrigerante">
+                                   id="re6"
+                                   data-ng-class="{'control-error':error.show && error.tipo=='refrigConsumidos'}"
+                                   on-select="OnSelect($item,$model,'cant6','re6')"
+                                   data-ng-model="re6">
+                            <ui-select-match placeholder="Refrigerante consumido">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  refrigConsumidos">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
 
-
                     </div>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad (Ng)" data-ng-class="{'control-error':error.show && error.tipo=='refrigConsumidos'}" data-ng-model="cant6"/>
+                    <ul class="list-group">
+                        <li class="list-group-item-success" data-ng-repeat="el in record.refrigConsumidos track by $index">
+                            <span class="badge">{{el.re6.nombre}} -- {{el.cant6}}</span><i class="fa fa-trash-o" data-ng-click="record.refrigConsumidos.splice($index,1)"></i>
+                        </li>
+                    </ul>
+                    <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumorefrigConsumidos(re6,cant6)" title="Agregar"> </i> Agregar</p>                      
+
+                
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="form-group">
-                        <label>Refrigerante consumido para refrigeración:</label>
+                        <label >Sustancias de limpieza interna:</label>
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    id="re"
-                                   data-ng-class="{'control-error':error.show && error.tipo=='CantRefriRefri'}"
-                                   on-select="OnSelect($item,$model,'cant','re')"
-                                   data-ng-model="re">
-                            <ui-select-match placeholder="Refrigerante consumido">{{$select.selected}}</ui-select-match>
-                            <ui-select-choices repeat="item  in  ['HCFC','HFC','Natural']">
+                                   data-ng-class="{'control-error':error.show && error.tipo=='Limpieza'}"
+                                   on-select="OnSelect($item,$model,'cant5','re5')"
+                                   data-ng-model="re5">
+                            <ui-select-match placeholder="Sustancias de limpieza interna">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  ['R-141b (g)','RL-95 (litros)']">
                                 <div ng-bind-html="item | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-
                     </div>
-                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='CantRefriRefri'}" data-ng-model="cant"/>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad (Kg)" data-ng-class="{'control-error':error.show && error.tipo=='Limpieza'}" data-ng-model="cant5"/>
                     <ul class="list-group">
-                        <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriRefri track by $index">
-                            <span class="badge">{{el.re}} -- {{el.cant}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriRefri.splice($index,1)"></i>
+                        <li class="list-group-item-success" data-ng-repeat="el in record.Limpieza track by $index">
+                            <span class="badge">{{el.re5}} -- {{el.cant5}}</span><i class="fa fa-trash-o" data-ng-click="record.Limpieza.splice($index,1)"></i>
                         </li>
                     </ul>
-                    <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoCantRefriRefri(re,cant)" title="Agregar"> </i> Agregar</p>
+                    <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoLimpieza(re5,cant5)" title="Agregar"> </i> Agregar</p>
 
                 </div>
 
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>Tipo de aire acondicionado que trabajan:</label>
-                    <ui-select theme="bootstrap"
-                               style="width: 100%;" tabindex="-1"
-                               aria-hidden="true"
-                               id="ta"
-                               data-ng-model="record.TipoAire">
-                        <ui-select-match placeholder="Tipo de aire acondicionado">{{$select.selected.nombre}}</ui-select-match>
-                        <ui-select-choices repeat="item in SAO.TipoAire">
-                            <div ng-bind-html="item.nombre | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-
-
-                </div>
-                <div class="form-group">
-                    <label>Sustancias para aire acondicionado:</label>
-                    <ui-select theme="bootstrap"
-                               style="width: 100%;" tabindex="-1"
-                               aria-hidden="true"
-                               id="sa"
-                               data-ng-model="record.SustaciaAire">
-                        <ui-select-match placeholder="Sustancia">{{$select.selected.nombre}}</ui-select-match>
-                        <ui-select-choices repeat="item in SAO.SustanciasAire">
-                            <div ng-bind-html="item.nombre | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-
-                </div>
-                <div class="form-group">
-                    <label>Refrigerante consumido para aire acondicionado:</label>
-                    <ui-select theme="bootstrap"
-                               style="width: 100%;" tabindex="-1"
-                               aria-hidden="true"
-                               id="re1"
-                               data-ng-class="{'control-error':error.show && error.tipo=='CantRefriAire'}"
-                               on-select="OnSelect($item,$model,'cant1','re1')"
-                               data-ng-model="re1">
-                        <ui-select-match placeholder="Refrigerante consumido">{{$select.selected}}</ui-select-match>
-                        <ui-select-choices repeat="item  in  ['HCFC','HFC','Natural']">
-                            <div ng-bind-html="item | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-
-
-                </div>
-                <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='CantRefriAire'}" data-ng-model="cant1"/>
-                <ul class="list-group">
-                    <li class="list-group-item-success" data-ng-repeat="el in record.CantRefriAire track by $index">
-                        <span class="badge">{{el.re1}} -- {{el.cant1}}</span><i class="fa fa-trash-o" data-ng-click="record.CantRefriAire.splice($index,1)"></i>
-                    </li>
-                </ul>
-                <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoCantRefriAire(re1,cant1)" title="Agregar"> </i> Agregar</p></div>
-
-            </select>
-
-
-        </div>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="form-group">
 
                     <label>Cantidad de equipos de Recuperación:</label>
@@ -225,7 +129,7 @@
 
                 </div>
                 <div class="form-group">
-                    <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='Recuperacion'}" data-ng-model="cant2"/>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad (Kg)" data-ng-class="{'control-error':error.show && error.tipo=='Recuperacion'}" data-ng-model="cant2"/>
                     <ul class="list-group">
                         <li class="list-group-item-success" data-ng-repeat="el in record.Recuperacion track by $index">
                             <span class="badge">{{el.re2}} -- {{el.cant2}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperacion.splice($index,1)"></i>
@@ -251,7 +155,7 @@
                     </ui-select>
 
                 </div>
-                <input  class="form-control" type="number" min="0" placeholder="Cantidad" data-ng-class="{'control-error':error.show && error.tipo=='Recuperado'}" data-ng-model="cant3"/>
+                <input  class="form-control" type="number" min="0" placeholder="Cantidad (Kg)" data-ng-class="{'control-error':error.show && error.tipo=='Recuperado'}" data-ng-model="cant3"/>
                 <ul class="list-group">
                     <li class="list-group-item-success" data-ng-repeat="el in record.Recuperado track by $index">
                         <span class="badge">{{el.re3}} -- {{el.cant3}}</span><i class="fa fa-trash-o" data-ng-click="record.Recuperado.splice($index,1)"></i>
@@ -266,7 +170,7 @@
         </div>
     </form>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label >Personal productivo:</label>
                 <ui-select theme="bootstrap"
@@ -277,7 +181,7 @@
                            on-select="OnSelect($item,$model,'cant4','re4')"
                            data-ng-model="re4">
                     <ui-select-match placeholder="Personal productivo">{{$select.selected}}</ui-select-match>
-                    <ui-select-choices repeat="item  in  ['Ingenieros','T\u00E9cnicos','Mec\u00E1nicos','CCBP']">
+                    <ui-select-choices repeat="item  in  ['Ingenieros','T\u00E9cnicos','Mec\u00E1nicos']">
                         <div ng-bind-html="item | highlight: $select.search"></div>
                     </ui-select-choices>
                 </ui-select>
@@ -291,9 +195,26 @@
                 </li>
             </ul>
             <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoTotal(re4,cant4)" title="Agregar"> </i> Agregar</p>
+            <div class="form-group">
+                        <label >Han pasado el Curso Buenas Prácticas: </label>
+                        <input  class="form-control" type="number" min="0" data-ng-class="{'control-error':error.show && error.tipo=='sustanciasR'}" placeholder="Cantidad" data-ng-model="record.sustanciasR"/>
+                    </div>
 
         </div>
     </div>
+    <!--<div class="row">-->
+        <!--<div class="col-md-6">-->
+            <!--<label>Sí/No</label>-->
+            <!--<div class="form-group">-->
+                <!--<input type="checkbox" data-ng-model="record.habilitado" ng-true-value="'Sí'" ng-false-value="'No'"/>-->
+            <!--</div>-->
+
+        <!--</div>-->
+        <!--<div class="col-md-6" data-ng-show="record.habilitado">-->
+            <!--<label for="algo">Algo</label>-->
+            <!--<input id="algo" type="text" data-ng-model="record.algo" />-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 
 

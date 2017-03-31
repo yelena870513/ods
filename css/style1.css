@@ -155,10 +155,40 @@ background-image: url("../img/fondo_contenido.png");
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color: #ccc;
 }
+.primary-menu
+{
+    color:#fff;
+    background-color:#337ab7;
+    border-color:#2e6da4
+}
+.success-menu
+{
+    color:#fff;
+    background-color:#5cb85c;
+    border-color:#4cae4c
+}
+
+.info-menu
+{
+    color:#fff;
+    background-color:#5bc0de;
+    border-color:#46b8da
+}
+
+.warning-menu{
+    color:#fff;
+    background-color:#f0ad4e;
+    border-color:#eea236
+}
+
+
+
 .active-menu{
     background-color: #fdc74a;
     color: black;
 }
+
+
 
 img.logos{
     width: 15%;
@@ -401,5 +431,11 @@ input[type=checkbox], input[type=radio] {
 }
 
 .ng-print{
-    width:70%;
+    width:100%;
+    /*padding-bottom: 90%;*/
 }
+/*@media (min-width: 1200px) {*/
+    /*.col-lg-offset-1 {*/
+        /*margin-left: 21.333333%;*/
+    /*}*/
+/*}*/
