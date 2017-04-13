@@ -1008,7 +1008,7 @@ angular.module('app.sao')
 
         {"fields":["provincia","ministerio","osde","empresa","oace","ueb"],"nombre":"Datos generales","tipo":"general"},
         //{"fields":["Alternativa", "Tipo", "Sector", "ra"],"nombre":"Resumen de su uso en todos los sectores para cada año entre 2011-2016.", "tipo":"general2"},
-        {"fields":["aplicacionAire", "aplicacionRefri", "capacidad","inventario","experiencia"],"nombre":"Equipo de Clima y Refrigeración que presenta mi inventario.", "tipo":"importaciones2"},
+        {"fields":['aplicacionAire', 'capacidad','inventario','Estado',"experiencia",'personal','curso','servicio'],"nombre":"Equipo de Clima y Refrigeración que presenta mi inventario.", "tipo":"importaciones2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agente espumante en el sector de espuma.","tipo":"espuma1"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma.","tipo":"espuma2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
@@ -1024,7 +1024,7 @@ angular.module('app.sao')
         {"fields":["Aplicaciones", "Alternativas", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración.", "tipo":"refri"},
         {"fields":["Aplicaciones", "Sustancias", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado.", "tipo":"aire3"},
         {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente.", "tipo":"general3"},
-        {"fields":['TipoRefrigeracion','aplicacionAire','aplicacionRefri','Limpieza','Recuperacion','Recuperado','Total','sustanciasR'],"nombre":"Empresa de servicios del Clima y Refrigeración.", "tipo":"empresa4"}
+        {"fields":['TipoRefrigeracion','aplicacionAire','aplicacionRefri','refrigConsumidos','Limpieza','Recuperacion','Recuperado','Total','sustanciasR'],"nombre":"Empresa de servicios del Clima y Refrigeración.", "tipo":"empresa4"}
 
     ];
 })
@@ -1226,6 +1226,11 @@ angular.module('app.sao')
                 if(!str.test(record.empresa)){
                     errors.push('empresa');
                 }
+                if(!str.test(record.oace)){
+                    errors.push('oace');
+                } if(!str.test(record.ueb)){
+                    errors.push('ueb');
+                }
                 break;
             case 'general2':
             case 'espuma3':
@@ -1243,6 +1248,24 @@ angular.module('app.sao')
                     }
 
                 }
+                if(record.capacidad==undefined || record.capacidad==0)
+                {
+                    errors.push('capacidad');
+
+                }
+
+
+                if(record.inventario==undefined || record.inventario==0)
+                {
+                   errors.push('inventario');
+
+                }
+
+                if(record.experiencia==undefined || record.experiencia=="")
+                {
+                    errors.push('experiencia');
+
+                }
 
                 if(record.empresa!=undefined && record.empresa!='')
                 {
@@ -1251,6 +1274,9 @@ angular.module('app.sao')
                     }
 
                 }
+
+
+
 
                     break;
             case 'refri':

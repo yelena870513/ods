@@ -1,74 +1,59 @@
 <div class="box" data-ng-show="user">
     <div class="box-header" data-ng-hide="isPrinting">
         <div class="collapse navbar-collapse navbar-ex1-collapse" >
+
+            <!--<div class="btn-group" uib-dropdown is-open="status6.isopen">-->
+                <!--<button id="single-button-importaciones" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('equipo')}">-->
+                    <!--Equipos de Clima y Refrigeración  <span class="caret"></span>-->
+                <!--</button>-->
+                <!--<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">-->
+
+                    <!--<li role="menuitem"><a data-ng-click="SelectChart('importaciones2')"> Equipos de Clima y Refrigeración</a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
             <div class="btn-group" uib-dropdown is-open="status2.isopen">
-                <button id="single-button-espuma" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('espuma')}">
-                    Espuma <span class="caret"></span>
+                <button id="single-button-importaciones-1" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('importaciones')}">
+                    Importadores <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectChart('espuma1')" >Demanda de SAO y agentes soplantes en el sector de espuma</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('espuma2')" >Distribución de ODS y alternativas en subsector de espuma</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('espuma3')" >Uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectChart('importaciones1')" >Demanda de SAO y refrigerantes</a></li>
 
                 </ul>
             </div>
+            <!--<div class="btn-group" uib-dropdown is-open="status2.isopen">-->
+                <!--<button id="single-button-espuma" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('espuma')}">-->
+                    <!--Espuma <span class="caret"></span>-->
+                <!--</button>-->
+                <!--<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">-->
+                    <!--<li role="menuitem"><a data-ng-click="SelFaectChart('espuma1')" >Demanda de SAO y agentes soplantes en el sector de espuma</a></li>-->
+                    <!--<li role="menuitem"><a data-ng-click="SelectChart('espuma2')" >Distribución de ODS y alternativas en subsector de espuma</a></li>-->
+                    <!--<li role="menuitem"><a data-ng-click="SelectChart('espuma3')" >Uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido</a></li>-->
+
+                <!--</ul>-->
+            <!--</div>-->
             <div class="btn-group" uib-dropdown is-open="status3.isopen">
                 <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aire')}">
-                    Aire Acondicionado <span class="caret"></span>
+                  Fabricante de  <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectChart('aire2')">Fabricantes de aires acondicionados</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('aire3')">Uso de alternativas de SAO en aires acondicionados</a></li>
-                </ul>
-            </div>
-            <div class="btn-group" uib-dropdown is-open="status4.isopen">
-                <button id="single-button-refrigeracion" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('refri')}">
-                    Refrigeración <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectChart('consumo')">Fabricante de refrigeración</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('refri')">Uso de alternativas de SAO en refrigeración</a></li>
-
+                    <li role="menuitem"><a data-ng-click="SelectChart('aire2')">Aires Acondicionados</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectChart('consumo')">Refrigeración</a></li>
+                    <li role="menuitem"><a  data-ng-click="SelectChart('aerosoles')">Aerosoles </a></li>
+                    <!--<li role="menuitem"><a data-ng-click="SelectChart('aire3')">Uso de alternativas de SAO en aires acondicionados</a></li>-->
                 </ul>
             </div>
 
-            <div class="btn-group" uib-dropdown is-open="status5.isopen">
-                <button id="single-button-aerosoles" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aerosoles')}">
-                    Aerosoles <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a  data-ng-click="SelectChart('aerosoles')">Uso de alternativas de SAO en el sector de aerosoles </a></li>
-
-                </ul>
-            </div>
             <div class="btn-group" uib-dropdown is-open="status8.isopen">
                 <button id="single-button-solventes" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('solventes')}">
-                    Solventes <span class="caret"></span>
+                  Consumo de Solventes <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a  data-ng-click="SelectChart('empresa3')">Sector de solventes </a></li>
+                    <li role="menuitem"><a  data-ng-click="SelectChart('empresa3')">Consumo de Solventes </a></li>
 
                 </ul>
             </div>
-            <div class="btn-group" uib-dropdown is-open="status6.isopen">
-                <button id="single-button-importaciones" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('importaciones')}">
-                    Importaciones <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectChart('importaciones1')" >Demanda de SAO y refrigerantes...</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('importaciones2')">Cantidad de importaciones de alternativas de ODS</a></li>
-                </ul>
-            </div>
-            <div class="btn-group" uib-dropdown is-open="status7.isopen">
-                <button id="single-button-empresa" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" empresa>
-                    Empresa <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectChart('empresa1')" >Aire acondicionado automotriz</a></li>
-                    <li role="menuitem"><a data-ng-click="SelectChart('empresa2')">Refrigeración móvil</a></li>
-                    <!--<li role="menuitem"><a data-ng-click="SelectChart('empresa3')">Taller de servicios</a></li>-->
-                </ul>
-            </div>
+
+
         </div>
     </div>
     <div class="box-body" ng-class="{'ng-print':isPrinting}">

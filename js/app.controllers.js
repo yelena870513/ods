@@ -77,6 +77,14 @@ angular.module('app.sao')
             $scope.general.osde = data.rows.map(function(m){return m.doc;})[0];
         });
 
+        Manager.record('oace').then(function(data){
+            $scope.general.oace = data.rows.map(function(m){return m.doc;})[0];
+        });
+
+        Manager.record('ueb').then(function(data){
+            $scope.general.ueb = data.rows.map(function(m){return m.doc;})[0];
+        });
+
         Manager.record('general').then(function(data){
             if (data.rows.length>0) {
                 $scope.general = data.rows.map(function(m){return m.doc;})[0];
@@ -202,10 +210,11 @@ angular.module('app.sao')
             // "Uso":[],
             "aplicacionAire": [],
              "aplicacionRefri": [],
-             "personal": [],
+             "personal": SAO.Personal[0],
+             "Estado": SAO.Estado[0],
              "capacidad":"",
-             "curso":0,
-             "cantidadbp":0,
+             "curso":"",
+             "cantidadbp":"",
              "inventario":"",
              "servicio":"No",
              "empresa":"empresa",
@@ -689,6 +698,10 @@ angular.module('app.sao')
                 return hash.indexOf(la)!=-1;
             })[0];
 
+            if (current==undefined) {
+                current="sao";
+            }
+
             $scope.isPrinting = true;
             currentWebContents.printToPDF({
                 marginsType: 0,
@@ -782,8 +795,14 @@ angular.module('app.sao')
                 case 'empresa3':
                     rows = ReduceItems(data,"Aplicaciones");
                     break;
+                case 'empresa4':
+                    rows = data.filter(function (em) {
+                        return em.sustanciasR >0;
+                    });
+                    break;
                 default:
                     rows = data;
+                    break;
             }
 
             return rows;
@@ -2372,8 +2391,10 @@ angular.module('app.sao')
                 capacidad:'Introduzca la capacidad.',
                 inventario:'Introduzca el No. inventario.',
                 curso:'Introduzca la cantidad de personal que ha pasado el Curso Buenas Prácticas.',
-                experiencia:'Introduzca los años de experiencia.'
-                
+                experiencia:'Introduzca los años de experiencia.',
+                oac:'Introduzca oac.',
+                ueb:'Introduzca ueb'
+
             };
             switch (element.tipo) {
                 case 'general1':
@@ -2542,7 +2563,7 @@ angular.module('app.sao')
 
                         });
                     }
-                    /*if(element.capacidad==undefined){
+                    if(element.capacidad==undefined){
                         $scope.error.tipo='capacidad';
                         throw 'Introduzca la capacidad.';
                     } 
@@ -2557,18 +2578,12 @@ angular.module('app.sao')
                     if(element.curso==undefined){
                         $scope.error.tipo='curso';
                         throw 'Introduzca la cantidad de personal que ha pasado el Curso Buenas Prácticas.';
-                    }*/
-                    // if(element.otrosAlternativa!=''){
-                    //     element.Tipo={nombre:element.otrosAlternativa}
-                    // }
-                    // if(element.Uso!=undefined)
-                    // {
-                    //     if(element.Uso.length<6)
-                    //     {
-                    //         $scope.error.tipo='anno';
-                    //         throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
-                    //     }
-                    // }
+                    }
+
+                    if (element.servicio=='Sí') {
+                        element.servicio=element.empresa;
+                    }
+
 
                     break;
 
@@ -2627,7 +2642,7 @@ angular.module('app.sao')
                         return {
                             re6:rg,
                             cant6:0,
-                            nombre:rg.nombre+":0"
+                            nombre:""
 
                         };
                     });
@@ -2657,7 +2672,7 @@ angular.module('app.sao')
                         return {
                             re5:rg,
                             cant5:0,
-                            nombre:rg+":0"
+                            nombre:""
 
                         };
                     }));
@@ -2701,7 +2716,7 @@ angular.module('app.sao')
                         return {
                             re2:rg,
                             cant2:0,
-                            nombre:rg+":0"
+                            nombre:""
 
                         };
                     }));
@@ -2725,7 +2740,7 @@ angular.module('app.sao')
                         return {
                             re3:rg,
                             cant3:0,
-                            nombre:rg+":0"
+                            nombre:""
 
                         };
                     }));
@@ -2749,7 +2764,7 @@ angular.module('app.sao')
                         return {
                             re4:rg,
                             cant4:0,
-                            nombre:rg+":0"
+                            nombre:""
 
                         };
                     }));
@@ -2976,6 +2991,8 @@ angular.module('app.sao')
                         // $scope.record.Tipo = SAO.Tabla23[0].alternativas[0];
                         $scope.record.aplicacionAire = SAO.AplicacionAire[0];
                         $scope.record.aplicacionRefri = SAO.AplicacionRefri[0];
+                        $scope.record.Estado = SAO.Estado[0];
+                        $scope.record.personal = SAO.Personal[0];
                          $scope.record.habilitado=false;
                         // $scope.record.personal = SAO.Personal[0];
                         $scope.year = 2011;
@@ -3222,7 +3239,7 @@ angular.module('app.sao')
 
             // record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
             record.Importaciones = _.reject(record.Importaciones,function (el) { return el.anno==year1;
-            }).concat([{"anno":year1,"tons":amount,"nombre": +year1+":"+amount}]);
+            }).concat([{"anno":year1,"tons":amount,"nombre": year1+":"+amount}]);
             record.Importaciones =  _.uniq(record.Importaciones,false,function (el) {
                 return el.anno;
             });
@@ -3240,7 +3257,7 @@ angular.module('app.sao')
 
             // record.Recuperacion.push({"re2":re2,"cant2":amount,"nombre": +re2+":"+amount});
             record.Recuperacion = _.reject(record.Recuperacion,function (el) { return el.re2==re2;
-            }).concat([{"re2":re2,"cant2":amount,"nombre": re2+":"+amount.toString()}]);
+            }).concat([{"re2":re2,"cant2":amount,"nombre":amount>0? re2+":"+amount:""}]);
             record.Recuperacion =  _.uniq(record.Recuperacion,false,function (el) {
                 return el.re2;
             });
@@ -3258,7 +3275,7 @@ angular.module('app.sao')
                 amount=0;
             }
 
-            record.Recuperado = _.reject(record.Recuperado,function (el) {return el.re3==re3;}).concat([{"re3":re3,"cant3":amount,"nombre": re3+":"+amount.toString()}]);
+            record.Recuperado = _.reject(record.Recuperado,function (el) {return el.re3==re3;}).concat([{"re3":re3,"cant3":amount,"nombre": amount>0?re3+":"+amount:""}]);
             // record.Recuperado.push({"re3":re3,"cant3":amount,"nombre": re3+":"+amount});
             record.Recuperado =  _.uniq(record.Recuperado,false,function (el) {
                 return el.re3;
@@ -3276,9 +3293,9 @@ angular.module('app.sao')
             if(amount==undefined){
                 amount=0;
             }
-            record.Total = _.reject(record.Total,function (el) {return el.re4==re4;}).concat([{"re4":re4,"cant4":amount,"nombre": re4+":"+amount.toString()}]);
+            record.Total = _.reject(record.Total,function (el) {return el.re4==re4;}).concat([{"re4":re4,"cant4":amount,"nombre":amount>0? re4+":"+amount:""}]);
 
-            record.Total.push({"re4":re4,"cant4":amount,"nombre": +re4+":"+amount});
+            // record.Total.push({"re4":re4,"cant4":amount,"nombre":amount>0?re4+":"+amount:""});
             record.Total =  _.uniq(record.Total,false,function (el) {
                 return el.re4;
             });
@@ -3297,7 +3314,7 @@ angular.module('app.sao')
 
             // record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
             record.Limpieza = _.reject(record.Limpieza,function (el) { return el.re5==re5;
-            }).concat([{"re5":re5,"cant5":amount,"nombre": re5+":"+amount.toString()}]);
+            }).concat([{"re5":re5,"cant5":amount,"nombre":amount>0? re5+":"+amount:""}]);
             record.Limpieza =  _.uniq(record.Limpieza,false,function (el) {
                 return el.re5;
             });
@@ -3316,7 +3333,7 @@ angular.module('app.sao')
 
    // record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
    record.refrigConsumidos = _.reject(record.refrigConsumidos,function (el) { return el.re6.nombre==re6.nombre;
-   }).concat([{"re6":re6,"cant6":amount,"nombre": re6.nombre+":"+amount.toString()}]);
+   }).concat([{"re6":re6,"cant6":amount,"nombre":amount>0? re6.nombre+":"+amount:""}]);
    record.refrigConsumidos = _.uniq(record.refrigConsumidos,false,function (el) {
        return el.re6.nombre;
    });
@@ -3335,7 +3352,7 @@ angular.module('app.sao')
 
             // record.CantRefriRefri.push({"re":re,"cant":amount,"nombre": +re+":"+amount});
             record.CantRefriRefri = _.reject(record.CantRefriRefri,function (el) { return el.re==re;
-            }).concat([{"re":re,"cant":amount,"nombre": re+":"+amount.toString()}]);
+            }).concat([{"re":re,"cant":amount,"nombre":amount>0? re+":"+amount:""}]);
             record.CantRefriRefri =  _.uniq(record.CantRefriRefri,false,function (el) {
                 return el.re;
             });
@@ -3354,7 +3371,7 @@ angular.module('app.sao')
 
             // record.CantRefriAire.push({"re1":re1,"cant1":amount,"nombre": +re1+":"+amount});
             record.CantRefriAire = _.reject(record.CantRefriAire,function (el) { return el.re1==re1;
-            }).concat([{"re1":re1,"cant1":amount,"nombre": re1+":"+amount.toString()}]);
+            }).concat([{"re1":re1,"cant1":amount,"nombre":amount>0? re1+":"+amount:""}]);
             record.CantRefriAire =  _.uniq(record.CantRefriAire,false,function (el) {
                 return el.re1;
             });

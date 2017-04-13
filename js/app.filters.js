@@ -8,6 +8,8 @@ angular.module('app.sao').filter('mainString',function () {
            {
                return data.map(function (doc) {
                    return doc.nombre.trim();
+               }).filter(function (ne) {
+                   return ne!="";
                }).join(',');
            }
            else if(Object.prototype.toString.call( data ) === '[object Object]' )
@@ -42,7 +44,7 @@ angular.module('app.sao').filter('mainString',function () {
                     case "SustaciaAire":return "Aire";
                     case "TipoRefrigeracion":return "Tipo de refrigeraci\u00F3n";
                     case "SustanciaRefrigerante":return "Refrigerante";
-                    case "TipoRefrigeracion":return "Tipo refrigeraci\u00F3n";
+                    // case "TipoRefrigeracion":return "Tipo refrigeraci\u00F3n";
                     case "TipoAire":return "Tipo Aire";
                     case "CantRefriAire":return "Refrigerante aire ";
                     case "CantRefriRefri":return "Refrigerante refrigeraci\u00F3n";
@@ -54,6 +56,9 @@ angular.module('app.sao').filter('mainString',function () {
                     case "aplicacionAire":return "Aire Acondicionado";
                     case "aplicacionRefri":return "Refrigeraci\u00F3n";
                     case "Limpieza":return "Sustancia de limpieza interna";
+                    case "refrigConsumidos":return "Refigerantes consumidos";
+                    case "inventario":return "No. inventario ";
+                    case "curso":return "Cant. CCBP ";
                     default: return data;
                 }
 
