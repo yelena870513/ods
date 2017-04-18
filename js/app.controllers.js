@@ -199,6 +199,7 @@ angular.module('app.sao')
             "Sustancia": [],
             "Sustancia1": [],
             "Uso":[],//{ano:"---",tons:""},
+            "Pronostico":[],//{ano:"---",tons:""},
             "tipo": "importaciones1"
         };
 
@@ -1122,7 +1123,14 @@ angular.module('app.sao')
         $scope.user = undefined;
         $scope.isPrinting = false;
         $scope.records= [];
-       var years = [2010,2011,2012,2013,2014,2015,2016];
+        $scope.refrigConsumidos = [];
+        Manager.record('refrigConsumidos').then(function(data){
+            $scope.refrigConsumidos = data.rows.map(function(m){return m.doc;});
+            $scope.refrigConsumidos = _($scope.refrigConsumidos).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        var years = [2010,2011,2012,2013,2014,2015,2016,2020,2030];
         $scope.selectedYear = 2010;
         $scope.bar = {
             "labels":[],
@@ -1145,14 +1153,38 @@ angular.module('app.sao')
                 }
             }
             FetchRecords(chart).then(function(){
-                years.forEach(function(y){
-                    var graph = ShowPieCharts(y);
-                    if (graph!=undefined)
-                    {
-                        $scope.pies.push(graph);
-                    }
 
-                });
+                //todo lo demas
+                if (charting=='importaciones2')
+                {
+                    EquipmentCharts();
+
+                }
+                else if(charting=='empresa4')
+                {
+
+                    $scope.bar.show = false;
+                    EnterpriseChartsFrozen();
+                    EnterpriseChartsRetrieve();
+
+                }
+                else
+                    {
+                    //se cargan las graficas
+                    CargarDatos();
+                    //Se cargan las graficas x año
+                    $scope.years.forEach(function(y){
+                        var graph = ShowPieCharts(y);
+                        if (graph!=undefined)
+                        {
+                            $scope.pies.push(graph);
+                        }
+
+                    });
+                }
+
+
+
             });
         };
 
@@ -1238,7 +1270,7 @@ angular.module('app.sao')
                     return el.doc;
                 });
 
-                CargarDatos();
+
             }).
             catch (function(reason) {
                 console.log(reason);
@@ -1475,10 +1507,11 @@ angular.module('app.sao')
                         table.names = names;
 
                     });
-                    $scope.years = [2010,2015];
+                    // $scope.years = [2011,2012,2013,2014,2015,2016];
+                    $scope.years = [2020,2025,2030];
 
                     $scope.bar = {
-                        "labels":['2010', '2015'],
+                        "labels":['2011', '2012','2013','2014','2015','2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1841,61 +1874,61 @@ angular.module('app.sao')
 
                     break;
 
-                case 'importaciones2':
-
-                    names = [];
-                    table  = {
-                        names:[],
-                        data:[]
-                    };
-                    table.names = $scope.records.map(function (el)
-                    {
-                        return el.Alternativa.nombre;
-                    });
-
-                    table.names.forEach(function (el) {
-                        var rec = $scope.records.filter(function (r) {
-                            return r.Alternativa.nombre;
-                        })[0];
-
-                        if (rec!=undefined)
-                        {
-
-                            var uso  = rec.Uso.map(function (m) {
-                                return m.tons;
-                            });
-
-                            table.data.push(uso);
-                            names.push(el);
-                            table.names = names;
-                        }
-
-
-
-                    });
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
-
-                    $scope.bar = {
-                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
-                        "series":table.names,
-                        "data": table.data,
-                        "show":true,
-                        options: {
-                            title:{
-                                display:true,
-                                //text:"Importaciones"
-                                text:"Cantidad de importaciones de alternativas de ODS."
-                            },
-                            legend: {
-                                display: true,
-                                position: 'top'
-                            }
-
-                        }
-                    };
-
-
-                    break;
+                // case 'importaciones2':
+                //
+                //     names = [];
+                //     table  = {
+                //         names:[],
+                //         data:[]
+                //     };
+                //     table.names = $scope.records.map(function (el)
+                //     {
+                //         return el.Alternativa.nombre;
+                //     });
+                //
+                //     table.names.forEach(function (el) {
+                //         var rec = $scope.records.filter(function (r) {
+                //             return r.Alternativa.nombre;
+                //         })[0];
+                //
+                //         if (rec!=undefined)
+                //         {
+                //
+                //             var uso  = rec.Uso.map(function (m) {
+                //                 return m.tons;
+                //             });
+                //
+                //             table.data.push(uso);
+                //             names.push(el);
+                //             table.names = names;
+                //         }
+                //
+                //
+                //
+                //     });
+                //     $scope.years = [2011,2012,2013,2014,2015,2016];
+                //
+                //     $scope.bar = {
+                //         "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                //         "series":table.names,
+                //         "data": table.data,
+                //         "show":true,
+                //         options: {
+                //             title:{
+                //                 display:true,
+                //                 //text:"Importaciones"
+                //                 text:"Cantidad de importaciones de alternativas de ODS."
+                //             },
+                //             legend: {
+                //                 display: true,
+                //                 position: 'top'
+                //             }
+                //
+                //         }
+                //     };
+                //
+                //
+                //     break;
 
                 case 'aire3':
                     names = [];
@@ -1999,12 +2032,12 @@ angular.module('app.sao')
                 default:
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
-                        "series":table.names,
-                        "data": table.data,
+                        "series":[],
+                        "data": [],
                         "show":false,
                         options: {
                             legend: {
-                                display: true,
+                                display: false,
                                 position: 'top'
                             }
 
@@ -2012,7 +2045,7 @@ angular.module('app.sao')
                     break;
             }
         }
-        function ShowPieCharts(year) {
+        function ShowPieCharts(year,collection) {
 
           var chart = {};
            var pieLabels = $scope.records.map(function (l) {
@@ -2029,8 +2062,10 @@ angular.module('app.sao')
                        return l.Aplicaciones.nombre;
 
                    case'general2':
-                   case'importaciones2':
+                   // case'importaciones2':
                        return l.Alternativa.nombre;
+                   case'importaciones1':
+                       return l.Sustancia.nombre;
                    case'general1':
                    return l.sustancia.nombre;
                    case'general3':
@@ -2042,7 +2077,6 @@ angular.module('app.sao')
                    case'espuma3':
                    case'aire1':
                        return l.Subsector.nombre;
-
 
                    default:
                        break;
@@ -2075,26 +2109,47 @@ angular.module('app.sao')
 
 
             }
-            else
-            {
-
-                pieTableData = $scope.records.map(function (lb)
-                {
-                    var a = lb.Uso.filter(function (fu) {
-                        return fu.anno ==year;
+            else if (charting=="importaciones1") {
+                pieTableData = $scope.records.map(function (lb) {
+                    var a = lb.Pronostico.filter(function (fu) {
+                        return fu.anno == year;
                     })[0];
-                    if (a!=undefined) {
+                    if (a != undefined) {
                         return a.tons;
                     }
                     return 0;
                 }).map(function (val) {
-                    if (val==undefined) {
+                    if (val == undefined) {
                         return 0;
                     }
                     return val;
                 });
 
-                pieTableData = _(pieTableData).reject(function(t){return t==0;});
+                pieTableData = _(pieTableData).reject(function (t) {
+                    return t == 0;
+                });
+            }
+
+            else {
+
+                pieTableData = $scope.records.map(function (lb) {
+                    var a = lb.Uso.filter(function (fu) {
+                        return fu.anno == year;
+                    })[0];
+                    if (a != undefined) {
+                        return a.tons;
+                    }
+                    return 0;
+                }).map(function (val) {
+                    if (val == undefined) {
+                        return 0;
+                    }
+                    return val;
+                });
+
+                pieTableData = _(pieTableData).reject(function (t) {
+                    return t == 0;
+                });
             }
 
             if (pieTableData.length>0)
@@ -2150,6 +2205,138 @@ angular.module('app.sao')
 
             return chart;
         }
+
+        function EquipmentCharts() {
+            var chart = {};
+
+            var pieLabels = _($scope.records.map(function (l) {
+                return l.aplicacionAire.nombre;
+            })).uniq();
+
+            var pieTableData = [];
+
+            pieLabels.forEach(function (label) {
+               var count = _($scope.records).countBy(function (e) {
+                   return e.aplicacionAire.nombre==label;
+               });
+                pieTableData.push(count.true);
+            });
+
+            if (pieTableData.length>0)
+            {
+                chart = BuildCharts(pieLabels,pieTableData,"Equipos de Clima y Refrigeraci\u00F3n");
+                $scope.pies.push(chart);
+            }
+        }
+
+        function EnterpriseChartsFrozen()
+        {
+            var chart = {};
+            var pieLabels = $scope.refrigConsumidos.map(function (rc)
+            {
+                return rc.nombre;
+            });
+            var pieTableData = [];
+            var consumidos = [];
+
+            $scope.records.map(function (r) {
+                return r.refrigConsumidos;
+            }).forEach(function (e) {
+                consumidos = consumidos.concat(e);
+            });
+
+
+
+            pieLabels.forEach(function (label) {
+                var count = _(consumidos).countBy(function (e) {
+                    return e.re6.nombre==label;
+                });
+
+                pieTableData.push(count.true);
+            });
+
+            if (pieTableData.length>0)
+            {
+                chart = BuildCharts(pieLabels,pieTableData,"Refrigerante consumido 2016");
+                $scope.pies.push(chart);
+            }
+        }
+
+        function EnterpriseChartsRetrieve()
+        {
+            var chart = {};
+            var pieLabels = ['R134a','R22','R404A','R410A','Otros'];
+
+            var pieTableData = [];
+            var consumidos = [];
+
+            $scope.records.map(function (r) {
+                return r.Recuperado;
+            }).forEach(function (e) {
+                consumidos = consumidos.concat(e);
+            });
+
+            pieLabels.forEach(function (label) {
+                var count = _(consumidos).countBy(function (e) {
+                    return e.re3==label;
+                });
+
+                pieTableData.push(count.true);
+            });
+
+            if (pieTableData.length>0)
+            {
+                chart = BuildCharts(pieLabels,pieTableData,"Cantidad recuperada");
+                $scope.pies.push(chart);
+            }
+
+        }
+
+
+        function BuildCharts(labels, data, title) {
+          return  {
+                "labels":labels,
+                "data": data,
+                tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>%",
+                "options":{
+                    legendCallback: function(chart) {
+                        var text = [];
+                        text.push('<ul class="' + chart.id + '-legend list-le">');
+
+                        var data = chart.data;
+                        var datasets = data.datasets;
+                        var labels = data.labels;
+
+                        if (datasets.length) {
+                            for (var i = 0; i < datasets[0].data.length; ++i) {
+                                text.push('<li>');
+                                if (labels[i]) {
+                                    text.push('<span style="background-color:' + datasets[0].backgroundColor[i] + ';border-radius: 1px;">&nbsp;&nbsp;</span>');
+                                    text.push(labels[i]+"-");
+                                    text.push('<strong>'+datasets[0].data[i]+'</strong>');
+
+                                }
+                                text.push('</li>');
+                            }
+                        }
+
+                        text.push('</ul>');
+                        return text.join('');
+                    },
+                    legend: {
+                        display: false,
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text:title
+                    }
+                },
+                "show":true
+
+            };
+        }
+
 
         function clearChart(elementId)
         {
@@ -2243,6 +2430,8 @@ angular.module('app.sao')
         $scope.refrigConsumidos = [];
         $scope.Sustancia = [];
         $scope.Sustancia1 = [];
+        $scope.equipoAire = [];
+        $scope.equipoRefrigeracion = [];
         Manager.record('municipio').then(function(data){$scope.municipiosCache = data.rows.map(function(m){return m.doc;})});
         Manager.record('provincia').then(function(data){
             $scope.provincias = data.rows.map(function(m){return m.doc;});
@@ -2306,6 +2495,18 @@ angular.module('app.sao')
             });
         });
         Manager.record('Sustancia1').then(function(data){
+            $scope.Sustancia1 = data.rows.map(function(m){return m.doc;});
+            $scope.Sustancia1 = _($scope.Sustancia1).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        Manager.record('equipoAire').then(function(data){
+            $scope.Sustancia1 = data.rows.map(function(m){return m.doc;});
+            $scope.Sustancia1 = _($scope.Sustancia1).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        Manager.record('equipoRefrigeracion').then(function(data){
             $scope.Sustancia1 = data.rows.map(function(m){return m.doc;});
             $scope.Sustancia1 = _($scope.Sustancia1).sortBy(function (el) {
                 return el.nombre;
@@ -2393,7 +2594,9 @@ angular.module('app.sao')
                 curso:'Introduzca la cantidad de personal que ha pasado el Curso Buenas Prácticas.',
                 experiencia:'Introduzca los años de experiencia.',
                 oac:'Introduzca oac.',
-                ueb:'Introduzca ueb'
+                ueb:'Introduzca ueb',
+                consumo:'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas.',
+                pronostico:'En pr\u00F3nosticos faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas.'
 
             };
             switch (element.tipo) {
@@ -2409,20 +2612,12 @@ angular.module('app.sao')
                 error = ModelValidator.RecordError(element);
                     if (error.length>0)
                     {
-                        error.forEach(function(e){
+                        error.forEach(function(e)
+                        {
                             $scope.error.tipo = e;
                             throw msg[e];
 
                         });
-                    }
-
-                    if(element.Uso!=undefined)
-                    {
-                        if(element.Uso.length<5)
-                        {
-                            $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
-                        }
                     }
 
                     break;
@@ -2983,7 +3178,8 @@ angular.module('app.sao')
                     case 'importaciones1':
                         $scope.record.Sustancia = SAO.SustanciasTabla6[0];
                         $scope.record.Sustancia1 = SAO.SustanciasTabla6a[0];
-                        $scope.year = 2010;
+                        $scope.year = 2011;
+                        $scope.year2 = 2020;
                         
 
                         break;
@@ -3084,7 +3280,7 @@ angular.module('app.sao')
                         break;
                     case 'refri':
                     case 'importaciones1':
-                        $scope.year = 2010;
+                        $scope.year = 2021;
                         break;
 
                     case 'espuma3':
@@ -3229,6 +3425,26 @@ angular.module('app.sao')
                     return us.anno;
                 });
                 $scope.record.Uso = angular.copy(record.Uso)
+
+        };
+
+        $scope.Pronostico = function(year2,amount){
+
+            if(amount==undefined){
+                amount=0;
+            }
+
+            // record.Uso.push({"anno":year,"tons":amount,"nombre": +year+":"+amount});
+            record.Pronostico = _.reject(record.Pronostico,function (el) { return el.anno==year2;
+            }).concat([{"anno":year2,"tons":amount,"nombre": +year2+":"+amount}]);
+            record.Pronostico =  _.uniq(record.Pronostico,false,function (el) {
+                return el.anno;
+            });
+
+            record.Pronostico = _.sortBy( record.Pronostico,function (us) {
+                return us.anno;
+            });
+            $scope.record.Pronostico = angular.copy(record.Pronostico)
 
         };
         $scope.ConsumoImportaciones = function(year1,amount){
@@ -3817,7 +4033,7 @@ angular.module('app.sao')
         $scope.nomenclaturesCache  = [];
         $scope.selected=false;
         $scope.ntype = '';
-        $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde','oace', 'ueb', 'aire','refrigeracion', 'refrigConsumidos','Sustancia','Sustancia1'];
+        $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde','oace', 'ueb', 'aire','refrigeracion', 'refrigConsumidos','Sustancia','Sustancia1','equipoAire','equipoRefrigeracion'];
 
         $scope.Nomenclature = function (nomenclature,size) {
             var instance = $uibModal.open({

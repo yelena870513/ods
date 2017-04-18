@@ -1011,7 +1011,7 @@ angular.module('app.sao')
         {"fields":['aplicacionAire', 'capacidad','inventario','Estado',"experiencia",'personal','curso','servicio'],"nombre":"Equipo de Clima y Refrigeración que presenta mi inventario.", "tipo":"importaciones2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agente espumante en el sector de espuma.","tipo":"espuma1"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma.","tipo":"espuma2"},
-        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
+        {"fields":["Uso","Sustancia", "Sustancia1","Pronostico"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
         {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido.", "tipo":"espuma3"},
         // {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
         {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles. ", "tipo":"aerosoles"},
@@ -1301,11 +1301,27 @@ angular.module('app.sao')
                     errors.push('unidades');
 
                 }
+                break;
+            case 'importaciones1':
+                if(record.Uso!=undefined)
+                {
+                    if(record.Uso.length<5)
+                    {
+                        errors.push('consumo');
+                    }
+                }
+
+                if(record.Pronostico!=undefined)
+                {
+                    if(record.Pronostico.length<2)
+                    {
+                        errors.push('pronostico');
+                    }
+                }
 
 
 
                 break;
-
             default:
                 break;
 

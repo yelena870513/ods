@@ -13,15 +13,41 @@
     <!-- /.box-header -->
     <!-- form start -->
     <form role="form" name="actionForm" novalidate>
+    <div class="form-group">
+                        <label for="year">Año:</label>
 
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                                                     data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
+                                   on-select="OnSelect($item,$model,'amount','year')"
+                                   data-ng-model="year">
+                            <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="item  in  [2011,2012,2013,2014,2015,2016]">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        </div>
+                        <div class="form-group">
+
+            <label >Consumo en toneladas métricas:</label>
+            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" data-ng-class="{'control-error':error.show && error.tipo=='anno'}"/>
+            <ul class="list-group">
+                <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
+                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
+                </li>
+            </ul>
+           <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
+
+        </div>
         <div class="form-group">
-            <label for="t3">Sustancia:</label>
+            <label for="t3">Sustancia importadores:</label>
             <ui-select theme="bootstrap"
                        style="width: 100%;" tabindex="-1"
                        aria-hidden="true"
 
                        data-ng-model="record.Sustancia">
-                <ui-select-match placeholder="Sustancia">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-match placeholder="Sustancia Importadores">{{$select.selected.nombre}}</ui-select-match>
                 <ui-select-choices repeat="item in Sustancia">
                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
@@ -31,7 +57,7 @@
         <div class="form-group">
             <label >Pronóstico de consumo 2020-2030:</label><br>
             <div class="form-group">
-            <label for="t3">Sustancia:</label>
+            <label for="t3">Pronóstico sustancia:</label>
             <ui-select theme="bootstrap"
                        style="width: 100%;" tabindex="-1"
                        aria-hidden="true"
@@ -49,11 +75,11 @@
                        style="width: 100%;" tabindex="-1"
                        aria-hidden="true"
                        id="year"
-                       data-ng-class="{'control-error':error.show && error.tipo=='anno'}"
-                       on-select="OnSelect($item,$model,'amount','year')"
-                       data-ng-model="year">
+                       data-ng-class="{'control-error':error.show && error.tipo=='anno1'}"
+                       on-select="OnSelect($item,$model,'amount_future','year_future')"
+                       data-ng-model="year_future">
                 <ui-select-match placeholder="Año">{{$select.selected}}</ui-select-match>
-                <ui-select-choices repeat="item  in  [2010,2015,2020,2025,2030]">
+                <ui-select-choices repeat="item  in  [2020,2025,2030]">
                     <div ng-bind-html="item | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
@@ -62,13 +88,13 @@
         <div class="form-group">
 
             <label >Consumo en toneladas métricas:</label>
-            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount" data-ng-class="{'control-error':error.show && error.tipo=='anno'}"/>
+            <input  class="form-control" type="number" min="0" placeholder="Tons" data-ng-model="amount_future" data-ng-class="{'control-error':error.show && error.tipo=='anno1'}"/>
             <ul class="list-group">
-                <li class="list-group-item-success" data-ng-repeat="el in record.Uso track by $index">
-                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Uso.splice($index,1)"></i>
+                <li class="list-group-item-success" data-ng-repeat="el in record.Pronostico track by $index">
+                    <span class="badge">{{el.anno}} -- {{el.tons}}</span><i class="fa fa-trash-o" data-ng-click="record.Future.splice($index,1)"></i>
                 </li>
             </ul>
-           <p> <i  class="fa fa-plus mas"  data-ng-click="ConsumoYear(year,amount)" title="Agregar"> </i> Agregar año</p>
+           <p> <i  class="fa fa-plus mas"  data-ng-click="Pronostico(year_future,amount_future)" title="Agregar"> </i> Agregar año</p>
 
         </div>
     </form>

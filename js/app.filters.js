@@ -59,6 +59,8 @@ angular.module('app.sao').filter('mainString',function () {
                     case "refrigConsumidos":return "Refigerantes consumidos";
                     case "inventario":return "No. inventario ";
                     case "curso":return "Cant. CCBP ";
+                    case "Sustancia":return "Sustancia importadores ";
+                    case "Sustancia1":return "Pronóstico sustancia";
                     default: return data;
                 }
 

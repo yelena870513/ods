@@ -2,15 +2,6 @@
     <div class="box-header" data-ng-hide="isPrinting">
         <div class="collapse navbar-collapse navbar-ex1-collapse" >
 
-            <!--<div class="btn-group" uib-dropdown is-open="status6.isopen">-->
-                <!--<button id="single-button-importaciones" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('equipo')}">-->
-                    <!--Equipos de Clima y Refrigeración  <span class="caret"></span>-->
-                <!--</button>-->
-                <!--<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">-->
-
-                    <!--<li role="menuitem"><a data-ng-click="SelectChart('importaciones2')"> Equipos de Clima y Refrigeración</a></li>-->
-                <!--</ul>-->
-            <!--</div>-->
             <div class="btn-group" uib-dropdown is-open="status2.isopen">
                 <button id="single-button-importaciones-1" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('importaciones')}">
                     Importadores <span class="caret"></span>
@@ -20,17 +11,7 @@
 
                 </ul>
             </div>
-            <!--<div class="btn-group" uib-dropdown is-open="status2.isopen">-->
-                <!--<button id="single-button-espuma" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('espuma')}">-->
-                    <!--Espuma <span class="caret"></span>-->
-                <!--</button>-->
-                <!--<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">-->
-                    <!--<li role="menuitem"><a data-ng-click="SelFaectChart('espuma1')" >Demanda de SAO y agentes soplantes en el sector de espuma</a></li>-->
-                    <!--<li role="menuitem"><a data-ng-click="SelectChart('espuma2')" >Distribución de ODS y alternativas en subsector de espuma</a></li>-->
-                    <!--<li role="menuitem"><a data-ng-click="SelectChart('espuma3')" >Uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido</a></li>-->
 
-                <!--</ul>-->
-            <!--</div>-->
             <div class="btn-group" uib-dropdown is-open="status3.isopen">
                 <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aire')}">
                   Fabricante de  <span class="caret"></span>
@@ -39,6 +20,7 @@
                     <li role="menuitem"><a data-ng-click="SelectChart('aire2')">Aires Acondicionados</a></li>
                     <li role="menuitem"><a data-ng-click="SelectChart('consumo')">Refrigeración</a></li>
                     <li role="menuitem"><a  data-ng-click="SelectChart('aerosoles')">Aerosoles </a></li>
+                    <!--<li role="menuitem"><a  data-ng-click="SelectChart('empresa')">Empresa 4 </a></li>-->
                     <!--<li role="menuitem"><a data-ng-click="SelectChart('aire3')">Uso de alternativas de SAO en aires acondicionados</a></li>-->
                 </ul>
             </div>
@@ -52,17 +34,40 @@
 
                 </ul>
             </div>
+            <div class="btn-group" uib-dropdown is-open="status4.ispoen">
+                <button id="single-button-empresa" type="button"
+                        class="btn btn-menu"
+                        uib-dropdown-toggle
+                        ng-disable="disabled"
+                        ng-class="{'active-menu':isActive('empresa')}">Empresa de Servicios de Clima y Refrigeraci&oacute;n<span class="caret"> </span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem">
+                        <a ng-click="SelectChart('empresa4')">Refrigerantes Consumidos 2016</a>
+                        <a ng-click="SelectChart('empresa4')">Cantidad Recuperada</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group" uib-dropdown is-open="status7.ispoen">
+                <button id="single-button-equipo" type="button"
+                        class="btn btn-menu"
+                        uib-dropdown-toggle
+                        ng-disable="disabled"
+                        ng-class="{'active-menu':isActive('equipo')}">Equipos de Clima y Refrigeraci&oacute;n<span class="caret"> </span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem">
+                        <a ng-click="SelectChart('importaciones2')">Equipos de Clima y Refrigeraci&oacute;n</a>
+
+                    </li>
+                </ul>
+            </div>
 
 
         </div>
     </div>
     <div class="box-body" ng-class="{'ng-print':isPrinting}">
         <section class="content" style="height: 200px" data-ng-hide="isPrinting">
-            <div class="row"  >
-                <div class="col-md-6">
-                  <h4>  <em>Usuario</em><span> {{user.username }} </span></h4>
-                </div>
-            </div>
 
             <div class="row" data-ng-show="bar.show" style="width: 50%">
                 <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPdf()"><i class="fa fa-file-pdf-o"></i></button></div>
@@ -78,7 +83,7 @@
 
             </div>
         </section>
-        <section class="content" data-ng-show="bar.show&&pies.length>0" >
+        <section class="content" data-ng-show="pies.length>0" >
 
             <div class="row" >
                 <div class="col-md-12 col-lg-offset-1" data-ng-show="pie.show" style="width: 15%" data-ng-repeat="pie in pies">
