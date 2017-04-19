@@ -68,7 +68,7 @@
                         </ui-select>
 
                     </div>
-                    <input  class="form-control" type="number" min="0" placeholder="Cantidad (Ng)" data-ng-class="{'control-error':error.show && error.tipo=='refrigConsumidos'}" data-ng-model="cant6"/>
+                    <input  class="form-control" type="number" min="0" placeholder="Cantidad (Kg)" data-ng-class="{'control-error':error.show && error.tipo=='refrigConsumidos'}" data-ng-model="cant6"/>
                     <ul class="list-group">
                         <li class="list-group-item-success" data-ng-repeat="el in record.refrigConsumidos track by $index">
                             <span class="badge">{{el.re6.nombre}} -- {{el.cant6}}</span><i class="fa fa-trash-o" data-ng-click="record.refrigConsumidos.splice($index,1)"></i>

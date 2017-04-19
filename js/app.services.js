@@ -1011,15 +1011,15 @@ angular.module('app.sao')
         {"fields":['aplicacionAire', 'capacidad','inventario','Estado',"experiencia",'personal','curso','servicio'],"nombre":"Equipo de Clima y Refrigeración que presenta mi inventario.", "tipo":"importaciones2"},
         {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agente espumante en el sector de espuma.","tipo":"espuma1"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma.","tipo":"espuma2"},
-        {"fields":["Uso","Sustancia", "Sustancia1","Pronostico"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
+        {"fields":["Sustancia","Uso", "Sustancia1","Pronostico"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
         {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido.", "tipo":"espuma3"},
         // {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
-        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles. ", "tipo":"aerosoles"},
+        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Consumo de SAO y sus alternativas en la fabricación de aerosoles.", "tipo":"aerosoles"},
         //{"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Refrigeración Móvil. ", "tipo":"empresa2"},
-        {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes.", "tipo":"empresa3"},
+        {"fields":["Aplicaciones","Alternativas", "Uso","limpieza" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de solventes.", "tipo":"empresa3"},
         {"fields":["Subsector", "Uso"],"nombre":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado.","tipo":"aire1"},
-        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados.", "tipo":"aire2"},
-        {"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Consumo  de SAO (Refrigerantes) y sus alternativas en el subsector de manufactura.", "tipo":"consumo"},
+        {"fields":["Aplicaciones", "equipoAire","Carga", "Alternativas", "Uso" ],"nombre":"Consumo de SAO y sus alternativas en la fabricación de Aire Acondicionado.", "tipo":"aire2"},
+        {"fields":["Aplicaciones","equipoRefrigeracion","Carga", "Alternativas", "Uso" ],"nombre":"Consumo de SAO y sus alternativas en la fabricación de Refigerante.", "tipo":"consumo"},
         //{"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz.", "tipo":"empresa1"},
         {"fields":["Aplicaciones", "Alternativas", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración.", "tipo":"refri"},
         {"fields":["Aplicaciones", "Sustancias", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado.", "tipo":"aire3"},
@@ -1232,12 +1232,44 @@ angular.module('app.sao')
                     errors.push('ueb');
                 }
                 break;
-            case 'general2':
-            case 'espuma3':
             case 'aire2':
+            if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
+                {
+                    if(!alternativa.test(record.otrosAlternativa)){
+                        errors.push('alternativa');
+                    }
+
+                }
+                break;
             case 'consumo':
-            case 'aerosoles':
+            if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
+                {
+                    if(!alternativa.test(record.otrosAlternativa)){
+                        errors.push('alternativa');
+                    }
+
+                }
+                break;
             case 'empresa3':
+             if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
+                {
+                    if(!alternativa.test(record.otrosAlternativa)){
+                        errors.push('alternativa');
+                    }
+
+                }
+                break;
+                case 'aerosoles':
+             if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
+                {
+                    if(!alternativa.test(record.otrosAlternativa)){
+                        errors.push('alternativa');
+                    }
+
+                }
+                break;
+            case 'general2':
+            case 'espuma3':      
             case 'empresa2':
             case 'empresa1':
             case 'importaciones2':

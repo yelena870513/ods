@@ -40,7 +40,25 @@
 
                     </div>
                 </div>
-            </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                 <label>Equipo:</label>
+                <ui-select theme="bootstrap"
+                           style="width: 100%;" tabindex="-1"
+                           aria-hidden="true"
+                           id="mi"
+                           data-ng-model="record.equipoRefrigeracion">
+                    <ui-select-match placeholder="Equipo">{{$select.selected.nombre}}</ui-select-match>
+                    <ui-select-choices repeat="item in equipoRefrigeracion">
+                        <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+                </div>
+                </div>
+
+                </div>
+
+
             <div class="row">
                 <div class="col-md-12">
                     <h4>{{record.cargas}}</h4>

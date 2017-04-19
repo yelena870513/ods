@@ -1,19 +1,56 @@
 <div class="box" data-ng-show="user">
     <div class="box-header" data-ng-hide="isPrinting">
         <div class="collapse navbar-collapse navbar-ex1-collapse" >
+        <div class="btn-group" uib-dropdown is-open="status7.ispoen">
+                <button id="single-button-equipo" type="button"
+                        class="btn btn-menu"
+                        uib-dropdown-toggle
+                        ng-disable="disabled"
+                        ng-class="{'active-menu':isActive('equipo'),'success-menu':!isActive('equipo')}">Equipos de Clima y Refrigeraci&oacute;n<span class="caret"> </span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem">
+                        <a ng-click="SelectChart('importaciones2')">Equipos de Clima y Refrigeraci&oacute;n</a>
+
+                    </li>
+                </ul>
+            </div>
+             <div class="btn-group" uib-dropdown is-open="status4.ispoen">
+                <button id="single-button-empresa" type="button"
+                        class="btn btn-menu"
+                        uib-dropdown-toggle
+                        ng-disable="disabled"
+                        ng-class="{'active-menu':isActive('empresa'),'servicio':!isActive('empresa')}">Empresa de Servicios de Clima y Refrigeraci&oacute;n<span class="caret"> </span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem">
+                        <a ng-click="SelectChart('empresa4')">Refrigerantes Consumidos 2016</a>
+                        <a ng-click="SelectChart('empresa4')">Cantidad Recuperada</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group" uib-dropdown is-open="status8.isopen">
+                <button id="single-button-solventes" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('empresa3'),'warning-menu':!isActive('empresa3')}">
+                  Consumo de Solventes <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem"><a  data-ng-click="SelectChart('empresa3')">Sector Solventes </a></li>
+
+                </ul>
+            </div>
 
             <div class="btn-group" uib-dropdown is-open="status2.isopen">
-                <button id="single-button-importaciones-1" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('importaciones')}">
+                <button id="single-button-importaciones-1" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('importaciones'),'info-menu':!isActive('importaciones')}">
                     Importadores <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectChart('importaciones1')" >Demanda de SAO y refrigerantes</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectChart('importaciones1')" >Demanda de SAO y refrigerantes...</a></li>
 
                 </ul>
             </div>
 
             <div class="btn-group" uib-dropdown is-open="status3.isopen">
-                <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aire')}">
+                <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aire'),'fabricante':!isActive('aire')}">
                   Fabricante de  <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -25,51 +62,17 @@
                 </ul>
             </div>
 
-            <div class="btn-group" uib-dropdown is-open="status8.isopen">
-                <button id="single-button-solventes" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('solventes')}">
-                  Consumo de Solventes <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a  data-ng-click="SelectChart('empresa3')">Consumo de Solventes </a></li>
-
-                </ul>
-            </div>
-            <div class="btn-group" uib-dropdown is-open="status4.ispoen">
-                <button id="single-button-empresa" type="button"
-                        class="btn btn-menu"
-                        uib-dropdown-toggle
-                        ng-disable="disabled"
-                        ng-class="{'active-menu':isActive('empresa')}">Empresa de Servicios de Clima y Refrigeraci&oacute;n<span class="caret"> </span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem">
-                        <a ng-click="SelectChart('empresa4')">Refrigerantes Consumidos 2016</a>
-                        <a ng-click="SelectChart('empresa4')">Cantidad Recuperada</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="btn-group" uib-dropdown is-open="status7.ispoen">
-                <button id="single-button-equipo" type="button"
-                        class="btn btn-menu"
-                        uib-dropdown-toggle
-                        ng-disable="disabled"
-                        ng-class="{'active-menu':isActive('equipo')}">Equipos de Clima y Refrigeraci&oacute;n<span class="caret"> </span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem">
-                        <a ng-click="SelectChart('importaciones2')">Equipos de Clima y Refrigeraci&oacute;n</a>
-
-                    </li>
-                </ul>
-            </div>
+            
+           
+            
 
 
         </div>
     </div>
     <div class="box-body" ng-class="{'ng-print':isPrinting}">
-        <section class="content" style="height: 200px" data-ng-hide="isPrinting">
+        <section class="content" style="height: 66px" data-ng-hide="isPrinting">
 
-            <div class="row" data-ng-show="bar.show" style="width: 50%">
+            <div class="row" data-ng-show="pies.length>0" style="width: 50%">
                 <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPdf()"><i class="fa fa-file-pdf-o"></i></button></div>
                 <div class="col-md-1"><button class="btn btn-default" data-ng-click="ToPrint()"><i class="fa fa-print"></i></button></div>
                 <div class="col-md-10"></div>

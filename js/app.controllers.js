@@ -165,6 +165,7 @@ angular.module('app.sao')
             "Carga":SAO.Tabla9[0].carga,
             "Alternativas":SAO.Tabla9[0].alternativas[0],
             "otrosAlternativa":"",
+            "equipoAire":{},
             "Uso":[],//{ano:"---",tons:""},
             "tipo":"aire2"
         };
@@ -211,7 +212,7 @@ angular.module('app.sao')
             // "Uso":[],
             "aplicacionAire": [],
              "aplicacionRefri": [],
-             "personal": SAO.Personal[0],
+             "personal": [SAO.Personal[0]],
              "Estado": SAO.Estado[0],
              "capacidad":"",
              "curso":"",
@@ -230,6 +231,7 @@ angular.module('app.sao')
             "Carga":SAO.Aplicaciones8[0].carga,
             "Alternativas":SAO.Aplicaciones8[0].alternativas[0],
             "otrosAlternativa":"",
+            "equipoRefrigeracion":{},
             "Uso":[],//{ano:"---",tons:""},
             "tipo":"consumo"
         };
@@ -673,6 +675,7 @@ angular.module('app.sao')
         $scope.isPrinting = false;
         $scope.records = [];
         var years = [2010,2011,2012,2013,2014,2015,2016];
+        var pro = [2020,2025,2030];
         $scope.columns = Columns;
         $scope.labels = Object.keys(SType);
         var Clasif = SAO.Clasificacion.map(function (cl) {
@@ -918,6 +921,43 @@ angular.module('app.sao')
 
                             tableData.rows = rows;
                         }
+
+                        if(tableData.columns.indexOf("Pronostico")!=-1)
+                        {
+                            var keys = _.unique(tableData.records[0].Pronostico.filter(function (u) {
+                                return u.anno;
+                            }).map(function (j) {
+                                return j.anno;
+                            }));
+
+                            keys = pro;
+
+                            var rows = tableData.records.map(function (m) {
+                                keys.forEach(function (k)
+                                {
+                                    m[k] = m.Pronostico.filter(function (a) {
+                                        return a.anno==k;
+                                    });
+
+                                    if (m[k]!=undefined && m[k].length>0)
+                                    {
+                                        m[k]=m[k][0].tons;
+                                    }
+                                    else
+                                    {
+                                        m[k]=0;
+                                    }
+                                });
+                                delete m.Pronostico;
+                                return m;
+                            });
+
+                            tableData.columns = tableData.columns.filter(function (u) {
+                                return u!="Pronostico";
+                            }).concat(keys);
+
+                            tableData.rows = rows;
+                        }
                     }
            }
            catch (err){
@@ -1124,9 +1164,33 @@ angular.module('app.sao')
         $scope.isPrinting = false;
         $scope.records= [];
         $scope.refrigConsumidos = [];
+        $scope.Sustancia = [];
+        $scope.equipoAire = [];
+        $scope.equipoRefrigeracion = [];
         Manager.record('refrigConsumidos').then(function(data){
             $scope.refrigConsumidos = data.rows.map(function(m){return m.doc;});
             $scope.refrigConsumidos = _($scope.refrigConsumidos).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+
+        Manager.record('Sustancia').then(function(data){
+            $scope.Sustancia = data.rows.map(function(m){return m.doc;});
+            $scope.Sustancia = _($scope.Sustancia).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+
+
+        Manager.record('equipoAire').then(function(data){
+            $scope.equipoAire = data.rows.map(function(m){return m.doc;});
+            $scope.equipoAire = _($scope.equipoAire).sortBy(function (el) {
+                return el.nombre;
+            });
+        });
+        Manager.record('equipoRefrigeracion').then(function(data){
+            $scope.equipoRefrigeracion = data.rows.map(function(m){return m.doc;});
+            $scope.equipoRefrigeracion = _($scope.equipoRefrigeracion).sortBy(function (el) {
                 return el.nombre;
             });
         });
@@ -1484,7 +1548,7 @@ angular.module('app.sao')
                         names:[],
                         data:[]
                     };
-                    table.names = SAO.SustanciasTabla6.map(function (el) {
+                    table.names = $scope.Sustancia.map(function (el) {
                         return el.nombre;
                     });
 
@@ -1551,32 +1615,53 @@ angular.module('app.sao')
                         names:[],
                         data:[]
                     };
-                    table.names = $scope.records.map(function (el)
-                    {
-                        return el.Aplicaciones.nombre;
+                    table.names = $scope.equipoRefrigeracion.map(function (el) {
+                        return el.nombre;
                     });
 
                     table.names.forEach(function (el) {
                         var rec = $scope.records.filter(function (r) {
-                            return r.Aplicaciones.nombre;
-                        })[0];
-
-                        if (rec!=undefined)
+                            return r.equipoRefrigeracion.nombre==el;
+                        });
+                        if (rec.length>0)
                         {
+                            var row  = {
+                                Uso:[],
+                                label:el
+                            };
 
-                            var uso  = rec.Uso.map(function (m) {
-                                return m.tons;
-                            });
+                            for(var n=0;n<rec.length;n++)
+                            {
+                                if(rec[n]!=undefined)
+                                {
+                                    for (var k = 0;k< rec[n].Uso.length;k++)
+                                    {
+                                        if(row.Uso[k]==undefined)
+                                        {
+                                            row.Uso[k] = rec[n].Uso[k]
+                                        }
+                                        else
+                                        {
+                                            if(row.Uso[k].anno==rec[n].Uso[k].anno)
+                                            {
+                                                row.Uso[k].tons+=rec[n].Uso[k].tons;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
-                            table.data.push(uso);
+                            table.data.push(row.Uso.map(function (re) {
+                                return re.tons;
+                            }));
                             names.push(el);
                             table.names = names;
                         }
 
 
-
                     });
                     $scope.years = [2011,2012,2013,2014,2015,2016];
+                    //$scope.years = [];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1591,7 +1676,7 @@ angular.module('app.sao')
                             title:{
                                 display:true,
                                 //text:"Importaciones"
-                                text:"Consumo  de SAO (Refrigerantes) y sus alternativas en el subsector de manufactura."
+                                text:"Consumo de SAO y sus alternativas en la fabricación de Refigerante."
                             }
 
                         }
@@ -1612,7 +1697,7 @@ angular.module('app.sao')
 
                     table.names.forEach(function (el) {
                         var rec = $scope.records.filter(function (r) {
-                            return r.Aplicaciones.nombre;
+                            return r.Aplicaciones.nombre==el;
                         })[0];
 
                         if (rec!=undefined)
@@ -1631,6 +1716,7 @@ angular.module('app.sao')
 
                     });
                     $scope.years = [2011,2012,2013,2014,2015,2016];
+                    //$scope.years = [];
 
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
@@ -1641,7 +1727,7 @@ angular.module('app.sao')
                             title:{
                                 display:true,
                                 //text:"Importaciones"
-                                text:"Recolección de datos sobre el uso de alternativas de SAO en el sector de aerosoles."
+                                text:"Consumo de SAO y sus alternativas en la fabricación de aerosoles."
                             },
                             legend: {
                                 display: true,
@@ -1659,35 +1745,57 @@ angular.module('app.sao')
                         names:[],
                         data:[]
                     };
-                    table.names = $scope.records.map(function (el)
+                    table.names = SAO.Tabla13.map(function (el)
                     {
-                        return el.Aplicaciones.nombre;
+                        return el.aplicacion.nombre;
                     });
 
                     table.names.forEach(function (el) {
                         var rec = $scope.records.filter(function (r) {
-                            return r.Aplicaciones.nombre;
-                        })[0];
-
-                        if (rec!=undefined)
+                            return r.Aplicaciones.nombre==el;
+                        });
+                        if (rec.length>0)
                         {
+                            var row  = {
+                                Uso:[],
+                                label:el
+                            };
 
-                            var uso  = rec.Uso.map(function (m) {
-                                return m.tons;
-                            });
+                            for(var n=0;n<rec.length;n++)
+                            {
+                                if(rec[n]!=undefined)
+                                {
+                                    for (var k = 0;k< rec[n].Uso.length;k++)
+                                    {
+                                        if(row.Uso[k]==undefined)
+                                        {
+                                            row.Uso[k] = rec[n].Uso[k]
+                                        }
+                                        else
+                                        {
+                                            if(row.Uso[k].anno==rec[n].Uso[k].anno)
+                                            {
+                                                row.Uso[k].tons+=rec[n].Uso[k].tons;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
-                            table.data.push(uso);
+                            table.data.push(row.Uso.map(function (re) {
+                                return re.tons;
+                            }));
                             names.push(el);
                             table.names = names;
                         }
 
 
-
                     });
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
+                    //$scope.years = [2011,2012,2013,2014,2015,2016];
+                    $scope.years = [2016];
 
                     $scope.bar = {
-                        "labels":['2011', '2012', '2013', '2014','2015','2016'],
+                        "labels":['2016'],
                         "series":table.names,
                         "data": table.data,
                         "show":true,
@@ -1695,7 +1803,7 @@ angular.module('app.sao')
                             title:{
                                 display:true,
                                 //text:"Importaciones"
-                                text:"La recolección de datos sobre el uso de alternativas de SAO en el sector de solventes."
+                                text:"Recolección de datos sobre el uso de alternativas de SAO en el sector de solventes."
                             },
                             legend: {
                                 display: true,
@@ -1819,39 +1927,65 @@ angular.module('app.sao')
 
                 case 'aire2':
 
-                     names = [];
-                     table  = {
+                    names = [];
+                    table  = {
                         names:[],
                         data:[]
                     };
-                    table.names = $scope.records.map(function (el)
-                    {
-                        return el.Aplicaciones.nombre;
+                    //table.names = $scope.records.map(function (el)
+                    //{
+                    //    return el.equipoAire.nombre;
+                    //});
+
+                    table.names = $scope.equipoAire.map(function (el) {
+                        return el.nombre;
                     });
 
                     table.names.forEach(function (el) {
                         var rec = $scope.records.filter(function (r) {
-                            return r.Aplicaciones.nombre;
-                        })[0];
-
-                        if (rec!=undefined)
+                            return r.equipoAire.nombre;
+                        });
+                        if (rec.length>0)
                         {
+                            var row  = {
+                                Uso:[],
+                                label:el
+                            };
 
-                            var uso  = rec.Uso.map(function (m) {
-                                return m.tons;
-                            });
+                            for(var n=0;n<rec.length;n++)
+                            {
+                                if(rec[n]!=undefined)
+                                {
+                                    for (var k = 0;k< rec[n].Uso.length;k++)
+                                    {
+                                        if(row.Uso[k]==undefined)
+                                        {
+                                            row.Uso[k] = rec[n].Uso[k]
+                                        }
+                                        else
+                                        {
+                                            if(row.Uso[k].anno==rec[n].Uso[k].anno)
+                                            {
+                                                row.Uso[k].tons+=rec[n].Uso[k].tons;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
-                            table.data.push(uso);
+                            table.data.push(row.Uso.map(function (re) {
+                                return re.tons;
+                            }));
                             names.push(el);
                             table.names = names;
                         }
 
 
-
                     });
 
-                    $scope.years = [2011,2012,2013,2014,2015,2016];
 
+                    //$scope.years = [];
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015', '2016'],
                         "series":table.names,
@@ -1861,7 +1995,7 @@ angular.module('app.sao')
                             title:{
                                 display:true,
                                 //text:"Importaciones"
-                                text:"Recolección de datos sobre el uso de alternativas de SAO en la fabricación de aires acondicionados."
+                                text:"Consumo de SAO y sus alternativas en la fabricación de Aire Acondicionado."
                             },
                             legend: {
                                 display: true,
@@ -1960,6 +2094,7 @@ angular.module('app.sao')
 
 
                     });
+                    $scope.years = [2011,2012,2013,2014,2015,2016];
                     $scope.bar = {
                         "labels":['2011', '2012', '2013', '2014','2015','2016'],
                         "series":table.names,
@@ -2044,6 +2179,8 @@ angular.module('app.sao')
                         }};
                     break;
             }
+
+            $scope.bar.show = false;
         }
         function ShowPieCharts(year,collection) {
 
@@ -2065,7 +2202,7 @@ angular.module('app.sao')
                    // case'importaciones2':
                        return l.Alternativa.nombre;
                    case'importaciones1':
-                       return l.Sustancia.nombre;
+                       return l.Sustancia1.nombre;
                    case'general1':
                    return l.sustancia.nombre;
                    case'general3':
@@ -2088,6 +2225,8 @@ angular.module('app.sao')
                 return lbl!=undefined;
             });
 
+            pieLabels = _(pieLabels).uniq();
+
             var pieTableData = [];
 
             if (charting=='aire3'|| charting=='refri')
@@ -2109,25 +2248,88 @@ angular.module('app.sao')
 
 
             }
-            else if (charting=="importaciones1") {
-                pieTableData = $scope.records.map(function (lb) {
-                    var a = lb.Pronostico.filter(function (fu) {
-                        return fu.anno == year;
-                    })[0];
-                    if (a != undefined) {
-                        return a.tons;
-                    }
-                    return 0;
-                }).map(function (val) {
-                    if (val == undefined) {
-                        return 0;
-                    }
-                    return val;
-                });
+            else if (charting=="importaciones1")
+            {
+                // pieTableData = $scope.records.map(function (lb) {
+                //     var a = lb.Pronostico.filter(function (fu) {
+                //         return fu.anno == year;
+                //     })[0];
+                //     if (a != undefined) {
+                //         return a.tons;
+                //     }
+                //     return 0;
+                // }).map(function (val) {
+                //     if (val == undefined) {
+                //         return 0;
+                //     }
+                //     return val;
+                // });
 
-                pieTableData = _(pieTableData).reject(function (t) {
-                    return t == 0;
+                // pieTableData = $scope.records;
+                // var pieTableData = $scope.records.filter(function (fc) {
+                //     return fc.clasificacion.nombre==c&&fc.tipo=='refri';
+                // });
+
+                pieLabels.forEach(function (pl)
+                {
+                    var match = $scope.records.filter(function (ny) {
+                        return ny.Sustancia1.nombre==pl;
+                    });
+                    var cat = 0;
+
+                    for(var n=0;n<match.length;n++)
+                    {
+                        if(match[n]!=undefined)
+                        {
+                            for (var k = 0;k< match[n].Pronostico.length;k++)
+                            {
+                                if(cat==0)
+                                {
+                                    cat = match[n].Pronostico[k].tons;
+                                }
+                                else
+                                {
+                                    if(match[n].Pronostico[k].anno==year)
+                                    {
+                                        cat+=match[n].Pronostico[k].tons;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    pieTableData.push(cat);
+
+
                 });
+                // var row ={
+                //     Uso:[]
+                // };
+                // for(var n=0;n<pieTableData.length;n++)
+                // {
+                //     if(pieTableData[n]!=undefined)
+                //     {
+                //         for (var k = 0;k< pieTableData[n].Uso.length;k++)
+                //         {
+                //             if(row.Uso[k]==undefined)
+                //             {
+                //                 row.Uso[k] = pieTableData[n].Uso[k]
+                //             }
+                //             else
+                //             {
+                //                 if(row.Uso[k].anno==pieTableData[n].Uso[k].anno)
+                //                 {
+                //                     row.Uso[k].tons+=pieTableData[n].Uso[k].tons;
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+
+
+                // pieTableData = _(pieTableData).reject(function (t) {
+                //     return t == 0;
+                // });
             }
 
             else {
@@ -2224,7 +2426,7 @@ angular.module('app.sao')
 
             if (pieTableData.length>0)
             {
-                chart = BuildCharts(pieLabels,pieTableData,"Equipos de Clima y Refrigeraci\u00F3n");
+                chart = BuildCharts(pieLabels,pieTableData,"Equipos de Clima y Refrigeraci\u00F3n.");
                 $scope.pies.push(chart);
             }
         }
@@ -2248,16 +2450,35 @@ angular.module('app.sao')
 
 
             pieLabels.forEach(function (label) {
-                var count = _(consumidos).countBy(function (e) {
-                    return e.re6.nombre==label;
-                });
+                var count = _(consumidos).reduce(function (a,e) {
+                    if (e.re6.nombre==label) {
+                        return a+e.cant6;
+                    }
+                    return a + 0;
+                },0);
 
-                pieTableData.push(count.true);
+                pieTableData.push(count);
+            });
+
+            for(var i=0;i<pieTableData.length;i++)
+            {
+                if(pieTableData[i]==0)
+                {
+                    pieLabels[i]=undefined;
+                }
+            }
+
+            pieLabels = pieLabels.filter(function (pl) {
+                return pl!=undefined;
+            });
+
+            pieTableData = pieTableData.filter(function (pt) {
+                return pt>0;
             });
 
             if (pieTableData.length>0)
             {
-                chart = BuildCharts(pieLabels,pieTableData,"Refrigerante consumido 2016");
+                chart = BuildCharts(pieLabels,pieTableData,"Refrigerantes consumidos en el 2016.");
                 $scope.pies.push(chart);
             }
         }
@@ -2276,17 +2497,38 @@ angular.module('app.sao')
                 consumidos = consumidos.concat(e);
             });
 
-            pieLabels.forEach(function (label) {
-                var count = _(consumidos).countBy(function (e) {
-                    return e.re3==label;
-                });
+            pieLabels.forEach(function (label)
+            {
+                var count = _(consumidos).reduce(function (a,e) {
+                    if (e.re3==label) {
+                        return a+e.cant3;
+                    }
+                    return a + 0;
+                },0);
 
-                pieTableData.push(count.true);
+                pieTableData.push(count);
             });
+
+            for(var i=0;i<pieTableData.length;i++)
+            {
+                if(pieTableData[i]==0)
+                {
+                    pieLabels[i]=undefined;
+                }
+            }
+
+            pieLabels = pieLabels.filter(function (pl) {
+                return pl!=undefined;
+            });
+
+            pieTableData = pieTableData.filter(function (pt) {
+                return pt>0;
+            });
+
 
             if (pieTableData.length>0)
             {
-                chart = BuildCharts(pieLabels,pieTableData,"Cantidad recuperada");
+                chart = BuildCharts(pieLabels,pieTableData,"Cantidad recuperada.");
                 $scope.pies.push(chart);
             }
 
@@ -2463,54 +2705,64 @@ angular.module('app.sao')
             $scope.aires = _($scope.aires).sortBy(function (el) {
                 return el.nombre;
             });
+
         });
         Manager.record('oace').then(function(data){
             $scope.oace = data.rows.map(function(m){return m.doc;});
             $scope.oace = _($scope.oace).sortBy(function (el) {
                 return el.nombre;
             });
+            $scope.record.oace = $scope.oace[0];
         });
         Manager.record('ueb').then(function(data){
             $scope.ueb = data.rows.map(function(m){return m.doc;});
             $scope.ueb = _($scope.ueb).sortBy(function (el) {
                 return el.nombre;
             });
+            $scope.record.ueb = $scope.ueb[0];
         });
         Manager.record('refrigeracion').then(function(data){
             $scope.refrigeracion = data.rows.map(function(m){return m.doc;});
             $scope.refrigeracion = _($scope.refrigeracion).sortBy(function (el) {
                 return el.nombre;
             });
+            $scope.record.refrigeracion = $scope.refrigeracion[0];
         });
         Manager.record('refrigConsumidos').then(function(data){
             $scope.refrigConsumidos = data.rows.map(function(m){return m.doc;});
             $scope.refrigConsumidos = _($scope.refrigConsumidos).sortBy(function (el) {
                 return el.nombre;
             });
+            $scope.record.refrigConsumidos = $scope.refrigConsumidos[0];
         });
          Manager.record('Sustancia').then(function(data){
             $scope.Sustancia = data.rows.map(function(m){return m.doc;});
             $scope.Sustancia = _($scope.Sustancia).sortBy(function (el) {
                 return el.nombre;
             });
+            $scope.record.Sustancia = $scope.Sustancia[0];
         });
         Manager.record('Sustancia1').then(function(data){
             $scope.Sustancia1 = data.rows.map(function(m){return m.doc;});
             $scope.Sustancia1 = _($scope.Sustancia1).sortBy(function (el) {
                 return el.nombre;
             });
+            $scope.record.Sustancia1 = $scope.Sustancia1[0];
         });
         Manager.record('equipoAire').then(function(data){
-            $scope.Sustancia1 = data.rows.map(function(m){return m.doc;});
-            $scope.Sustancia1 = _($scope.Sustancia1).sortBy(function (el) {
+            $scope.equipoAire = data.rows.map(function(m){return m.doc;});
+            $scope.equipoAire = _($scope.equipoAire).sortBy(function (el) {
                 return el.nombre;
             });
+
+            $scope.record.equipoAire = $scope.equipoAire[0];
         });
         Manager.record('equipoRefrigeracion').then(function(data){
-            $scope.Sustancia1 = data.rows.map(function(m){return m.doc;});
-            $scope.Sustancia1 = _($scope.Sustancia1).sortBy(function (el) {
+            $scope.equipoRefrigeracion = data.rows.map(function(m){return m.doc;});
+            $scope.equipoRefrigeracion = _($scope.equipoRefrigeracion).sortBy(function (el) {
                 return el.nombre;
             });
+            $scope.record.equipoRefrigeracion = $scope.equipoRefrigeracion[0];
         });
 
 
@@ -3145,6 +3397,7 @@ angular.module('app.sao')
 
                     case 'aire2':
                         $scope.record.Alternativas = SAO.Tabla9[0].alternativas[0];
+                        $scope.record.equipoAire = $scope.equipoAire[0];
                         $scope.year = 2011;
 
                         break;
@@ -3176,10 +3429,10 @@ angular.module('app.sao')
 
                         break;
                     case 'importaciones1':
-                        $scope.record.Sustancia = SAO.SustanciasTabla6[0];
-                        $scope.record.Sustancia1 = SAO.SustanciasTabla6a[0];
+                        $scope.record.Sustancia = $scope.Sustancia[0];
+                        $scope.record.Sustancia1 = $scope.Sustancia1[0];
                         $scope.year = 2011;
-                        $scope.year2 = 2020;
+                        $scope.year_future = 2020;
                         
 
                         break;
@@ -3188,7 +3441,7 @@ angular.module('app.sao')
                         $scope.record.aplicacionAire = SAO.AplicacionAire[0];
                         $scope.record.aplicacionRefri = SAO.AplicacionRefri[0];
                         $scope.record.Estado = SAO.Estado[0];
-                        $scope.record.personal = SAO.Personal[0];
+                        $scope.record.personal = [SAO.Personal[0]];
                          $scope.record.habilitado=false;
                         // $scope.record.personal = SAO.Personal[0];
                         $scope.year = 2011;
@@ -3206,11 +3459,12 @@ angular.module('app.sao')
                         break;
                     case 'empresa3':
                         $scope.record.Alternativas = SAO.Tabla13[0].alternativas[0];
-                        $scope.year = 2011;
+                        $scope.year = 2016;
 
                         break;
                     case 'empresa4':
                         $scope.record.sustancia = SAO.OrgProduccion[0];
+
                         //$scope.record.municipio = SAO.Provincias.municipios[0];
                         $scope.record.TipoAire = SAO.TipoAire[0];
                         $scope.record.TipoRefrigeracion = SAO.TipoRefri[0];
@@ -3280,7 +3534,8 @@ angular.module('app.sao')
                         break;
                     case 'refri':
                     case 'importaciones1':
-                        $scope.year = 2021;
+                        $scope.year = 2011;
+                        $scope.year_future = 2020;
                         break;
 
                     case 'espuma3':

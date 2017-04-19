@@ -25,7 +25,7 @@ background-image: url("../img/fondo_contenido.png");
     text-transform:capitalize;
 }
 .navbar-inverse .navbar-nav>li>a {
-    color: #fdc74a;
+    color: #f7a51d;
 }
 
 /*-------------Para enmarcar el menu activo------------------------*/
@@ -158,34 +158,49 @@ background-image: url("../img/fondo_contenido.png");
 .primary-menu
 {
     color:#fff;
-    background-color:#337ab7;
-    border-color:#2e6da4
+    background-color:#0075c1;
+    border-color:#0075c1
 }
 .success-menu
 {
     color:#fff;
-    background-color:#5cb85c;
-    border-color:#4cae4c
+    background-color:#324b1a;
+    border-color:#324b1a
 }
+.servicio
+{
+    color:#fff;
+    background-color:#261870;
+    border-color:#261870
+}
+.fabricante
+{
+    color:#fff;
+    background-color:#f7a51d;
+    border-color:#f7a51d
+}
+
+
 
 .info-menu
 {
     color:#fff;
-    background-color:#5bc0de;
-    border-color:#46b8da
+    background-color:#0067b2;
+    border-color:#0067b2
 }
 
 .warning-menu{
     color:#fff;
-    background-color:#f0ad4e;
-    border-color:#eea236
+    background-color:#cf6237;
+    border-color:#cf6237
 }
 
 
 
 .active-menu{
-    background-color: #fdc74a;
+   /* background-color: #fdc74a;*/
     color: black;
+    text-decoration: underline;
 }
 
 
@@ -213,7 +228,7 @@ i.mas{
 Leyenda en los graficos
 */
 .legend{
-    width: 100%;
+    width: 165%;
     border:1px solid gainsboro;
     margin-bottom: 0;
     margin-top: 10px;
@@ -434,6 +449,9 @@ input[type=checkbox], input[type=radio] {
     width:100%;
     /*padding-bottom: 90%;*/
 }
+.content {
+    min-height: 20px;
+    }
 /*@media (min-width: 1200px) {*/
     /*.col-lg-offset-1 {*/
         /*margin-left: 21.333333%;*/

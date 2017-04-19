@@ -14,15 +14,6 @@
 
                 </ul>
             </div>
-            <div class="btn-group" uib-dropdown is-open="status8.isopen">
-                <button id="single-button-empresa" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('empresa'),'primary-menu':!isActive('empresa')}">
-                    Empresa de Servicios de Clima y Refrigeración <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-
-                    <li role="menuitem"><a data-ng-click="SelectModal('empresa4')">Empresa de servicios del Clima y Refrigeración</a></li>
-                </ul>
-            </div>
             <div class="btn-group" uib-dropdown is-open="status7.isopen">
                 <button id="single-button-equipos" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('equipo'),'success-menu':!isActive('equipo')}">
                     Equipos de Clima y Refrigeración <span class="caret"></span>
@@ -31,12 +22,22 @@
                     <li role="menuitem"><a data-ng-click="SelectModal('importaciones2')" >Equipos de Clima y Refrigeración</a></li>
                 </ul>
             </div>
+            <div class="btn-group" uib-dropdown is-open="status8.isopen">
+                <button id="single-button-empresa" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('empresa'),'servicio':!isActive('empresa')}">
+                    Empresa de Servicios de Clima y Refrigeración <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+
+                    <li role="menuitem"><a data-ng-click="SelectModal('empresa4')">Empresa de servicios del Clima y Refrigeración</a></li>
+                </ul>
+            </div>
+            
             <div class="btn-group" uib-dropdown is-open="status9.isopen">
                 <button id="single-button-solventes" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('empresa3'),'warning-menu':!isActive('empresa3')}">
                    Consumo de Solventes <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a data-ng-click="SelectModal('empresa3')">Sector de solventes</a></li>
+                    <li role="menuitem"><a data-ng-click="SelectModal('empresa3')">Sector solventes</a></li>
                 </ul>
             </div>
 
@@ -61,7 +62,7 @@
                 <!--</ul>-->
             <!--</div>-->
             <div class="btn-group" uib-dropdown is-open="status3.isopen">
-                <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aire'),'warning-menu':!isActive('aire')}">
+                <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aire'),'fabricante':!isActive('aire')}">
                     Fabricante de <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">

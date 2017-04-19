@@ -30,7 +30,8 @@ angular.module('app.sao').filter('mainString',function () {
         return function(data){
             if (data!=undefined) {
 
-                switch (data){
+                switch (data)
+                {
                     case "year":return "A\u00F1o";
                     case "Organizacion":return "Organizaci\u00F3n";
                     case "Uso":return "Consumo (Toneladas m\u00E9tricas)";
@@ -61,6 +62,12 @@ angular.module('app.sao').filter('mainString',function () {
                     case "curso":return "Cant. CCBP ";
                     case "Sustancia":return "Sustancia importadores ";
                     case "Sustancia1":return "Pronóstico sustancia";
+                    case "Pronostico":return "Pronóstico ";
+                    case "equipoRefrigeracion":return "Equipo";
+                    case "equipoAire":return "Equipo";                    
+                    case "osde":return "OSDE";                    
+                    case "oace":return "OACE";                    
+                    case "ueb":return "UEB";                    
                     default: return data;
                 }
 
@@ -181,7 +188,23 @@ angular.module('app.sao').filter('mainString',function () {
 })
     .filter('fancy', function () {
         return function (input){
-            return (input.toLowerCase()=='osde') ? input.toUpperCase() : input;
+
+            switch (input){
+                case 'osde': return input.toUpperCase();
+                case 'ueb': return 'UEB';
+                case 'oace': return 'OACE';
+                case 'oace': return 'OACE';
+                case 'refrigeracion': return 'Refrigeraci\u00F3n';
+                case 'refrigConsumidos': return 'Refrigeraci\u00F3n';
+                case 'Sustancia': return 'Sustancias Importadores';
+                case 'Sustancia1': return 'Pron\u00F3stico sustancia';
+                case 'equipoAire': return 'Equipo Aire';
+                case 'equipoRefrigeracion': return 'Equipo Refrigeraci\u00F3n';                
+                default:
+                    return input;
+
+            }
+
         }
     })
 ;
