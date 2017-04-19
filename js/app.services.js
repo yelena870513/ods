@@ -251,6 +251,10 @@ angular.module('app.sao')
         return db.close();
     };
 
+    manager.clear = function(){
+        return db.destroy();
+    };
+
     return manager;
 })
 
@@ -994,6 +998,7 @@ angular.module('app.sao')
             "aire":["aire1","aire2","aire3","consumo","aerosoles"],
             "refri":["refri"],
             "aerosoles":["aerosoles"],
+            "fabricante":["aire2","consumo","aerosoles"],
             "solventes":[],
             "empresa3":["empresa3"],
             "importaciones":["importaciones1","importaciones3","importaciones"],

@@ -15,10 +15,10 @@ fs.exists(os.tmpdir()+'/.sao/data',function (exists) {
 });
 
 
-var replicationStream = require('pouchdb-replication-stream');
+//var replicationStream = require('pouchdb-replication-stream');
 var MemoryStream = require('memorystream');
-PouchDB.plugin(replicationStream.plugin);
-PouchDB.adapter('writableStream', replicationStream.adapters.writableStream);
+//PouchDB.plugin(replicationStream.plugin);
+//PouchDB.adapter('writableStream', replicationStream.adapters.writableStream);
 
 angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFileUpload','ngStorage','angular-electron','ui.select','ngSanitize','angularUtils.directives.dirPagination']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/general');
@@ -82,10 +82,19 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             templateUrl:'template/data-table/saora-table.html',
             controller:'reportController'
         }).
+    state('list.fabricante',{
+        url:'/fabricante',
+        templateUrl:'template/data-table/fabricante-table.html',
+        controller:'reportController'
+    }).state('list.equipo',{
+        url:'/equipo',
+        templateUrl:'template/data-table/equipo-table.html',
+        controller:'reportController'
+    }).
 
 
 
-        ///Graficas
+    ///Graficas
         state('charts',{
             url:'/charts',
             templateUrl:'template/charts.html',

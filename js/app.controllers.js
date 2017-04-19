@@ -508,6 +508,14 @@ angular.module('app.sao')
 
         };
 
+        $scope.ClearBase= function ()
+        {
+            Manager.clear().then(function () {
+                alert('Base de datos limpiada');
+            });
+
+        };
+
         $scope.Delete = function(record, size) {
             var instance = $uibModal.open({
                 animation: true,
@@ -1244,6 +1252,13 @@ angular.module('app.sao')
                             $scope.pies.push(graph);
                         }
 
+                        if (charting=="importaciones1") {
+                            var gimp = Use(y);
+                            if (gimp!=undefined) {
+                                $scope.pies.push(gimp);
+                            }
+                        }
+
                     });
                 }
 
@@ -1572,7 +1587,7 @@ angular.module('app.sao')
 
                     });
                     // $scope.years = [2011,2012,2013,2014,2015,2016];
-                    $scope.years = [2020,2025,2030];
+                    $scope.years = [2011,2012,2013,2014,2015,2016,2020,2025,2030];
 
                     $scope.bar = {
                         "labels":['2011', '2012','2013','2014','2015','2016'],
@@ -2190,12 +2205,14 @@ angular.module('app.sao')
                {
                    case'aire3':
                    case'aire2':
+                       return l.equipoAire.nombre;
+                   case'consumo':
+                       return l.equipoRefrigeracion.nombre;
                    case'refri':
                    case'empresa1':
                    case'empresa2':
                    case'empresa3':
                    case'aerosoles':
-                   case'consumo':
                        return l.Aplicaciones.nombre;
 
                    case'general2':
@@ -2283,7 +2300,7 @@ angular.module('app.sao')
                         {
                             for (var k = 0;k< match[n].Pronostico.length;k++)
                             {
-                                if(cat==0)
+                                if(cat==0 &&match[n].Pronostico[k].anno==year )
                                 {
                                     cat = match[n].Pronostico[k].tons;
                                 }
@@ -2302,34 +2319,21 @@ angular.module('app.sao')
 
 
                 });
-                // var row ={
-                //     Uso:[]
-                // };
-                // for(var n=0;n<pieTableData.length;n++)
-                // {
-                //     if(pieTableData[n]!=undefined)
-                //     {
-                //         for (var k = 0;k< pieTableData[n].Uso.length;k++)
-                //         {
-                //             if(row.Uso[k]==undefined)
-                //             {
-                //                 row.Uso[k] = pieTableData[n].Uso[k]
-                //             }
-                //             else
-                //             {
-                //                 if(row.Uso[k].anno==pieTableData[n].Uso[k].anno)
-                //                 {
-                //                     row.Uso[k].tons+=pieTableData[n].Uso[k].tons;
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
+                for(var i=0;i<pieTableData.length;i++)
+                {
+                    if(pieTableData[i]==0)
+                    {
+                        pieLabels[i]=undefined;
+                    }
+                }
 
+                pieLabels = pieLabels.filter(function (pl) {
+                    return pl!=undefined;
+                });
 
-                // pieTableData = _(pieTableData).reject(function (t) {
-                //     return t == 0;
-                // });
+                pieTableData = pieTableData.filter(function (pt) {
+                    return pt>0;
+                });
             }
 
             else {
@@ -2531,6 +2535,71 @@ angular.module('app.sao')
                 chart = BuildCharts(pieLabels,pieTableData,"Cantidad recuperada.");
                 $scope.pies.push(chart);
             }
+
+        }
+
+        function Use(year)
+        {
+
+            var chart = {};
+            var pieLabels = $scope.records.map(function (im) {
+                return im.Sustancia.nombre;
+            });
+
+            var pieTableData = [];
+
+            pieLabels.forEach(function (pl)
+            {
+                var match = $scope.records.filter(function (ny) {
+                    return ny.Sustancia1.nombre==pl;
+                });
+                var cat = 0;
+
+                for(var n=0;n<match.length;n++)
+                {
+                    if(match[n]!=undefined)
+                    {
+                        for (var k = 0;k< match[n].Uso.length;k++)
+                        {
+                            if(cat==0 &&match[n].Uso[k].anno==year )
+                            {
+                                cat = match[n].Uso[k].tons;
+                            }
+                            else
+                            {
+                                if(match[n].Uso[k].anno==year)
+                                {
+                                    cat+=match[n].Uso[k].tons;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                pieTableData.push(cat);
+
+
+            });
+
+            for(var i=0;i<pieTableData.length;i++)
+            {
+                if(pieTableData[i]==0)
+                {
+                    pieLabels[i]=undefined;
+                }
+            }
+
+            pieLabels = pieLabels.filter(function (pl) {
+                return pl!=undefined;
+            });
+
+            pieTableData = pieTableData.filter(function (pt) {
+                return pt>0;
+            });
+
+            chart = BuildCharts(pieLabels,pieTableData,"Consumo ."+'A\u00F1o '+year);
+
+            return chart;
 
         }
 
