@@ -7,6 +7,9 @@ angular.module('app.sao')
     });
     db.setMaxListeners(100);
 
+    var records = [];
+    var nomencladores = ['ministerio','provincia','municipio','empresa','osde','oace', 'ueb', 'aire','refrigeracion', 'refrigConsumidos','Sustancia','Sustancia1','equipoAire','equipoRefrigeracion'];
+
 
     ////***private
     function createDesignDoc(name, mapFunction) {
@@ -90,6 +93,35 @@ angular.module('app.sao')
 
        return d.promise;
 
+   };
+
+   manager.unify = function () {
+       //Unificando nomecladores
+       var d = [];
+
+       nomencladores.forEach(function (nm)
+       {
+          var p=  manager.record(nm).then(function (results)
+           {
+               var dupes = results.rows.map(function (el) {
+                   return el.doc;
+               });
+               var unicos = _(dupes).uniq(function (it) {
+                   return it.nombre;
+               });
+
+               manager.delete(dupes.map(function (de) {
+                   de._deleted=true;
+                   return de;
+               }));
+
+               manager.update(unicos);
+           });
+
+           d.push(p);
+       });
+
+       return $q.all(d)
    };
 
 
@@ -999,10 +1031,10 @@ angular.module('app.sao')
             "refri":["refri"],
             "aerosoles":["aerosoles"],
             "fabricante":["aire2","consumo","aerosoles"],
-            "solventes":[],
+            "solventes":["empresa3"],
             "empresa3":["empresa3"],
             "importaciones":["importaciones1","importaciones3","importaciones"],
-            "empresa":["empresa1","empresa2","empresa4"],
+            "empresa":["empresa4"],
             "equipo":["equipo","importaciones2"]
         };
     })

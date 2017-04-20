@@ -41,13 +41,13 @@
 
         </div>
         <div class="form-group">
-            <label for="t3">Sustancia importadores:</label>
+            <label for="t3">Sustancias importadores:</label>
             <ui-select theme="bootstrap"
                        style="width: 100%;" tabindex="-1"
                        aria-hidden="true"
 
                        data-ng-model="record.Sustancia">
-                <ui-select-match placeholder="Sustancia Importadores">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-match placeholder="Sustancias">{{$select.selected.nombre}}</ui-select-match>
                 <ui-select-choices repeat="item in Sustancia">
                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                 </ui-select-choices>

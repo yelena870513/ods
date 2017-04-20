@@ -215,11 +215,11 @@ angular.module('app.sao')
              "personal": [SAO.Personal[0]],
              "Estado": SAO.Estado[0],
              "capacidad":"",
-             "curso":"",
+             "curso":0,
              "cantidadbp":"",
              "inventario":"",
              "servicio":"No",
-             "empresa":"empresa",
+             "empresa":"",
              "experiencia":"",
             "tipo":"importaciones2"
         };
@@ -512,6 +512,7 @@ angular.module('app.sao')
         {
             Manager.clear().then(function () {
                 alert('Base de datos limpiada');
+                window.location.reload();
             });
 
         };
@@ -790,12 +791,12 @@ angular.module('app.sao')
 
                 case 'espuma1':
                 case 'importaciones1':
-                    rows = ReduceItems(data,"Sustancia");
+                    rows = ReduceItems(data,"Sustancia",table);
                     break;
                 case 'espuma2':
                 case 'espuma3':
 
-                    rows = ReduceItems(data,"Subsector");
+                    rows = ReduceItems(data,"Subsector",table);
                     break;
                 case 'aire2':
                 //case 'aire3':
@@ -805,13 +806,13 @@ angular.module('app.sao')
                 case 'empresa1':
                 case 'empresa2':
                 case 'empresa3':
-                    rows = ReduceItems(data,"Aplicaciones");
+                    rows = ReduceItems(data,"Aplicaciones",table);
                     break;
-                case 'empresa4':
-                    rows = data.filter(function (em) {
-                        return em.sustanciasR >0;
-                    });
-                    break;
+                // case 'empresa4':
+                //     rows = data.filter(function (em) {
+                //         return em.sustanciasR >0;
+                //     });
+                //     break;
                 default:
                     rows = data;
                     break;
@@ -820,8 +821,11 @@ angular.module('app.sao')
             return rows;
         }
 
-        function ReduceItems(source, property) {
+        function ReduceItems(source, property,table) {
             var rows = [];
+            var t = _($scope.columns).find(function (cv) {
+                return cv.tipo==table;
+            });
             for(var d=0;d<source.length;d++)
             {
 
@@ -838,7 +842,8 @@ angular.module('app.sao')
                         return  id[property].nombre==c;
                     });
                     var row = {
-                        "Uso":[]
+                        "Uso":[],
+                        "Pronostico":[]
                     };
 
                     row[property]={
@@ -861,8 +866,29 @@ angular.module('app.sao')
                         }
                     });
 
+                    _.each(where,function (o)
+                    {
+                        if (row.Pronostico!=undefined)
+                        {
+                            if (row.Pronostico.length==0)
+                            {
+                                row.Pronostico = o.Pronostico;
+                            }
+                            else
+                            {
+                                _.each(o.Pronostico,function (u,index)
+                                {
+                                    row.Pronostico[index].tons+=u.tons;
+                                });
+                            }
+                        }
+                    });
+
                     //Inclusive properties
                     var props = Object.keys(source[d]);
+                    if (t!=undefined) {
+                        props = t.fields;
+                    }
                     props = _.without(props,property);
                     _.each(props,function (p) {
                         row[p]=source[d][p];
@@ -1169,6 +1195,18 @@ angular.module('app.sao')
         var charting = '';
         var active = '';
         $scope.user = undefined;
+        var titles = {
+            "importaciones2":"Equipos de Clima y Refrigeraci\u00F3n.",
+            "empresa4":"Empresa de Servicios de Clima y Refrigeraci\u00F3n.",
+            "empresa3":"Consumo de  Solventes.",
+            "importaciones1":"Demanda de SAO y refrigerantes alternativos de SAO.",
+            "aire2":"Fabricante de Aires Acondicionados.",
+            "consumo":"Fabricante de Refrigeraci\u00F3n.",
+            "aerosoles":"Fabricante de Aerosoles."
+
+        };
+
+        $scope.chartTitle = "";
         $scope.isPrinting = false;
         $scope.records= [];
         $scope.refrigConsumidos = [];
@@ -1215,6 +1253,7 @@ angular.module('app.sao')
         $scope.SelectChart= function (chart) {
             $scope.pies=[];
             charting = chart;
+            $scope.chartTitle = titles[charting];
             for (var i in SType)
             {
                 var tags = SType[i];
@@ -2023,61 +2062,6 @@ angular.module('app.sao')
 
                     break;
 
-                // case 'importaciones2':
-                //
-                //     names = [];
-                //     table  = {
-                //         names:[],
-                //         data:[]
-                //     };
-                //     table.names = $scope.records.map(function (el)
-                //     {
-                //         return el.Alternativa.nombre;
-                //     });
-                //
-                //     table.names.forEach(function (el) {
-                //         var rec = $scope.records.filter(function (r) {
-                //             return r.Alternativa.nombre;
-                //         })[0];
-                //
-                //         if (rec!=undefined)
-                //         {
-                //
-                //             var uso  = rec.Uso.map(function (m) {
-                //                 return m.tons;
-                //             });
-                //
-                //             table.data.push(uso);
-                //             names.push(el);
-                //             table.names = names;
-                //         }
-                //
-                //
-                //
-                //     });
-                //     $scope.years = [2011,2012,2013,2014,2015,2016];
-                //
-                //     $scope.bar = {
-                //         "labels":['2011', '2012', '2013', '2014','2015','2016'],
-                //         "series":table.names,
-                //         "data": table.data,
-                //         "show":true,
-                //         options: {
-                //             title:{
-                //                 display:true,
-                //                 //text:"Importaciones"
-                //                 text:"Cantidad de importaciones de alternativas de ODS."
-                //             },
-                //             legend: {
-                //                 display: true,
-                //                 position: 'top'
-                //             }
-                //
-                //         }
-                //     };
-                //
-                //
-                //     break;
 
                 case 'aire3':
                     names = [];
@@ -2542,16 +2526,16 @@ angular.module('app.sao')
         {
 
             var chart = {};
-            var pieLabels = $scope.records.map(function (im) {
+            var pieLabels = _($scope.records.map(function (im) {
                 return im.Sustancia.nombre;
-            });
+            })).uniq();
 
             var pieTableData = [];
 
             pieLabels.forEach(function (pl)
             {
                 var match = $scope.records.filter(function (ny) {
-                    return ny.Sustancia1.nombre==pl;
+                    return ny.Sustancia.nombre==pl;
                 });
                 var cat = 0;
 
@@ -2908,6 +2892,7 @@ angular.module('app.sao')
             var msg = {
                 experiencias:'Introduzca la carga.',
                 alternativa:'Nombre de alternativa incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
+                empresa:'Nombre de empresa incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
                 unidades:'Introduzca el No. unidades.',
                 limpieza:'Introduzca las sustancias de limpieza.',
                 capacidad:'Introduzca la capacidad.',
@@ -3533,6 +3518,7 @@ angular.module('app.sao')
                         break;
                     case 'empresa4':
                         $scope.record.sustancia = SAO.OrgProduccion[0];
+                        $scope.record.refrigConsumidos = [];
 
                         //$scope.record.municipio = SAO.Provincias.municipios[0];
                         $scope.record.TipoAire = SAO.TipoAire[0];
@@ -4044,11 +4030,11 @@ angular.module('app.sao')
        $scope.isLoading = false;
        $scope.error = {
            show : false,
-           message:'Database Sync Failed'
+           message:'Error al cargar la base de datos.'
        };
        $scope.operation = {
            show:false,
-           message:'Database Sync Done!'
+           message:'Base de datos cargada correctamente.'
        };
 
         $scope.Close = function() {
@@ -4085,7 +4071,12 @@ angular.module('app.sao')
             $scope.isLoading = true;
             var file = data.pop();
             Manager.from(file.path).then(function () {
-                $scope.operation.show = true;
+                // $scope.operation.show = true;
+                Manager.unify().then(function () {
+                  $timeout(function () {
+                      $scope.operation.show = true;
+                  },5000);
+                });
             }).catch(function () {
                 $scope.error.show = true;
             }).finally(function () {

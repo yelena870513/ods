@@ -40,6 +40,7 @@ angular.module('app.sao').filter('mainString',function () {
                     case "Capacidad":return "Capacidad frigor\u00EDfica";
                     case "unidades":return "No. unidades";
                     case "experiencias":return "Carga (Kg)";
+                    case "experiencia":return "Explotaci\u00F3n";
                     case "Estado":return "Estado t\u00E9nico";
                     case "explotacion":return "Consumo (Toneladas m\u00E9tricas)";
                     case "SustaciaAire":return "Aire";
@@ -193,13 +194,13 @@ angular.module('app.sao').filter('mainString',function () {
                 case 'osde': return input.toUpperCase();
                 case 'ueb': return 'UEB';
                 case 'oace': return 'OACE';
-                case 'oace': return 'OACE';
                 case 'refrigeracion': return 'Refrigeraci\u00F3n';
                 case 'refrigConsumidos': return 'Refrigeraci\u00F3n';
                 case 'Sustancia': return 'Sustancias Importadores';
                 case 'Sustancia1': return 'Pron\u00F3stico sustancia';
                 case 'equipoAire': return 'Equipo Aire';
                 case 'equipoRefrigeracion': return 'Equipo Refrigeraci\u00F3n';                
+                case 'aplicacionAire': return 'Aplicaci\u00F3n Aire';
                 default:
                     return input;
 

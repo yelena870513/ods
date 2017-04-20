@@ -24,8 +24,8 @@
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li role="menuitem">
-                        <a ng-click="SelectChart('empresa4')">Refrigerantes Consumidos 2016</a>
-                        <a ng-click="SelectChart('empresa4')">Cantidad Recuperada</a>
+                        <a ng-click="SelectChart('empresa4')">Refrigerantes Consumidos 2016 y Cantidad Recuperada</a>
+                        <!-- <a ng-click="SelectChart('empresa4')">Cantidad Recuperada</a> -->
                     </li>
                 </ul>
             </div>
@@ -87,9 +87,16 @@
             </div>
         </section>
         <section class="content container-fluid" data-ng-show="pies.length>0" >
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="header">
+                        {{chartTitle}}
+                    </div>
+                </div>
+            </div>
 
             <div class="row" data-ng-repeat="pie in pies">
-                <div class="col-md-12" data-ng-show="pie.show" style="width: 15%" >
+                <div class="col-md-6" data-ng-show="pie.show" style="width: 15%" >
                     <canvas id="{{pie.options.title.text}}" class="chart chart-pie"   data-chart-data="pie.data" data-chart-labels="pie.labels" data-chart-options="pie.options">
                     </canvas>
                     <div class="chart-legend legend" model="{{pie.options.title.text}}" id="pieLegend{{pie.options.title.text}}"></div>

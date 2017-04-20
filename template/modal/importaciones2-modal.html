@@ -62,8 +62,8 @@
 
                     </div>
                     <div class="form-group">
-                         <label >Años de experiencia:</label>
-                        <input  class="form-control" type="number" min="0"  placeholder="experiencia" data-ng-model="record.experiencia" data-ng-class="{'control-error':error.show && error.tipo=='experiencia'}"/>
+                         <label >Años de explotación:</label>
+                        <input  class="form-control" type="number" min="0"  placeholder="Años" data-ng-model="record.experiencia" data-ng-class="{'control-error':error.show && error.tipo=='experiencia'}"/>
                         </div>
                     <div class="form-group">
                     <label >Poseo personal de refrigeración:</label>
@@ -91,13 +91,13 @@
             <label>Recibo servicios de la empresa de Clima y Refrigeración:</label><br>
             <label>Sí/No</label>
             <div class="form-group">
-                <input type="checkbox" data-ng-model="record.servicio" data-ng-true-value="'Sí'" data-ng-false-value="'No'"/>
+                <input type="checkbox" data-ng-model="record.servicio" data-ng-true-value="'Sí'" data-ng-false-value="'No'" ng-checked="record.servicio=='Sí'"/>
             </div>
 
         </div>
         <div class="col-md-6" data-ng-show="record.servicio=='Sí'">
             <label for="algo">Nombre de la Empresa</label>
-            <input id="algo" type="text" data-ng-model="record.empresa" />
+            <input id="algo" type="text" data-ng-model="record.empresa" data-ng-class="{'control-error':error.show && error.tipo=='empresa'}" placeholder="Empresa" />
         </div>
     </div>
 

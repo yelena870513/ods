@@ -1,33 +1,36 @@
 {
-  "name": "SAO",
-  "version": "1.0.0",
-  "homepage": "http://wwww.npm.org",
-  "authors": [
-    "NPM Team <npm@org.com>"
-  ],
-  "description": "SAO Electron App",
-  "main": "index.html",
-  "moduleType": [
-    "amd",
-    "globals"
-  ],
-  "keywords": [
-    "sao"
-  ],
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "bower_components",
-    "vendor",
-    "examples"
-  ],
-  "dependencies": {
-    "chart.js": "^2.4.0",
-    "angular-messages": "^1.6.1",
-    "angular-electron": "^0.2.1",
-    "angular-ui-select": "^0.19.6"
-  },
-  "resolutions": {
-    "angular": "1.6.1"
-  }
+    "name": "SAO",
+    "version": "1.0.0",
+    "homepage": "http://www.citmatel.cu",
+    "authors": [
+        "Yelena Islen San Juan <yelena870513@gmail.com>",
+        "Felix Ivan Romero Rodriguez <firomerorom4@gmail.com>",
+    ],
+    "description": "Censo nacional de sustancias refrigerantes",
+    "main": "index.html",
+    "moduleType": [
+        "amd",
+        "globals"
+    ],
+    "keywords": [
+        "sao",
+        "Censo",
+        "hfc"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "bower_components",
+        "vendor",
+        "examples"
+    ],
+    "dependencies": {
+        "chart.js": "^2.4.0",
+        "angular-messages": "^1.6.1",
+        "angular-electron": "^0.2.1",
+        "angular-ui-select": "^0.19.6"
+    },
+    "resolutions": {
+        "angular": "1.6.1"
+    }
 }
