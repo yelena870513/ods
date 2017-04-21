@@ -3241,15 +3241,22 @@ angular.module('app.sao')
 
             if (element.tipo=='datos')
             {
-               return Manager.record('datos').then(function (data) {
-                    if (data.rows.length==0) {
-                        return AddElement(element);
-                    }
-                    else{
-                        return Manager.update(element).then(function(fn){Finish();});
-                    }
+               var least = _(documents).find(function(pattern){
+                   return pattern.tipo==element.tipo;
+               });
 
-                });
+                if (least==undefined)
+                {
+                    return AddElement(element);
+                }
+                else
+                {
+                   return Manager.delete(least).then(function () {
+                       return AddElement(element);
+                    });
+
+                }
+
             }
             else
 
@@ -3302,7 +3309,9 @@ angular.module('app.sao')
                Add($scope.record).then(function(){
                    Finish($scope.record.tipo);
                }
-               );
+               ).catch(function(reason){
+                   console.warn(reason);
+               });
 
 
            }
