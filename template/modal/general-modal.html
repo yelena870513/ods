@@ -1,43 +1,115 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="Close()">
         <span aria-hidden="true">×</span></button>
+
     <h4 class="modal-title">Datos generales</h4>
+
 </div>
 <div class="modal-body">
     <div class="row-fluid">
+
+        <div class="alert alert-danger alert-dismissable" data-ng-show="error.show">
+            <button type="button" class="close" ng-click="error.show = false;" aria-hidden="true">×</button>
+            {{error.message}}
+        </div>
+
         <div class="col-md-6">
             <div class="form-group">
-                <label>Provincia:</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                        data-ng-model="general.provincia"
-                        data-ng-options="item as item.nombre for item in SAO.Provincias">
-                </select>
-                </br>
-                <label>Ministerio:</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                        data-ng-model="general.ministerio"
-                        data-ng-options="item as item.nombre for item in SAO.Ministerio">
-                </select>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Provincia:</label>
+                        <ui-select theme="bootstrap" style="width: 100%;" tabindex="-1"aria-hidden="true"id="pr" data-ng-model="record.provincia" on-select="SelectMunicipio($item,$model)"><ui-select-match placeholder="Provincia">{{$select.selected.nombre}}</ui-select-match><ui-select-choices repeat="item in provincias"><div ng-bind-html="item.nombre | highlight: $select.search"></div></ui-select-choices></ui-select>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label>OSDE:</label>
-                <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true"
-                        data-ng-model="general.osde"
-                        data-ng-options="item as item.nombre for item in SAO.OSDE">
-                </select>
+                <label>Municipio:</label>
+                <ui-select theme="bootstrap"
+                           style="width: 100%;" tabindex="-1"
+                           aria-hidden="true"
+                           id="mu"
+                           data-ng-model="record.municipio"
+
+                >
+                    <ui-select-match placeholder="Municipio">{{$select.selected.nombre}}</ui-select-match>
+                    <ui-select-choices repeat="item in municipios">
+                        <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+
+
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Ministerio:</label>
+                <ui-select theme="bootstrap"
+                           style="width: 100%;" tabindex="-1"
+                           aria-hidden="true"
+                           id="mi"
+                           data-ng-model="record.ministerio">
+                    <ui-select-match placeholder="Ministerio">{{$select.selected.nombre}}</ui-select-match>
+                    <ui-select-choices repeat="item in ministerios">
+                        <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+
+
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label >UEB:</label>
+                <input  class="form-control" type="text" placeholder="UEB" data-ng-model="record.ueb1" data-ng-class="{'control-error':error.show && error.tipo=='ueb1'}"/>
 
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Empresa:</label>
-                <input id="exampleInputEmail1" class="form-control" type="text" placeholder="Introduzca la empresa" data-ng-model="general.empresa">
+                <label >OACE:</label>
+                <input  class="form-control" type="text" placeholder="OACE" data-ng-model="record.oace1" data-ng-class="{'control-error':error.show && error.tipo=='oace1'}"/>
+
+            </div>
+            <div class="form-group">
+                <label >Empresa:</label>
+                <input  class="form-control" type="text" placeholder="Empresa" data-ng-model="record.empresa1" data-ng-class="{'control-error':error.show && error.tipo=='empresa1'}"/>
+            </div>
+
+            <div class="form-group">
+                <label >OSDE:</label>
+                <input  class="form-control" type="text" placeholder="OSDE" data-ng-model="record.osde1" data-ng-class="{'control-error':error.show && error.tipo=='osde1'}"/>
+            </div>
+            <div class="form-group">
+                <label >Dirección:</label>
+                <input  class="form-control" type="text" placeholder="Dirección" data-ng-model="record.direccion" data-ng-class="{'control-error':error.show && error.tipo=='direccion'}"/>
+            </div>
+            <div class="form-group">
+                <label >Teléfono:</label>
+                <input  class="form-control" type="number" min="0" placeholder="" data-ng-model="record.telefono" data-ng-class="{'control-error':error.show && error.tipo=='telefono'}"/>
+            </div>
+            <div class="form-group">
+                <label >Correo:</label>
+                <input  class="form-control" type="text" placeholder="Correo" data-ng-model="record.correo" data-ng-class="{'control-error':error.show && error.tipo=='correo'}"/>
+            </div>
+            <div class="form-group">
+                <label >Nombre del Representante:</label>
+                <input  class="form-control" type="text" placeholder="Nombre" data-ng-model="record.representante" data-ng-class="{'control-error':error.show && error.tipo=='representante'}"/>
+            </div>
+            <div class="form-group">
+                <label >Nombre del director:</label>
+                <input  class="form-control" type="text" placeholder="Nombre" data-ng-model="record.director" data-ng-class="{'control-error':error.show && error.tipo=='director'}"/>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-ng-click="Close()">
-            Cerrar
-        </button>
+        <button type="button" class="btn btn-primary"  data-ng-click="Save()"> <span data-ng-if="action!='edit'">Aceptar</span>
+               <span data-ng-if="action=='edit'">Aceptar</span>
+        </button> <button type="button" class="btn btn-danger"  data-ng-click="Close()">
+        Cerrar
+    </button>
     </div>
 </div>

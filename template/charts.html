@@ -96,7 +96,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6" data-ng-show="pie.show" style="width: 15%" data-ng-repeat="pie in pies">
+                <div class="col-md-6" data-ng-show="pie.show" style="width: 30%" data-ng-repeat="pie in pies">
                     <canvas id="{{pie.options.title.text}}" class="chart chart-pie"   data-chart-data="pie.data" data-chart-labels="pie.labels" data-chart-options="pie.options">
                     </canvas>
                     <div class="chart-legend legend" model="{{pie.options.title.text}}" id="pieLegend{{pie.options.title.text}}"></div>

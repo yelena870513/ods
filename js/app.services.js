@@ -632,19 +632,7 @@ angular.module('app.sao')
             "id": "5",
             "nombre": 'Extintores '
         }],
-        // "AplicacionAire": [{
-        //     "id": "1",
-        //     "nombre": 'Aire acondicionado de Habitaciones ( incluye pequeños splits ) '
-        // }, {
-        //     "id": "2",
-        //     "nombre": 'Otros Aires Acondicionados ( incluyendo splits, multi-splits y otros)'
-        // }, {
-        //     "id": "3",
-        //     "nombre": 'Chillers ( pequeños, medianos y grandes enfriados por agua) '
-        // }, {
-        //     "id": "4",
-        //     "nombre": 'No doy servicio'
-        // }],
+
         "AplicacionAire": [{
             "id": "1",
             "nombre": 'Pequeño autónomo (AAV) '
@@ -743,29 +731,6 @@ angular.module('app.sao')
             "nombre": 'Sistemas de refrigeración por barcos'
         }],
 
-
-        //  "AplicacionRefri": [{
-        //     "id": "1",
-        //     "nombre": 'Refrigeradores domésticos y freezers'
-        // }, {
-        //     "id": "2",
-        //     "nombre": 'Sistemas de refrigeración comercial'
-        // }, {
-        //     "id": "3",
-        //     "nombre": 'Sistemas de distribución grande '
-        // }, {
-        //     "id": "4",
-        //     "nombre": 'Sistemas Industriales (Chillers)'
-        // }, {
-        //     "id": "5",
-        //     "nombre": 'Transportes refrigerados (contenedores y barcos)'
-        // }, {
-        //     "id": "6",
-        //     "nombre": 'No doy servicio'
-        // }],
-
-
- 
 
         "SectoresAnexo": [{
             "id": "1",
@@ -907,8 +872,7 @@ angular.module('app.sao')
         "OrgProduccion":[{"id":"1","nombre":'Brigada de trabajo fija'},{"id":"2","nombre":'Brigada de trabajo móvil'}, {"id":"3","nombre":'Individuo fijo '},{"id":"4","nombre":'Individuo móvil'}],
         "TipoRefri":[{"id":"1","nombre":'Doméstica'},{"id":"2","nombre":'Comercial'},{"id":"3","nombre":'Industrial'},{"id":"4","nombre":'Móvil (Contenedores refrigerados)'}],
         "TipoAire":[{"id":"1","nombre":'Doméstica (Ventana)'},{"id":"2","nombre":'Comercial (Split, consolas, etc)'},{"id":"3","nombre":'Acondicionado industrial (Enfriadoras de agua u otras sustancias)'},{"id":"4","nombre":'Móvil (Autos, guaguas, camiones, etc)'}],
-        // "CantRefriAire":[{"id":"1","nombre":'HCFC'},{"id":"2","nombre":'HFC'},{"id":"3","nombre":'Natural'}],
-        // "CantRefriRefri":[{"id":"1","nombre":'HCFC'},{"id":"2","nombre":'HFC'},{"id":"3","nombre":'Natural'}],
+
         "Aplicaciones8":[
             {"id":1,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos y freezers"}, "carga":{"nombre":"0.1-0.3"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HC-600a"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Sistemas de refrigeración comercial"}, "carga":{"nombre":"0.1-200"},"alternativas":[{"id":1,"nombre":"R-404A"},{"id":2,"nombre":"HFC-134a"},{"id":3,"nombre":"HC-290"},{"id":4,"nombre":"R-407A"},{"id":5,"nombre":"R-744"}]},
@@ -927,7 +891,6 @@ angular.module('app.sao')
             {"id":8,"aplicacion":{"id":1,"nombre":"Acondicionadores de Aire"}, "alternativas":[{"id":1,"nombre":"Pequeño Autónomo"},{"id":2,"nombre":"Mini-split "},{"id":3,"nombre":"Multi-split "},{"id":4,"nombre":"Split comercial con conductos"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
             {"id":9,"aplicacion":{"id":1,"nombre":"Solventes"}, "alternativas":[{"id":1,"nombre":"Ninguno"}],"uso2":[{"id":1,"nombre":"Uso Hcfc"},{"id":2,"nombre":"Uso Hfc"},{"id":3,"nombre":"Uso alternativas"}]},
         ],
-        // "SustanciasTabla3":[{"id":"1","nombre":'Refrigerantes-Hidrocarburos'},{"id":"2","nombre":'Agente de expansión-Hidrocarburos '}, {"id":"3","nombre":'Metilformato'},{"id":"4","nombre":'Metilal'},{"id":"5","nombre":'CO2'},{"id":"6","nombre":'HFC-23 '},{"id":"7","nombre":'HFC-32 '},{"id":"8","nombre":'HFC-125 '},{"id":"9","nombre":'HFC-134a '},{"id":"10","nombre":'HFC-143a '},{"id":"11","nombre":'HFC-152a '},{"id":"12","nombre":'HFC-227ea '},{"id":"13","nombre":'HFC-245fa '},{"id":"14","nombre":'HFC-365mfc '},{"id":"15","nombre":'R-407C '},{"id":"16","nombre":'R-407F '},{"id":"17","nombre":'R-410A '},{"id":"18","nombre":'R-404A '}],
         "SustanciasTabla3":[{"id":"1","nombre":'HCFC-141b '},{"id":"2","nombre":'HCFC-142b '}, {"id":"3","nombre":'HCFC-22 '},{"id":"4","nombre":'HCFC-245a '},{"id":"5","nombre":'HFC-365mfc/HFC-227ea '},{"id":"6","nombre":'HFC-134a/HFC-152a '},{"id":"7","nombre":'HFO/HCFO '},{"id":"8","nombre":'Hidrocarburos'},{"id":"9","nombre":'Otros'}],
         "SubsectorTabla4":[{"id":"1","nombre":'Aislamiento de Refrigeración Doméstica'}, {"id":"2","nombre":'Aislamiento en otra aplicación'}, {"id":"3","nombre":'Contenedores Refrigerados'},{"id":"4","nombre":'Tableros'},{"id":"5","nombre":'Panel Continuo'},{"id":"6","nombre":'Panel Discontinuo'},{"id":"7","nombre":'Espuma en espray'},{"id":"8","nombre":'Tubería en tubería'},{"id":"9","nombre":'Bloques '},{"id":"10","nombre":'Bloques de Poliuretano'},{"id":"11","nombre":'Espuma: polietileno extruido '}],
         "Tabla5":[
@@ -941,15 +904,7 @@ angular.module('app.sao')
             {"id":1,"aplicacion":{"id":1,"nombre":"Aire acondicionado de Habitaciones ( incluye pequeños splits )"}, "carga":{"nombre":"0.2-3"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"HFC-32 "},{"id":4,"nombre":"HC-290"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Otros Aires Acondicionados ( incluyendo splits, multi-splits y otros) "}, "carga":{"nombre":"3-100 "},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-407C "},{"id":3,"nombre":"R-32 "},{"id":4,"nombre":"HC-290 "},{"id":5,"nombre":"CO2"}]},
             {"id":3,"aplicacion":{"id":1,"nombre":"Chillers ( pequeños, medianos y grandes enfriados por agua)"}, "carga":{"nombre":"500-13,000"},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HC-290 "},{"id":4,"nombre":"HC-1270 "},{"id":5,"nombre":"HFC-134a  "},{"id":6,"nombre":"HFC-32 "},{"id":7,"nombre":"R-717 "}]},
-            // {"id":4,"aplicacion":{"id":1,"nombre":"Bombas de Calor (calefacción de locales por bombas de calor (aire-agua) y bomba de calor domestica de agua caliente enfriada por aire"}, "carga":{"nombre":"3-6"},"alternativas":[{"id":1,"nombre":"R-410A "},{"id":2,"nombre":"R-744 "},{"id":3,"nombre":"HFC-134a "}]},
-            // {"id":5,"aplicacion":{"id":1,"nombre":"Gran sistema de calefacción urbana"}, "carga":{"nombre":"250-7,000 "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"R-717 "}]}
-        ],
-        // "Tabla12":[
-        //     {"id":1,"aplicacion":{"id":1,"nombre":"Espuma rigida de pouliretano "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"Pentano (C,I,N) "},{"id":4,"nombre":"Metil formato "},{"id":5,"nombre":"HFO-1233zd "},{"id":6,"nombre":"HFO-1336mzz "},{"id":7,"nombre":"CO2 "}]},
-        //     {"id":2,"aplicacion":{"id":1,"nombre":"Espuma en espray "},"alternativas":[{"id":1,"nombre":"HFC-245fa "},{"id":2,"nombre":"HFC-365mfc/HFC-227ea "},{"id":3,"nombre":"HFO-1233zd"},{"id":4,"nombre":"HFO-1336mzz "},{"id":5,"nombre":"CO2 "},{"id":6,"nombre":"Supercrítico CO2"}]},
-        //     {"id":3,"aplicacion":{"id":1,"nombre":"Piel Integral y espuma flexible moldeada "},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-245fa"},{"id":3,"nombre":"Metil formato "},{"id":4,"nombre":"Metilal"},{"id":5,"nombre":"CO2 "}]},
-        //     {"id":4,"aplicacion":{"id":1,"nombre":"Espumas de poliestireno extruido"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-152a "},{"id":3,"nombre":"HFO-1234ze "},{"id":4,"nombre":"CO2"},{"id":5,"nombre":"CO2/etanol "}]},
-        // ],
+            ],
         "Tabla12":[
             {"id":1,"aplicacion":{"id":1,"nombre":"MDI"},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"HFC-152a"},{"id":3,"nombre":"HFC-227ea "},{"id":4,"nombre":"Hidrocarburos"},{"id":5,"nombre":"DME "},{"id":6,"nombre":"HFO-1234ze"},{"id":7,"nombre":"CO2/N2/Air "},{"id":8,"nombre":"N2O "},{"id":9,"nombre":"No en un tipo de tecnología"}]},
             {"id":2,"aplicacion":{"id":1,"nombre":"Aerosol"},"alternativas":[{"id":1,"nombre":"HFC-134a "},{"id":2,"nombre":"HFC-227ea "}]},
@@ -983,9 +938,6 @@ angular.module('app.sao')
             {"id":18,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en grandes vehículos (ómnibus)"}, "carga":{"nombre":"10-30/6.62-19.86","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
             {"id":19,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en grandes vehículos (miniómnibus)"}, "carga":{"nombre":"10-30/6.62-19.86","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
             {"id":20,"aplicacion":{"id":1,"nombre":"Aire Acondicionado en grandes vehículos (trenes)"}, "carga":{"nombre":"10-30/6.62-19.86","min":0, "max":0},"alternativas":[{"id":1,"nombre":"R-407C "},{"id":2,"nombre":"R-410A "},{"id":3,"nombre":"HFC-134a"}]},
-            // {"id":21,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
-            // {"id":22,"aplicacion":{"id":1,"nombre":"Refrigeradores freezer"}, "carga":{"nombre":"0.1-0.5/0.06-0.33","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
-            // {"id":23,"aplicacion":{"id":1,"nombre":"Los equipos autónomos de refrigeración comercial"}, "carga":{"nombre":"0.1-1,000/0.06-662.25","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-404A "},{"id":3,"nombre":"HC-290 "}]},
             ],
         "Tabla11B":[
             {"id":1,"aplicacion":{"id":1,"nombre":"Refrigeradores domésticos"}, "carga":{"nombre":"0.1-0.5/0.06-0.33","min":0, "max":0},"alternativas":[{"id":1,"nombre":"HFC-134a"},{"id":2,"nombre":"R-600a "}]},
@@ -1025,7 +977,8 @@ angular.module('app.sao')
 })
     .factory('SType',function () {
         return {
-            "general":["general"],
+            "general":["general","datos1"],
+            "datos":["datos"],
             "espuma":["espuma1","espuma2","espuma3","espuma"],
             "aire":["aire1","aire2","aire3","consumo","aerosoles"],
             "refri":["refri"],
@@ -1041,26 +994,16 @@ angular.module('app.sao')
 
 .factory('Columns',function () {
     return        [
-        // "general":["provincia","ministerio","osde","empresa"],
 
-        {"fields":["provincia","ministerio","osde","empresa","oace","ueb"],"nombre":"Datos generales","tipo":"general"},
-        //{"fields":["Alternativa", "Tipo", "Sector", "ra"],"nombre":"Resumen de su uso en todos los sectores para cada año entre 2011-2016.", "tipo":"general2"},
+
+        {"fields":["provincia",'municipio',"ministerio","ueb1","oace1","empresa1","osde1",'direccion','telefono','correo','representante','director'],"nombre":"Datos generales","tipo":"general"},
+        {"fields":["provincia",'municipio',"ministerio","ueb","oace","empresa","osde",'direccion','telefono','correo','representante','director'],"nombre":"Datos generales","tipo":"datos"},
         {"fields":['aplicacionAire', 'capacidad','inventario','Estado',"experiencia",'personal','curso','servicio'],"nombre":"Equipo de Clima y Refrigeración que presenta mi inventario.", "tipo":"importaciones2"},
-        {"fields":["Sustancia", "Uso"],"nombre":"Demanda de SAO y agente espumante en el sector de espuma.","tipo":"espuma1"},
-        {"fields":["Subsector", "Uso"],"nombre":"Distribución de ODS y alternativas en subsector de espuma.","tipo":"espuma2"},
         {"fields":["Sustancia","Uso", "Sustancia1","Pronostico"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
-        {"fields":["Subsector","Alternativa", "Uso" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido.", "tipo":"espuma3"},
-        // {"fields":["Alternativa","Alternativas", "Uso" ],"nombre":"Cantidad de importaciones de alternativas de ODS", "tipo":"importaciones2"},
         {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Consumo de SAO y sus alternativas en la fabricación de aerosoles.", "tipo":"aerosoles"},
-        //{"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Refrigeración Móvil. ", "tipo":"empresa2"},
         {"fields":["Aplicaciones","Alternativas", "Uso","limpieza" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de solventes.", "tipo":"empresa3"},
-        {"fields":["Subsector", "Uso"],"nombre":"Distribución de SAO y alternativas de SAO en el sector de la Refrigeración y el Aire Acondicionado.","tipo":"aire1"},
         {"fields":["Aplicaciones", "equipoAire","Carga", "Alternativas", "Uso" ],"nombre":"Consumo de SAO y sus alternativas en la fabricación de Aire Acondicionado.", "tipo":"aire2"},
         {"fields":["Aplicaciones","equipoRefrigeracion","Carga", "Alternativas", "Uso" ],"nombre":"Consumo de SAO y sus alternativas en la fabricación de Refigerante.", "tipo":"consumo"},
-        //{"fields":["Aplicaciones", "Carga", "Alternativas", "Uso" ],"nombre":"Recolección de datos en el uso de alternativas de SAO en Aire Acondicionado Automotriz.", "tipo":"empresa1"},
-        {"fields":["Aplicaciones", "Alternativas", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de refrigeración.", "tipo":"refri"},
-        {"fields":["Aplicaciones", "Sustancias", "Capacidad","Estado", "unidades","experiencias","year","explotacion" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el servicio de equipos de aire acondicionado.", "tipo":"aire3"},
-        {"fields":["Sector", "Subsector", "Alternativa"],"nombre":"Sectores y subsectores donde se usan alternativas de ODS actualmente.", "tipo":"general3"},
         {"fields":['TipoRefrigeracion','aplicacionAire','aplicacionRefri','refrigConsumidos','Limpieza','Recuperacion','Recuperado','Total','sustanciasR'],"nombre":"Empresa de servicios del Clima y Refrigeración.", "tipo":"empresa4"}
 
     ];
@@ -1194,6 +1137,9 @@ angular.module('app.sao')
         var validator = {};
         var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,72}$/;
         var username = /^[a-z][a-z0-9\.]{3,15}$/i;
+        var telef = /\d{3}-\d{2}-\d{7}-\d/;
+        var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+        var emailRegex2 = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
         var alternativa = /^[\w()/ -]{3,50}$/;
         var str = /^[\w() -]{3,100}$/;
         var nomenclature = /^[\w()áéíóúÁÉÍÓÚüÜñÑ -]{3,100}$/;
@@ -1255,18 +1201,33 @@ angular.module('app.sao')
             //     }
             //
             //     break;
-            case 'general':
-
-                if(!str.test(record.osde)){
-                    errors.push('osde');
+            case 'datos':
+                if(!nomenclature.test(record.ueb)){
+                    errors.push('ueb');
                 }
-                if(!str.test(record.empresa)){
+                if(!nomenclature.test(record.oace)){
+                    errors.push('oace');
+                }
+                if(!nomenclature.test(record.empresa)){
                     errors.push('empresa');
                 }
-                if(!str.test(record.oace)){
-                    errors.push('oace');
-                } if(!str.test(record.ueb)){
-                    errors.push('ueb');
+
+                if(!nomenclature.test(record.osde)){
+                    errors.push('osde');
+                }
+
+                if(!nomenclature.test(record.direccion)){
+                    errors.push('direccion');
+                }
+
+                if(!emailRegex.test(record.correo)){
+                    errors.push('correo');
+                }
+                if(!nomenclature.test(record.representante)){
+                    errors.push('representante');
+                }
+                if(!nomenclature.test(record.director)){
+                    errors.push('director');
                 }
                 break;
             case 'aire2':
@@ -1305,10 +1266,6 @@ angular.module('app.sao')
 
                 }
                 break;
-            case 'general2':
-            case 'espuma3':      
-            case 'empresa2':
-            case 'empresa1':
             case 'importaciones2':
                 if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
                 {
@@ -1343,34 +1300,8 @@ angular.module('app.sao')
                     }
 
                 }
-
-
-
-
                     break;
-            case 'refri':
-            case 'aire3':
-                if(record.otrosAlternativa!=undefined && record.otrosAlternativa!='')
-                {
-                    if(!alternativa.test(record.otrosAlternativa)){
-                        errors.push('alternativa');
-                    }
 
-                }
-
-                if(record.experiencias==undefined)
-                {
-
-                    errors.push('experiencias');
-
-                }
-                if(record.unidades==undefined)
-                {
-
-                    errors.push('unidades');
-
-                }
-                break;
             case 'importaciones1':
                 if(record.Uso!=undefined)
                 {
@@ -1387,9 +1318,6 @@ angular.module('app.sao')
                         errors.push('pronostico');
                     }
                 }
-
-
-
                 break;
             default:
                 break;

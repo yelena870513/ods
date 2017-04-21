@@ -57,37 +57,57 @@ angular.module('app.sao')
         $scope.general = {
             "provincia": {},
             "ministerio": {},
-            "osde": {},
-            "empresa": {},
+            "municipio": {},
+            "osde":"",
 
+            "ueb":"",
+            "oace":"",
+
+            "direccion":"",
+            "telefono": 0,
+            "correo":"",
+            "representante":"",
+            "director":"",
             "tipo": "general"
         };
 
-        Manager.record('provincia').then(function(data){
+        $scope.datos = {
+            "provincia": {},
+            "ministerio": {},
+            "municipio": {},
+            "osde":"",
+            "ueb":"",
+            "oace":"",
+            "direccion":"",
+            "telefono": 0,
+            "correo":"",
+            "representante":"",
+            "director":"",
+            "tipo": "datos"
+        };
+
+        Manager.record('provincia').then(function(data)
+        {
             $scope.general.provincia = data.rows.map(function(m){return m.doc;})[0];
+            $scope.datos.provincia = _(data.rows.map(function(m){return m.doc;})).sortBy(function (st) {
+                return st.nombre;
+            })[0];
+            Manager.record('municipio').then(function(muns){
+                $scope.datos.municipio = _(muns.rows.map(function(m){return m.doc;})).find(function (mu) {
+                    return mu.provincia==$scope.datos.provincia.id;
+                })
+            });
 
         });
         Manager.record('ministerio').then(function(data){
             $scope.general.ministerio = data.rows.map(function(m){return m.doc;})[0];
-        });
-        Manager.record('empresa').then(function(data){
-            $scope.general.empresa = data.rows.map(function(m){return m.doc;})[0];
-        });
-        Manager.record('osde').then(function(data){
-            $scope.general.osde = data.rows.map(function(m){return m.doc;})[0];
-        });
-
-        Manager.record('oace').then(function(data){
-            $scope.general.oace = data.rows.map(function(m){return m.doc;})[0];
-        });
-
-        Manager.record('ueb').then(function(data){
-            $scope.general.ueb = data.rows.map(function(m){return m.doc;})[0];
+            $scope.datos.ministerio = data.rows.map(function(m){return m.doc;})[0];
         });
 
         Manager.record('general').then(function(data){
             if (data.rows.length>0) {
                 $scope.general = data.rows.map(function(m){return m.doc;})[0];
+
             }
         });
 
@@ -337,7 +357,7 @@ angular.module('app.sao')
         }
 
         function FetchRecords(name) {
-            Manager.record(name).then(function(data) {
+           return Manager.record(name).then(function(data) {
                 console.log(data);
                 $scope.table.records = data.rows.map(function(el) {
                     return el.doc;
@@ -612,7 +632,19 @@ angular.module('app.sao')
                     break;
                 }
             }
-            $scope.ShowRecord();
+            //$scope.ShowRecord();
+            FetchRecords(tipo).then(function(){
+                var data=$scope.columns.filter(function (el) {
+                    return el.tipo==tipo;
+                })[0];
+
+                if(data!=undefined)
+                {
+                    $scope.table.columns = data.fields;
+                    $scope.table.title = data.nombre;
+                }
+
+            });
         };
 
         $scope.isActive=function(path){
@@ -2702,8 +2734,6 @@ angular.module('app.sao')
         //Este controlador es el encargado de adicionar y editar los elementos.|| Este controlador es para los modals
         $scope.action = action;
         $scope.record = angular.copy(record);
-
-
         $scope.error = {
             show:false,
             message:'Ha ocurrido un error',
@@ -2727,12 +2757,28 @@ angular.module('app.sao')
         $scope.Sustancia1 = [];
         $scope.equipoAire = [];
         $scope.equipoRefrigeracion = [];
-        Manager.record('municipio').then(function(data){$scope.municipiosCache = data.rows.map(function(m){return m.doc;})});
+        Manager.record('municipio').then(function(data){
+            $scope.municipiosCache = data.rows.map(function(m){return m.doc;});
+            if (record.tipo=='datos') {
+                if (record.provincia==undefined) {
+                    record.municipio=$scope.municipiosCache[0]
+                }
+                else
+                    {
+                    record.municipio=  _($scope.municipiosCache).where({"provincia":record.provincia.id})
+                }
+            }
+        });
         Manager.record('provincia').then(function(data){
             $scope.provincias = data.rows.map(function(m){return m.doc;});
             $scope.provincias = _($scope.provincias).sortBy(function (el) {
                 return el.nombre;
             });
+
+            if (action==undefined && record.tipo=='datos') {
+                record.provincia = $scope.provincias[0];
+
+            }
         });
         Manager.record('ministerio').then(function(data){
             $scope.ministerios = data.rows.map(function(m){return m.doc;});
@@ -2740,18 +2786,18 @@ angular.module('app.sao')
                 return el.nombre;
             });
         });
-        Manager.record('empresa').then(function(data){
-            $scope.empresas = data.rows.map(function(m){return m.doc;});
-            $scope.empresas = _($scope.empresas).sortBy(function (el) {
-                return el.nombre;
-            });
-        });
-        Manager.record('osde').then(function(data){
-            $scope.osdes = data.rows.map(function(m){return m.doc;});
-            $scope.osdes = _($scope.osdes).sortBy(function (el) {
-                return el.nombre;
-            });
-        });
+        // Manager.record('empresa').then(function(data){
+        //     $scope.empresas = data.rows.map(function(m){return m.doc;});
+        //     $scope.empresas = _($scope.empresas).sortBy(function (el) {
+        //         return el.nombre;
+        //     });
+        // });
+        // Manager.record('osde').then(function(data){
+        //     $scope.osdes = data.rows.map(function(m){return m.doc;});
+        //     $scope.osdes = _($scope.osdes).sortBy(function (el) {
+        //         return el.nombre;
+        //     });
+        // });
 
         Manager.record('aire').then(function(data){
             $scope.aires = data.rows.map(function(m){return m.doc;});
@@ -2760,20 +2806,7 @@ angular.module('app.sao')
             });
 
         });
-        Manager.record('oace').then(function(data){
-            $scope.oace = data.rows.map(function(m){return m.doc;});
-            $scope.oace = _($scope.oace).sortBy(function (el) {
-                return el.nombre;
-            });
-            $scope.record.oace = $scope.oace[0];
-        });
-        Manager.record('ueb').then(function(data){
-            $scope.ueb = data.rows.map(function(m){return m.doc;});
-            $scope.ueb = _($scope.ueb).sortBy(function (el) {
-                return el.nombre;
-            });
-            $scope.record.ueb = $scope.ueb[0];
-        });
+
         Manager.record('refrigeracion').then(function(data){
             $scope.refrigeracion = data.rows.map(function(m){return m.doc;});
             $scope.refrigeracion = _($scope.refrigeracion).sortBy(function (el) {
@@ -2808,14 +2841,23 @@ angular.module('app.sao')
                 return el.nombre;
             });
 
-            $scope.record.equipoAire = $scope.equipoAire[0];
+            if ($scope.record!="general")
+            {
+
+                $scope.record.equipoAire = $scope.equipoAire[0];
+            }
+
         });
         Manager.record('equipoRefrigeracion').then(function(data){
             $scope.equipoRefrigeracion = data.rows.map(function(m){return m.doc;});
             $scope.equipoRefrigeracion = _($scope.equipoRefrigeracion).sortBy(function (el) {
                 return el.nombre;
             });
-            $scope.record.equipoRefrigeracion = $scope.equipoRefrigeracion[0];
+            if ($scope.record!="general")
+            {
+
+                $scope.record.equipoRefrigeracion = $scope.equipoRefrigeracion[0];
+            }
         });
 
 
@@ -2876,7 +2918,7 @@ angular.module('app.sao')
 
 
         function AddElement(element) {
-            Manager.create(element).then(function(result) {
+          return  Manager.create(element).then(function(result) {
                 //todo on success
                 $scope.documents.push(element);
                 console.info(JSON.stringify(result));
@@ -2893,28 +2935,32 @@ angular.module('app.sao')
                 experiencias:'Introduzca la carga.',
                 alternativa:'Nombre de alternativa incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
                 empresa:'Nombre de empresa incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
+                empresa1:'Nombre de empresa incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
                 unidades:'Introduzca el No. unidades.',
                 limpieza:'Introduzca las sustancias de limpieza.',
                 capacidad:'Introduzca la capacidad.',
                 inventario:'Introduzca el No. inventario.',
+                correo:'Introduzca una direcc\u00F3n de correo adecuada.',
                 curso:'Introduzca la cantidad de personal que ha pasado el Curso Buenas Prácticas.',
                 experiencia:'Introduzca los años de experiencia.',
-                oac:'Introduzca oac.',
-                ueb:'Introduzca ueb',
+                oace:'Nombre de OACE incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
+                oace1:'Nombre de OACE incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
+                ueb1:'Nombre de UEB incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
+                ueb:'Nombre de UEB incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
+                osde1:'Nombre de OSDE incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
+                osde:'Nombre de OSDE incorrecto. Contiene menos de tres caracteres y/o caracteres extra\u00F1os. ',
+                direccion:'Direcci\u00F3n incorrecta. Contiene menos de tres caracteres. ',
+                representante:'Nombre de representante incorrecto. Contiene menos de tres caracteres.',
+                director:'Nombre incorrecto. Contiene menos de tres caracteres.',
                 consumo:'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas.',
-                pronostico:'En pr\u00F3nosticos faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas.'
+                pronostico:'En pron\u00F3sticos faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas.'
 
             };
             switch (element.tipo) {
-                case 'general1':
-                    element.sector = element.sector.concat($scope.SAO.Sector.filter(function(el) {
-                        return el.value == true;
-                    }));
-                    if (element.sector.length==0){throw 'Seleccione al menos un sector';}
-                    break;
-                case 'espuma1':
-                case 'espuma2':
+
+
                 case 'importaciones1':
+                case 'datos':
                 error = ModelValidator.RecordError(element);
                     if (error.length>0)
                     {
@@ -2926,28 +2972,6 @@ angular.module('app.sao')
                         });
                     }
 
-                    break;
-                case 'espuma3':
-                    error = ModelValidator.RecordError(element);
-                    if (error.length>0)
-                    {
-                        error.forEach(function(e){
-                            $scope.error.tipo = e;
-                            throw msg[e];
-
-                        });
-                    }
-                    if(element.otrosAlternativa!=''){
-                        element.Alternativa={nombre:element.otrosAlternativa}
-                    }
-                    if(element.Uso!=undefined)
-                    {
-                        if(element.Uso.length<6)
-                        {
-                            $scope.error.tipo='anno';
-                            throw 'Faltan a\u00F1os por agregar el consumo en toneladas m\u00E9tricas. ';
-                        }
-                    }
                     break;
                 case 'empresa3':
                 error = ModelValidator.RecordError(element);
@@ -2973,10 +2997,8 @@ angular.module('app.sao')
                     break;
                 case 'aire2':
                 case 'consumo':
-                case 'aerosoles':               
-                case 'empresa1':
-                case 'empresa2':
-                    error = ModelValidator.RecordError(element);
+                case 'aerosoles':
+                  error = ModelValidator.RecordError(element);
                     if (error.length>0)
                     {
                         error.forEach(function(e){
@@ -2997,29 +3019,11 @@ angular.module('app.sao')
                         }
                     }
                     break;
-                case 'general2':
-                    error = ModelValidator.RecordError(element);
-                    if (error.length>0)
-                    {
-                        error.forEach(function(e){
-                            $scope.error.tipo = e;
-                            throw msg[e];
-
-                        });
-                    }
-                    if(element.otrosAlternativa!=''){
-                        element.Tipo={nombre:element.otrosAlternativa}
-                    }
-                    break;
                 case 'empresa4':
-                    if(element.sustanciasR==undefined){
-                        $scope.error.tipo='sustanciasR';
-                        throw 'Introduzca la cantidad que hayan pasado el Curso Buenas Prácticas.';
-                    }
-                    /*if(element.sustanciasRL==undefined){
-                        $scope.error.tipo='sustanciasRL';
-                        throw 'Introduzca la cantidad.';
-                    }*/
+                    // if(element.sustanciasR==undefined){
+                    //     $scope.error.tipo='sustanciasR';
+                    //     throw 'Introduzca la cantidad que hayan pasado el Curso Buenas Prácticas.';
+                    // }
 
                     error = ModelValidator.RecordError(element);
                     if (error.length>0)
@@ -3040,20 +3044,7 @@ angular.module('app.sao')
                     }));
                     if (element.aplicacionRefri.length==0){throw 'Seleccione al menos una aplicacion de Refrigeración';}
                     break;
-                case 'general':
-                     error = ModelValidator.RecordError(element);
-                    if (error.length>0)
-                    {
-                        error.forEach(function(e){
-                            $scope.error.tipo = e;
-                            throw 'Introduzca el valor de  ' +  e + '.';
-                        });
-                    }
-                    if(element.empresa==''){
-                        throw 'Introduzca el nombre de la empresa.';
-                    }
 
-                 break;
                 case 'importaciones2':
                     error = ModelValidator.RecordError(element);
                     if (error.length>0)
@@ -3076,10 +3067,10 @@ angular.module('app.sao')
                         $scope.error.tipo='experiencia';
                         throw 'Introduzca los años de experiencia.';
                     }
-                    if(element.curso==undefined){
-                        $scope.error.tipo='curso';
-                        throw 'Introduzca la cantidad de personal que ha pasado el Curso Buenas Prácticas.';
-                    }
+                    // if(element.curso==undefined){
+                    //     $scope.error.tipo='curso';
+                    //     throw 'Introduzca la cantidad de personal que ha pasado el Curso Buenas Prácticas.';
+                    // }
 
                     if (element.servicio=='Sí') {
                         element.servicio=element.empresa;
@@ -3088,45 +3079,13 @@ angular.module('app.sao')
 
                     break;
 
-
-                case 'aire3':
-                    error = ModelValidator.RecordError(element);
-                    if (error.length>0)
-                    {
-                        error.forEach(function(e){
-                            $scope.error.tipo = e;
-                            throw msg[e];
-
-                        });
-                    }
-                    if(element.otrosAlternativa!=''){
-                        element.Sustancias={nombre:element.otrosAlternativa}
-                    }
-
-                    element.explotacion = element.experiencias * element.unidades;
-                    break;
-                case 'refri':
-                    error = ModelValidator.RecordError(element);
-                    if (error.length>0)
-                    {
-                        error.forEach(function(e){
-                            $scope.error.tipo = e;
-                            throw msg[e];
-                        });
-                    }
-                    if(element.otrosAlternativa!=''){
-                        element.Alternativas={nombre:element.otrosAlternativa}
-                    }
-
-                    element.explotacion = element.experiencias * element.unidades;
-                    break;
-                default:
-
-                    break;
             }
 
             //todo validar datos
-            element = Util.collect($scope.general, element);
+            //if(element.tipo!="general"){
+            //    element = Util.collect($scope.general, element);
+            //}
+            // element = Util.collect($scope.general, element);
 
             if(element.refrigConsumidos!=undefined)
             {
@@ -3280,33 +3239,34 @@ angular.module('app.sao')
                     throw 'Introduzca el No. de unidades.';
             }
 
+            if (element.tipo=='datos')
+            {
+               return Manager.record('datos').then(function (data) {
+                    if (data.rows.length==0) {
+                        return AddElement(element);
+                    }
+                    else{
+                        return Manager.update(element).then(function(fn){Finish();});
+                    }
 
+                });
+            }
+            else
 
+            {
+               return AddElement(element);
+            }
 
-            AddElement(element);
         }
 
-        function ValidateSettings()
-        {
 
-            if ($scope.general.osde=='')
-            {
-                $scope.error.tipo='osde';
-                throw 'Introduzca el nombre de la OSDE';
-            }
-            if ($scope.general.empresa=='')
-            {
-                $scope.error.tipo='empresa';
-                throw 'Introduzca el nombre de la empresa';
-            }
-        }
 
         function Close() {
             $uibModalInstance.dismiss('cancel');
         }
 
-        function Finish() {
-            $uibModalInstance.close('close');
+        function Finish(type) {
+            $uibModalInstance.close(type!=undefined?type:'close');
         }
 
 
@@ -3330,12 +3290,6 @@ angular.module('app.sao')
             //TODO: reverse update in actions list
             // console.log($scope.record);
 
-            if(element.osde==''){
-                throw 'Introduzca el nombre de la OSDE';
-            }
-            if(element.empresa==''){
-                throw 'Introduzca el nombre de la empresa';
-            }
 
 
             Finish();
@@ -3345,13 +3299,11 @@ angular.module('app.sao')
         $scope.Save = function() {
             //TODO: reverse update in actions list
            try{
-               if ($scope.record._id == undefined) {
-                   Add($scope.record);
-               } else {
-                   Add($scope.record);
+               Add($scope.record).then(function(){
+                   Finish($scope.record.tipo);
                }
+               );
 
-               Finish();
 
            }
            catch (err)
@@ -3410,6 +3362,9 @@ angular.module('app.sao')
             {
                 switch ($scope.record.tipo)
                 {
+                    // case 'datos':
+                    //     // $scope.record.provincia
+                    //     break;
                     case 'general3':
                         $scope.record.Sector = selectedTabla2.aplicacion;
                         $scope.record.Subsector = selectedTabla2.alternativas[0];
@@ -3535,8 +3490,6 @@ angular.module('app.sao')
                         $scope.re = 'HCFC';
                         $scope.re1 = 'HCFC';
                         // $scope.record.habilitado=false;
-
-
                         break;
 
 
@@ -3675,7 +3628,10 @@ angular.module('app.sao')
                         selectedTabla10B = $scope.Tabla10BR;
                         $scope.year = 2011;
                         break;
+                    case 'general':
+                        $scope.record = angular.copy(record);
                     default:
+
                         break;
                 }
 
@@ -4348,7 +4304,7 @@ angular.module('app.sao')
         $scope.nomenclaturesCache  = [];
         $scope.selected=false;
         $scope.ntype = '';
-        $scope.ntypes = ['ministerio','provincia','municipio','empresa','osde','oace', 'ueb', 'aire','refrigeracion', 'refrigConsumidos','Sustancia','Sustancia1','equipoAire','equipoRefrigeracion'];
+        $scope.ntypes = ['ministerio','provincia','municipio', 'aire','refrigeracion', 'refrigConsumidos','Sustancia','Sustancia1','equipoAire','equipoRefrigeracion'];
 
         $scope.Nomenclature = function (nomenclature,size) {
             var instance = $uibModal.open({

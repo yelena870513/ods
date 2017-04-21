@@ -3,16 +3,22 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <div class="btn-group" uib-dropdown is-open="status.isopen">
                 <button id="single-button-datos" type="button" class="btn btn-menu primary-menu" uib-dropdown-toggle ng-disabled="disabled">
-                    Datos <span class="caret"></span>
+                    Operaciones <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu " uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a  data-ng-click="Set()"><span class="margin-r-5">Datos generales</span><i class="fa fa-list"></i></a></li>
-                    <li role="menuitem"><a  data-ng-click="Save()"><span class="margin-r-5">Guardar Todo</span><i class="fa fa-save"></i></a></li>
+                <ul class="dropdown-menu " uib-dropdown-menu role="menu" aria-labelledby="single-button">                            <li role="menuitem"><a  data-ng-click="Save()"><span class="margin-r-5">Guardar Todo</span><i class="fa fa-save"></i></a></li>
                     <li role="menuitem"><a  data-ui-sref="list"><span class="margin-r-5">Exportar a PDF</span><i class="fa fa-file-pdf-o"></i></a></li>
                     <li role="menuitem"><a  data-ng-click="LoadModal()"><span class="margin-r-5">Importar BD</span> <i class="fa fa-upload"></i></a></li>
                     <li role="menuitem"><a  data-ng-click="ExportarBase()"><span class="margin-r-5">Exportar BD</span> <i class="fa fa-download"></i></a></li>
                     <li role="menuitem"><a  data-ng-click="ClearBase()"><span class="margin-r-5">Limpiar BD</span> <i class="fa fa-ban"></i></a></li>
 
+                </ul>
+            </div>
+            <div class="btn-group" uib-dropdown is-open="status1.isopen">
+                <button id="single-button-datos1" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('datos'),'success-menu1':!isActive('datos')}">
+                    Datos generales <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem"><a data-ng-click="SelectModal('datos')" > Datos </a></li>
                 </ul>
             </div>
             <div class="btn-group" uib-dropdown is-open="status7.isopen">
@@ -51,17 +57,7 @@
                 </ul>
             </div>
 
-            <!--<div class="btn-group" uib-dropdown is-open="status2.isopen">-->
-                <!--<button id="single-button-espuma" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('espuma'),'primary-menu':!isActive('espuma')}">-->
-                    <!--Espuma <span class="caret"></span>-->
-                <!--</button>-->
-                <!--<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">-->
-                    <!--<li role="menuitem"><a data-ng-click="SelectModal('espuma1')" >Demanda de SAO y agentes soplantes en el sector de espuma</a></li>-->
-                    <!--<li role="menuitem"><a data-ng-click="SelectModal('espuma2')" >Distribución de ODS y alternativas en subsector de espuma</a></li>-->
-                    <!--<li role="menuitem"><a data-ng-click="SelectModal('espuma3')" >Uso de alternativas de SAO en el sector de espumas de poliuretano y polietileno extruido</a></li>-->
 
-                <!--</ul>-->
-            <!--</div>-->
             <div class="btn-group" uib-dropdown is-open="status3.isopen">
                 <button id="single-button-aire" type="button" class="btn btn-menu" uib-dropdown-toggle ng-disabled="disabled" data-ng-class="{'active-menu':isActive('aire'),'fabricante':!isActive('aire')}">
                     Fabricante de <span class="caret"></span>

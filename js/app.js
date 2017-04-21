@@ -29,14 +29,21 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             templateUrl:'template/records.html',
             controller: "generalController"
         }).
+
+        //Contacto
+    state('contacto',{
+        url:'/contacto',
+        templateUrl:'template/contacto.html'
+
+    }).
         ////Reportes
         state('list',{
             url:'/list',
             templateUrl:'template/reports.html',
             controller:'reportController'
         }) .
-        state('list.general',{
-            url:'/general',
+        state('list.datos',{
+            url:'/datos',
             templateUrl:'template/data-table/general-table.html',
             controller:'reportController'
         }).
@@ -301,7 +308,7 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
 }).controller('mainController',function ($scope,$location) {
 
     //Manejador global de la interfaz de usuario
-    var hashes = ['general','charts','users','list','nomenclatures'];
+    var hashes = ['general','charts','users','list','nomenclatures','contacto'];
     $scope.navigation = {};
     $scope.isActive=function (path) {
         var hash = $location.path();

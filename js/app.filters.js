@@ -69,6 +69,7 @@ angular.module('app.sao').filter('mainString',function () {
                     case "osde":return "OSDE";                    
                     case "oace":return "OACE";                    
                     case "ueb":return "UEB";                    
+                    case "telefono":return "Tel\u00E9fono";
                     default: return data;
                 }
 

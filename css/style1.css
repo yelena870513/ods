@@ -167,6 +167,12 @@ background-image: url("../img/fondo_contenido.png");
     background-color:#324b1a;
     border-color:#324b1a
 }
+.success-menu1
+{
+    color:#fff;
+    background-color:#7a5f42;
+    border-color:#7a5f42
+}
 .servicio
 {
     color:#fff;
@@ -228,7 +234,7 @@ i.mas{
 Leyenda en los graficos
 */
 .legend{
-    width: 165%;
+    width: 90%;
     border:1px solid gainsboro;
     margin-bottom: 0;
     margin-top: 10px;
