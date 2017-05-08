@@ -34,6 +34,7 @@ angular.module('app.sao').filter('mainString',function () {
                 {
                     case "year":return "A\u00F1o";
                     case "Organizacion":return "Organizaci\u00F3n";
+                    case "direccion":return "Direcci\u00F3n";
                     case "Uso":return "Consumo (Toneladas m\u00E9tricas)";
                     case "Alternativas":return "Alternativa";
                     case "Aplicaciones":return "Aplicaci\u00F3n";
@@ -70,6 +71,11 @@ angular.module('app.sao').filter('mainString',function () {
                     case "oace":return "OACE";                    
                     case "ueb":return "UEB";                    
                     case "telefono":return "Tel\u00E9fono";
+                    case 'refrigeracion': return 'Refrigeraci\u00F3n';
+                    case 'inventario1': return 'No. inventario';
+                    case 'Estado1': return 'Estado t\u00E9nico';
+                    case 'experiencia1': return 'Explotaci\u00F3n';
+                    case 'refrigConsumidos1': return 'Refrigerante';
                     default: return data;
                 }
 
@@ -194,9 +200,9 @@ angular.module('app.sao').filter('mainString',function () {
             switch (input){
                 case 'osde': return input.toUpperCase();
                 case 'ueb': return 'UEB';
-                case 'oace': return 'OACE';
+                case 'ministerio': return 'OACE';
                 case 'refrigeracion': return 'Refrigeraci\u00F3n';
-                case 'refrigConsumidos': return 'Refrigeraci\u00F3n';
+                case 'refrigConsumidos': return 'Refrigerante';
                 case 'Sustancia': return 'Sustancias Importadores';
                 case 'Sustancia1': return 'Pron\u00F3stico sustancia';
                 case 'equipoAire': return 'Equipo Aire';

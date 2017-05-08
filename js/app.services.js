@@ -66,6 +66,13 @@ angular.module('app.sao')
         remote.load(path).then(function () {
             db.replicate.from(remote).on('complete',function (data) {
 
+                db.query("tipo", {
+                    key: "provincia",
+                    include_docs: true
+                }).then(function (data) {
+                    console.log(data);
+                });
+
                 d.resolve(data);
             }).on('error',function (error) {
                 d.reject('error'+JSON.stringify(error));
@@ -103,19 +110,22 @@ angular.module('app.sao')
        {
           var p=  manager.record(nm).then(function (results)
            {
-               var dupes = results.rows.map(function (el) {
-                   return el.doc;
-               });
-               var unicos = _(dupes).uniq(function (it) {
-                   return it.nombre;
-               });
+                var dupes = results.rows.map(function (el) {
+                    return el.doc;
+                });
+
+                var unique= angular.copy(_(dupes).uniq(function (it) {
+                    return it.nombre;
+                }));
 
                manager.delete(dupes.map(function (de) {
                    de._deleted=true;
                    return de;
                }));
 
-               manager.update(unicos);
+               return unique;
+
+
            });
 
            d.push(p);
@@ -971,6 +981,7 @@ angular.module('app.sao')
         "Clasificacion":[{"nombre":"Aire Acondicionado Automotriz"},{"nombre":"Doméstica"},{"nombre":"Comercial"},{"nombre":"Industrial"},{"nombre":"Transporte"},{"nombre":"Aire Acondicionado estacionario"}],
         "ClasificacionRefri":[{"nombre":"Doméstica"},{"nombre":"Comercial"},{"nombre":"Industrial"},{"nombre":"Transporte"}],
         "Estado":[{"nombre":"Bueno"},{"nombre":"Malo"},{"nombre":"No reparable"}],
+        "Estado1":[{"nombre":"Bueno"},{"nombre":"Malo"},{"nombre":"No reparable"}],
         "Personal":[{"nombre":"Mecánico"},{"nombre":"Técnico"},{"nombre":"Ingeniero"}, {"nombre":"No poseo"}],
         "EstadoRefri":[{"nombre":"Bueno"},{"nombre":"Malo"},{"nombre":"No reparable"}]
     }
@@ -997,8 +1008,8 @@ angular.module('app.sao')
 
 
         {"fields":["provincia",'municipio',"ministerio","ueb1","oace1","empresa1","osde1",'direccion','telefono','correo','representante','director'],"nombre":"Datos generales","tipo":"general"},
-        {"fields":["provincia",'municipio',"ministerio","ueb","oace","empresa","osde",'direccion','telefono','correo','representante','director'],"nombre":"Datos generales","tipo":"datos"},
-        {"fields":['aplicacionAire', 'capacidad','inventario','Estado',"experiencia",'personal','curso','servicio'],"nombre":"Equipo de Clima y Refrigeración que presenta mi inventario.", "tipo":"importaciones2"},
+        {"fields":["provincia",'municipio',"ministerio","ueb","empresa","osde",'direccion','telefono','correo','representante','director'],"nombre":"Datos generales","tipo":"datos"},
+        {"fields":['aplicacionAire', 'capacidad','refrigConsumidos','inventario','Estado',"experiencia",'refrigeracion','refrigConsumidos1','inventario1','Estado1',"experiencia1",'personal','curso','servicio'],"nombre":"Equipo de Clima y Refrigeración que presenta mi inventario.", "tipo":"importaciones2"},
         {"fields":["Sustancia","Uso", "Sustancia1","Pronostico"],"nombre":"Demanda de SAO y refrigerantes alternativos de SAO.","tipo":"importaciones1"},
         {"fields":["Aplicaciones","Alternativas", "Uso" ],"nombre":"Consumo de SAO y sus alternativas en la fabricación de aerosoles.", "tipo":"aerosoles"},
         {"fields":["Aplicaciones","Alternativas", "Uso","limpieza" ],"nombre":"Recolección de datos sobre el uso de alternativas de SAO en el sector de solventes.", "tipo":"empresa3"},
@@ -1290,6 +1301,16 @@ angular.module('app.sao')
                 if(record.experiencia==undefined || record.experiencia=="")
                 {
                     errors.push('experiencia');
+
+                }
+                if(record.inventario1==undefined || record.inventario1==0)
+                {
+                   errors.push('inventario1');
+
+                }
+                if(record.experiencia1==undefined || record.experiencia1=="")
+                {
+                    errors.push('experiencia1');
 
                 }
 

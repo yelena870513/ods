@@ -19,7 +19,13 @@
                 <div class="col-md-6">
                 <div class="form-group">
                         <label>Tipo de refrigeración donde trabajan:</label>
-                        <ui-select theme="bootstrap"
+                        <ui-select multiple ng-model="record.TipoRefrigeracion" theme="bootstrap"  close-on-select="false" title="Tipo">
+                      <ui-select-match placeholder="Tipo de refrigeración">{{$item.nombre}}</ui-select-match>
+                       <ui-select-choices repeat="item in SAO.TipoRefri">
+                      <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                      </ui-select-choices>
+                    </ui-select>
+                        <!-- <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
                                    aria-hidden="true"
                                    id="tr"
@@ -28,7 +34,7 @@
                             <ui-select-choices repeat="item in SAO.TipoRefri">
                                 <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                             </ui-select-choices>
-                        </ui-select>
+                        </ui-select> -->
 
 
                     </div>

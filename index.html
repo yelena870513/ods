@@ -30,11 +30,12 @@
             <li data-ng-class="{'active':isActive('nomenclatures')}">
                 <a data-ui-sref="nomenclatures">Nomencladores</a>
             </li>
-            <li data-ng-class="{'active':isActive('contacto')}">
-                <a data-ui-sref="contacto"><i class="fa fa-envelope"></i>Contacto</a>
-            </li>
+           
             <li data-ng-class="{'active':isActive('users')}">
                 <a data-ui-sref="users">Usuario</a>
+            </li>
+             <li data-ng-class="{'active':isActive('contacto')}">
+                <a data-ui-sref="contacto"><i class="fa fa-mail-reply"></i> Contacto</a>
             </li>
             <li>
                 <a data-ui-sref="salir"><i class="fa fa-user"></i> Cerrar sesión</a>
@@ -67,7 +68,7 @@
 
 
 <script src="lib/pouchdb.js"></script>
-  <script src="lib/pouchdb-replication-stream/dist/pouchdb.replication-stream.min.js"></script>
+  <!--<script src="lib/pouchdb-replication-stream/dist/pouchdb.replication-stream.min.js"></script>-->
   <script src="lib/pouchdb.replication-stream.min.js"></script>
   <script src="lib/pouchdb.load.js"></script>
   <script src="lib/chart.js/dist/Chart.bundle.min.js"></script>

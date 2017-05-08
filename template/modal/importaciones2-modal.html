@@ -31,6 +31,9 @@
                         </ui-select>
                        </div>
                 </div>
+                <div class="col-md-6">
+                    
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -39,15 +42,24 @@
                         <input  class="form-control" type="number" min="0"  placeholder="Capacidad (tr)" data-ng-model="record.capacidad" data-ng-class="{'control-error':error.show && error.tipo=='capacidad'}"/>
 
                     </div>
+                    <div class="form-group">
+                        <label>Refrigerante:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+
+                                   data-ng-model="record.refrigConsumidos">
+                            <ui-select-match placeholder="Refrigerante">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in refrigConsumidos">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                       </div>
                     <div class="form-group" >
                         <label >No. de inventario:</label>
                         <input  class="form-control" type="number" min="0"  placeholder="Número" data-ng-model="record.inventario" data-ng-class="{'control-error':error.show && error.tipo=='inventario'}"/>
                         </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
+                        <div class="form-group">
                         <label >Estado técnico:</label>
                         <ui-select theme="bootstrap"
                                    style="width: 100%;" tabindex="-1"
@@ -61,9 +73,62 @@
                         </ui-select>
 
                     </div>
-                    <div class="form-group">
+                        <div class="form-group">
                          <label >Años de explotación:</label>
                         <input  class="form-control" type="number" min="0"  placeholder="Años" data-ng-model="record.experiencia" data-ng-class="{'control-error':error.show && error.tipo=='experiencia'}"/>
+                        </div>
+                </div>                
+     
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                <div class="form-group">
+                        <label>Refrigeración:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+
+                                   data-ng-model="record.refrigeracion">
+                            <ui-select-match placeholder="Refrigeración">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in refrigeracion">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                       </div>
+                       <div class="form-group">
+                        <label>Refrigerante:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+
+                                   data-ng-model="record.refrigConsumidos1">
+                            <ui-select-match placeholder="Refrigerante">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in refrigConsumidos">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                       </div>
+                       <div class="form-group" >
+                        <label >No. de inventario:</label>
+                        <input  class="form-control" type="number" min="0"  placeholder="Número" data-ng-model="record.inventario1" data-ng-class="{'control-error':error.show && error.tipo=='inventario1'}"/>
+                        </div>
+                    <div class="form-group">
+                        <label >Estado técnico:</label>
+                        <ui-select theme="bootstrap"
+                                   style="width: 100%;" tabindex="-1"
+                                   aria-hidden="true"
+                                   id="etr"
+                                   data-ng-model="record.Estado1">
+                            <ui-select-match placeholder="Estado técnico">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="item in SAO.Estado1">
+                                <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                    <div class="form-group">
+                         <label >Años de explotación:</label>
+                        <input  class="form-control" type="number" min="0"  placeholder="Años" data-ng-model="record.experiencia1" data-ng-class="{'control-error':error.show && error.tipo=='experiencia1'}"/>
                         </div>
                     <div class="form-group">
                     <label >Poseo personal de refrigeración:</label>
