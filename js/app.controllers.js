@@ -237,8 +237,8 @@ angular.module('app.sao')
             "aplicacionAire": [],
              "aplicacionRefri": [],
              "refrigeracion": [],
-             "refrigConsumidos": [],
-             "refrigConsumidos1": [],
+             "refrigConsumidos": {},
+             "refrigConsumidos1": {},
              "personal": [SAO.Personal[0]],
              "Estado": SAO.Estado[0],
              "Estado1": SAO.Estado1[0],
@@ -2835,7 +2835,13 @@ angular.module('app.sao')
             $scope.refrigConsumidos = _($scope.refrigConsumidos).sortBy(function (el) {
                 return el.nombre;
             });
-            $scope.record.refrigConsumidos = $scope.refrigConsumidos[0];
+            $scope.refrigConsumidos1 = _($scope.refrigConsumidos).sortBy(function (el) {
+                return el.nombre;
+            });
+            if ($scope.record.tipo=="importaciones2") {
+                $scope.record.refrigConsumidos = $scope.refrigConsumidos[0];
+                $scope.record.refrigConsumidos1 = $scope.refrigConsumidos[0];
+            }
         });
          Manager.record('Sustancia').then(function(data){
             $scope.Sustancia = data.rows.map(function(m){return m.doc;});
@@ -3144,52 +3150,57 @@ angular.module('app.sao')
             if(element.refrigConsumidos!=undefined)
             {
 
-                if (element.refrigConsumidos.length<$scope.refrigConsumidos.length)
+                if (element.tipo!="importaciones2")
                 {
-                    var not = $scope.refrigConsumidos.filter(function (reg) {
-                        var name1 = _.find(element.refrigConsumidos,function (elr) {
-                            return  elr.re7.nombre==reg.nombre;
+                    if (element.refrigConsumidos.length<$scope.refrigConsumidos.length)
+                    {
+                        var not = $scope.refrigConsumidos.filter(function (reg) {
+                            var name1 = _.find(element.refrigConsumidos,function (elr) {
+                                return  elr.re7.nombre==reg.nombre;
+                            });
+
+                            return name1==undefined;
+                        }).map(function (rg) {
+                            return {
+                                re6:rg,
+                                cant6:0,
+                                nombre:""
+
+                            };
                         });
+                        element.refrigConsumidos = element.refrigConsumidos.concat(not);
 
-                        return name1==undefined;
-                    }).map(function (rg) {
-                        return {
-                            re6:rg,
-                            cant6:0,
-                            nombre:""
 
-                        };
-                    });
-                    element.refrigConsumidos = element.refrigConsumidos.concat(not);
-
+                    }
 
                 }
-
 
 
             }
             if(element.refrigConsumidos1!=undefined)
             {
 
-                if (element.refrigConsumidos1.length<$scope.refrigConsumidos1.length)
-                {
-                    var not = $scope.refrigConsumidos1.filter(function (reg) {
-                        var name1 = _.find(element.refrigConsumidos1,function (elr) {
-                            return  elr.re6.nombre==reg.nombre;
+                if (element.tipo!="importaciones2") {
+                    if (element.refrigConsumidos1.length<$scope.refrigConsumidos1.length)
+                    {
+                        var not = $scope.refrigConsumidos1.filter(function (reg) {
+                            var name1 = _.find(element.refrigConsumidos1,function (elr) {
+                                return  elr.re6.nombre==reg.nombre;
+                            });
+
+                            return name1==undefined;
+                        }).map(function (rg) {
+                            return {
+                                re7:rg,
+                                cant7:0,
+                                nombre:""
+
+                            };
                         });
-
-                        return name1==undefined;
-                    }).map(function (rg) {
-                        return {
-                            re7:rg,
-                            cant7:0,
-                            nombre:""
-
-                        };
-                    });
-                    element.refrigConsumidos1 = element.refrigConsumidos1.concat(not);
+                        element.refrigConsumidos1 = element.refrigConsumidos1.concat(not);
 
 
+                    }
                 }
 
 
@@ -3544,6 +3555,9 @@ angular.module('app.sao')
                         $scope.record.Estado1 = SAO.Estado1[0];
                         $scope.record.personal = [SAO.Personal[0]];
                          $scope.record.habilitado=false;
+                        if ($scope.refrigConsumidos.length>0) {
+                            $scope.record.refrigConsumidos = $scope.refrigConsumidos[0];
+                        }
                         // $scope.record.personal = SAO.Personal[0];
                         $scope.year = 2011;
 
@@ -3723,6 +3737,7 @@ angular.module('app.sao')
                         break;
                     case 'general':
                         $scope.record = angular.copy(record);
+                        break;
                     default:
 
                         break;
