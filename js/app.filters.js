@@ -76,6 +76,7 @@ angular.module('app.sao').filter('mainString',function () {
                     case 'Estado1': return 'Estado t\u00E9nico';
                     case 'experiencia1': return 'Explotaci\u00F3n';
                     case 'refrigConsumidos1': return 'Refrigerante';
+                    case 'ministerio': return 'OACE';
                     default: return data;
                 }
 

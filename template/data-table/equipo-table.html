@@ -1,24 +1,81 @@
 <div class="row" id="table-data">
-    <div class="col-lg-2"><button class="btn btn-success" data-ng-click="Export()" data-ng-hide="isPrinting"><span class="margin-r-5">Exportar</span><i class="fa fa-file-pdf-o"></i></button></div>
-    <div class="col-lg-10">
-        <div data-ng-repeat="table in tables" class="row">
-            <div class="col-xs-12">
-                <div data-ng-show="table.columns.length>0&&table.records.length>0">
-                    <h4 > {{table.title  }}</h4>
-                    <table class="table table-bordered table table-striped table-hover">
-                        <thead>
-                        <tr >
-                            <th data-ng-repeat="col in table.columns track by $index">{{col | fancy }}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="record in table.records track by $index">
-                            <td data-ng-repeat="col in table.columns track by $index">{{record[col] | mainString }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+    <div class="row">
+        <div class="col-lg-2"><button class="btn btn-success" data-ng-click="Export()" data-ng-hide="isPrinting"><span class="margin-r-5">Exportar</span><i class="fa fa-file-pdf-o"></i></button></div>
+        <div class="col-lg-10">
+            <div data-ng-repeat="table in tables" class="row">
+                <div class="col-xs-12">
+                    <div data-ng-show="table.columns.length>0&&table.records.length>0">
+                        <h4 > {{table.title  }}</h4>
+                        <table class="table table-bordered table table-striped table-hover">
+                            <thead>
+                            <tr >
+                                <th data-ng-repeat="col in table.columns track by $index">{{col | fancy }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="record in table.records track by $index">
+                                <td data-ng-repeat="col in table.columns track by $index">{{record[col] | mainString }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+   <div class="col-md-12">
+       <div class="row">
+           <div class="col-lg-2"></div>
+           <div class="col-lg-5">
+               <div class="header"><h4>Cantidad de tipo de Aire Acondicionado</h4></div>
+               <table class="table table-bordered table-striped table-hover">
+                   <thead>
+                   <tr>
+                       <th>
+                           Aplicaci&oacute;n
+                       </th>
+                       <th>
+                           Cantidad
+                       </th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr data-ng-repeat="row in atable">
+                       <td>
+                           {{row.aplicacion}}
+                       </td>
+                       <td>
+                           {{row.cantidad}}
+                       </td>
+                   </tr>
+                   </tbody>
+               </table>
+           </div>
+           <div class="col-lg-5">
+               <div class="header"><h4>Cantidad de tipo de Refrigeraci&oacute;n</h4></div>
+               <table class="table table-bordered table-striped table-hover">
+                   <thead>
+                   <tr>
+                       <th>
+                           Refrigeraci&oacute;n
+                       </th>
+                       <th>
+                           Cantidad
+                       </th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr data-ng-repeat="row in rtable">
+                       <td>
+                           {{row.refrigeracion}}
+                       </td>
+                       <td>
+                           {{row.cantidad}}
+                       </td>
+                   </tr>
+                   </tbody>
+               </table>
+           </div>
+       </div>
+   </div>
 </div>

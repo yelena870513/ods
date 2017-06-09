@@ -255,21 +255,21 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             Manager.update(ministeries);
         }
     }); 
-    Manager.record('Sustancia').then(function(ministerios){
+    Manager.record('equipoAire').then(function(ministerios){
         if (ministerios.rows.length==0)
         {
-            var ministeries = _(SAO.Sustancia).map(function(min){
-                min["tipo"]="Sustancia";
+            var ministeries = _(SAO.EquipoAire).map(function(min){
+                min["tipo"]="equipoAire";
                 return min;
             });
             Manager.update(ministeries);
         }
     }); 
-    Manager.record('Sustancia1').then(function(ministerios){
+    Manager.record('equipoRefrigeracion').then(function(ministerios){
         if (ministerios.rows.length==0)
         {
-            var ministeries = _(SAO.Sustancia1).map(function(min){
-                min["tipo"]="Sustancia1";
+            var ministeries = _(SAO.EquipoRefri).map(function(min){
+                min["tipo"]="equipoRefrigeracion";
                 return min;
             });
             Manager.update(ministeries);
@@ -285,6 +285,37 @@ angular.module('app.sao',['ui.router','pouchdb','ui.bootstrap','chart.js','ngFil
             Manager.update(ministeries);
         }
     });
+    Manager.record('Sustancia').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.SustanciasImportadores).map(function(min){
+                min["tipo"]="Sustancia";
+                return min;
+            });
+            Manager.update(ministeries);
+        }
+    });
+    Manager.record('Sustancia1').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.SustanciasPronostico).map(function(min){
+                min["tipo"]="Sustancia1";
+                return min;
+            });
+            Manager.update(ministeries);
+        }
+    });
+    Manager.record('Sustancia').then(function(ministerios){
+        if (ministerios.rows.length==0)
+        {
+            var ministeries = _(SAO.SustanciasImportadores).map(function(min){
+                min["tipo"]="Sustancia";
+                return min;
+            });
+            Manager.update(ministeries);
+        }
+    });
+
     Manager.record('refrigeracion').then(function(ministerios){
         if (ministerios.rows.length==0)
         {
